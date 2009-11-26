@@ -1,6 +1,20 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Class Library", "Class Library", "{629D406B-F46A-4A9D-A31F-C5956E0AB157}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{58566404-2F46-4678-A786-5D8CB217ACA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queuing Application", "Queuing Application", "{C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{6C4A4F06-65C5-479B-9883-B623857A1426}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocketPC", "PocketPC", "{1462B067-7605-44EC-9D3B-827ACC2CB7A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smartphone", "Smartphone", "{77881714-BA65-4711-9F16-2C3A4132A4F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebProxy", "WebProxy", "{C96D8B95-7F10-493A-9EE4-B26B23BB5405}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Mail", "Class Library\ActiveUp.Net.Mail\ActiveUp.Net.Mail.csproj", "{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.OpenPGP", "Class Library\ActiveUp.Net.OpenPGP\ActiveUp.Net.OpenPGP.csproj", "{00CB8737-BA35-4775-AFA4-B8CD446AB83F}"
@@ -8,52 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.WhoIs", "Class Library\ActiveUp.Net.WhoIs\ActiveUp.Net.WhoIs.csproj", "{1E4D8E5B-D422-47DC-9CF3-B8E88A4472AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Samples", "Samples\CS\ActiveUp.Net.Samples\ActiveUp.Net.Samples.csproj", "{D7048DA0-D973-4B69-9133-BF6620561E77}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Class Library", "Class Library", "{629D406B-F46A-4A9D-A31F-C5956E0AB157}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{58566404-2F46-4678-A786-5D8CB217ACA2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B18D6F4A-B9D8-48A3-B49B-A51ABB92CEAF}"
-	ProjectSection(SolutionItems) = preProject
-		Build\Build Release.bbp = Build\Build Release.bbp
-		Build\Build.bat = Build\Build.bat
-		Build\BuildBeta.bat = Build\BuildBeta.bat
-		Build\BuildVars.ini = Build\BuildVars.ini
-		Build\ErrorsLog.htm = Build\ErrorsLog.htm
-		Build\FindAndReplace.exe = Build\FindAndReplace.exe
-		Build\TODO.txt = Build\TODO.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{44C10FB1-1E92-4D8F-8035-1A73281E23C0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{761200E5-69A5-4C0A-BA6C-F74FFDE6487D}"
-	ProjectSection(SolutionItems) = preProject
-		Installer\ActiveMail.ico = Installer\ActiveMail.ico
-		Installer\activeMail_splash_465x281.bmp = Installer\activeMail_splash_465x281.bmp
-		Installer\activeMail_splash_499x312.bmp = Installer\activeMail_splash_499x312.bmp
-		Installer\activeMail_splash_499x58.bmp = Installer\activeMail_splash_499x58.bmp
-		Installer\ActiveQConfiguration.ico = Installer\ActiveQConfiguration.ico
-		Installer\contract.ico = Installer\contract.ico
-		Installer\GACInstall.bat = Installer\GACInstall.bat
-		Installer\GACUnInstall.bat = Installer\GACUnInstall.bat
-		Installer\gacutil.exe = Installer\gacutil.exe
-		Installer\gacutil.exe.config = Installer\gacutil.exe.config
-		Installer\help.ico = Installer\help.ico
-		Installer\InstallUtil.exe = Installer\InstallUtil.exe
-		Installer\InteractDesktop.dll = Installer\InteractDesktop.dll
-		Installer\License.rtf = Installer\License.rtf
-		Installer\ServiceUnInstall.bat = Installer\ServiceUnInstall.bat
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CFF94E95-CC94-4A69-A059-B3CE43D0AF95}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ActiveUp.MailSystem.Installer", "Installer\ActiveUp.MailSystem.Retail.Installer\ActiveUp.MailSystem.Retail.Installer.vdproj", "{49C7AB70-4549-4938-B364-927D40438B9F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Trial", "Trial", "{7ECFF1BA-08A4-4D4A-A398-F84CEEF6247E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Retail", "Retail", "{8A53B48C-C75A-4DD4-8111-55A5C0DAD063}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queuing Application", "Queuing Application", "{C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveQLibrary", "Queuing System\ActiveQLibrary\ActiveQLibrary.csproj", "{4F0FD37F-0C57-46DD-A9E3-6A5A1FA12166}"
 EndProject
@@ -73,176 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveQInstallDescription",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveQTestConsole", "Queuing System\ActiveQTestConsole\ActiveQTestConsole.csproj", "{475CDE73-90F0-4DCF-8B6A-0B0A0FF37FC5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActiveQ", "ActiveQ", "{1583E90B-E780-4FD1-9C37-08B609585A9F}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\ActiveQ\About_ActiveMail1.htm = Documentation\ActiveQ\About_ActiveMail1.htm
-		Documentation\ActiveQ\About_ActiveQ.htm = Documentation\ActiveQ\About_ActiveQ.htm
-		Documentation\ActiveQ\ACTIVEMAIL_LOGO_DOC.GIF = Documentation\ActiveQ\ACTIVEMAIL_LOGO_DOC.GIF
-		Documentation\ActiveQ\ACTIVEMAIL_PACK_150.GIF = Documentation\ActiveQ\ACTIVEMAIL_PACK_150.GIF
-		Documentation\ActiveQ\ActiveQ.ali = Documentation\ActiveQ\ActiveQ.ali
-		Documentation\ActiveQ\ActiveQ.BRS = Documentation\ActiveQ\ActiveQ.BRS
-		Documentation\ActiveQ\ActiveQ.hhc = Documentation\ActiveQ\ActiveQ.hhc
-		Documentation\ActiveQ\ActiveQ.hhc_backup = Documentation\ActiveQ\ActiveQ.hhc_backup
-		Documentation\ActiveQ\ActiveQ.hhk = Documentation\ActiveQ\ActiveQ.hhk
-		Documentation\ActiveQ\ActiveQ.hhk_backup = Documentation\ActiveQ\ActiveQ.hhk_backup
-		Documentation\ActiveQ\ActiveQ.hhp = Documentation\ActiveQ\ActiveQ.hhp
-		Documentation\ActiveQ\ActiveQ.hpr = Documentation\ActiveQ\ActiveQ.hpr
-		Documentation\ActiveQ\ActiveQ.mpj = Documentation\ActiveQ\ActiveQ.mpj
-		Documentation\ActiveQ\ActiveQ.ppf = Documentation\ActiveQ\ActiveQ.ppf
-		Documentation\ActiveQ\activeQ_logo.gif = Documentation\ActiveQ\activeQ_logo.gif
-		Documentation\ActiveQ\Advanced_Configuration.htm = Documentation\ActiveQ\Advanced_Configuration.htm
-		Documentation\ActiveQ\Apply.ico = Documentation\ActiveQ\Apply.ico
-		Documentation\ActiveQ\Comparison_Chart.htm = Documentation\ActiveQ\Comparison_Chart.htm
-		Documentation\ActiveQ\Concept_ActiveMail.htm = Documentation\ActiveQ\Concept_ActiveMail.htm
-		Documentation\ActiveQ\Concept_XML_task_file.htm = Documentation\ActiveQ\Concept_XML_task_file.htm
-		Documentation\ActiveQ\ConfigAddMailDir.jpg = Documentation\ActiveQ\ConfigAddMailDir.jpg
-		Documentation\ActiveQ\ConfigAddSmtpServer.jpg = Documentation\ActiveQ\ConfigAddSmtpServer.jpg
-		Documentation\ActiveQ\ConfigAddXmlFiles.jpg = Documentation\ActiveQ\ConfigAddXmlFiles.jpg
-		Documentation\ActiveQ\ConfigMainPage.jpg = Documentation\ActiveQ\ConfigMainPage.jpg
-		Documentation\ActiveQ\ConfigMainPageNew.jpg = Documentation\ActiveQ\ConfigMainPageNew.jpg
-		Documentation\ActiveQ\ConfigModifySmtpServer.jpg = Documentation\ActiveQ\ConfigModifySmtpServer.jpg
-		Documentation\ActiveQ\Controlling_the_Service.htm = Documentation\ActiveQ\Controlling_the_Service.htm
-		Documentation\ActiveQ\Copyright_Notice_&_Legal_Information.htm = Documentation\ActiveQ\Copyright_Notice_&_Legal_Information.htm
-		Documentation\ActiveQ\Creating_an_XML_task_file.htm = Documentation\ActiveQ\Creating_an_XML_task_file.htm
-		Documentation\ActiveQ\default.css = Documentation\ActiveQ\default.css
-		Documentation\ActiveQ\DefaultSkin.htt = Documentation\ActiveQ\DefaultSkin.htt
-		Documentation\ActiveQ\Delete.ico = Documentation\ActiveQ\Delete.ico
-		Documentation\ActiveQ\Deployment.htm = Documentation\ActiveQ\Deployment.htm
-		Documentation\ActiveQ\eHelp.xml = Documentation\ActiveQ\eHelp.xml
-		Documentation\ActiveQ\eHlpDhtm.js = Documentation\ActiveQ\eHlpDhtm.js
-		Documentation\ActiveQ\Features.htm = Documentation\ActiveQ\Features.htm
-		Documentation\ActiveQ\Getting_Started.htm = Documentation\ActiveQ\Getting_Started.htm
-		Documentation\ActiveQ\HtmlHelp.css = Documentation\ActiveQ\HtmlHelp.css
-		Documentation\ActiveQ\HtmlTextBox2_Help_Page.htt = Documentation\ActiveQ\HtmlTextBox2_Help_Page.htt
-		Documentation\ActiveQ\HTMLTEXTBOX_LOGO.GIF = Documentation\ActiveQ\HTMLTEXTBOX_LOGO.GIF
-		Documentation\ActiveQ\Main_Log.htm = Documentation\ActiveQ\Main_Log.htm
-		Documentation\ActiveQ\ManagerMainLog.jpg = Documentation\ActiveQ\ManagerMainLog.jpg
-		Documentation\ActiveQ\ManagerMenu.jpg = Documentation\ActiveQ\ManagerMenu.jpg
-		Documentation\ActiveQ\ManagerOverview.jpg = Documentation\ActiveQ\ManagerOverview.jpg
-		Documentation\ActiveQ\ManagerScheduledMail.jpg = Documentation\ActiveQ\ManagerScheduledMail.jpg
-		Documentation\ActiveQ\ManagerScheduledTask.jpg = Documentation\ActiveQ\ManagerScheduledTask.jpg
-		Documentation\ActiveQ\ManagerStandardMail.jpg = Documentation\ActiveQ\ManagerStandardMail.jpg
-		Documentation\ActiveQ\ManagerStartService.jpg = Documentation\ActiveQ\ManagerStartService.jpg
-		Documentation\ActiveQ\ManagerTask.jpg = Documentation\ActiveQ\ManagerTask.jpg
-		Documentation\ActiveQ\MS_Help.css = Documentation\ActiveQ\MS_Help.css
-		Documentation\ActiveQ\NO.gif = Documentation\ActiveQ\NO.gif
-		Documentation\ActiveQ\OK.gif = Documentation\ActiveQ\OK.gif
-		Documentation\ActiveQ\Overview.htm = Documentation\ActiveQ\Overview.htm
-		Documentation\ActiveQ\printdoclayout.xml = Documentation\ActiveQ\printdoclayout.xml
-		Documentation\ActiveQ\Quick_Start.htm = Documentation\ActiveQ\Quick_Start.htm
-		Documentation\ActiveQ\QUICKSTART.CSS = Documentation\ActiveQ\QUICKSTART.CSS
-		Documentation\ActiveQ\Reset.ico = Documentation\ActiveQ\Reset.ico
-		Documentation\ActiveQ\Scheduled_Mails.htm = Documentation\ActiveQ\Scheduled_Mails.htm
-		Documentation\ActiveQ\Scheduled_Tasks.htm = Documentation\ActiveQ\Scheduled_Tasks.htm
-		Documentation\ActiveQ\Sending_queued_emails.htm = Documentation\ActiveQ\Sending_queued_emails.htm
-		Documentation\ActiveQ\Sending_scheduled_emails.htm = Documentation\ActiveQ\Sending_scheduled_emails.htm
-		Documentation\ActiveQ\ServiceConnexion.jpg = Documentation\ActiveQ\ServiceConnexion.jpg
-		Documentation\ActiveQ\ServiceDependances.jpg = Documentation\ActiveQ\ServiceDependances.jpg
-		Documentation\ActiveQ\ServiceGeneral.jpg = Documentation\ActiveQ\ServiceGeneral.jpg
-		Documentation\ActiveQ\ServiceManager.jpg = Documentation\ActiveQ\ServiceManager.jpg
-		Documentation\ActiveQ\ServiceRecuperation.jpg = Documentation\ActiveQ\ServiceRecuperation.jpg
-		Documentation\ActiveQ\Standard_Mail_Queuing.htm = Documentation\ActiveQ\Standard_Mail_Queuing.htm
-		Documentation\ActiveQ\Support_Options.htm = Documentation\ActiveQ\Support_Options.htm
-		Documentation\ActiveQ\System_Requirements.htm = Documentation\ActiveQ\System_Requirements.htm
-		Documentation\ActiveQ\Template.htt = Documentation\ActiveQ\Template.htt
-		Documentation\ActiveQ\Trouble_Shooting.htm = Documentation\ActiveQ\Trouble_Shooting.htm
-		Documentation\ActiveQ\Using_the_XML_task_file.htm = Documentation\ActiveQ\Using_the_XML_task_file.htm
-		Documentation\ActiveQ\w95help.css = Documentation\ActiveQ\w95help.css
-		Documentation\ActiveQ\What_s_New.htm = Documentation\ActiveQ\What_s_New.htm
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artwork", "Artwork", "{76D83F1D-50B4-4CC3-B958-CA9F20E6133F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Banners", "Banners", "{4325DC02-C0CB-402B-AFF5-CC8A2AEB6CFC}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\Artwork\Banners\activeMail-banner-100-30a.gif = Documentation\Artwork\Banners\activeMail-banner-100-30a.gif
-		Documentation\Artwork\Banners\activeMail-banner-100-30b.gif = Documentation\Artwork\Banners\activeMail-banner-100-30b.gif
-		Documentation\Artwork\Banners\activeMail-banner-125-125a.gif = Documentation\Artwork\Banners\activeMail-banner-125-125a.gif
-		Documentation\Artwork\Banners\activeMail-banner-125-125b.gif = Documentation\Artwork\Banners\activeMail-banner-125-125b.gif
-		Documentation\Artwork\Banners\activeMail-banner-468-60a.gif = Documentation\Artwork\Banners\activeMail-banner-468-60a.gif
-		Documentation\Artwork\Banners\activeMail-banner-468-60b.gif = Documentation\Artwork\Banners\activeMail-banner-468-60b.gif
-		Documentation\Artwork\Banners\activeMail_splash_499x312.bmp = Documentation\Artwork\Banners\activeMail_splash_499x312.bmp
-		Documentation\Artwork\Banners\activeMail_splash_499x58.bmp = Documentation\Artwork\Banners\activeMail_splash_499x58.bmp
-		Documentation\Artwork\Banners\activeQ_banner_499x69.bmp = Documentation\Artwork\Banners\activeQ_banner_499x69.bmp
-		Documentation\Artwork\Banners\Banners.txt = Documentation\Artwork\Banners\Banners.txt
-		Documentation\Artwork\Banners\HighlandGothic.ttf = Documentation\Artwork\Banners\HighlandGothic.ttf
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screenshots", "Screenshots", "{987B599C-F400-4D15-ADFE-584FFAF97CE9}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\Artwork\Screenshots\ConfigAddMailDir.jpg = Documentation\Artwork\Screenshots\ConfigAddMailDir.jpg
-		Documentation\Artwork\Screenshots\ConfigAddMailDir.psp = Documentation\Artwork\Screenshots\ConfigAddMailDir.psp
-		Documentation\Artwork\Screenshots\ConfigAddXmlFiles.jpg = Documentation\Artwork\Screenshots\ConfigAddXmlFiles.jpg
-		Documentation\Artwork\Screenshots\ConfigAddXmlFiles.psp = Documentation\Artwork\Screenshots\ConfigAddXmlFiles.psp
-		Documentation\Artwork\Screenshots\ConfigMainPage.jpg = Documentation\Artwork\Screenshots\ConfigMainPage.jpg
-		Documentation\Artwork\Screenshots\ConfigMainPage.psp = Documentation\Artwork\Screenshots\ConfigMainPage.psp
-		Documentation\Artwork\Screenshots\ConfigMainPageNew.jpg = Documentation\Artwork\Screenshots\ConfigMainPageNew.jpg
-		Documentation\Artwork\Screenshots\ConfigMainPageNew.psp = Documentation\Artwork\Screenshots\ConfigMainPageNew.psp
-		Documentation\Artwork\Screenshots\ManagerMainLog.jpg = Documentation\Artwork\Screenshots\ManagerMainLog.jpg
-		Documentation\Artwork\Screenshots\ManagerMainLog.psp = Documentation\Artwork\Screenshots\ManagerMainLog.psp
-		Documentation\Artwork\Screenshots\ManagerMenu.jpg = Documentation\Artwork\Screenshots\ManagerMenu.jpg
-		Documentation\Artwork\Screenshots\ManagerMenu.psp = Documentation\Artwork\Screenshots\ManagerMenu.psp
-		Documentation\Artwork\Screenshots\ManagerOverview.jpg = Documentation\Artwork\Screenshots\ManagerOverview.jpg
-		Documentation\Artwork\Screenshots\ManagerOverview.psp = Documentation\Artwork\Screenshots\ManagerOverview.psp
-		Documentation\Artwork\Screenshots\ManagerScheduledMail.jpg = Documentation\Artwork\Screenshots\ManagerScheduledMail.jpg
-		Documentation\Artwork\Screenshots\ManagerScheduledMail.psp = Documentation\Artwork\Screenshots\ManagerScheduledMail.psp
-		Documentation\Artwork\Screenshots\ManagerStandardMail.jpg = Documentation\Artwork\Screenshots\ManagerStandardMail.jpg
-		Documentation\Artwork\Screenshots\ManagerStandardMail.psp = Documentation\Artwork\Screenshots\ManagerStandardMail.psp
-		Documentation\Artwork\Screenshots\ManagerStartService.jpg = Documentation\Artwork\Screenshots\ManagerStartService.jpg
-		Documentation\Artwork\Screenshots\ManagerStartService.psp = Documentation\Artwork\Screenshots\ManagerStartService.psp
-		Documentation\Artwork\Screenshots\ManagerTask.jpg = Documentation\Artwork\Screenshots\ManagerTask.jpg
-		Documentation\Artwork\Screenshots\ManagerTask.psp = Documentation\Artwork\Screenshots\ManagerTask.psp
-		Documentation\Artwork\Screenshots\pspbrwse.jbf = Documentation\Artwork\Screenshots\pspbrwse.jbf
-		Documentation\Artwork\Screenshots\ServiceConnexion.jpg = Documentation\Artwork\Screenshots\ServiceConnexion.jpg
-		Documentation\Artwork\Screenshots\ServiceDependances.jpg = Documentation\Artwork\Screenshots\ServiceDependances.jpg
-		Documentation\Artwork\Screenshots\ServiceDependances.psp = Documentation\Artwork\Screenshots\ServiceDependances.psp
-		Documentation\Artwork\Screenshots\ServiceGeneral.jpg = Documentation\Artwork\Screenshots\ServiceGeneral.jpg
-		Documentation\Artwork\Screenshots\ServiceGeneral.psp = Documentation\Artwork\Screenshots\ServiceGeneral.psp
-		Documentation\Artwork\Screenshots\ServiceManager.jpg = Documentation\Artwork\Screenshots\ServiceManager.jpg
-		Documentation\Artwork\Screenshots\ServiceRecuperation.jpg = Documentation\Artwork\Screenshots\ServiceRecuperation.jpg
-		Documentation\Artwork\Screenshots\ServiceRecuperation.psp = Documentation\Artwork\Screenshots\ServiceRecuperation.psp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{00258155-9795-4312-A1F7-5307D46DFAAA}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\Artwork\Source\activeMail.eps = Documentation\Artwork\Source\activeMail.eps
-		Documentation\Artwork\Source\HighlandGothic.ttf = Documentation\Artwork\Source\HighlandGothic.ttf
-		Documentation\Artwork\Source\icone-activeMail.psd = Documentation\Artwork\Source\icone-activeMail.psd
-		Documentation\Artwork\Source\Logo activeMail.ai = Documentation\Artwork\Source\Logo activeMail.ai
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Element", "Element", "{1B155E12-1947-476B-ADA2-611F948D2D3B}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\Artwork\Source\Element\banner-activeMail.jpg = Documentation\Artwork\Source\Element\banner-activeMail.jpg
-		Documentation\Artwork\Source\Element\Logo-activeMail.jpg = Documentation\Artwork\Source\Element\Logo-activeMail.jpg
-		Documentation\Artwork\Source\Element\Logo-activeMail.png = Documentation\Artwork\Source\Element\Logo-activeMail.png
-		Documentation\Artwork\Source\Element\Mac icone-activeMail = Documentation\Artwork\Source\Element\Mac icone-activeMail
-		Documentation\Artwork\Source\Element\pack-activeMail.jpg = Documentation\Artwork\Source\Element\pack-activeMail.jpg
-		Documentation\Artwork\Source\Element\splash-activeMail.jpg = Documentation\Artwork\Source\Element\splash-activeMail.jpg
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.MailSystem.Tests", "Tests\ActiveUp.MailSystem.Tests\ActiveUp.MailSystem.Tests.csproj", "{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Work", "Work", "{C75E4049-04F0-434A-A8D2-C1DC2E967339}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\ActiveNetworkDocTitles.doc = Documentation\ActiveNetworkDocTitles.doc
-		Documentation\ActiveUp.MailSystem.doc = Documentation\ActiveUp.MailSystem.doc
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backup", "Backup", "{F01C0364-DD43-4F88-A81C-EBD80CF2367C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Press Releases", "Press Releases", "{33212408-61FB-48A6-B969-A72D2837758D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Beta1", "Beta1", "{A5B3AAD7-64C3-4A01-A2CE-56DD821C5F50}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.MailSystem.Documentation", "Documentation\ActiveUp.MailSystem.Documentation\ActiveUp.MailSystem.Documentation.csproj", "{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Groupware", "Class Library\ActiveUp.Net.Groupware\ActiveUp.Net.Groupware.csproj", "{C646ED2B-50B7-4178-BEFA-657F1259251F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KB", "KB", "{4D86E4E9-CAB2-450F-B5AD-B70A35CAB5C3}"
-	ProjectSection(SolutionItems) = preProject
-		working_with_charsets_and_encodings.txt = working_with_charsets_and_encodings.txt
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.MailSystem.Diagnostic", "Samples\CS\ActiveUp.MailSystem.Diagnostic\ActiveUp.MailSystem.Diagnostic.csproj", "{0B58463C-09B1-41C8-BCA0-99A70D4E55EE}"
 EndProject
@@ -266,19 +65,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Samples.Compac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Samples.CompactSP", "Samples\PPC\ActiveUp.Net.Samples.CompactSmartPhone\ActiveUp.Net.Samples.CompactSP.csproj", "{712B1247-1BD6-4743-BB32-B8CD65A4D352}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{6C4A4F06-65C5-479B-9883-B623857A1426}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocketPC", "PocketPC", "{1462B067-7605-44EC-9D3B-827ACC2CB7A0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smartphone", "Smartphone", "{77881714-BA65-4711-9F16-2C3A4132A4F5}"
-EndProject
 Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "SPCab", "Samples\PPC\Deployment\SP\SPCab\SPCab.vddproj", "{1C5030E3-41BC-4244-95EB-60BD678F9300}"
 EndProject
 Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "PPCCab", "Samples\PPC\Deployment\PPC\PPCCab\PPCCab.vddproj", "{646F8377-2F6C-4CE8-ABA4-9FDB0BFB0B16}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebProxy", "WebProxy", "{C96D8B95-7F10-493A-9EE4-B26B23BB5405}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "D:\...\SMTP\", "Samples\WebProxy\SMTP", "{EFA9ADF6-BB71-4915-9AA9-5012D0D3BAA3}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProxyTest", "Samples\WebProxy\WebProxyTest\WebProxyTest\WebProxyTest.csproj", "{BBCA5A61-5ECF-4355-A3FB-A10DD662A48E}"
 EndProject
@@ -349,13 +144,6 @@ Global
 		{D7048DA0-D973-4B69-9133-BF6620561E77}.Trial (Debug)|Any CPU.Build.0 = Debug|Any CPU
 		{D7048DA0-D973-4B69-9133-BF6620561E77}.Trial|Any CPU.ActiveCfg = Trial|Any CPU
 		{D7048DA0-D973-4B69-9133-BF6620561E77}.Trial|Any CPU.Build.0 = Trial|Any CPU
-		{49C7AB70-4549-4938-B364-927D40438B9F}.Debug|Any CPU.ActiveCfg = Debug
-		{49C7AB70-4549-4938-B364-927D40438B9F}.MailSystem Dev|Any CPU.ActiveCfg = MailSystem Dev
-		{49C7AB70-4549-4938-B364-927D40438B9F}.Release|Any CPU.ActiveCfg = Release
-		{49C7AB70-4549-4938-B364-927D40438B9F}.Retail (Debug)|Any CPU.ActiveCfg = Debug
-		{49C7AB70-4549-4938-B364-927D40438B9F}.Retail|Any CPU.ActiveCfg = Release
-		{49C7AB70-4549-4938-B364-927D40438B9F}.Trial (Debug)|Any CPU.ActiveCfg = Debug
-		{49C7AB70-4549-4938-B364-927D40438B9F}.Trial|Any CPU.ActiveCfg = Release
 		{4F0FD37F-0C57-46DD-A9E3-6A5A1FA12166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F0FD37F-0C57-46DD-A9E3-6A5A1FA12166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F0FD37F-0C57-46DD-A9E3-6A5A1FA12166}.MailSystem Dev|Any CPU.ActiveCfg = MailSystem Dev|Any CPU
@@ -473,33 +261,6 @@ Global
 		{475CDE73-90F0-4DCF-8B6A-0B0A0FF37FC5}.Trial (Debug)|Any CPU.Build.0 = Debug|Any CPU
 		{475CDE73-90F0-4DCF-8B6A-0B0A0FF37FC5}.Trial|Any CPU.ActiveCfg = Trial|Any CPU
 		{475CDE73-90F0-4DCF-8B6A-0B0A0FF37FC5}.Trial|Any CPU.Build.0 = Trial|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.MailSystem Dev|Any CPU.ActiveCfg = MailSystem Dev|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.MailSystem Dev|Any CPU.Build.0 = MailSystem Dev|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Retail (Debug)|Any CPU.ActiveCfg = Debug|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Retail (Debug)|Any CPU.Build.0 = Debug|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Retail|Any CPU.ActiveCfg = Retail|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Retail|Any CPU.Build.0 = Retail|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Trial (Debug)|Any CPU.ActiveCfg = Debug|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Trial (Debug)|Any CPU.Build.0 = Debug|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Trial|Any CPU.ActiveCfg = Retail|Any CPU
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336}.Trial|Any CPU.Build.0 = Retail|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.MailSystem Dev|Any CPU.ActiveCfg = MailSystem Dev|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Retail (Debug)|Any CPU.ActiveCfg = Debug|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Retail (Debug)|Any CPU.Build.0 = Debug|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Retail|Any CPU.ActiveCfg = Release|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Retail|Any CPU.Build.0 = Release|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Trial (Debug)|Any CPU.ActiveCfg = Debug|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Trial (Debug)|Any CPU.Build.0 = Debug|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Trial|Any CPU.ActiveCfg = Release|Any CPU
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C}.Trial|Any CPU.Build.0 = Release|Any CPU
 		{C646ED2B-50B7-4178-BEFA-657F1259251F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C646ED2B-50B7-4178-BEFA-657F1259251F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C646ED2B-50B7-4178-BEFA-657F1259251F}.MailSystem Dev|Any CPU.ActiveCfg = MailSystem Dev|Any CPU
@@ -743,9 +504,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
 		{00CB8737-BA35-4775-AFA4-B8CD446AB83F} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
 		{1E4D8E5B-D422-47DC-9CF3-B8E88A4472AF} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
-		{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
 		{C646ED2B-50B7-4178-BEFA-657F1259251F} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
 		{A82CE4DD-9B08-439C-BC28-CB7B2BFFA85C} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
 		{313802D1-FC06-4322-8ABC-6EEA1757EEAB} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
@@ -753,24 +514,14 @@ Global
 		{23B49501-057B-4B15-B0EF-C867412D59C7} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
 		{75ABF3B4-36F3-4FE5-826D-B7D6410207C7} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
 		{80DBEA89-B5F8-4F55-9BE6-928F79F30045} = {629D406B-F46A-4A9D-A31F-C5956E0AB157}
+		{6C4A4F06-65C5-479B-9883-B623857A1426} = {58566404-2F46-4678-A786-5D8CB217ACA2}
+		{C96D8B95-7F10-493A-9EE4-B26B23BB5405} = {58566404-2F46-4678-A786-5D8CB217ACA2}
 		{D7048DA0-D973-4B69-9133-BF6620561E77} = {58566404-2F46-4678-A786-5D8CB217ACA2}
 		{0B58463C-09B1-41C8-BCA0-99A70D4E55EE} = {58566404-2F46-4678-A786-5D8CB217ACA2}
 		{4ABE3085-0D2B-497F-8A48-B85D7C18FAC4} = {58566404-2F46-4678-A786-5D8CB217ACA2}
 		{3DF24A4A-54D9-43C0-AFAD-ECB6B736B895} = {58566404-2F46-4678-A786-5D8CB217ACA2}
 		{A0F33ACB-CEB9-4857-A562-4FF04E799DDE} = {58566404-2F46-4678-A786-5D8CB217ACA2}
 		{712B1247-1BD6-4743-BB32-B8CD65A4D352} = {58566404-2F46-4678-A786-5D8CB217ACA2}
-		{6C4A4F06-65C5-479B-9883-B623857A1426} = {58566404-2F46-4678-A786-5D8CB217ACA2}
-		{C96D8B95-7F10-493A-9EE4-B26B23BB5405} = {58566404-2F46-4678-A786-5D8CB217ACA2}
-		{F01C0364-DD43-4F88-A81C-EBD80CF2367C} = {44C10FB1-1E92-4D8F-8035-1A73281E23C0}
-		{76D83F1D-50B4-4CC3-B958-CA9F20E6133F} = {44C10FB1-1E92-4D8F-8035-1A73281E23C0}
-		{C75E4049-04F0-434A-A8D2-C1DC2E967339} = {44C10FB1-1E92-4D8F-8035-1A73281E23C0}
-		{33212408-61FB-48A6-B969-A72D2837758D} = {44C10FB1-1E92-4D8F-8035-1A73281E23C0}
-		{48659486-FCA7-4F8C-8785-DFD64BC5ED3C} = {44C10FB1-1E92-4D8F-8035-1A73281E23C0}
-		{4D86E4E9-CAB2-450F-B5AD-B70A35CAB5C3} = {44C10FB1-1E92-4D8F-8035-1A73281E23C0}
-		{8A53B48C-C75A-4DD4-8111-55A5C0DAD063} = {761200E5-69A5-4C0A-BA6C-F74FFDE6487D}
-		{7ECFF1BA-08A4-4D4A-A398-F84CEEF6247E} = {761200E5-69A5-4C0A-BA6C-F74FFDE6487D}
-		{27D9ACDD-4CA3-41B6-AACE-119CD5D4F336} = {CFF94E95-CC94-4A69-A059-B3CE43D0AF95}
-		{49C7AB70-4549-4938-B364-927D40438B9F} = {8A53B48C-C75A-4DD4-8111-55A5C0DAD063}
 		{4F0FD37F-0C57-46DD-A9E3-6A5A1FA12166} = {C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}
 		{E2DB3912-543F-4971-AAE0-2764FF746B34} = {C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}
 		{9A55170C-A322-4783-B70D-E1E088E281D6} = {C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}
@@ -780,12 +531,6 @@ Global
 		{9474D5ED-903B-4AD3-A31C-1835B47A6069} = {C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}
 		{B100399D-BE6B-4339-92AD-3175AE808D0E} = {C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}
 		{475CDE73-90F0-4DCF-8B6A-0B0A0FF37FC5} = {C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}
-		{1583E90B-E780-4FD1-9C37-08B609585A9F} = {F01C0364-DD43-4F88-A81C-EBD80CF2367C}
-		{4325DC02-C0CB-402B-AFF5-CC8A2AEB6CFC} = {76D83F1D-50B4-4CC3-B958-CA9F20E6133F}
-		{987B599C-F400-4D15-ADFE-584FFAF97CE9} = {76D83F1D-50B4-4CC3-B958-CA9F20E6133F}
-		{00258155-9795-4312-A1F7-5307D46DFAAA} = {76D83F1D-50B4-4CC3-B958-CA9F20E6133F}
-		{1B155E12-1947-476B-ADA2-611F948D2D3B} = {00258155-9795-4312-A1F7-5307D46DFAAA}
-		{A5B3AAD7-64C3-4A01-A2CE-56DD821C5F50} = {33212408-61FB-48A6-B969-A72D2837758D}
 		{1462B067-7605-44EC-9D3B-827ACC2CB7A0} = {6C4A4F06-65C5-479B-9883-B623857A1426}
 		{77881714-BA65-4711-9F16-2C3A4132A4F5} = {6C4A4F06-65C5-479B-9883-B623857A1426}
 		{646F8377-2F6C-4CE8-ABA4-9FDB0BFB0B16} = {1462B067-7605-44EC-9D3B-827ACC2CB7A0}
