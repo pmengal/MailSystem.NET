@@ -1,0 +1,129 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{00CB8737-BA35-4775-AFA4-B8CD446AB83F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ActiveUp.Net.OpenPGP</RootNamespace>
+    <AssemblyName>ActiveUp.Net.OpenPGP</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ActiveUp.Net.OpenPGP.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ActiveUp.Net.OpenPGP.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\ActiveUp.Net.OpenPGP.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Trial|AnyCPU' ">
+    <OutputPath>bin\Trial\</OutputPath>
+    <DefineConstants>TRACE;TRIAL</DefineConstants>
+    <DocumentationFile>../Obfuscation/Trial/ActiveUp.Net.OpenPGP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Retail|AnyCPU' ">
+    <OutputPath>bin\Retail\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>../Obfuscation/Retail/ActiveUp.Net.OpenPGP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'MailSystem Dev|AnyCPU' ">
+    <OutputPath>bin\MailSystem Dev\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>../Obfuscation/Retail/ActiveUp.Net.OpenPGP.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OpenPGP.ASCIIArmoredMessage.cs" />
+    <Compile Include="OpenPGP.ASCIIArmoredMessageType.cs" />
+    <Compile Include="OpenPGP.CompressionAlgorithm.cs" />
+    <Compile Include="OpenPGP.Constants.cs" />
+    <Compile Include="OpenPGP.Converter.cs" />
+    <Compile Include="OpenPGP.Feature.cs" />
+    <Compile Include="OpenPGP.HashAlgorithm.cs" />
+    <Compile Include="OpenPGP.InvalidPacketSyntaxException.cs" />
+    <Compile Include="OpenPGP.KeyFlag.cs" />
+    <Compile Include="OpenPGP.KeyServerPreference.cs" />
+    <Compile Include="OpenPGP.Notation.cs" />
+    <Compile Include="OpenPGP.Packets.OnePassSignature.cs" />
+    <Compile Include="OpenPGP.Packets.Packet.cs" />
+    <Compile Include="OpenPGP.Packets.PacketFormat.cs" />
+    <Compile Include="OpenPGP.Packets.PacketType.cs" />
+    <Compile Include="OpenPGP.Packets.PublicKey.cs" />
+    <Compile Include="OpenPGP.Packets.PublicKeyEncryptedSessionKey.cs" />
+    <Compile Include="OpenPGP.Packets.PublicSubkey.cs" />
+    <Compile Include="OpenPGP.Packets.SecretKey.cs" />
+    <Compile Include="OpenPGP.Packets.Signature.cs" />
+    <Compile Include="OpenPGP.Packets.SymetricallyEncryptedAndIntegrityProtected.cs" />
+    <Compile Include="OpenPGP.Packets.UserID.cs" />
+    <Compile Include="OpenPGP.Parser.cs" />
+    <Compile Include="OpenPGP.PublicKeyAlgorithm.cs" />
+    <Compile Include="OpenPGP.Reason.cs" />
+    <Compile Include="OpenPGP.ReasonForRevocation.cs" />
+    <Compile Include="OpenPGP.RevocationKey.cs" />
+    <Compile Include="OpenPGP.RevocationKeyClass.cs" />
+    <Compile Include="OpenPGP.SecretSubkey.cs" />
+    <Compile Include="OpenPGP.SignatureSubPacket.cs" />
+    <Compile Include="OpenPGP.SignatureSubPacketType.cs" />
+    <Compile Include="OpenPGP.SignatureType.cs" />
+    <Compile Include="OpenPGP.StringToKeySpecifierType.cs" />
+    <Compile Include="OpenPGP.SymmetricKeyAlgorithm.cs" />
+    <Compile Include="OpenPGP.TargetSignatureInfo.cs" />
+    <Compile Include="OpenPGP.Trust.cs" />
+    <Compile Include="OpenPGP.TrustLevel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ActiveUp.Net.OpenPGP.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "../../../../Samples/Lib/$(TargetFileName)"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

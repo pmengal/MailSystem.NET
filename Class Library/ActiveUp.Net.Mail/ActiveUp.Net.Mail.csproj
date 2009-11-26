@@ -1,0 +1,143 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ActiveUp.Net.Mail</RootNamespace>
+    <AssemblyName>ActiveUp.Net.Mail</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ActiveUp.Net.Mail.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ActiveUp.Net.Mail.XML</DocumentationFile>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\ActiveUp.Net.Mail.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Trial|AnyCPU' ">
+    <OutputPath>bin\Trial\</OutputPath>
+    <DefineConstants>TRACE;TRIAL</DefineConstants>
+    <DocumentationFile>../Obfuscation/Trial/ActiveUp.Net.Mail.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Retail|AnyCPU' ">
+    <OutputPath>bin\Retail\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>../Obfuscation/Retail/ActiveUp.Net.Mail.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'MailSystem Dev|AnyCPU' ">
+    <OutputPath>bin\MailSystem Dev\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>../Obfuscation/Retail/ActiveUp.Net.Mail.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Retail|Compact' ">
+    <OutputPath>bin\Retail\</OutputPath>
+    <DefineConstants>TRACE;RETAIL</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <DocumentationFile>../Obfuscation/Retail/ActiveUp.Net.Mail.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Trial|Compact' ">
+    <DefineConstants>TRIAL</DefineConstants>
+    <OutputPath>bin\Trial\</OutputPath>
+    <DocumentationFile>bin\Trial\ActiveUp.Net.Mail.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="ActiveUp.Net.Mail.snk" />
+    <Compile Include="Merger.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RblServer.cs" />
+    <Compile Include="RblStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ActiveUp.Net.Common\ActiveUp.Net.Common.csproj">
+      <Project>{3A83AE95-C23F-48B4-9F1A-AD4B32C37B93}</Project>
+      <Name>ActiveUp.Net.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Dns\ActiveUp.Net.Dns.csproj">
+      <Project>{A82CE4DD-9B08-439C-BC28-CB7B2BFFA85C}</Project>
+      <Name>ActiveUp.Net.Dns</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Imap4\ActiveUp.Net.Imap4.csproj">
+      <Project>{6BEE77DF-2DD2-41C3-BA16-60E20B1EDDCC}</Project>
+      <Name>ActiveUp.Net.Imap4</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Nntp\ActiveUp.Net.Nntp.csproj">
+      <Project>{FF4B354A-213B-415A-B8F7-582BAAFABC8C}</Project>
+      <Name>ActiveUp.Net.Nntp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.NET.OpenPGP\ActiveUp.Net.OpenPGP.csproj">
+      <Project>{00CB8737-BA35-4775-AFA4-B8CD446AB83F}</Project>
+      <Name>ActiveUp.Net.OpenPGP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Pop3\ActiveUp.Net.Pop3.csproj">
+      <Project>{3F01CF20-C49D-44A9-AA57-68F04915FE97}</Project>
+      <Name>ActiveUp.Net.Pop3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Smtp\ActiveUp.Net.Smtp.csproj">
+      <Project>{D9BCD15E-A438-4554-89D3-1CF122167FDD}</Project>
+      <Name>ActiveUp.Net.Smtp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "../../../../Samples/Lib/$(TargetFileName)"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
