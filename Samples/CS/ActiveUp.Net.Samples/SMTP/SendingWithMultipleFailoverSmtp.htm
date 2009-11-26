@@ -1,0 +1,50 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: blue; }
+.cb2 { color: green; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Creating message."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We create the message object</span></p>
+<p class="cl">ActiveUp.Net.Mail.Message message = <span class="cb1">new</span> ActiveUp.Net.Mail.Message();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We assign the sender email</span></p>
+<p class="cl">message.From.Email = <span class="cb1">this</span>.fromEmailTextbox.Text;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We assign the recipient email</span></p>
+<p class="cl">message.To.Add(<span class="cb1">this</span>.toEmailTextbox.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We assign the subject</span></p>
+<p class="cl">message.Subject = <span class="cb1">this</span>.subjectTextbox.Text;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We assign the body text</span></p>
+<p class="cl">message.BodyText.Text = <span class="cb1">this</span>.bodyTextTextbox.Text;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">ServerCollection smtpServers = <span class="cb1">new</span> ServerCollection();</p>
+<p class="cl">smtpServers.Add(<span class="cb1">this</span>.smtpServerAddressTextbox.Text);</p>
+<p class="cl">smtpServers.Add(<span class="cb1">this</span>.backupSmtpServerAddressTextbox.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We send the email using the specified SMTP server</span></p>
+<p class="cl"><span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Sending message."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; message.Send(smtpServers);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Message sent successfully."</span>);</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">catch</span> (SmtpException ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Smtp Error: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

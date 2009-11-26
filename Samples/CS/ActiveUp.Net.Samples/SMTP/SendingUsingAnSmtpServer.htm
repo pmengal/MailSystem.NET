@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+<!--
+{\rtf1\ansi\ansicpg\lang1024\noproof1252\uc1 \deff0{\fonttbl{\f0\fnil\fcharset0\fprq1 Courier New;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0??;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;??\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;??\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;??\red192\green192\blue192;}??\fs20 \cf2 this\cf0 .AddLogEntry(\cf13 "Creating message."\cf0 );\par ??\par ??\cf11 // We create the message object\par ??\cf0 ActiveUp.Net.Mail.\cf10 Message\cf0  message = \cf2 new\cf0  ActiveUp.Net.Mail.\cf10 Message\cf0 ();\par ??\par ??\cf11 // We assign the sender email\par ??\cf0 message.From.Email = \cf2 this\cf0 .fromEmailTextbox.Text;\par ??\par ??\cf11 // We assign the recipient email\par ??\cf0 message.To.Add(\cf2 this\cf0 .toEmailTextbox.Text);\par ??\par ??\cf11 // We assign the subject\par ??\cf0 message.Subject = \cf2 this\cf0 .subjectTextbox.Text;\par ??\par ??\cf11 // We assign the body text\par ??\cf0 message.BodyText.Text = \cf2 this\cf0 .bodyTextTextbox.Text;\par ??\par ??message.BuildMimePartTree();\par ??\par ??\cf11 // We send the email using the specified SMTP server\par ??\cf2 this\cf0 .AddLogEntry(\cf13 "Sending message."\cf0 );\par ??\par ??\cf2 try\par ??\cf0 \{\par ??    message.Send(\cf2 this\cf0 .smtpServerAddressTextbox.Text);\par ??\par ??    \cf2 this\cf0 .AddLogEntry(\cf13 "Message sent successfully."\cf0 );\par ??\}\par ??\cf2 catch\cf0  (\cf10 SmtpException\cf0  ex)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Smtp Error: \{0\}"\cf0 , ex.Message));\par ??\}\par ??\cf2 catch\cf0  (\cf10 Exception\cf0  ex)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Failed: \{0\}"\cf0 , ex.Message));\par ??\}}
+-->
+<div style="font-family: Courier New; font-size: 10pt; color: black; background: white;">
+<p style="margin: 0px;"><span style="color: blue;">this</span>.AddLogEntry(<span style="color: maroon;">"Creating message."</span>);</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: green;">// We create the message object</span></p>
+<p style="margin: 0px;">ActiveUp.Net.Mail.<span style="color: teal;">Message</span> message = <span style="color: blue;">new</span> ActiveUp.Net.Mail.<span style="color: teal;">Message</span>();</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: green;">// We assign the sender email</span></p>
+<p style="margin: 0px;">message.From.Email = <span style="color: blue;">this</span>.fromEmailTextbox.Text;</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: green;">// We assign the recipient email</span></p>
+<p style="margin: 0px;">message.To.Add(<span style="color: blue;">this</span>.toEmailTextbox.Text);</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: green;">// We assign the subject</span></p>
+<p style="margin: 0px;">message.Subject = <span style="color: blue;">this</span>.subjectTextbox.Text;</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: green;">// We assign the body text</span></p>
+<p style="margin: 0px;">message.BodyText.Text = <span style="color: blue;">this</span>.bodyTextTextbox.Text;</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: green;">// We send the email using the specified SMTP server</span></p>
+<p style="margin: 0px;"><span style="color: blue;">this</span>.AddLogEntry(<span style="color: maroon;">"Sending message."</span>);</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: blue;">try</span></p>
+<p style="margin: 0px;">{</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; message.Send(<span style="color: blue;">this</span>.smtpServerAddressTextbox.Text);</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: maroon;">"Message sent successfully."</span>);</p>
+<p style="margin: 0px;">}</p>
+<p style="margin: 0px;"><span style="color: blue;">catch</span> (<span style="color: teal;">SmtpException</span> ex)</p>
+<p style="margin: 0px;">{</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Smtp Error: {0}"</span>, ex.Message));</p>
+<p style="margin: 0px;">}</p>
+<p style="margin: 0px;"><span style="color: blue;">catch</span> (<span style="color: teal;">Exception</span> ex)</p>
+<p style="margin: 0px;">{</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Failed: {0}"</span>, ex.Message));</p>
+<p style="margin: 0px;">}</p>
+</div>
+
+
+	</body>
+</html>

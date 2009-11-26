@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+	<head>
+		<title></title>
+	</head>
+
+	<body>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+	<style type="text/css">
+.csharpcode, .csharpcode pre
+{
+	font-size: 13px;
+	color: black;
+	font-family: Consolas, "Courier New", Courier, Monospace;
+	background-color: #ffffff;
+	/*white-space: pre;*/
+}
+
+.csharpcode pre { margin: 0em; }
+
+.csharpcode .rem { color: #008000; }
+
+.csharpcode .kwrd { color: #0000ff; }
+
+.csharpcode .str { color: #006080; }
+
+.csharpcode .op { color: #0000c0; }
+
+.csharpcode .preproc { color: #cc6633; }
+
+.csharpcode .asp { background-color: #ffff00; }
+
+.csharpcode .html { color: #800000; }
+
+.csharpcode .attr { color: #ff0000; }
+
+.csharpcode .alt 
+{
+	background-color: #f4f4f4;
+	width: 100%;
+	margin: 0em;
+}
+
+.csharpcode .lnum { color: #606060; }
+</style>
+<pre class="csharpcode">
+<span class="kwrd">this</span>.AddLogEntry(<span class="str">"Creating message."</span>);
+
+<span class="rem">// We create the message object</span>
+ActiveUp.Net.Mail.Message message = <span class="kwrd">new</span> ActiveUp.Net.Mail.Message();
+
+<span class="rem">// We assign the sender email</span>
+message.From.Email = <span class="kwrd">this</span>.fromEmailTextbox.Text;
+
+<span class="rem">// We assign the recipient email</span>
+message.To.Add(<span class="kwrd">this</span>.toEmailTextbox.Text);
+
+<span class="rem">// We assign the subject</span>
+message.Subject = <span class="kwrd">this</span>.subjectTextbox.Text;
+
+<span class="rem">// We assign the body text</span>
+message.BodyText.Text = <span class="kwrd">this</span>.bodyTextTextbox.Text;
+
+<span class="rem">// We send the email directly without an SMTP server</span>
+<span class="kwrd">this</span>.AddLogEntry(<span class="str">"Sending message."</span>);
+
+<span class="kwrd">try</span>
+{
+    message.DirectSend();
+
+    <span class="kwrd">this</span>.AddLogEntry(<span class="str">"Message sent successfully."</span>);
+}
+<span class="kwrd">catch</span> (SmtpException ex)
+{
+    <span class="kwrd">this</span>.AddLogEntry(<span class="kwrd">string</span>.Format(<span class="str">"Smtp Error: {0}"</span>, ex.Message));
+}
+<span class="kwrd">catch</span> (Exception ex)
+{
+    <span class="kwrd">this</span>.AddLogEntry(<span class="kwrd">string</span>.Format(<span class="str">"Failed: {0}"</span>, ex.Message));
+}</pre>
+	</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+	<!-- code formatted by http://manoli.net/csharpformat/ -->
+<style type="text/css">
+.csharpcode, .csharpcode pre
+{
+	font-size: 14px;
+	color: black;
+	font-family: Consolas, "Courier New", Courier, Monospace;
+	background-color: #ffffff;
+	/*white-space: pre;*/
+}
+
+.csharpcode pre { margin: 0em; }
+
+.csharpcode .rem { color: #008000; }
+
+.csharpcode .kwrd { color: #0000ff; }
+
+.csharpcode .str { color: #006080; }
+
+.csharpcode .op { color: #0000c0; }
+
+.csharpcode .preproc { color: #cc6633; }
+
+.csharpcode .asp { background-color: #ffff00; }
+
+.csharpcode .html { color: #800000; }
+
+.csharpcode .attr { color: #ff0000; }
+
+.csharpcode .alt 
+{
+	background-color: #f4f4f4;
+	width: 100%;
+	margin: 0em;
+}
+
+.csharpcode .lnum { color: #606060; }
+</style>
+<pre class="csharpcode">
+<span class="kwrd">private</span> <span class="kwrd">void</span> LoadvCard(<span class="kwrd">string</span> p)
+{
+    ClearForm();
+
+    <span class="kwrd">try</span>
+    {
+        vCard vcard = vCard.LoadFromFile(p);
+
+        <span class="kwrd">this</span>.firstNameTextbox.Text = vcard.Name.GivenName;
+        <span class="kwrd">this</span>.lastNameTextbox.Text = vcard.Name.FamilyName;
+        <span class="kwrd">if</span> (vcard.Organization.Count &gt; 0)
+            <span class="kwrd">this</span>.companyTextbox.Text = vcard.Organization[0].ToString();
+        <span class="kwrd">foreach</span> (TelephoneNumber telephoneNumber <span class="kwrd">in</span> vcard.TelephoneNumbers)
+        {
+            <span class="kwrd">if</span> (telephoneNumber.IsWork)
+                <span class="kwrd">this</span>.officePhoneTextbox.Text = telephoneNumber.Number;
+            <span class="kwrd">else</span> <span class="kwrd">if</span> (telephoneNumber.IsHome)
+                <span class="kwrd">this</span>.homePhoneTextbox.Text = telephoneNumber.Number;
+            <span class="kwrd">else</span> <span class="kwrd">if</span> (telephoneNumber.IsCellular)
+                <span class="kwrd">this</span>.mobilePhoneTextbox.Text = telephoneNumber.Number;
+        }
+        <span class="kwrd">if</span> (vcard.EmailAddresses.Count &gt; 0)
+            <span class="kwrd">this</span>.emailTextbox.Text = vcard.EmailAddresses[0].Address;
+        <span class="kwrd">this</span>.birthdayDatePicker.Value = vcard.Birthday;
+
+        <span class="kwrd">if</span> (vcard.Photo != <span class="kwrd">null</span>)
+        {
+            MemoryStream stream = <span class="kwrd">new</span> MemoryStream(vcard.Photo);
+            <span class="kwrd">this</span>.photoPictureBox.Image = Image.FromStream(stream);
+        }
+
+        <span class="kwrd">this</span>.rawDataTextbox.Text = vcard.GetData();
+    }
+    <span class="kwrd">catch</span> (Exception ex)
+    {
+        MessageBox.Show(<span class="str">"Error while loading the vCard. Please ensure this is a compatible format."</span>);
+    }
+    <span class="kwrd">finally</span>
+    {
+        ClearForm();
+    }
+}
+
+<span class="kwrd">private</span> <span class="kwrd">void</span> saveAsButton_Click(<span class="kwrd">object</span> sender, EventArgs e)
+{
+    DialogResult result = <span class="kwrd">this</span>.savevCardDialog.ShowDialog();
+
+    <span class="kwrd">if</span> (result == DialogResult.OK)
+    {
+        <span class="kwrd">try</span>
+        {
+            vCard card = <span class="kwrd">new</span> vCard();
+
+            card.Name.GivenName = <span class="kwrd">this</span>.firstNameTextbox.Text;
+            card.Name.FamilyName = <span class="kwrd">this</span>.lastNameTextbox.Text;
+
+            <span class="kwrd">if</span> (<span class="kwrd">this</span>.companyTextbox.Text != <span class="kwrd">string</span>.Empty)
+                card.Organization.Add(<span class="kwrd">this</span>.companyTextbox.Text);
+
+            <span class="kwrd">if</span> (<span class="kwrd">this</span>.officePhoneTextbox.Text != <span class="kwrd">string</span>.Empty)
+                card.TelephoneNumbers.Add(<span class="kwrd">this</span>.officePhoneTextbox.Text, TelephoneNumberSingleType.Work);
+
+            <span class="kwrd">if</span> (<span class="kwrd">this</span>.homePhoneTextbox.Text != <span class="kwrd">string</span>.Empty)
+                card.TelephoneNumbers.Add(<span class="kwrd">this</span>.homePhoneTextbox.Text, TelephoneNumberSingleType.Home);
+
+            <span class="kwrd">if</span> (<span class="kwrd">this</span>.mobilePhoneTextbox.Text != <span class="kwrd">string</span>.Empty)
+                card.TelephoneNumbers.Add(<span class="kwrd">this</span>.mobilePhoneTextbox.Text, TelephoneNumberSingleType.Cellular);
+
+            <span class="kwrd">if</span> (<span class="kwrd">this</span>.emailTextbox.Text != <span class="kwrd">string</span>.Empty)
+                card.EmailAddresses.Add(<span class="kwrd">this</span>.emailTextbox.Text);
+
+            <span class="kwrd">if</span> (<span class="kwrd">this</span>.birthdayDatePicker.Value != DateTime.Now)
+                card.Birthday = <span class="kwrd">this</span>.birthdayDatePicker.Value;
+
+            <span class="kwrd">if</span> (<span class="kwrd">this</span>.photoPictureBox.Image != <span class="kwrd">null</span>)
+            {
+                Image image = <span class="kwrd">this</span>.photoPictureBox.Image;
+                MemoryStream stream = <span class="kwrd">new</span> MemoryStream();
+                image.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                card.Photo = stream.ToArray();
+            }
+
+            card.SaveToFile(<span class="kwrd">this</span>.savevCardDialog.FileName);
+
+            MessageBox.Show(<span class="kwrd">string</span>.Format(<span class="str">"The file {0} was saved successfully."</span>, Path.GetFileName(<span class="kwrd">this</span>.savevCardDialog.FileName)));
+        }
+        <span class="kwrd">catch</span> (Exception ex)
+        {
+            MessageBox.Show(<span class="str">"Error while trying to save the vCard file."</span>);
+        }
+    }
+}
+</pre>
+	</body>
+</html>

@@ -1,0 +1,43 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: green; }
+.cb2 { color: blue; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">// We create nntp client object.</span></p>
+<p class="cl">NntpClient nntp = <span class="cb2">new</span> NntpClient();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">// We connect to the nntp server.</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; nntp.Connect(_tbNntpServer.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">// We create the message to post.</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; Message msg = <span class="cb2">new</span> Message();</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; msg.Subject = _tbSubject.Text;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; msg.BodyText.Text = _tbBody.Text;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; msg.To.Add(_tbNewsgroup.Text);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; nntp.Post(msg);&nbsp; </p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (NntpException pexp)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Nntp Error: {0}"</span>, pexp.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">finally</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">if</span> (nntp.IsConnected)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; nntp.Disconnect(); ;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

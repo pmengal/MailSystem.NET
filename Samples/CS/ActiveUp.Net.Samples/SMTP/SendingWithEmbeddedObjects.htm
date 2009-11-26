@@ -1,0 +1,62 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: blue; }
+.cb2 { color: green; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Creating message."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We create the message object</span></p>
+<p class="cl">&nbsp;</p>
+<p class="cl">ActiveUp.Net.Mail.Message message = <span class="cb1">new</span> ActiveUp.Net.Mail.Message();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We assign the sender email</span></p>
+<p class="cl">message.From.Email = <span class="cb1">this</span>.fromEmailTextbox.Text;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We assign the recipient email</span></p>
+<p class="cl">message.To.Add(<span class="cb1">this</span>.toEmailTextbox.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We assign the subject</span></p>
+<p class="cl">message.Subject = <span class="cb1">this</span>.subjectTextbox.Text;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We add the embedded objets.</span></p>
+<p class="cl"><span class="cb1">string</span> bodyHtml = <span class="cb1">string</span>.Empty;</p>
+<p class="cl"><span class="cb1">for</span> (<span class="cb1">int</span> i = 0; i &lt; _lvEmbeddedObject.Items.Count; i++)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; message.EmbeddedObjects.Add((<span class="cb1">string</span>)((Utils.ItemTag)_lvEmbeddedObject.Items[i]).Tag, <span class="cb1">true</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; bodyHtml += <span class="cb1">"&lt;img src = \"cid:"</span> + message.EmbeddedObjects[i].ContentId + <span class="cb1">"\" /&gt;"</span>;</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">message.BodyHtml.Format = BodyFormat.Html;</p>
+<p class="cl"><span class="cb1">if</span> (bodyHtml.Length &gt; 0)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; message.BodyHtml.Text = bodyHtml;</p>
+<p class="cl">}</p>
+<p class="cl"><span class="cb1">else</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; message.BodyHtml.Text = <span class="cb1">"The message doens't contain embedded objects."</span>;</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We send the email using the specified SMTP server</span></p>
+<p class="cl"><span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Sending message."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; message.Send(<span class="cb1">this</span>.smtpServerAddressTextbox.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Message sent successfully."</span>);</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">catch</span> (SmtpException ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Smtp Error: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

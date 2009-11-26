@@ -1,0 +1,59 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: green; }
+.cb2 { color: blue; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">// We instantiate the pop3 client</span></p>
+<p class="cl">Pop3Client pop = <span class="cb2">new</span> Pop3Client();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Connection to the pop 3 server : {0}"</span>, _tbPop3Server));</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">// We connect to the pop3 client</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; pop.Connect(_tbPop3Server.Text, _tbUserName.Text, _tbPassword.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">if</span> (pop.MessageCount &gt; 0)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb1">// We retrive a message at a particulat index</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ActiveUp.Net.Mail.Message message = pop.RetrieveMessageObject(1);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb1">// We verify if the message is from black listed server</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">foreach</span> (<span class="cb2">string</span> blackServer <span class="cb2">in</span> _lvBlackListServers.Items)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">if</span> (message.From.Email.EndsWith(bServer))</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Messages from {0} are not allowed"</span>, blackServer));</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">break</span>;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">else</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">"There is no messages in the pop3 account."</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (Pop3Exception pexp)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Pop3 Error: {0}"</span>, pexp.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">finally</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">if</span> (pop.IsConnected)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; pop.Disconnect();</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

@@ -1,0 +1,161 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using ActiveUp.Net.Mail;
+
+namespace ActiveUp.Net.Samples.Utils
+{
+    public class SamplesConfiguration
+    {
+        private string _fromName, _fromEmail, _defaultSubject, _defaultBodyHtml, _defaultBodyText,
+            _toEmail, _toName, _toEmail2, _toName2;
+        ActiveUp.Net.Mail.Server _mainSmtpServer, _backupSmtpServer;
+
+        public SamplesConfiguration()
+        {
+            _fromName = "Support";
+            _fromEmail = "support@activeup.com";
+            _defaultSubject = "This is a test message. Var $VAR1$";
+            _defaultBodyHtml = "<p>This is a test message. <b>Var $VAR1$</b></p>";
+            _defaultBodyText = "This is a test message. Var $VAR1$";
+            _mainSmtpServer = new Server("localhost", 25);
+            _backupSmtpServer = new Server("localhost", 25);
+            _toName = "Support 1";
+            _toEmail = "support@activeup.com";
+            _toName = "Support 2";
+            _toName2 = "support@activeup.com";
+        }
+
+        public string FromName
+        {
+            get
+            {
+                return _fromName;
+            }
+            set
+            {
+                _fromName = value;
+            }
+        }
+
+        public string FromEmail
+        {
+            get
+            {
+                return _fromEmail;
+            }
+            set
+            {
+                _fromEmail = value;
+            }
+        }
+
+        public string DefaultSubject
+        {
+            get
+            {
+                return _defaultSubject;
+            }
+            set
+            {
+                _defaultSubject = value;
+            }
+        }
+
+        public string DefaultBodyHtml
+        {
+            get
+            {
+                return _defaultBodyHtml;
+            }
+            set
+            {
+                _defaultBodyHtml = value;
+            }
+        }
+
+        public string DefaultBodyText
+        {
+            get
+            {
+                return _defaultBodyText;
+            }
+            set
+            {
+                _defaultBodyText = value;
+            }
+        }
+
+        public string ToEmail
+        {
+            get
+            {
+                return _toEmail;
+            }
+            set
+            {
+                _toEmail = value;
+            }
+        }
+
+        public string ToName
+        {
+            get
+            {
+                return _toName;
+            }
+            set
+            {
+                _toName = value;
+            }
+        }
+
+        public string ToEmail2
+        {
+            get
+            {
+                return _toEmail2;
+            }
+            set
+            {
+                _toEmail2 = value;
+            }
+        }
+
+        public string ToName2
+        {
+            get
+            {
+                return _toName2;
+            }
+            set
+            {
+                _toName2 = value;
+            }
+        }
+
+        public ActiveUp.Net.Mail.Server MainSmtpServer
+        {
+            get
+            {
+                return _mainSmtpServer;
+            }
+            set
+            {
+                _mainSmtpServer = value;
+            }
+        }
+
+        public ActiveUp.Net.Mail.Server BackupSmtpServer
+        {
+            get
+            {
+                return _backupSmtpServer;
+            }
+            set
+            {
+                _backupSmtpServer = value;
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: blue; }
+.cb2 { color: green; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Creating templater."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">// We create the templater objet.</span></p>
+<p class="cl">ActiveUp.Net.Mail.Templater templater = <span class="cb1">new</span> Templater(<span class="cb1">@"MailFormat.xml"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Sending template message."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">string</span> smtp = <span class="cb1">string</span>.Empty;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">if</span> (_cbUseSmtpFromTemplate.Checked)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; smtp = templater.SmtpServers[0].Host;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">else</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; smtp = smtpServerAddressTextbox.Text;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; templater.Message.Send(smtp);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Message sent successfully."</span>);</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">catch</span> (SmtpException ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Smtp Error: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

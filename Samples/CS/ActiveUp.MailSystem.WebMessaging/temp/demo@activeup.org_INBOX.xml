@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfEnvelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Envelope marked="false" forwarded="false" answered="false" read="false" mailbox="INBOX" id="19" userid="0" size="845" date="2003-06-16T14:14:00.0000000+02:00" subject="">
+    <From>
+      <Email>unknown</Email>
+      <Name>unknown</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="false" mailbox="INBOX" id="18" userid="0" size="42488" date="2003-06-15T16:02:41.0000000+02:00" subject="OK">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Pierre Mengal</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="false" mailbox="INBOX" id="17" userid="0" size="4139" date="2003-06-15T14:48:42.0000000+02:00">
+    <From>
+      <Email>fois-ci</Email>
+      <Name>test antibug 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012subject: test 0.05 c la derniere pour cette</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="false" mailbox="INBOX" id="16" userid="0" size="895" date="2003-06-15T14:45:05.0000000+02:00" subject="test 0.04">
+    <From>
+      <Email>adresse_bidon@test.com</Email>
+      <Name>test antibug</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="true" forwarded="false" answered="false" read="true" mailbox="INBOX" id="15" userid="0" size="892" date="2003-06-15T14:43:27.0000000+02:00" subject="">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name />
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="14" userid="0" size="2246" date="2003-06-15T14:41:58.0000000+02:00" subject="test 0.02">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>STDO</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="13" userid="0" size="1164" date="2003-06-15T14:19:06.0000000+02:00" subject="dfbjidb">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="12" userid="0" size="1104" date="2003-06-15T14:17:04.0000000+02:00" subject="">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name />
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="11" userid="0" size="4536" date="2003-06-15T12:22:44.0000000+02:00" subject="Re:Test avec image">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="10" userid="0" size="965" date="2003-06-05T14:42:41.0000000+02:00" subject="Test...">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="9" userid="0" size="2384" date="2003-06-04T17:19:25.0000000+02:00" subject="TEST">
+    <From>
+      <Email>pmengal@activeup.com</Email>
+      <Name>Pierre Mengal</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="8" userid="0" size="919" date="2003-05-31T10:23:29.0000000+02:00" subject="grun">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="7" userid="0" size="927" date="2003-05-31T10:14:49.0000000+02:00" subject="TEst">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="6" userid="0" size="5956" date="2003-05-29T13:18:54.0000000+02:00" subject="Test avec attach">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="true" read="true" mailbox="INBOX" id="5" userid="0" size="4184" date="2003-05-29T13:14:39.0000000+02:00" subject="Test avec image">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="false" mailbox="INBOX" id="4" userid="0" size="741" date="2003-05-28T02:50:15.0000000+02:00" subject="Undeliverable Mail">
+    <From>
+      <Email>postmaster@activeup.org</Email>
+      <Name>Postmaster</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="3" userid="0" size="1386" date="2003-05-27T19:04:46.0000000+02:00" subject="Fw:Fw">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Pierre Mengal</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="2" userid="0" size="1136" date="2003-05-27T19:04:16.0000000+02:00" subject="Re:">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Pierre Mengal</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="INBOX" id="1" userid="0" size="1134" date="2003-05-27T19:03:44.0000000+02:00" subject="Fw:">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Pierre Mengal</Name>
+    </From>
+  </Envelope>
+</ArrayOfEnvelope>

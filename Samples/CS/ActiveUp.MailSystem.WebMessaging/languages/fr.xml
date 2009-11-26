@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<language name="Français">
+	<word>Ecrire</word>
+	<word>Supprimer</word>
+	<word>Lu/Non lu</word>
+	<word>Marquer</word>
+	<word>Zipper</word>
+	<word>Marques</word>
+	<word>De</word>
+	<word>Objet</word>
+	<word>Date</word>
+	<word>Taille</word>
+	<word>Modifier</word>
+	<word>Créer un sous-dossier</word>
+	<word>Ajouter</word>
+	<word>Nom</word>
+	<word>E-mail</word>
+	<word>Pays</word>
+	<word>Sauvegarder</word>
+	<word>Dossier</word>
+	<word>Action</word>
+	<word>Dossiers</word>
+	<word>Créer</word>
+	<word>Vous allez supprimer ce dossier, ses sous-dossiers et tout ce qu\'ils contiennent.\nÊtes-vous sur de vouloir continuer?</word>
+	<word>À</word>
+	<word>Cc</word>
+	<word>Cci</word>
+	<word>Réponse à</word>
+	<word>Envoyer</word>
+	<word>Attacher fichier</word>
+	<word>Suppr.</word>
+	<word>Pièce jointe</word>
+	<word>En réponse à "$$SUBJECT$$", de $$FROM$$, en date du $$DATE$$</word>
+	<word>Message original "$$SUBJECT$$", de $$FROM$$, en date du $$DATE$$</word>
+	<word>Message envoyé avec succès à</word>
+	<word>Ecrire un nouveau message</word>
+	<word>Dossier parent</word>
+	<word>Suivant</word>
+	<word>Précédent</word>
+	<word>Répondre</word>
+	<word>Transférer</word>
+	<word>Langue</word>
+	<word>Copier</word>
+	<word>Votre nom</word>
+	<word>Votre email</word>
+	<word>languages/welcomes/fr-be.txt</word>
+	<word>Dossiers</word>
+	<word>Rechercher</word>
+	<word>Rechercher dans</word>
+	<word>Envoyé</word>
+	<word>Sujet contient</word>
+	<word>Message contient</word>
+	<word>Avant le</word>
+	<word>Le</word>
+	<word>Après le</word>
+	<word>Janvier</word>
+	<word>Février</word>
+	<word>Mars</word>
+	<word>Avril</word>
+	<word>Mai</word>
+	<word>Juin</word>
+	<word>Juillet</word>
+	<word>Aout</word>
+	<word>Septembre</word>
+	<word>Octobre</word>
+	<word>Novembre</word>
+	<word>Decembre</word>
+	<word>Tous les dossiers</word>
+	<word>Insérer image</word>
+	<word>Aucun champ n'est obligatoire</word>
+	<word>Séparez les addresses par , ou ;</word>
+	<word>Recherche rapide</word>
+	<word>Enregistrer le message dans</word>
+	<word>non spécifié</word>
+	<word>L\'arborescence des dossiers n\'a pas pu être chargée</word>
+	<word>La liste des dossiers n\'a pas pu être chargée</word>
+	<word>Le dossier n\'a pu être effacé</word>
+	<word>Le dossier n\'a pu être ajouté</word>
+	<word>Le dossier n\'a pu être modifié</word>
+	<word>Le sous-dossier n\'a pu être créé</word>
+	<word>La page n\'a pu être chargée correctement</word>
+	<word>Le fichier n\'a pas pu être joint</word>
+	<word>L\'image n\'a pas pu être insérée</word>
+	<word>Le fichier joint n'\a pas pu être éffacé</word>
+	<word>Le message n\'a pu être envoyé</word>
+	<word>Une erreur s\'est produite après l\'envoi du message</word>
+	<word>Le message n\'a pu être chargé correctement</word>
+	<word>Un ou plusieurs messages n\'ont pu être supprimés correctement</word>
+	<word>Un ou plusieurs messages n\'ont pu être marqués correctement</word>
+	<word>Un ou plusieurs messages n\'ont pu être copiés correctement</word>
+	<word>La liste des langues n\'a pas pu être chargée</word>
+	<word>La langue n\'a pas pu être changée</word>
+	<word>La page d\'accueil n\'a pu être chargée</word>
+	<word>Vous n\'avez pas pu être déconnecté correctement</word>
+	<word>Le dossier n\'a pu être ouvert</word>
+	<word>Les données du dossier n\'ont pu être mise en cache</word>
+	<word>Un ou plusieurs messages n\'ont pu être marqués comme lu/non lu correctement</word>
+	<word>La recherche n\'a pu être terminée</word>
+	<word>Les information d\'indentification fournies sont incorrectes</word>
+	<word>Login</word>
+	<word>Mot de passe</word>
+	<word>Valider</word>
+	<word>Déconnexion</word>
+	<word>Recherche précise</word>
+	<word>Rechercher des messages</word>
+	<word>Ecrire un message</word>
+	<word>Gérer les dossiers</word>
+	<word>Lire un message</word>
+	<word>Identifiez-vous</word>
+	<word>Résultat de recherche</word>
+</language>

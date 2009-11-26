@@ -1,0 +1,822 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D7048DA0-D973-4B69-9133-BF6620561E77}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ActiveUp.Net.Samples</RootNamespace>
+    <AssemblyName>ActiveUp.Net.Samples</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Trial|AnyCPU' ">
+    <OutputPath>bin\Trial\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Retail|AnyCPU' ">
+    <OutputPath>bin\Retail\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'MailSystem Dev|AnyCPU' ">
+    <OutputPath>bin\MailSystem Dev\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveUp.Net.Dns, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.Dns.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Groupware, Version=2.0.10309.0, Culture=neutral, PublicKeyToken=851b9e39ef2572fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.Groupware.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Mail, Version=2.0.10205.4, Culture=neutral, PublicKeyToken=851b9e39ef2572fb, processorArchitecture=MSIL">
+      <HintPath>..\..\Lib\ActiveUp.Net.Mail.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ActiveUp.Net.OpenPGP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.OpenPGP.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.WhoIs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.WhoIs.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\DetermineIfBounceEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\DetermineIfBounceEmail.Designer.cs">
+      <DependentUpon>DetermineIfBounceEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\SaveAttachmentToDisk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\SaveAttachmentToDisk.Designer.cs">
+      <DependentUpon>SaveAttachmentToDisk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\WorkingWithEncodingAndCharset.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\WorkingWithEncodingAndCharset.Designer.cs">
+      <DependentUpon>WorkingWithEncodingAndCharset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\WorkingWithMessageSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\WorkingWithMessageSettings.Designer.cs">
+      <DependentUpon>WorkingWithMessageSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\CreateMailbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\CreateMailbox.Designer.cs">
+      <DependentUpon>CreateMailbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\DeleteMailbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\DeleteMailbox.Designer.cs">
+      <DependentUpon>DeleteMailbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\EmptyMailbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\EmptyMailbox.Designer.cs">
+      <DependentUpon>EmptyMailbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\FlagMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\FlagMessage.Designer.cs">
+      <DependentUpon>FlagMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\NewMessageNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\NewMessageNotification.Designer.cs">
+      <DependentUpon>NewMessageNotification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\RenameMailbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\RenameMailbox.Designer.cs">
+      <DependentUpon>RenameMailbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveAllMailboxes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveAllMailboxes.Designer.cs">
+      <DependentUpon>RetrieveAllMailboxes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveAsynchronously.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveAsynchronously.Designer.cs">
+      <DependentUpon>RetrieveAsynchronously.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveFromSecureConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveFromSecureConnection.Designer.cs">
+      <DependentUpon>RetrieveFromSecureConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveMessageHeader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveMessageHeader.Designer.cs">
+      <DependentUpon>RetrieveMessageHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveMessageList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveMessageList.Designer.cs">
+      <DependentUpon>RetrieveMessageList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveSpecificMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\RetrieveSpecificMessage.Designer.cs">
+      <DependentUpon>RetrieveSpecificMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IMAP4\SearchMailbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IMAP4\SearchMailbox.Designer.cs">
+      <DependentUpon>SearchMailbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainMenu.Designer.cs">
+      <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NNTP\DisplayAllNewsGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NNTP\DisplayAllNewsGroup.Designer.cs">
+      <DependentUpon>DisplayAllNewsGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NNTP\DisplayMessageCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NNTP\DisplayMessageCount.Designer.cs">
+      <DependentUpon>DisplayMessageCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NNTP\PostMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NNTP\PostMessage.Designer.cs">
+      <DependentUpon>PostMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NNTP\RetrieveMessageList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NNTP\RetrieveMessageList.Designer.cs">
+      <DependentUpon>RetrieveMessageList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NNTP\RetrieveNewMessages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NNTP\RetrieveNewMessages.Designer.cs">
+      <DependentUpon>RetrieveNewMessages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NNTP\RetrieveSpecificMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NNTP\RetrieveSpecificMessage.Designer.cs">
+      <DependentUpon>RetrieveSpecificMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PDI\ReadWritevCalendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PDI\ReadWritevCalendar.Designer.cs">
+      <DependentUpon>ReadWritevCalendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PDI\ReadWritevCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PDI\ReadWritevCard.Designer.cs">
+      <DependentUpon>ReadWritevCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\CRAMAuthentication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\CRAMAuthentication.Designer.cs">
+      <DependentUpon>CRAMAuthentication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\RetrieveAsynchronously.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\RetrieveAsynchronously.Designer.cs">
+      <DependentUpon>RetrieveAsynchronously.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\RetrieveFromSecureConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\RetrieveFromSecureConnection.Designer.cs">
+      <DependentUpon>RetrieveFromSecureConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\RetrieveMessageCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\RetrieveMessageCount.Designer.cs">
+      <DependentUpon>RetrieveMessageCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\RetrieveMessageHeaderOnly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\RetrieveMessageHeaderOnly.Designer.cs">
+      <DependentUpon>RetrieveMessageHeaderOnly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\RetrieveMessageList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\RetrieveMessageList.Designer.cs">
+      <DependentUpon>RetrieveMessageList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\RetrieveSpecificMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\RetrieveSpecificMessage.Designer.cs">
+      <DependentUpon>RetrieveSpecificMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\RetrieveToFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\RetrieveToFile.Designer.cs">
+      <DependentUpon>RetrieveToFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="POP3\SecureConnectionUsingApop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POP3\SecureConnectionUsingApop.Designer.cs">
+      <DependentUpon>SecureConnectionUsingApop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MainMenu.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\MasterForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MasterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SMTP\SendingAsynchronously.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingAsynchronously.Designer.cs">
+      <DependentUpon>SendingAsynchronously.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingCryptedEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingCryptedEmail.Designer.cs">
+      <DependentUpon>SendingCryptedEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingSignedEmails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingSignedEmails.Designer.cs">
+      <DependentUpon>SendingSignedEmails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingToMultipleRecipients.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingToMultipleRecipients.Designer.cs">
+      <DependentUpon>SendingToMultipleRecipients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingUsingAnSmtpServer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingUsingAnSmtpServer.Designer.cs">
+      <DependentUpon>SendingUsingAnSmtpServer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingWithEmbeddedObjects.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingWithEmbeddedObjects.Designer.cs">
+      <DependentUpon>SendingWithEmbeddedObjects.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingWithFileAttachments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingWithFileAttachments.Designer.cs">
+      <DependentUpon>SendingWithFileAttachments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingWithMultipleBody.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingWithMultipleBody.Designer.cs">
+      <DependentUpon>SendingWithMultipleBody.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingWithMultipleFailoverSmtp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingWithMultipleFailoverSmtp.Designer.cs">
+      <DependentUpon>SendingWithMultipleFailoverSmtp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingWithoutASmtpServer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingWithoutASmtpServer.Designer.cs">
+      <DependentUpon>SendingWithoutASmtpServer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingWithSecureConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingWithSecureConnection.Designer.cs">
+      <DependentUpon>SendingWithSecureConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendingWithSmtpAuthentification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendingWithSmtpAuthentification.Designer.cs">
+      <DependentUpon>SendingWithSmtpAuthentification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTP\SendWithMultipleFailoverSmtp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTP\SendWithMultipleFailoverSmtp.Designer.cs">
+      <DependentUpon>SendWithMultipleFailoverSmtp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Template\CombiningMergingAndTemplating.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Template\CombiningMergingAndTemplating.Designer.cs">
+      <DependentUpon>CombiningMergingAndTemplating.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Template\MailMergingFromDataSources.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Template\MailMergingFromDataSources.Designer.cs">
+      <DependentUpon>MailMergingFromDataSources.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Template\SendingFromAnXmlTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Template\SendingFromAnXmlTemplate.Designer.cs">
+      <DependentUpon>SendingFromAnXmlTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Template\WorkingWithFieldFormat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Template\WorkingWithFieldFormat.Designer.cs">
+      <DependentUpon>WorkingWithFieldFormat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Template\WorkingWithList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Template\WorkingWithList.Designer.cs">
+      <DependentUpon>WorkingWithList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Template\WorkingWithListRowItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Template\WorkingWithListRowItem.Designer.cs">
+      <DependentUpon>WorkingWithListRowItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ComboItem.cs" />
+    <Compile Include="Utils\Common.cs" />
+    <Compile Include="Utils\ConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\ConfigurationForm.Designer.cs">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ItemTag.cs" />
+    <Compile Include="Utils\ListRowItem.cs" />
+    <Compile Include="Utils\MasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\MasterForm.Designer.cs">
+      <DependentUpon>MasterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\SamplesConfiguration.cs" />
+    <Compile Include="Validation\BayesianFilterCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validation\BayesianFilterCheck.Designer.cs">
+      <DependentUpon>BayesianFilterCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\BlockListServerQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validation\BlockListServerQuery.Designer.cs">
+      <DependentUpon>BlockListServerQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\FilterEmails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validation\FilterEmails.Designer.cs">
+      <DependentUpon>FilterEmails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\ValidateEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validation\ValidateEmail.Designer.cs">
+      <DependentUpon>ValidateEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\WorkingWithBlackListServers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validation\WorkingWithBlackListServers.Designer.cs">
+      <DependentUpon>WorkingWithBlackListServers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\WorkingWithDomainKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validation\WorkingWithDomainKeys.Designer.cs">
+      <DependentUpon>WorkingWithDomainKeys.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\DetermineIfBounceEmail.resx">
+      <DependentUpon>DetermineIfBounceEmail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\SaveAttachmentToDisk.resx">
+      <DependentUpon>SaveAttachmentToDisk.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\WorkingWithMessageSettings.resx">
+      <DependentUpon>WorkingWithMessageSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\CreateMailbox.resx">
+      <DependentUpon>CreateMailbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\DeleteMailbox.resx">
+      <DependentUpon>DeleteMailbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\EmptyMailbox.resx">
+      <DependentUpon>EmptyMailbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\FlagMessage.resx">
+      <DependentUpon>FlagMessage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RenameMailbox.resx">
+      <DependentUpon>RenameMailbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RetrieveAllMailboxes.resx">
+      <DependentUpon>RetrieveAllMailboxes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RetrieveAsynchronously.resx">
+      <DependentUpon>RetrieveAsynchronously.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RetrieveFromSecureConnection.resx">
+      <DependentUpon>RetrieveFromSecureConnection.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RetrieveMessageHeader.resx">
+      <DependentUpon>RetrieveMessageHeader.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RetrieveMessageList.resx">
+      <DependentUpon>RetrieveMessageList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RetrieveSpecificMessage.resx">
+      <DependentUpon>RetrieveSpecificMessage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\SearchMailbox.resx">
+      <DependentUpon>SearchMailbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NNTP\DisplayAllNewsGroup.resx">
+      <DependentUpon>DisplayAllNewsGroup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NNTP\DisplayMessageCount.resx">
+      <DependentUpon>DisplayMessageCount.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NNTP\PostMessage.resx">
+      <DependentUpon>PostMessage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NNTP\RetrieveMessageList.resx">
+      <DependentUpon>RetrieveMessageList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NNTP\RetrieveNewMessages.resx">
+      <DependentUpon>RetrieveNewMessages.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NNTP\RetrieveSpecificMessage.resx">
+      <DependentUpon>RetrieveSpecificMessage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\CRAMAuthentication.resx">
+      <DependentUpon>CRAMAuthentication.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\RetrieveAsynchronously.resx">
+      <DependentUpon>RetrieveAsynchronously.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\RetrieveFromSecureConnection.resx">
+      <DependentUpon>RetrieveFromSecureConnection.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\RetrieveMessageCount.resx">
+      <DependentUpon>RetrieveMessageCount.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\RetrieveMessageHeaderOnly.resx">
+      <DependentUpon>RetrieveMessageHeaderOnly.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\RetrieveMessageList.resx">
+      <DependentUpon>RetrieveMessageList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\RetrieveSpecificMessage.resx">
+      <DependentUpon>RetrieveSpecificMessage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\RetrieveToFile.resx">
+      <DependentUpon>RetrieveToFile.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\SecureConnectionUsingApop.resx">
+      <DependentUpon>SecureConnectionUsingApop.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingAsynchronously.resx">
+      <DependentUpon>SendingAsynchronously.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingSignedEmails.resx">
+      <DependentUpon>SendingSignedEmails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingToMultipleRecipients.resx">
+      <DependentUpon>SendingToMultipleRecipients.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingUsingAnSmtpServer.htm" />
+    <EmbeddedResource Include="SMTP\SendingUsingAnSmtpServer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SendingUsingAnSmtpServer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingWithEmbeddedObjects.resx">
+      <DependentUpon>SendingWithEmbeddedObjects.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingWithFileAttachments.resx">
+      <DependentUpon>SendingWithFileAttachments.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingWithMultipleBody.resx">
+      <DependentUpon>SendingWithMultipleBody.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingWithMultipleFailoverSmtp.resx">
+      <DependentUpon>SendingWithMultipleFailoverSmtp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingWithoutASmtpServer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SendingWithoutASmtpServer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingWithSecureConnection.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SendingWithSecureConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingWithSmtpAuthentification.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SendingWithSmtpAuthentification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendWithMultipleFailoverSmtp.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SendWithMultipleFailoverSmtp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Template\CombiningMergingAndTemplating.resx">
+      <DependentUpon>CombiningMergingAndTemplating.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Template\MailMergingFromDataSources.resx">
+      <DependentUpon>MailMergingFromDataSources.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Template\SendingFromAnXmlTemplate.resx">
+      <DependentUpon>SendingFromAnXmlTemplate.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Template\WorkingWithFieldFormat.resx">
+      <DependentUpon>WorkingWithFieldFormat.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Template\WorkingWithList.resx">
+      <DependentUpon>WorkingWithList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Template\WorkingWithListRowItem.resx">
+      <DependentUpon>WorkingWithListRowItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\ConfigurationForm.resx">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validation\FilterEmails.resx">
+      <DependentUpon>FilterEmails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validation\ValidateEmail.resx">
+      <DependentUpon>ValidateEmail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validation\WorkingWithBlackListServers.resx">
+      <DependentUpon>WorkingWithBlackListServers.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validation\WorkingWithDomainKeys.resx">
+      <DependentUpon>WorkingWithDomainKeys.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\DetermineIfBounceEmail.htm" />
+    <EmbeddedResource Include="Common\SaveAttachmentToDisk.htm" />
+    <EmbeddedResource Include="Common\WorkingWithEncodingAndCharset.resx">
+      <DependentUpon>WorkingWithEncodingAndCharset.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\WorkingWithMessageSettings.htm" />
+    <EmbeddedResource Include="IMAP4\CreateMailbox.htm" />
+    <EmbeddedResource Include="IMAP4\DeleteMailbox.htm" />
+    <EmbeddedResource Include="IMAP4\EmptyMailbox.htm" />
+    <EmbeddedResource Include="IMAP4\FlagMessage.htm" />
+    <EmbeddedResource Include="IMAP4\NewMessageNotification.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewMessageNotification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IMAP4\RenameMailbox.htm" />
+    <EmbeddedResource Include="IMAP4\RetrieveAllMailboxes.htm" />
+    <EmbeddedResource Include="IMAP4\RetrieveAsynchronously.htm" />
+    <EmbeddedResource Include="IMAP4\RetrieveFromSecureConnection.htm" />
+    <EmbeddedResource Include="IMAP4\RetrieveMessageHeader.htm" />
+    <EmbeddedResource Include="IMAP4\RetrieveMessageList.htm" />
+    <EmbeddedResource Include="IMAP4\RetrieveSpecificMessage.htm" />
+    <EmbeddedResource Include="IMAP4\SearchMailbox.htm" />
+    <EmbeddedResource Include="Common\WorkingWithEncodingAndCharset.htm" />
+    <EmbeddedResource Include="IMAP4\NewMessageNotification.htm" />
+    <Content Include="MailFormat.xml" />
+    <Content Include="mailformat_working_with_field_format.xml" />
+    <Content Include="MailTemplate_for_datasource.xml" />
+    <EmbeddedResource Include="PDI\ReadWritevCalendar.htm" />
+    <EmbeddedResource Include="PDI\ReadWritevCard.htm" />
+    <Content Include="Validation\BayesianFilterCheck.htm" />
+    <Content Include="Validation\BlockListServerQuery.htm" />
+    <EmbeddedResource Include="NNTP\DisplayAllNewsGroup.htm" />
+    <EmbeddedResource Include="NNTP\DisplayMessageCount.htm" />
+    <EmbeddedResource Include="NNTP\PostMessage.htm" />
+    <EmbeddedResource Include="NNTP\RetrieveMessageList.htm" />
+    <EmbeddedResource Include="NNTP\RetrieveNewMessages.htm" />
+    <EmbeddedResource Include="NNTP\RetrieveSpecificMessage.htm" />
+    <EmbeddedResource Include="PDI\ReadWritevCalendar.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ReadWritevCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PDI\ReadWritevCard.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ReadWritevCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="POP3\CRAMAuthentication.htm" />
+    <EmbeddedResource Include="POP3\RetrieveAsynchronously.htm" />
+    <EmbeddedResource Include="POP3\RetrieveFromSecureConnection.htm" />
+    <EmbeddedResource Include="POP3\RetrieveMessageCount.htm" />
+    <EmbeddedResource Include="POP3\RetrieveMessageHeaderOnly.htm" />
+    <EmbeddedResource Include="POP3\RetrieveMessageList.htm" />
+    <EmbeddedResource Include="POP3\RetrieveSpecificMessage.htm" />
+    <EmbeddedResource Include="POP3\RetrieveToFile.htm" />
+    <EmbeddedResource Include="POP3\SecureConnectionUsingApop.htm" />
+    <EmbeddedResource Include="SMTP\SendingAsynchronously.htm" />
+    <EmbeddedResource Include="SMTP\SendingCryptedEmail.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SendingCryptedEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTP\SendingSignedEmails.htm" />
+    <EmbeddedResource Include="SMTP\SendingToMultipleRecipients.htm" />
+    <EmbeddedResource Include="SMTP\SendingWithEmbeddedObjects.htm" />
+    <EmbeddedResource Include="SMTP\SendingWithFileAttachments.htm" />
+    <EmbeddedResource Include="SMTP\SendingWithMultipleBody.htm" />
+    <EmbeddedResource Include="SMTP\SendingWithMultipleFailoverSmtp.htm" />
+    <EmbeddedResource Include="SMTP\SendingWithoutASmtpServer.htm" />
+    <EmbeddedResource Include="SMTP\SendingWithSecureConnection.htm" />
+    <EmbeddedResource Include="SMTP\SendingWithSmtpAuthentification.htm" />
+    <EmbeddedResource Include="SMTP\SendWithMultipleFailoverSmtp.htm" />
+    <EmbeddedResource Include="Template\CombiningMergingAndTemplating.htm" />
+    <EmbeddedResource Include="Template\MailMergingFromDataSources.htm" />
+    <EmbeddedResource Include="Template\SendingFromAnXmlTemplate.htm" />
+    <EmbeddedResource Include="Template\WorkingWithFieldFormat.htm" />
+    <EmbeddedResource Include="Template\WorkingWithList.htm" />
+    <EmbeddedResource Include="SMTP\SendingCryptedEmail.htm" />
+    <EmbeddedResource Include="Utils\MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validation\BayesianFilterCheck.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BayesianFilterCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validation\BlockListServerQuery.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BlockListServerQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validation\FilterEmails.htm" />
+    <EmbeddedResource Include="Validation\ValidateEmail.htm" />
+    <EmbeddedResource Include="Validation\WorkingWithBlackListServers.htm" />
+    <EmbeddedResource Include="Validation\WorkingWithDomainKeys.htm" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

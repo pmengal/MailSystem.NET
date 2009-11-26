@@ -1,0 +1,93 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<%@ Register Assembly="ActiveUp.WebControls" Namespace="ActiveUp.WebControls.DataEntry" TagPrefix="cc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head runat="server">
+    
+    <link href="App_Themes/Theme/MasterStyle.css" 
+            rel="stylesheet" type="text/css" />
+            
+    <title>ActiveWebMessaging&copy;</title>
+
+</head>
+
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager" runat="server"/>
+    
+    <div id = "layoutCenter">   
+        <div id = "top">
+            <asp:Image ID="ImgHeader" runat="server" ImageUrl="~/images/header.JPG" />
+        </div>
+        <div id="topRight">
+            <asp:Image ID="ImgLanguage" runat="server" ImageUrl="~/images/languages.gif" />
+            <asp:DropDownList CssClass="DropDownLanguage" ID="languageDropDown" runat="server" 
+            AutoPostBack="true" OnSelectedIndexChanged="DropDownLanguage_SelectedIndexChanged" >
+                <asp:ListItem Text="English" Value="en" />               
+                <asp:ListItem Text="Português" Value="pt" />
+            </asp:DropDownList>
+        </div>
+
+
+    <div id="left">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+    <ContentTemplate>
+    
+    <div id="Items" runat="server" class="Items">
+        <br />
+       
+       <a HREF="Inbox.aspx" class="linkmenu" onMouseOver="T1.src='images/read-unread-over.gif'" onMouseOut="T1.src='images/read-unread.gif'">
+            <img SRC="images/read-unread.gif" NAME="T1" ALT="Inbox" WIDTH=32 HEIGHT=32 BORDER=0 ALIGN=TOP>
+            <br />Inbox
+        </a>
+        <br />
+        <br />
+        <a HREF="Composer.aspx" class="linkmenu" onMouseOver="T2.src='images/compose-over.gif'" onMouseOut="T2.src='images/compose.gif'">
+            <img SRC="images/compose.gif" NAME="T2" ALT="Compose" WIDTH=32 HEIGHT=32 BORDER=0 ALIGN=TOP>
+            <br />Compose
+        </a>
+        <br />
+        <br />
+        <a HREF="SentMail.aspx" class="linkmenu" onMouseOver="T3.src='images/reply-over.gif'" onMouseOut="T3.src='images/reply.gif'">
+            <img SRC="images/reply.gif" NAME="T3" ALT="Sent Mail" WIDTH=32 HEIGHT=32 BORDER=0 ALIGN=TOP>
+            <br />Sent Mail
+        </a>
+        <br />
+        <br />
+        <a HREF="Settings.aspx" class="linkmenu" onMouseOver="T4.src='images/logout-over.gif'" onMouseOut="T4.src='images/logout.gif'">
+            <img SRC="images/logout.gif" NAME="T4" ALT="Settings" WIDTH=32 HEIGHT=32 BORDER=0 ALIGN=TOP>
+            <br />Settings
+        </a>
+        <br />
+        <br />
+    </div>    
+
+    </ContentTemplate>
+    </asp:UpdatePanel>
+    <div>
+        <br /><br /><br /><br /><br /><br /><br />&nbsp<br />
+        <br /><br />
+        
+        
+        <asp:Image ID="Image1" ImageUrl="~/images/logo.gif" runat="server" ImageAlign="AbsBottom" />
+    </div>
+    
+    </div>
+    
+    <div id="right">
+     
+            <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+            </asp:contentplaceholder>
+      
+    </div>
+    
+    </div>
+    
+    </form>
+
+</body>
+
+</html>

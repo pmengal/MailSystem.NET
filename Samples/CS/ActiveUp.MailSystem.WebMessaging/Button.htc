@@ -1,0 +1,18 @@
+<PUBLIC:COMPONENT>
+
+<ATTACH EVENT="onclick" HANDLER="DoDisable" />
+
+<SCRIPT LANGUAGE="javascript">
+
+    function DoDisable()
+    {
+	if(element.type=='submit' && element.name!='composer:iSubmit')
+	{
+		__doPostBack(element.name,'');
+		element.disabled = true;
+	}
+    }
+
+</SCRIPT>
+
+</PUBLIC:COMPONENT>

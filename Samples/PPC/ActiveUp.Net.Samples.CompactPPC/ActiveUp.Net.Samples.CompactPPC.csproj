@@ -1,0 +1,250 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A0F33ACB-CEB9-4857-A562-4FF04E799DDE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ActiveUp.Net.Samples.CompactPPC</RootNamespace>
+    <AssemblyName>ActiveUp.Net.Samples.CompactPPC</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>3C41C503-53EF-4c2a-8DD4-A8217CAD115E</PlatformID>
+    <OSVersion>4.20</OSVersion>
+    <DeployDirSuffix>ActiveUp.Net.Samples.Compact</DeployDirSuffix>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveUp.Net.Dns.Compact, Version=3.0.3005.212, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.Dns.Compact.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Groupware.Compact, Version=3.0.3005.212, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.Groupware.Compact.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Mail.Compact, Version=3.0.3005.212, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.Mail.Compact.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.WhoIs.Compact, Version=3.0.3005.212, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\ActiveUp.Net.WhoIs.Compact.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DNS\frmDNSResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DNS\frmDNSResult.Designer.cs">
+      <DependentUpon>frmDNSResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DNS\frmDnsCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DNS\frmDnsCheck.Designer.cs">
+      <DependentUpon>frmDnsCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DNS\frmDnsMX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DNS\frmDnsMX.Designer.cs">
+      <DependentUpon>frmDnsMX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\IMAP4\frmIMAP4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\IMAP4\frmIMAP4.Designer.cs">
+      <DependentUpon>frmIMAP4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\frmNNTP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\frmNNTP.Designer.cs">
+      <DependentUpon>frmNNTP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\frmPOP3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\frmPOP3.Designer.cs">
+      <DependentUpon>frmPOP3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\frmSMTP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\frmSMTP.Designer.cs">
+      <DependentUpon>frmSMTP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Groupware\frmVcalendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Groupware\frmVcalendar.Designer.cs">
+      <DependentUpon>frmVcalendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Groupware\frmvCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Groupware\frmvCard.Designer.cs">
+      <DependentUpon>frmvCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\IMAP4\Imap4ItemView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\IMAP4\Imap4ItemView.Designer.cs">
+      <DependentUpon>Imap4ItemView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\IMAP4\Imap4Result.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\IMAP4\Imap4Result.Designer.cs">
+      <DependentUpon>Imap4Result.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\POP3\Pop3ItemView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\POP3\Pop3ItemView.Designer.cs">
+      <DependentUpon>Pop3ItemView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Mail\POP3\Pop3Result.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mail\POP3\Pop3Result.Designer.cs">
+      <DependentUpon>Pop3Result.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Whois\frmWhois.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Whois\frmWhois.Designer.cs">
+      <DependentUpon>frmWhois.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainHost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainHost.Designer.cs">
+      <DependentUpon>MainHost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DNS\frmDnsCheck.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmDnsCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DNS\frmDnsMX.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmDnsMX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DNS\frmDNSResult.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmDNSResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Groupware\frmVcalendar.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmVcalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Groupware\frmvCard.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmvCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\IMAP4\frmIMAP4.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmIMAP4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\frmNNTP.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmNNTP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\frmPOP3.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPOP3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\frmSMTP.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSMTP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\IMAP4\Imap4ItemView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Imap4ItemView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\IMAP4\Imap4Result.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Imap4Result.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\POP3\Pop3ItemView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Pop3ItemView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mail\POP3\Pop3Result.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Pop3Result.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainHost.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Whois\frmWhois.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmWhois.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />
+  <Import Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,89 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: blue; }
+.cb2 { color: green; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">if</span> (_lvDataItems.Items.Count &gt; 0)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">// We prepare the data.</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">// We will create a offline datatable to demonstrate , this can veru well</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">// be fetched from database.</span></p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; DataSet dsOrderData = <span class="cb1">new</span> DataSet();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">&nbsp;&nbsp;&nbsp; #region</span> Create Data</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">//Create a datatable</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; DataTable tb = <span class="cb1">new</span> DataTable(<span class="cb1">"ORDERS"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; tb.Columns.Add(<span class="cb1">"FIRSTNAME"</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; tb.Columns.Add(<span class="cb1">"LASTNAME"</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; tb.Columns.Add(<span class="cb1">"EMAIL"</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; tb.Columns.Add(<span class="cb1">"ORDER_ID"</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; tb.Columns.Add(<span class="cb1">"CUSTOMER_ID"</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; tb.Columns.Add(<span class="cb1">"PRODUCT"</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; tb.Columns.Add(<span class="cb1">"QUANTITY"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">//Create Sample set of data</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">for</span> (<span class="cb1">int</span> i = 0; i &lt; _lvDataItems.Items.Count; i++)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Utils.ListRowItem lri = (Utils.ListRowItem)_lvDataItems.Items[i].Tag;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; DataRow dr = tb.NewRow();</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dr[<span class="cb1">"FIRSTNAME"</span>] = lri.FirstName;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dr[<span class="cb1">"LASTNAME"</span>] = lri.LastName;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dr[<span class="cb1">"EMAIL"</span>] = lri.Email;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dr[<span class="cb1">"ORDER_ID"</span>] = lri.OrderId;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dr[<span class="cb1">"CUSTOMER_ID"</span>] = i;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dr[<span class="cb1">"PRODUCT"</span>] = lri.Product;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dr[<span class="cb1">"QUANTITY"</span>] = lri.Quantity;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; tb.Rows.Add(dr);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">&nbsp;&nbsp;&nbsp; #endregion</span></p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Creating templater."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">// We create the templater object.</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; ActiveUp.Net.Mail.Templater templater = <span class="cb1">new</span> ActiveUp.Net.Mail.Templater(<span class="cb1">"mailFormat_working_with_list.xml"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">// We instanciante the Merger object by passing the templater data.</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; Merger merger = <span class="cb1">new</span> Merger(templater);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">// We merge the message templates.</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; merger.MergeListTemplate(<span class="cb1">"PRODUCTS_TEXT"</span>, dsOrderData.Tables[<span class="cb1">"ORDERS"</span>]);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; merger.MergeListTemplate(<span class="cb1">"PRODUCTS_HTML"</span>, dsOrderData.Tables[<span class="cb1">"ORDERS"</span>]);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">// We merge our message with the data.</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; merger.MergeMessage(dsOrderData.Tables[<span class="cb1">"ORDERS"</span>]);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Sending template message."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">try</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">// We send the mail</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; merger.Message.Send(smtpServerAddressTextbox.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">"Message sent successfully."</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">catch</span> (SmtpException ex)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Smtp Error: {0}"</span>, ex.Message));</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">catch</span> (Exception ex)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">string</span>.Format(<span class="cb1">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">else</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">this</span>.AddLogEntry(<span class="cb1">"No datas defined."</span>);</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

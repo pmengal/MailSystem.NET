@@ -1,0 +1,50 @@
+<!--
+{\rtf1\ansi\ansicpg\lang1024\noproof1252\uc1 \deff0{\fonttbl{\f0\fnil\fcharset0\fprq1 Courier New;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0??;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;??\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;??\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;??\red192\green192\blue192;}??\fs20 \cf11 // We create Imap client\par ??\cf0 Imap4Client imap = \cf2 new\cf0  Imap4Client();\par ??\par ??\cf2 try\par ??\cf0 \{\par ??    \cf11 // We connect to the imap4 server\par ??\cf0     imap.Connect(_tbImap4Server.Text);\par ??\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Connection to \{0\} successfully"\cf0 , _tbImap4Server.Text));\par ??\par ??    \cf11 // Login to mail box\par ??\cf0     imap.Login(_tbUserName.Text, _tbPassword.Text);\par ??\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Login to \{0\} successfully"\cf0 , _tbImap4Server.Text));\par ??\par ??    \cf2 if\cf0  (_tbOldMailbox.Text.Length &gt; 0 &amp;&amp; _tbNewMailbox.Text.Length &gt; 0)\par ??    \{\par ??        imap.RenameMailbox(_tbOldMailbox.Text, _tbNewMailbox.Text);\par ??        \cf2 this\cf0 .AddLogEntry(\cf13 "Mailbox \{0\} successfully renamed"\cf0 );\par ??    \}\par ??\par ??    \cf2 else\par ??\cf0     \{\par ??        \cf2 this\cf0 .AddLogEntry(\cf13 "You have to set a mailbox name to delete"\cf0 );\par ??    \}\par ??\par ??\}\par ??\par ??\cf2 catch\cf0  (Imap4Exception iex)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Imap4 Error: \{0\}"\cf0 , iex.Message));\par ??\}\par ??\par ??\cf2 catch\cf0  (\cf10 Exception\cf0  ex)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Failed: \{0\}"\cf0 , ex.Message));\par ??\}\par ??\par ??\cf2 finally\par ??\cf0 \{\par ??    \cf2 if\cf0  (imap.IsConnected)\par ??    \{\par ??        imap.Disconnect();\par ??    \}\par ??\}}
+-->
+<div style="font-family: Courier New; font-size: 10pt; color: black; background: white;">
+<p style="margin: 0px;"><span style="color: green;">// We create Imap client</span></p>
+<p style="margin: 0px;">Imap4Client imap = <span style="color: blue;">new</span> Imap4Client();</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: blue;">try</span></p>
+<p style="margin: 0px;">{</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: green;">// We connect to the imap4 server</span></p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; imap.Connect(_tbImap4Server.Text);</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Connection to {0} successfully"</span>, _tbImap4Server.Text));</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: green;">// Login to mail box</span></p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; imap.Login(_tbUserName.Text, _tbPassword.Text);</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Login to {0} successfully"</span>, _tbImap4Server.Text));</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">if</span> (_tbOldMailbox.Text.Length &gt; 0 &amp;&amp; _tbNewMailbox.Text.Length &gt; 0)</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; imap.RenameMailbox(_tbOldMailbox.Text, _tbNewMailbox.Text);</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: maroon;">"Mailbox {0} successfully renamed"</span>);</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">else</span></p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: maroon;">"You have to set a mailbox name to delete"</span>);</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;">}</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: blue;">catch</span> (Imap4Exception iex)</p>
+<p style="margin: 0px;">{</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Imap4 Error: {0}"</span>, iex.Message));</p>
+<p style="margin: 0px;">}</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: blue;">catch</span> (<span style="color: teal;">Exception</span> ex)</p>
+<p style="margin: 0px;">{</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Failed: {0}"</span>, ex.Message));</p>
+<p style="margin: 0px;">}</p>
+<p style="margin: 0px;">&nbsp;</p>
+<p style="margin: 0px;"><span style="color: blue;">finally</span></p>
+<p style="margin: 0px;">{</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">if</span> (imap.IsConnected)</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; imap.Disconnect();</p>
+<p style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</p>
+<p style="margin: 0px;">}</p>
+</div>

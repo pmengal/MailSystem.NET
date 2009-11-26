@@ -1,0 +1,53 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: green; }
+.cb2 { color: blue; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">// We instantiate the pop3 client.</span></p>
+<p class="cl">Pop3Client pop = <span class="cb2">new</span> Pop3Client();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Connection to the pop 3 server : {0}"</span>, _tbPop3Server));</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">// Connect to the pop3 client</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; pop.Connect(_tbPop3Server.Text, _tbUserName.Text, _tbPassword.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">//Retrive the header of the messag at position 1</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">if</span> (pop.MessageCount &gt; 0)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Header msgHeader = pop.RetrieveHeaderObject(1);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb1">//Display the header for the first message</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Subject: {0} From :{1} Date Sent {2}"</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; , msgHeader.Subject, msgHeader.From.Email, msgHeader.DateString));</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">else</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">"There is no message in this pop3 account"</span>);</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (Pop3Exception pexp)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Pop3 Error: {0}"</span>, pexp.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">finally</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">if</span> (pop.IsConnected)</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; pop.Disconnect();</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

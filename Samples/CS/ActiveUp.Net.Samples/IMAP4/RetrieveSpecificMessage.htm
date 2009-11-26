@@ -1,0 +1,63 @@
+<!--
+{\rtf1\ansi\ansicpg\lang1024\noproof1252\uc1 \deff0{\fonttbl{\f0\fnil\fcharset0\fprq1 Courier New;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0??;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;??\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;??\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;??\red192\green192\blue192;}??\fs20 \cf11 // We create Imap client\par ??\cf10 Imap4Client\cf0  imap = \cf2 new\cf0  \cf10 Imap4Client\cf0 ();\par ??\par ??\cf2 try\par ??\cf0 \{\par ??    \cf11 // We connect to the imap4 server\par ??\cf0     imap.Connect(_tbImap4Server.Text);\par ??\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Connection to \{0\} successfully"\cf0 , _tbImap4Server.Text));\par ??\par ??    \cf11 // Login to mail box\par ??\cf0     imap.Login(_tbUserName.Text, _tbPassword.Text);\par ??\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Login to \{0\} successfully"\cf0 , _tbImap4Server.Text));\par ??\par ??    \cf10 Mailbox\cf0  inbox = imap.SelectMailbox(\cf13 "inbox"\cf0 );\par ??    \cf2 if\cf0  (inbox.MessageCount &gt; 0)\par ??    \{\par ??        \cf2 for\cf0  (\cf2 int\cf0  i = 1; i &lt; inbox.MessageCount + 1; i++)\par ??        \{\par ??            ActiveUp.Net.Mail.\cf10 Message\cf0  message = inbox.Fetch.MessageObject(i);\par ??\par ??            \cf10 ListViewItem\cf0  lvi = \cf2 new\cf0  \cf10 ListViewItem\cf0 ();\par ??            lvi.Text = i.ToString(\cf13 "0000"\cf0 );\par ??            lvi.SubItems.AddRange(\cf2 new\cf0  \cf2 string\cf0 [] \{ message.Subject \});\par ??            lvi.Tag = message;\par ??\par ??            _lvMessages.Items.Add(lvi);\par ??\par ??            \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "\{3\} Subject: \{0\} From :\{1\} Message Body \{2\}"\par ??\cf0                             , message.Subject, message.From.Email, message.BodyText, i.ToString(\cf13 "0000"\cf0 )));\par ??        \}\par ??    \}\par ??\par ??    \cf2 else\par ??\cf0     \{\par ??        \cf2 this\cf0 .AddLogEntry(\cf13 "There is no message in the imap4 account"\cf0 );\par ??    \}\par ??\par ??\}\par ??\par ??\cf2 catch\cf0  (\cf10 Imap4Exception\cf0  iex)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Imap4 Error: \{0\}"\cf0 , iex.Message));\par ??\}\par ??\par ??\cf2 catch\cf0  (\cf10 Exception\cf0  ex)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Failed: \{0\}"\cf0 , ex.Message));\par ??\}\par ??\par ??\cf2 finally\par ??\cf0 \{\par ??    \cf2 if\cf0  (imap.IsConnected)\par ??    \{\par ??        imap.Disconnect();\par ??    \}\par ??\}}
+-->
+<div style="font-family: Courier New; font-size: 10pt; color: black; background: white;">
+<pre style="margin: 0px;"><span style="color: green;">// We create Imap client</span></pre>
+<pre style="margin: 0px;"><span style="color: teal;">Imap4Client</span> imap = <span style="color: blue;">new</span> <span style="color: teal;">Imap4Client</span>();</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">try</span></pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: green;">// We connect to the imap4 server</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; imap.Connect(_tbImap4Server.Text);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Connection to {0} successfully"</span>, _tbImap4Server.Text));</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: green;">// Login to mail box</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; imap.Login(_tbUserName.Text, _tbPassword.Text);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Login to {0} successfully"</span>, _tbImap4Server.Text));</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: teal;">Mailbox</span> inbox = imap.SelectMailbox(<span style="color: maroon;">"inbox"</span>);</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">if</span> (inbox.MessageCount &gt; 0)</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">for</span> (<span style="color: blue;">int</span> i = 1; i &lt; inbox.MessageCount + 1; i++)</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ActiveUp.Net.Mail.<span style="color: teal;">Message</span> message = inbox.Fetch.MessageObject(i);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: teal;">ListViewItem</span> lvi = <span style="color: blue;">new</span> <span style="color: teal;">ListViewItem</span>();</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lvi.Text = i.ToString(<span style="color: maroon;">"0000"</span>);</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lvi.SubItems.AddRange(<span style="color: blue;">new</span> <span style="color: blue;">string</span>[] { message.Subject });</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lvi.Tag = message;</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; _lvMessages.Items.Add(lvi);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"{3} Subject: {0} From :{1} Message Body {2}"</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; , message.Subject, message.From.Email, message.BodyText, i.ToString(<span style="color: maroon;">"0000"</span>)));</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">else</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: maroon;">"There is no message in the imap4 account"</span>);</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">}</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">catch</span> (<span style="color: teal;">Imap4Exception</span> iex)</pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Imap4 Error: {0}"</span>, iex.Message));</pre>
+<pre style="margin: 0px;">}</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">catch</span> (<span style="color: teal;">Exception</span> ex)</pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Failed: {0}"</span>, ex.Message));</pre>
+<pre style="margin: 0px;">}</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">finally</span></pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">if</span> (imap.IsConnected)</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; imap.Disconnect();</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">}</pre>
+</div>

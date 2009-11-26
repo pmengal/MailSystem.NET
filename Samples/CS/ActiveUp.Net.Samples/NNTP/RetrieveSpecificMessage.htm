@@ -1,0 +1,58 @@
+<!--
+{\rtf1\ansi\ansicpg\lang1024\noproof1252\uc1 \deff0{\fonttbl{\f0\fnil\fcharset0\fprq1 Courier New;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0??;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;??\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;??\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;??\red192\green192\blue192;}??\fs20 \cf11 // We create nntp client object.\par ??\cf10 NntpClient\cf0  nntp = \cf2 new\cf0  \cf10 NntpClient\cf0 ();\par ??\par ??\cf2 try\par ??\cf0 \{\par ??    \cf11 // We connect to the nntp server.\par ??\cf0     nntp.Connect(_tbNntpServer.Text);\par ??\par ??    \cf11 // Get a news group on the server\par ??\cf0     \cf10 NewsGroup\cf0  group = nntp.SelectGroup(_tbNewsgroup.Text);\par ??\par ??    \cf2 if\cf0  (group.ArticleCount &gt; 0)\par ??    \{\par ??        \cf2 for\cf0  (\cf2 int\cf0  i = 1; i &lt; group.ArticleCount + 1; i++)\par ??        \{\par ??            ActiveUp.Net.Mail.\cf10 Message\cf0  message = group.RetrieveArticleObject(i);\par ??\par ??            \cf10 ListViewItem\cf0  lvi = \cf2 new\cf0  \cf10 ListViewItem\cf0 ();\par ??            lvi.Text = i.ToString(\cf13 "0000"\cf0 );\par ??            lvi.SubItems.AddRange(\cf2 new\cf0  \cf2 string\cf0 [] \{ message.Subject \});\par ??            lvi.Tag = message;\par ??\par ??            _lvMessages.Items.Add(lvi);\par ??\par ??            \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "\{1\} Subject: \{0\}"\par ??\cf0                             , message.Subject, i.ToString(\cf13 "0000"\cf0 )));\par ??        \}\par ??        \par ??    \}\par ??\par ??    \cf2 else\par ??\cf0     \{\par ??        \cf2 this\cf0 .AddLogEntry(\cf13 "There is no message in the newsgroup."\cf0 );\par ??    \}\par ??\}\par ??\par ??\cf2 catch\cf0  (\cf10 NntpException\cf0  pexp)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Nntp Error: \{0\}"\cf0 , pexp.Message));\par ??\}\par ??\par ??\cf2 catch\cf0  (\cf10 Exception\cf0  ex)\par ??\{\par ??    \cf2 this\cf0 .AddLogEntry(\cf2 string\cf0 .Format(\cf13 "Failed: \{0\}"\cf0 , ex.Message));\par ??\}\par ??\par ??\cf2 finally\par ??\cf0 \{\par ??    \cf2 if\cf0  (nntp.IsConnected)\par ??    \{\par ??        nntp.Disconnect(); ;\par ??    \}\par ??\}}
+-->
+<div style="font-family: Courier New; font-size: 10pt; color: black; background: white;">
+<pre style="margin: 0px;"><span style="color: green;">// We create nntp client object.</span></pre>
+<pre style="margin: 0px;"><span style="color: teal;">NntpClient</span> nntp = <span style="color: blue;">new</span> <span style="color: teal;">NntpClient</span>();</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">try</span></pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: green;">// We connect to the nntp server.</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; nntp.Connect(_tbNntpServer.Text);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: green;">// Get a news group on the server</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: teal;">NewsGroup</span> group = nntp.SelectGroup(_tbNewsgroup.Text);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">if</span> (group.ArticleCount &gt; 0)</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">for</span> (<span style="color: blue;">int</span> i = 1; i &lt; group.ArticleCount + 1; i++)</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ActiveUp.Net.Mail.<span style="color: teal;">Message</span> message = group.RetrieveArticleObject(i);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: teal;">ListViewItem</span> lvi = <span style="color: blue;">new</span> <span style="color: teal;">ListViewItem</span>();</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lvi.Text = i.ToString(<span style="color: maroon;">"0000"</span>);</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lvi.SubItems.AddRange(<span style="color: blue;">new</span> <span style="color: blue;">string</span>[] { message.Subject });</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lvi.Tag = message;</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; _lvMessages.Items.Add(lvi);</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"{1} Subject: {0}"</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; , message.Subject, i.ToString(<span style="color: maroon;">"0000"</span>)));</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">else</span></pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: maroon;">"There is no message in the newsgroup."</span>);</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">}</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">catch</span> (<span style="color: teal;">NntpException</span> pexp)</pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Nntp Error: {0}"</span>, pexp.Message));</pre>
+<pre style="margin: 0px;">}</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">catch</span> (<span style="color: teal;">Exception</span> ex)</pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">this</span>.AddLogEntry(<span style="color: blue;">string</span>.Format(<span style="color: maroon;">"Failed: {0}"</span>, ex.Message));</pre>
+<pre style="margin: 0px;">}</pre>
+<pre style="margin: 0px;">&nbsp;</pre>
+<pre style="margin: 0px;"><span style="color: blue;">finally</span></pre>
+<pre style="margin: 0px;">{</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; <span style="color: blue;">if</span> (nntp.IsConnected)</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; {</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; nntp.Disconnect(); ;</pre>
+<pre style="margin: 0px;">&nbsp;&nbsp;&nbsp; }</pre>
+<pre style="margin: 0px;">}</pre>
+</div>

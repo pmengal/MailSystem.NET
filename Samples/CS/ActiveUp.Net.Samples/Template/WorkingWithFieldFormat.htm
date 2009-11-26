@@ -1,0 +1,79 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: green; }
+.cb2 { color: blue; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">// Prepare the data.</span></p>
+<p class="cl"><span class="cb1">//We will create a offline datatable to demonstrate , this can veru well</span></p>
+<p class="cl"><span class="cb1">//be fetched from database.</span></p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">this</span>.AddLogEntry(<span class="cb2">"Creating the data."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">#region</span> Create Data</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">DataSet dsOrderData = <span class="cb2">new</span> DataSet();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">#region</span> Create Data</p>
+<p class="cl"><span class="cb1">// We create a datatable</span></p>
+<p class="cl">DataTable tb = <span class="cb2">new</span> DataTable(<span class="cb2">"ORDERS"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">tb.Columns.Add(<span class="cb2">"FIRSTNAME"</span>);</p>
+<p class="cl">tb.Columns.Add(<span class="cb2">"DATE"</span>, <span class="cb2">typeof</span>(DateTime));</p>
+<p class="cl">tb.Columns.Add(<span class="cb2">"CODEFORMATEDDATE"</span>, <span class="cb2">typeof</span>(DateTime));</p>
+<p class="cl">tb.Columns.Add(<span class="cb2">"CODEFORMATEDNUMBER"</span>, <span class="cb2">typeof</span>(<span class="cb2">float</span>));</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We create sample set of data</span></p>
+<p class="cl">DataRow dr = tb.NewRow();</p>
+<p class="cl">dr[<span class="cb2">"FIRSTNAME"</span>] = <span class="cb2">"John"</span>;</p>
+<p class="cl">dr[<span class="cb2">"DATE"</span>] = DateTime.Now;</p>
+<p class="cl">dr[<span class="cb2">"CODEFORMATEDDATE"</span>] = DateTime.Now;</p>
+<p class="cl">dr[<span class="cb2">"CODEFORMATEDNUMBER"</span>] = 0.58;</p>
+<p class="cl">tb.Rows.Add(dr);</p>
+<p class="cl">dsOrderData.Tables.Add(tb);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">#endregion</span></p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">#endregion</span></p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">this</span>.AddLogEntry(<span class="cb2">"Creating templater."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">ActiveUp.Net.Mail.Templater templater =</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">new</span> ActiveUp.Net.Mail.Templater(<span class="cb2">"mailformat_working_with_field_format.xml"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We instanciante the Merger object by passing the templater data.</span></p>
+<p class="cl">Merger merger = <span class="cb2">new</span> Merger(templater);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">//Either you can specifiy the field format in the XML using &lt;fieldformat&gt;</span></p>
+<p class="cl"><span class="cb1">//tags are you can add the field format in the code</span></p>
+<p class="cl">&nbsp;</p>
+<p class="cl">merger.FieldsFormats.Add(<span class="cb2">"CODEFORMATEDDATE"</span>, <span class="cb2">"{0:dd mmm yy}"</span>);</p>
+<p class="cl">merger.FieldsFormats.Add(<span class="cb2">"CODEFORMATEDNUMBER"</span>, <span class="cb2">"{0:0#.##0}"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We merge our message with the data.</span></p>
+<p class="cl">merger.MergeMessage(dsOrderData.Tables[0]);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">this</span>.AddLogEntry(<span class="cb2">"Sending template message."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">//Handle the error in case any</span></p>
+<p class="cl"><span class="cb2">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; merger.Message.Send(<span class="cb2">"localhost"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">"Message sent successfully."</span>);</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (SmtpException ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Smtp Error: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->

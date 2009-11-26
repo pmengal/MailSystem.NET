@@ -1,0 +1,62 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: green; }
+.cb2 { color: blue; }
+</style>
+<div class="cf">
+<p class="cl"><span class="cb1">// Let us create a data source in this case Hastable that would </span></p>
+<p class="cl"><span class="cb1">// used to demonstrate the merging</span></p>
+<p class="cl"><span class="cb1">// Take the form variables collection as the data source.</span></p>
+<p class="cl">Hashtable dataSource = <span class="cb2">new</span> Hashtable();</p>
+<p class="cl">dataSource.Add(<span class="cb2">"FIRSTNAME"</span>, <span class="cb2">"John"</span>);</p>
+<p class="cl">dataSource.Add(<span class="cb2">"LASTNAME"</span>, <span class="cb2">"Richards"</span>);</p>
+<p class="cl">dataSource.Add(<span class="cb2">"MESSAGE"</span>, <span class="cb2">"This is a test mail."</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We create the message object.</span></p>
+<p class="cl">Message message = <span class="cb2">new</span> Message();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">//We assign the sender email</span></p>
+<p class="cl">message.From.Email = <span class="cb2">this</span>.fromEmailTextbox.Text;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We assign the recipient email</span></p>
+<p class="cl">message.To.Add(<span class="cb2">this</span>.toEmailTextbox.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We assign the subject</span></p>
+<p class="cl">message.Subject = <span class="cb2">this</span>.subjectTextbox.Text;</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We create the template.</span></p>
+<p class="cl">System.Text.StringBuilder messageTemplate = <span class="cb2">new</span> System.Text.StringBuilder();</p>
+<p class="cl">messageTemplate.Append(<span class="cb2">"Request posted\n\n"</span>);</p>
+<p class="cl">messageTemplate.Append(<span class="cb2">"Firstname : $FIRSTNAME$\n"</span>);</p>
+<p class="cl">messageTemplate.Append(<span class="cb2">"Lastname : $LASTNAME$\n"</span>);</p>
+<p class="cl">messageTemplate.Append(<span class="cb2">"Message : $MESSAGE$\n"</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">message.BodyText.Text = messageTemplate.ToString();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">Merger merger = <span class="cb2">new</span> Merger();</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">// We merge our DataSource</span></p>
+<p class="cl">merger.MergeMessage(message, dataSource, <span class="cb2">false</span>);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb1">//Handle the error in case any</span></p>
+<p class="cl"><span class="cb2">try</span></p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb1">// We send the mail</span></p>
+<p class="cl">&nbsp;&nbsp;&nbsp; message.Send(smtpServerAddressTextbox.Text);</p>
+<p class="cl">&nbsp;</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">"Message sent successfully."</span>);</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (SmtpException ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Smtp Error: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+<p class="cl">&nbsp;</p>
+<p class="cl"><span class="cb2">catch</span> (Exception ex)</p>
+<p class="cl">{</p>
+<p class="cl">&nbsp;&nbsp;&nbsp; <span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Failed: {0}"</span>, ex.Message));</p>
+<p class="cl">}</p>
+</div>
+<!--EndFragment-->
