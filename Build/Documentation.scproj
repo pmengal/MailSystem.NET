@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Chm">
+    <PropertyGroup>
+        <Name>MailSystem.NET</Name>
+        <TopicStyle>vs2005</TopicStyle>
+        <LanguageId>1033</LanguageId>
+    </PropertyGroup>
+    <ItemGroup>
+        <Dlls Include="C:\Users\Pierre\Documents\Sources\MailSystem\Class Library\ActiveUp.Net.Mail\bin\Debug\*.*" />
+    </ItemGroup>
+    <Import Project="$(DXROOT)\Examples\Generic\generic.targets" />
+</Project>

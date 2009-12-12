@@ -1,0 +1,6 @@
+The following tools are required to build the project:
+
+- Visual Studio 2008
+- Sandcastle - http://www.codeplex.com/Sandcastle
+- Sandcastle Help File Builder - http://shfb.codeplex.com/
+
