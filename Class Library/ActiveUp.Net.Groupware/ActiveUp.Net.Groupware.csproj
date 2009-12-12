@@ -103,7 +103,6 @@
     <Compile Include="vCalendar.Parser.cs" />
     <Compile Include="vCalendar.ProcedureReminder.cs" />
     <Compile Include="vCalendar.Property.cs" />
-    <Compile Include="vCalendar.RecurrenceType.cs" />
     <Compile Include="vCalendar.Reminder.cs" />
     <Compile Include="vCalendar.Role.cs" />
     <Compile Include="vCalendar.Status.cs" />
