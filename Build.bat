@@ -10,10 +10,13 @@ IF EXIST Release GOTO NOWINDIR
 MKDIR Release
 :NOWINDIR
 
-Del Release\*.* /Q
+Del Release\*.* /Q /S
 XCOPY "Class Library\ActiveUp.Net.Mail\bin\Retail\*.xml" Release\
 XCOPY "Class Library\ActiveUp.Net.Mail\bin\Retail\*.dll" Release\
-XCOPY Samples Release\Samples /s /i
+XCOPY Samples Release\Samples /s /i /y
+XCOPY Build\Help\Documentation.chm Release\
+XCOPY COPYRIGHT.txt Release\
+XCOPY LICENSE.txt Release\
 
 PAUSE
 
