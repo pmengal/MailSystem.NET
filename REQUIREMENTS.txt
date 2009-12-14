@@ -1,6 +1,6 @@
 The following tools are required to build the project:
 
 - Visual Studio 2008
+- Windows Mobile 5.0 Smartphone SDK - http://www.microsoft.com/downloads/details.aspx?familyid=dc6c00cb-738a-4b97-8910-5cd29ab5f8d9
 - Sandcastle - http://www.codeplex.com/Sandcastle
 - Sandcastle Help File Builder - http://shfb.codeplex.com/
-
