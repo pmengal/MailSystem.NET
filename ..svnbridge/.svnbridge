@@ -11,4 +11,8 @@ UpgradeLog.XML
 ActiveUp.Net.suo
 *.cache
 Release
+</Value></Property><Property><Name>svn:ignore</Name><Value>*.cache
+*.suo
+*.dat
+Release
 </Value></Property></Properties></ItemProperties>
