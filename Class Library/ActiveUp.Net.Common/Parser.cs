@@ -644,7 +644,8 @@ namespace ActiveUp.Net.Mail
                 //}
                 m = m.NextMatch();
 
-                HeaderFieldParsing(null, header);
+                if (HeaderFieldParsing != null)
+                    HeaderFieldParsing(null, header);
             }
         }
 
