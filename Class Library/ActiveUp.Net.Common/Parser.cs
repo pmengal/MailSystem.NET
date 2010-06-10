@@ -320,7 +320,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         internal static string FormatFieldName(string fieldName)
         {
-            return fieldName.ToLower();
+            return fieldName.ToLower().Trim();
         }
 
         /// <summary>
