@@ -384,6 +384,9 @@ namespace ActiveUp.Net.Mail
         private delegate string DelegateGetUniqueID(int messageIndex);
         private DelegateGetUniqueID _delegateGetUniqueID;
 
+        private delegate System.Collections.Generic.List<PopServerUniqueId> DelegateGetUniqueIDs();
+        private DelegateGetUniqueIDs _delegateGetUniqueIDs;
+
         private delegate int DelegateGetMessageSize(int messageIndex);
         private DelegateGetMessageSize _delegateGetMessageSize;
 
@@ -1750,6 +1753,120 @@ namespace ActiveUp.Net.Mail
         public string EndGetUniqueId(IAsyncResult result)
         {
             return this._delegateGetUniqueID.EndInvoke(result);
+        }
+
+        /// <summary>
+        /// Issues a UIDL command and retrieves all message unique Ids (assigned by the server).
+        /// </summary>
+        /// <returns>A list of a structure containing the unique Id of the messages and their index.</returns>
+        /// <example>
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.Connect("mail.myhost.com","user","pass");
+        /// System.Collections.Generic.List<PopServerUniqueId> uids = pop.UniqueIds();
+        /// pop.Disconnect();
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New Pop3Client
+        /// pop.Connect("mail.myhost.com","user","pass")
+        /// Dim uniqueId As System.Collections.Generic.List(Of PopServerUniqueId) = pop.UniqueIds()
+        /// pop.Disconnect()
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.Connect("mail.myhost.com","user","pass");
+        /// uniqueId:System.Collections.Generic.List<PopServerUniqueId> = pop.UniqueIds();
+        /// pop.Disconnect();
+        /// </code>
+        /// </example>
+        public System.Collections.Generic.List<PopServerUniqueId> GetUniqueIds()
+        {
+            System.Collections.Generic.List<PopServerUniqueId> uids = new System.Collections.Generic.List<PopServerUniqueId>();
+            string ret = this.CommandMultiline("UIDL");
+            string[] lines = ret.Replace("\r", "").Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string line in lines)
+            {
+                string[] parts  = line.Split(' ');
+                PopServerUniqueId pse =new PopServerUniqueId();
+                pse.Index = int.Parse(parts[0]);                
+                pse.UniqueId = parts[1];
+                uids.Add(pse);
+            }
+
+            return uids;
+        }
+
+        public IAsyncResult BeginGetUniqueIds(AsyncCallback callback)
+        {
+            this._delegateGetUniqueIDs = this.GetUniqueIds;
+            return this._delegateGetUniqueIDs.BeginInvoke(callback, null);
+        }
+
+        public System.Collections.Generic.List<PopServerUniqueId> EndGetUniqueIds(IAsyncResult result)
+        {
+            return this._delegateGetUniqueIDs.EndInvoke(result);
+        }
+
+        /// <summary>
+        /// Retreives message index on the pop server from its internal unique Id.
+        /// </summary>
+        /// <param name="serverUniqueId">The given message unique Id to retreive.</param>
+        /// <returns>The index of the message on the pop server, 0 if not found.</returns>
+        public int GetMessageIndex(string serverUniqueId)
+        {
+            System.Collections.Generic.List<PopServerUniqueId> uids = this.GetUniqueIds();
+            foreach (PopServerUniqueId uid in uids)
+            {
+                if (uid.UniqueId == serverUniqueId) return uid.Index;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Indicates if the uniqueId exists on the server
+        /// </summary>
+        /// <param name="serverUniqueId">The given message unique Id to retreive.</param>
+        /// <returns>True if unique Id exists, False if it doesn't.</returns>
+        public bool UniqueIdExists(string serverUniqueId)
+        {
+            return GetMessageIndex(serverUniqueId) != 0;
+        }
+        
+        /// <summary>
+        /// Structure containing a uniqueId for a message and its associated index on the pop server
+        /// </summary>
+        public class PopServerUniqueId
+        {
+            private int _index;
+            public int Index
+            {
+                get
+                {
+                    return this._index;
+                }
+                set
+                {
+                    this._index = value;
+                }
+            }
+
+            private string _uniqueId;
+            public string UniqueId
+            {
+                get
+                {
+                    return this._uniqueId;
+                }
+                set
+                {
+                    this._uniqueId = value;
+                }
+            }
         }
 
         /// <summary>
