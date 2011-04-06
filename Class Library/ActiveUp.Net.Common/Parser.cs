@@ -467,6 +467,15 @@ namespace ActiveUp.Net.Mail
                         // TODO
                     }
                     // This is a leaf of the part tree
+                    // Check necessary for single part emails (fix from alex294 on CodePlex)
+                    else if (part.ContentType.Type.ToLower().Equals("text"))
+                    {
+                        int BodyEnd = body.IndexOf(' ');
+                        if (BodyEnd > 0)
+                        {
+                            part.TextContent = body.Substring(0, BodyEnd);
+                        }
+                    }
 
                     DecodePartBody(ref part);
 
