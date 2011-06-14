@@ -776,7 +776,8 @@ namespace ActiveUp.Net.Mail
             }
             catch (Exception ex)
             {
-                ErrorParsing(null, ex);
+                if (ErrorParsing != null)
+                    ErrorParsing(null, ex);
             }
             return message;
 

@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // MailSystem.NET is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,7 +13,7 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
 
@@ -41,24 +41,24 @@ namespace ActiveUp.Net.Mail
 		/// The example below illustrates the encoding of a string in quoted-printable.
 		/// <code>
 		/// C#
-		/// 
-		/// string input = "ActiveMail rocks ! Here are some non-ASCII characters =ç.";
+		///
+		/// string input = "ActiveMail rocks ! Here are some non-ASCII characters =Ã§.";
 		/// string output = Codec.ToQuotedPrintable(input,"iso-8859-1");
 		/// </code>
 		/// output returns A= ctiveMail rocks ! Here are some weird characters =3D=E7.
-		/// 
-		/// Non ASCII characters have been encoded (=3D represents = and =E7 represents ç).
+		///
+		/// Non ASCII characters have been encoded (=3D represents = and =E7 represents Ã§).
 		/// </example>
 		public static string ToQuotedPrintable(string input, string fromCharset)
 
 		{
-            
+
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
             // Added this verification, there was an error here.
             if (input != null)
             {
-                byte[] body = System.Text.Encoding.GetEncoding(fromCharset).GetBytes(input);
+                byte[] body = GetEncoding(fromCharset).GetBytes(input);
                 int index = 0, wrap = 0, check = 0;
 
                 byte decim = 0;
@@ -93,7 +93,7 @@ namespace ActiveUp.Net.Mail
                         wrap++;
 
                     //if((sb.Length/72d)==System.Math.Round(sb.Length/72d) || ((sb.Length-1)/72d)==System.Math.Round((sb.Length-1)/72d) || ((sb.Length-2)/72d)==System.Math.Round((sb.Length-2)/72d) || ((sb.Length-3)/72d)==System.Math.Round((sb.Length-3)/72d))
-                
+
             }
         }
 			//sb.Append("=\r\n");
@@ -110,20 +110,56 @@ namespace ActiveUp.Net.Mail
 		/// The example below illustrates the encoding of a string.
 		/// <code>
 		/// C#
-		/// 
-		/// string input = "ActiveMail rocks ! Here are some non-ASCII characters =ç.";
+		///
+		/// string input = "ActiveMail rocks ! Here are some non-ASCII characters =Ã§.";
 		/// string output = Codec.RFC2047Encode(input,"iso-8859-1");
 		/// </code>
-		/// 
+		///
 		/// output returns =?iso-8859-1?B?QWN0aXZlTWFpbCByb2NrcyAhIEhlcmUgYXJlIHNvbWUgd2VpcmQgY2hhcmFjdGVycyA95y4=?=
-		/// 
+		///
 		/// This value can be used as for example the subject of a message.
 		/// If you suspect the text to contain non ASCII characters, do message.Subject = Codec.RFC2047Encode(yourRawValue);.
 		/// </example>
 		public static string RFC2047Encode(string input, string charset)
 		{
-			return "=?"+charset+"?B?"+System.Convert.ToBase64String(System.Text.Encoding.GetEncoding(charset).GetBytes(input))+"?=";
+			return "=?"+charset+"?B?"+System.Convert.ToBase64String(GetEncoding(charset).GetBytes(input))+"?=";
 		}
+        /// <summary>
+        /// Return encoding based on encoding name
+        /// Tries to resolve some wrong-formatted encoding names
+        /// </summary>
+        /// <param name="encodingName"></param>
+        /// <returns></returns>
+        public static System.Text.Encoding GetEncoding(string encodingName)
+        {
+            System.Text.Encoding encoding = null;
+            try
+            {
+                encoding = System.Text.Encoding.GetEncoding(encodingName);
+            }
+            catch
+            {
+                encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+            }
+            if (encoding == null)
+            {
+                try
+                {
+                    if (encodingName == "UTF8")
+                        encodingName = "UTF-8";
+                    else if (encodingName.StartsWith("ISO") && char.IsDigit(encodingName, 3))
+                        encodingName = encodingName.Insert(3, "-");
+                    encodingName = encodingName.Replace("_", "-").ToUpper();
+                    encoding = System.Text.Encoding.GetEncoding(encodingName);
+                }
+                catch
+                {
+                    encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+                }
+            }
+
+            return encoding;
+        }
 		/// <summary>
 		/// Decodes the given string from the format specified in RFC 2047 (=?charset?value?=).
 		/// </summary>
@@ -133,16 +169,16 @@ namespace ActiveUp.Net.Mail
 		/// The example below illustrates the decoding of a string.
 		/// <code>
 		/// C#
-		/// 
+		///
 		/// string input = "I once wrote that =?iso-8859-1?B?QWN0aXZlTWFpbCByb2NrcyAhIEhlcmUgYXJlIHNvbWUgd2VpcmQgY2hhcmFjdGVycyA95y4=?=";
 		/// string output = Codec.RFC2047Decode(input);
 		/// </code>
-		/// 
-		/// output returns I once wrote that ActiveMail rocks ! Here are some weird characters =ç.
+		///
+		/// output returns I once wrote that ActiveMail rocks ! Here are some weird characters =Ã§.
 		/// </example>
 		public static string RFC2047Decode(string input)
 		{
-			input = input.Replace("=?=","²rep?=");
+			input = input.Replace("=?=","Â²rep?=");
 			string decoded = input;
 			if(input.IndexOf("=?")!=-1 && input.IndexOf("?=")!=-1)
 			{
@@ -153,13 +189,13 @@ namespace ActiveUp.Net.Mail
 					string[] parts = encoded.Split('?');
                     if (parts[1].ToUpper() == "Q")
                     {
-                        byte[] data = System.Text.Encoding.ASCII.GetBytes(parts[2].Replace("²rep", "="));
-                        decoded = decoded.Replace("=?" + encoded + "?=", Codec.FromQuotedPrintable(System.Text.Encoding.GetEncoding(parts[0]).GetString(data,0,data.Length), parts[0]));
+                        byte[] data = System.Text.Encoding.ASCII.GetBytes(parts[2].Replace("Â²rep", "="));
+                        decoded = decoded.Replace("=?" + encoded + "?=", Codec.FromQuotedPrintable(GetEncoding(parts[0]).GetString(data,0,data.Length), parts[0]));
                     }
                     else
                     {
-                        byte[] data = System.Convert.FromBase64String(parts[2].Replace("²rep", "="));
-                        decoded = decoded.Replace("=?" + encoded + "?=", System.Text.Encoding.GetEncoding(parts[0]).GetString(data,0,data.Length));
+                        byte[] data = System.Convert.FromBase64String(parts[2].Replace("Â²rep", "="));
+                        decoded = decoded.Replace("=?" + encoded + "?=", GetEncoding(parts[0]).GetString(data,0,data.Length));
                     }
 				}
 				decoded = decoded.Replace("_"," ");
@@ -177,12 +213,12 @@ namespace ActiveUp.Net.Mail
 		/// The example below illustrates the decoding of a string from quoted-printable.
 		/// <code>
 		/// C#
-		/// 
+		///
 		/// string input = "A=\r\nctiveMail rocks ! Here are some weird characters =3D=E7.";
 		/// string output = Codec.FromQuotedPrintable(input,"iso-8859-1");
 		/// </code>
-		/// 
-		/// output returns ActiveMail rocks ! Here are some weird characters =ç.
+		///
+		/// output returns ActiveMail rocks ! Here are some weird characters =Ã§.
 		/// </example>
 		public static string FromQuotedPrintable(string input, string toCharset)
 		{
@@ -193,7 +229,7 @@ namespace ActiveUp.Net.Mail
             {
                 input = input.Replace("=\r\n", "") + "=3D=3D";
                 int i = 0;
-                
+
                 while (true)
                 {
                     if (i <= (input.Length) - 3)
@@ -229,9 +265,9 @@ namespace ActiveUp.Net.Mail
             {
                 decoded = new byte[arr.Count];
                 for (int j = 0; j < arr.Count; j++) decoded[j] = (byte)arr[j];
-                
+
             }
-            return System.Text.Encoding.GetEncoding(toCharset).GetString(decoded,0,decoded.Length).TrimEnd('=');
+            return GetEncoding(toCharset).GetString(decoded,0,decoded.Length).TrimEnd('=');
 		}
         public static string GetFieldName(string input)
         {
@@ -274,7 +310,7 @@ namespace ActiveUp.Net.Mail
             //int i = 0; // NOT HERE
             //// NOT HERE: The for increment is right, one possible problem is with the increment for i
             //// was zero, but there was not this possibility, since the possible values for totalchars
-            //// are 75 or 74 maybe the input.length is too large, but I don't believe in this 
+            //// are 75 or 74 maybe the input.length is too large, but I don't believe in this
             //// possibility, since second ansuman the problem is random.
             //for (i = 0; (i + totalchars) < input.Length; i += totalchars) // NOT HERE
             //{
