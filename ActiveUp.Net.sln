@@ -1,9 +1,17 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Class Library", "Class Library", "{629D406B-F46A-4A9D-A31F-C5956E0AB157}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queuing Application", "Queuing Application", "{C95F2CCE-9CA6-45A0-BFE6-4E737072B58F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Copyright", "_Copyright", "{E9A8CFFE-4FAE-4921-A36A-D15DAA105561}"
+	ProjectSection(SolutionItems) = preProject
+		COPYRIGHT.txt = COPYRIGHT.txt
+		LICENSE.txt = LICENSE.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{33BAFFED-FB5D-48EF-85D9-CDE2EB2CFA64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Mail", "Class Library\ActiveUp.Net.Mail\ActiveUp.Net.Mail.csproj", "{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6}"
 EndProject
@@ -42,14 +50,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Pop3", "Class Library\ActiveUp.Net.Pop3\ActiveUp.Net.Pop3.csproj", "{3F01CF20-C49D-44A9-AA57-68F04915FE97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Smtp", "Class Library\ActiveUp.Net.Smtp\ActiveUp.Net.Smtp.csproj", "{D9BCD15E-A438-4554-89D3-1CF122167FDD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Copyright", "_Copyright", "{E9A8CFFE-4FAE-4921-A36A-D15DAA105561}"
-	ProjectSection(SolutionItems) = preProject
-		COPYRIGHT.txt = COPYRIGHT.txt
-		LICENSE.txt = LICENSE.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{33BAFFED-FB5D-48EF-85D9-CDE2EB2CFA64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
