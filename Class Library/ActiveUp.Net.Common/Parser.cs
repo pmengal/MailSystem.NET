@@ -256,7 +256,7 @@ namespace ActiveUp.Net.Mail
                 }
                  catch (System.FormatException)
                 {
-                    part.TextContent = part.TextContent.Remove(part.TextContent.LastIndexOf("="));
+                    part.TextContent = part.TextContent.Remove(part.TextContent.LastIndexOf("=")+1);
                     part.BinaryContent = Convert.FromBase64String(part.TextContent);
                 }
 #endif
