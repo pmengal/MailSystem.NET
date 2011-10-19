@@ -534,8 +534,7 @@ namespace ActiveUp.Net.Mail
                         this.host = host;
                         this.OnConnecting();
                         base.Connect(host, port);
-                        System.IO.StreamReader sr = new System.IO.StreamReader(base.GetStream(), System.Text.Encoding.ASCII);
-                        string response = sr.ReadLine();
+                        string response = this.ReadLine();
                         this.ServerCapabilities = this.Command("capability");
                         this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
                         return response;
@@ -564,6 +563,7 @@ namespace ActiveUp.Net.Mail
                         this.OnConnecting();
                         base.Connect(addr, port);
                         string response = this.ReadLine();
+                        this.ServerCapabilities = this.Command("capability");
                         this.OnConnected(new ConnectedEventArgs(response));
                         return response;
                     }
@@ -597,6 +597,7 @@ namespace ActiveUp.Net.Mail
                     base.Connect(addresses[0], port);
 #endif
                         string response = this.ReadLine();
+                        this.ServerCapabilities = this.Command("capability");
                         this.OnConnected(new ConnectedEventArgs(response));
                         return response;
                     }
@@ -713,6 +714,7 @@ namespace ActiveUp.Net.Mail
                         base.Connect(host, port);
                         this.DoSslHandShake(sslHandShake);
                         string response = this.ReadLine();
+                        this.ServerCapabilities = this.Command("capability");
                         this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
                         return response;
                     }
@@ -728,6 +730,7 @@ namespace ActiveUp.Net.Mail
                         base.Connect(addr, port);
                         this.DoSslHandShake(sslHandShake);
                         string response = this.ReadLine();
+                        this.ServerCapabilities = this.Command("capability");
                         this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
                         return response;
                     }
@@ -743,6 +746,7 @@ namespace ActiveUp.Net.Mail
                         base.Connect(addresses, port);
                         this.DoSslHandShake(sslHandShake);
                         string response = this.ReadLine();
+                        this.ServerCapabilities = this.Command("capability");
                         this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
                         return response;
                     }
