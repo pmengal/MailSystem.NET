@@ -18,6 +18,7 @@
 using System;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Security;
+using System.Text;
 
 namespace ActiveUp.Net.Mail
 {
@@ -39,9 +40,19 @@ namespace ActiveUp.Net.Mail
 
         }
 
+        static Imap4Client()
+        {
+            _badCommandStrings = new[] {
+                "\\", //Important this comes first
+                "\""              
+            };
+        }
+
         #endregion
 
         #region Private fields
+
+        static string[] _badCommandStrings;
 
         ActiveUp.Net.Mail.MailboxCollection _mailboxes,_allMailboxes = new ActiveUp.Net.Mail.MailboxCollection();
 		private string host, _capabilities;
@@ -129,6 +140,11 @@ namespace ActiveUp.Net.Mail
 				this._capabilities = value;
 			}
         }
+
+        /// <summary>
+        /// Turn this on to not make any parameters safe.  Injection attacks more likely.  Turn this on only if you are already doing checking or if performance is absolutely critical.  
+        /// </summary>
+        public bool IsUnsafeParamsAllowed { get; set; }
 
         #endregion
 
@@ -450,6 +466,23 @@ namespace ActiveUp.Net.Mail
                 string response = sr.ReadLine();
                 this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(response));
                 return response;
+            }
+
+            /// <summary>
+            /// Takes a command parameter and makes it safe for IMAP
+            /// </summary>
+            /// <param name="commandParam"></param>
+            /// <returns></returns>
+            private string renderSafeParam(string commandParam)
+            {
+                if (this.IsUnsafeParamsAllowed)
+                    return commandParam;
+
+                var sb = new StringBuilder(commandParam);
+                foreach (var badString in _badCommandStrings)
+                    sb.Replace(badString, "\\" + badString);
+
+                return sb.ToString();
             }
 
             #endregion
@@ -1098,7 +1131,7 @@ namespace ActiveUp.Net.Mail
                             break;
                         }
 
-                        else
+                        else if (temp != null)
                         {
                             if (temp.StartsWith(stamp) || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ "))
                             {
@@ -1690,6 +1723,8 @@ namespace ActiveUp.Net.Mail
                 /// </example>
                 public Mailbox SelectMailbox(string mailboxName)
                 {
+                    mailboxName = renderSafeParam(mailboxName);
+
                     ActiveUp.Net.Mail.Mailbox mailbox = new ActiveUp.Net.Mail.Mailbox();
                     mailbox.SubMailboxes = this.GetMailboxes(mailboxName, "*");
                     string response = this.Command("select \"" + mailboxName + "\"");
