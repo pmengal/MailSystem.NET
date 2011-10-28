@@ -26,25 +26,16 @@ namespace ActiveUp.Net.Mail
 #endif
     public class Imap4Exception : System.Exception
 	{
-		string _message;
+        /// <summary>
+        /// Generic error
+        /// </summary>
+        public Imap4Exception() : this("An unspecified IMAP error occurred.") { }
+        
 		/// <summary>
 		/// Constructor, sets message to the specified value.
 		/// </summary>
 		/// <param name="message"></param>
-		public Imap4Exception(string message)
-		{
-			this._message = message;
-		}
-		/// <summary>
-		/// The exception's message.
-		/// </summary>
-		public override string Message
-		{
-			get
-			{
-				return this._message;
-			}
-		}
+		public Imap4Exception(string message) : base(message) { }
 	}
 	#endregion
 }
