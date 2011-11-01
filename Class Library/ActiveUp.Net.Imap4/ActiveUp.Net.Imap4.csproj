@@ -104,6 +104,7 @@
     <Compile Include="FlagCollection.cs" />
     <Compile Include="Imap4Client.cs" />
     <Compile Include="Imap4Exception.cs" />
+    <Compile Include="ImapFlagEnum.cs" />
     <Compile Include="Mailbox.cs" />
     <Compile Include="MailboxCollection.cs" />
     <Compile Include="MailboxPermission.cs" />

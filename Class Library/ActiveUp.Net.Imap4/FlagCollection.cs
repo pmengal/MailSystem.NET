@@ -59,7 +59,8 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-				for(int i=0;i<this.List.Count;i++) if(((ActiveUp.Net.Mail.Flag)this.List[i]).Name==flagName) return this[i];
+				for(int i=0;i<this.List.Count;i++) 
+                    if(((ActiveUp.Net.Mail.Flag)this.List[i]).Name.Equals(flagName, System.StringComparison.InvariantCultureIgnoreCase)) return this[i];
 				return null;
 			}
 		}
