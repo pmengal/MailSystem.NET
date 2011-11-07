@@ -199,6 +199,7 @@ namespace ActiveUp.Net.Mail
                     }
                     else if (part.ContentType.SubType.Equals("html"))
                     {
+                        message.IsHtml = true;
                         message.BodyHtml.Charset = part.Charset;
                         message.BodyHtml.Text = part.TextContent;
                     }
@@ -720,7 +721,7 @@ namespace ActiveUp.Net.Mail
         {
             //string msg = System.Text.Encoding.ASCII.GetString(data);
 #if !PocketPC
-            string msg = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(data,0,data.Length);
+            string msg = System.Text.Encoding.UTF8.GetString(data,0,data.Length);
 #else
             string msg = Pop3Client.PPCEncode.GetString(data, 0, data.Length);
 #endif

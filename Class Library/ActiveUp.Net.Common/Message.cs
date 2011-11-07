@@ -178,6 +178,11 @@ namespace ActiveUp.Net.Mail
         }
 
         /// <summary>
+        /// Indicates whether the message is in HTML format or not
+        /// </summary>
+        public bool IsHtml { get; set; }
+
+        /// <summary>
         /// Indicates whether the message has been encrypted using S/MIME.
         /// </summary>
         public bool IsSmimeEncrypted

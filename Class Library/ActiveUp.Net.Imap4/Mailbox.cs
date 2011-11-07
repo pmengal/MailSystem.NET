@@ -1258,7 +1258,7 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Mailbox.Append"/></example>
 		public string Append(byte[] messageData)
 		{
-			return this.Append(System.Text.Encoding.ASCII.GetString(messageData,0,messageData.Length));
+			return this.Append(System.Text.Encoding.UTF8.GetString(messageData,0,messageData.Length));
 		}
 
         private delegate string DelegateAppendByte(byte[] messageData);
@@ -1278,7 +1278,7 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Mailbox.Append"/></example>
         public string Append(byte[] messageData, IFlagCollection flags)
 		{
-			return this.Append(System.Text.Encoding.ASCII.GetString(messageData,0,messageData.Length),flags);
+			return this.Append(System.Text.Encoding.UTF8.GetString(messageData,0,messageData.Length),flags);
 		}
 
         private delegate string DelegateAppendByteFlags(byte[] messageData, IFlagCollection flags);
@@ -1299,7 +1299,7 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Mailbox.Append"/></example>
         public string Append(byte[] messageData, IFlagCollection flags, DateTime dateTime)
 		{
-			return this.Append(System.Text.Encoding.ASCII.GetString(messageData,0,messageData.Length),flags,dateTime);
+			return this.Append(System.Text.Encoding.UTF8.GetString(messageData,0,messageData.Length),flags,dateTime);
 		}
 
         private delegate string DelegateAppendByteFlagsDateTime(byte[] messageData, IFlagCollection flags, DateTime dateTime);
