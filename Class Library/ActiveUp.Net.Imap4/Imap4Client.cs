@@ -1109,7 +1109,7 @@ namespace ActiveUp.Net.Mail
             if (command.Length < 200) this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
             else this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
             this.OnTcpReading();
-            System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream(), true);
+            System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream());
             System.Text.StringBuilder buffer = new System.Text.StringBuilder();
 
             var commandAsUpper = command.ToUpper();
@@ -1146,7 +1146,7 @@ namespace ActiveUp.Net.Mail
                     }
                 }
             }
-            var bufferString = sr.ToString();
+            var bufferString = buffer.ToString();
 
             if (!sr.CurrentEncoding.Equals(Encoding.UTF8))
             {
@@ -1154,14 +1154,14 @@ namespace ActiveUp.Net.Mail
                 bufferString = Encoding.UTF8.GetString(utf8Bytes);
             }
                 
-            if (buffer.Length < 200) 
-                this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(buffer.ToString()));
+            if (buffer.Length < 200)
+                this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(bufferString));
             else 
                 this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
             if (lastline.StartsWith(stamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ "))
-                return buffer.ToString();
+                return bufferString;
             else
-                throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed : " + buffer.ToString());
+                throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed : " + bufferString);
         }
         public IAsyncResult BeginCommand(string command, string stamp, AsyncCallback callback, CommandOptions options = null)
         {

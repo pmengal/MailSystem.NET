@@ -279,8 +279,10 @@ namespace ActiveUp.Net.Mail
             // Otherwise, this is an unencoded part body and we keep the text version as it is.
             else
             {
+                var encoding = Encoding.GetEncoding(charset);
                 // Knowing the charset, we can provide a binary version of this body data.
-                part.BinaryContent = Encoding.GetEncoding(charset).GetBytes(part.TextContent);
+                part.BinaryContent = encoding.GetBytes(part.TextContent);
+                part.TextContent = encoding.GetString(part.BinaryContent);
             }
         }
 
