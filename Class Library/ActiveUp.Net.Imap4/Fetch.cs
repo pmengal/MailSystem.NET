@@ -659,12 +659,21 @@ namespace ActiveUp.Net.Mail
 
 		public string UidHeaderString(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-			this.ParentMailbox.SourceClient.OnHeaderRetrieving(new ActiveUp.Net.Mail.HeaderRetrievingEventArgs(uid));
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header", getFetchOptions());
-			string header = response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
-			this.ParentMailbox.SourceClient.OnHeaderRetrieved(new ActiveUp.Net.Mail.HeaderRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(header),uid));
-			return header;
+            var response = String.Empty;
+
+            try
+            {
+                this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+                this.ParentMailbox.SourceClient.OnHeaderRetrieving(new ActiveUp.Net.Mail.HeaderRetrievingEventArgs(uid));
+                response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header", getFetchOptions());
+                string header = response.Substring(response.IndexOf("}") + 3, response.LastIndexOf(")") - response.IndexOf("}") - 3);
+                this.ParentMailbox.SourceClient.OnHeaderRetrieved(new ActiveUp.Net.Mail.HeaderRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(header), uid));
+                return header;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving header. Response: " + response, ex);
+            }
 		}
 
         private delegate string DelegateUidHeaderString(int uid);
