@@ -1,4 +1,4 @@
-// Copyright 2001-2010 - Active Up SPRLU (http://www.agilecomponents.com)
+﻿// Copyright 2001-2010 - Active Up SPRLU (http://www.agilecomponents.com)
 //
 // This file is part of MailSystem.NET.
 // MailSystem.NET is free software; you can redistribute it and/or modify
@@ -19,6 +19,8 @@ using System;
 
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 namespace ActiveUp.Net.Mail
 {
 	/// <summary>
@@ -26,6 +28,16 @@ namespace ActiveUp.Net.Mail
 	/// </summary>
 	public abstract class Codec
 	{
+		/// <summary>
+		/// Detect whitespace between encoded words as stated by RFC2047
+		/// </summary>
+        private static Regex whiteSpace = new Regex(@"(\?=)(\s*)(=\?)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        
+        /// <summary>
+        /// Detect encoded words as stated by RFC2047
+        /// </summary>
+		private static Regex encodedWord = new Regex(@"(=\?)(?<charset>[^(\?)]*)(\?)(?<encoding>[BbQq])(\?)(?<message>[^(\?)]*)(\?=)", RegexOptions.CultureInvariant);
+		
 		public static string GetUniqueString()
 		{
 			return System.Diagnostics.Process.GetCurrentProcess().Id.ToString()+System.DateTime.Now.ToString("yyMMddhhmmss")+System.DateTime.Now.Millisecond.ToString()+(new Random().GetHashCode());
@@ -160,6 +172,7 @@ namespace ActiveUp.Net.Mail
 
             return encoding;
         }
+
 		/// <summary>
 		/// Decodes the given string from the format specified in RFC 2047 (=?charset?value?=).
 		/// </summary>
@@ -176,33 +189,33 @@ namespace ActiveUp.Net.Mail
 		///
 		/// output returns I once wrote that ActiveMail rocks ! Here are some weird characters =ç.
 		/// </example>
-		public static string RFC2047Decode(string input)
-		{
-			input = input.Replace("=?=","²rep?=");
-			string decoded = input;
-			if(input.IndexOf("=?")!=-1 && input.IndexOf("?=")!=-1)
-			{
-				string[] encodeds = System.Text.RegularExpressions.Regex.Split(input,System.Text.RegularExpressions.Regex.Escape("=?"));
-				for(int i=1;i<encodeds.Length;i++)
-				{
-					string encoded = encodeds[i].Substring(0,encodeds[i].LastIndexOf("?="));
-					string[] parts = encoded.Split('?');
-                    if (parts[1].ToUpper() == "Q")
+        public static string RFC2047Decode(string input)
+        {
+            // Remove whitespaces
+            input = whiteSpace.Replace(
+                input,
+                delegate(Match a)
+                {
+                    return "?==?";
+                });
+
+            // Decode encoded words
+            return encodedWord.Replace(
+                input,
+                delegate(Match curRes)
+                {
+                    if (curRes.Groups["encoding"].Value.Equals("B", StringComparison.OrdinalIgnoreCase))
                     {
-                        byte[] data = System.Text.Encoding.ASCII.GetBytes(parts[2].Replace("²rep", "="));
-                        decoded = decoded.Replace("=?" + encoded + "?=", Codec.FromQuotedPrintable(GetEncoding(parts[0]).GetString(data,0,data.Length), parts[0]));
+                        return GetEncoding(curRes.Groups["charset"].Value).GetString(Convert.FromBase64String(curRes.Groups["message"].Value));
                     }
                     else
                     {
-                        byte[] data = System.Convert.FromBase64String(parts[2].Replace("²rep", "="));
-                        decoded = decoded.Replace("=?" + encoded + "?=", GetEncoding(parts[0]).GetString(data,0,data.Length));
+                        string tmpbuffer = curRes.Groups["message"].Value.Replace("_", " ");
+                        return Codec.FromQuotedPrintable(tmpbuffer, curRes.Groups["charset"].Value);
                     }
-				}
-				decoded = decoded.Replace("_"," ");
-			}
-			else decoded = input;
-			return decoded;
-		}
+                });
+        }
+		
 		/// <summary>
 		/// Decodes text from quoted-printable format defined in RFC 2045 and RFC 2046.
 		/// </summary>
