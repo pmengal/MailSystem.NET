@@ -717,19 +717,19 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
         public string ConnectSsl(string host)
         {
-            return this.ConnectSsl(host, 465, new ActiveUp.Net.Security.SslHandShake(host));
+            return this.ConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host));
         }
         public IAsyncResult BeginConnectSsl(string host, AsyncCallback callback)
         {
-            return this.BeginConnectSsl(host, 465, new ActiveUp.Net.Security.SslHandShake(host), callback);
+			return this.BeginConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host), callback);
         }
         public string ConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake)
         {
-            return this.ConnectSsl(host, 465, sslHandShake);
+			return this.ConnectSsl(host, 993, sslHandShake);
         }
         public IAsyncResult BeginConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
         {
-            return this.BeginConnectSsl(host, 465, sslHandShake, callback);
+			return this.BeginConnectSsl(host, 993, sslHandShake, callback);
         }
         public string ConnectSsl(string host, int port)
         {
