@@ -221,7 +221,7 @@ namespace ActiveUp.MailSystem.DesktopClient
                             panelScreen2.Visible = false;
 
                             DelegateTryConnectAsynch delegateTryConnect = TryConnect;
-                            delegateTryConnect.BeginInvoke(null, null);
+                            this.BeginInvoke((Delegate)delegateTryConnect, null);
 
                             panelScreen3.Visible = true;
 
@@ -268,7 +268,7 @@ namespace ActiveUp.MailSystem.DesktopClient
                     Pop3Controller pop3Controller = new Pop3Controller(this._accInfo);
                     pop3Controller.Disconnect();
                 }
-                else if (this._accInfo.MailAccountType == AccountType.POP3)
+                else if (this._accInfo.MailAccountType == AccountType.IMAP)
                 {
                     Imap4Controller imap4Controller = new Imap4Controller(this._accInfo);
                     imap4Controller.Disconnect();
