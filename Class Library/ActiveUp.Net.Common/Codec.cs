@@ -149,12 +149,7 @@ namespace ActiveUp.Net.Mail
             {
                 encoding = System.Text.Encoding.GetEncoding(encodingName);
             }
-            catch
-            {
-                encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
-            }
-            if (encoding == null)
-            {
+            catch {
                 try
                 {
                     if (encodingName == "UTF8")
