@@ -608,7 +608,7 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-				return this._username;
+				return this._password;
 			}
 		}
 		/// <summary>
