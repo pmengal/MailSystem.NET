@@ -162,8 +162,8 @@ namespace ActiveUp.Net.Security.OpenPGP.Packets
                         if ((spacket.Value[0] & (byte)Reason.KeyCompromised) == (int)Reason.KeyCompromised) sig.ReasonForRevocation.Reason = Reason.KeyCompromised;
                         else if ((spacket.Value[0] & (byte)Reason.KeyRetired) == (int)Reason.KeyRetired) sig.ReasonForRevocation.Reason = Reason.KeyRetired;
                         else if ((spacket.Value[0] & (byte)Reason.KeySuperceded) == (int)Reason.KeySuperceded) sig.ReasonForRevocation.Reason = Reason.KeySuperceded;
-                        else if ((spacket.Value[0] & (byte)Reason.NoneSpecified) == (int)Reason.NoneSpecified) sig.ReasonForRevocation.Reason = Reason.NoneSpecified;
                         else if ((spacket.Value[0] & (byte)Reason.UserIDNoLongerValid) == (int)Reason.UserIDNoLongerValid) sig.ReasonForRevocation.Reason = Reason.UserIDNoLongerValid;
+                        else if (spacket.Value[0] == 0) sig.ReasonForRevocation.Reason = Reason.NoneSpecified;
                         byte[] comment = new byte[spacket.Value.Length - 1];
                         Array.Copy(spacket.Value, 1, comment, 0, comment.Length);
                         sig.ReasonForRevocation.Comment = Encoding.UTF8.GetString(comment,0,comment.Length);
