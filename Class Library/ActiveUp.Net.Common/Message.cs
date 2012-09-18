@@ -1109,7 +1109,7 @@ namespace ActiveUp.Net.Mail
             string ressource = string.Empty;
             
             if (signaturesFilePath == null || signaturesFilePath == string.Empty)
-                ressource = Header.GetResource("ActiveUp.Net.Mail.bouncedSignatures.xml");
+                ressource = Header.GetResource("ActiveUp.Net.Common.bouncedSignatures.xml");
             else
                 ressource = System.IO.File.OpenText(signaturesFilePath).ReadToEnd();
 
