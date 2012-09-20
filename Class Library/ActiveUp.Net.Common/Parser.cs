@@ -203,6 +203,12 @@ namespace ActiveUp.Net.Mail
                         message.BodyHtml.Charset = part.Charset;
                         message.BodyHtml.Text = part.TextContent;
                     }
+                    else if (part.ContentType.SubType.Equals("xml"))
+                    {
+                        //Recupera anexos que nao estejam marcados com 'Content-Disposition' e 'attachment'. Alguns anexos com mimetype xml podem ter essa caracteristica.
+                        //Recovers attachments that are not marked with 'Content-Disposition' 'attachment'. Some attachments with xml mime-type may have this feature.
+                        message.Attachments.Add(part);
+                    }
                 }
 
                 // Parse message/rfc822 parts as Message objects and place them in the appropriate collection.
