@@ -1310,8 +1310,10 @@ namespace ActiveUp.Net.Mail
                         str = sr.ReadLine();
                         if (str != ".")
                         {
-                            if (str != "..") sb.Append(str + "\r\n");
-                            else sb.Append("." + "\r\n");
+                            if (str.StartsWith(@".."))
+                                sb.Append(str.Substring(1) + "\r\n");
+                            else
+                                sb.Append(str + "\r\n");
                         }
                         else break;
                     }
