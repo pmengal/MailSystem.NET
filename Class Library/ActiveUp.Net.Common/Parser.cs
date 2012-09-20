@@ -101,7 +101,7 @@ namespace ActiveUp.Net.Mail
         {
             ContentType field = new ContentType();
             field.MimeType = Regex.Match(input, @"(?<=: ?)\S+?(?=([;\s]|\Z))").Value;
-            Match parammatch = Regex.Match(input, @"(?<=;\s+)[^;\s]*=[^;]*(?=(;|\Z))");
+            Match parammatch = Regex.Match(input, @"(?<=;\s*)[^;\s?]*=[^;]*(?=(;|\Z))");
             while (parammatch.Success)
             {
                 field.Parameters.Add(FormatFieldName(parammatch.Value.Substring(0, parammatch.Value.IndexOf('='))).ToLower(), parammatch.Value.Substring(parammatch.Value.IndexOf('=') + 1).Replace("\"", "").Trim('\r', '\n'));
