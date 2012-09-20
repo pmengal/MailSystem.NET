@@ -152,7 +152,7 @@ namespace ActiveUp.Net.Mail
             catch {
                 try
                 {
-                    if (encodingName == "UTF8")
+                    if (encodingName.ToUpper() == "UTF8")
                         encodingName = "UTF-8";
                     else if (encodingName.StartsWith("ISO") && char.IsDigit(encodingName, 3))
                         encodingName = encodingName.Insert(3, "-");
