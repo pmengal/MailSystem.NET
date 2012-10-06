@@ -41,7 +41,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class Merger
 	{
-		private System.Boolean _RemoveUnusedTags;
+		private System.Boolean _removeUnusedTags;
 		private ActiveUp.Net.Mail.Logger _logger;
 		private ConditionalCollection _conditions;
 		private RegionCollection _regions;
@@ -229,10 +229,10 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The merged the message.</returns>
 		public Message MergeMessage()
 		{
-			if (_RemoveUnusedTags) 
+			if (_removeUnusedTags) 
 				_message.BodyText.Text = CleanUnusedTags(_message.BodyText.Text);
 			_message.BodyText.Text = ProcessIDs(_message.BodyText.Text, null, false);
-			if (_RemoveUnusedTags) 
+			if (_removeUnusedTags) 
 				_message.BodyHtml.Text = CleanUnusedTags(_message.BodyHtml.Text);
 			_message.BodyHtml.Text = ProcessIDs(_message.BodyHtml.Text, null, false);
 
@@ -281,12 +281,12 @@ namespace ActiveUp.Net.Mail
 
             message.BodyText.Text = ProcessIDs(Message.BodyText.Text, item, false);
             message.BodyText.Text = this.MergeText(message.BodyText.Text, item);
-			if (_RemoveUnusedTags) 
+			if (_removeUnusedTags) 
 				message.BodyText.Text = CleanUnusedTags(Message.BodyText.Text);
 			//message.BodyText.Text = Regex.Replace(Message.BodyText.Text,@"\$(.*?)\$",string.Empty);
             message.BodyHtml.Text = ProcessIDs(Message.BodyHtml.Text, item, false);
             message.BodyHtml.Text = this.MergeText(message.BodyHtml.Text, item);
-			if (_RemoveUnusedTags) 
+			if (_removeUnusedTags) 
 				message.BodyHtml.Text = CleanUnusedTags(Message.BodyHtml.Text);
 			//message.BodyHtml.Text = Regex.Replace(Message.BodyHtml.Text,@"\$(.*?)\$",string.Empty);
 
@@ -300,11 +300,11 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-				return this._RemoveUnusedTags;
+				return this._removeUnusedTags;
 			}
 			set
 			{
-				this._RemoveUnusedTags = value;
+				this._removeUnusedTags = value;
 			}
 		}
 		/// <summary>
@@ -486,11 +486,11 @@ namespace ActiveUp.Net.Mail
 			}
 				
 			message.BodyText.Text = this.MergeText(message.BodyText.Text, dataSource, repeat);
-			if (_RemoveUnusedTags) 
+			if (_removeUnusedTags) 
 				message.BodyText.Text = CleanUnusedTags(Message.BodyText.Text);
 			message.BodyText.Text = ProcessIDs(Message.BodyText.Text, dataSource, repeat);
 			message.BodyHtml.Text = this.MergeText(message.BodyHtml.Text, dataSource, repeat);
-			if (_RemoveUnusedTags) 
+			if (_removeUnusedTags) 
 				message.BodyHtml.Text = CleanUnusedTags(Message.BodyHtml.Text);
 			message.BodyHtml.Text = ProcessIDs(Message.BodyHtml.Text, dataSource, repeat);
 
