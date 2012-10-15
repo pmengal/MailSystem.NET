@@ -25,14 +25,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class AttachmentCollection : MimePartCollection
 	{
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public AttachmentCollection()
-		{
-
-		}
-		/// <summary>
+	    /// <summary>
 		/// Add a MimePart to the attachment collection.
 		/// </summary>
 		/// <param name="part"></param>

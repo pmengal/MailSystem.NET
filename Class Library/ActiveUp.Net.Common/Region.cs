@@ -17,6 +17,7 @@
 
 using System;
 using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace ActiveUp.Net.Mail
@@ -134,18 +135,16 @@ namespace ActiveUp.Net.Mail
 				if (filename.ToUpper().StartsWith("HTTP://") || filename.ToUpper().StartsWith("HTTPS://"))
 				{
 					System.IO.Stream stream;
-					System.Net.WebRequest webRequest;
-					System.Net.WebResponse webResponse;
+				    System.Net.WebResponse webResponse;
 
-					webRequest = System.Net.WebRequest.Create(filename);
+					WebRequest webRequest = System.Net.WebRequest.Create(filename);
 					try 
 					{
 						webResponse = webRequest.GetResponse();
 						stream = webResponse.GetResponseStream();
 						content = new StreamReader(stream).ReadToEnd();
 						System.Text.RegularExpressions.Regex rx = new System.Text.RegularExpressions.Regex(@"<body.*?>(.*?)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline);
-						System.Text.RegularExpressions.MatchCollection mc;
-						mc = rx.Matches(content);
+					    MatchCollection mc = rx.Matches(content);
 						if (mc.Count > 0)
 							{
 								foreach (System.Text.RegularExpressions.Match m in mc)

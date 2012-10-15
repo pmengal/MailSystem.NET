@@ -38,15 +38,8 @@ namespace ActiveUp.Net.Mail
     public class Validator
 	{
 		ActiveUp.Net.Mail.ServerCollection _dnsServers = new ActiveUp.Net.Mail.ServerCollection();
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		public Validator()
-		{
-			 
-		}
-		
-		/// <summary>
+
+	    /// <summary>
 		/// Validates the address' syntax.
 		/// </summary>
 		/// <param name="address">The address to be validated.</param>

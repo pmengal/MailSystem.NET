@@ -26,15 +26,7 @@ namespace ActiveUp.Net.Mail
     //[Obsolete("Please use ActiveUp.Net.Dns.MXRecord instead")]
 	public class MxRecordCollection : System.Collections.CollectionBase
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public MxRecordCollection()
-		{
-			//
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Add a MxRecord object in the collection.
 		/// </summary>
 		/// <param name="mxRecord">The MxRecord object.</param>

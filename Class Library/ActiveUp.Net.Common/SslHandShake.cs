@@ -67,7 +67,7 @@ namespace ActiveUp.Net.Security
         private System.Net.Security.LocalCertificateSelectionCallback _clientCallback;
         private System.Net.Security.RemoteCertificateValidationCallback _serverCallback;
         private System.Security.Cryptography.X509Certificates.X509CertificateCollection _clientCertificates;
-        private bool _checkRevocation = false;
+        private bool _checkRevocation;
 
         #endregion
 

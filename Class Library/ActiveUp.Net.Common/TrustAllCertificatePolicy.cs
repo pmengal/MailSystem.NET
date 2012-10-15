@@ -25,7 +25,6 @@ namespace ActiveUp.Net.Security
 {
     public class TrustAllCertificatePolicy : System.Net.ICertificatePolicy
     {
-        public TrustAllCertificatePolicy() { }
         public bool CheckValidationResult(ServicePoint sp,
             X509Certificate cert,
             WebRequest req,

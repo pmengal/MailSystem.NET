@@ -27,17 +27,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class BodyTemplateCollection : System.Collections.CollectionBase
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public BodyTemplateCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Add a templated body in the collection.
 		/// </summary>
 		public void Add(BodyTemplate bodyTemplate)

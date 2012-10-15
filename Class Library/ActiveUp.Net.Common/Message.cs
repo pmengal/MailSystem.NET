@@ -464,7 +464,7 @@ namespace ActiveUp.Net.Mail
 
         private string GetEncodedMimePart(MimePart part)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            var sb = new System.Text.StringBuilder();
             try
             {
                 sb.Append(part.ToMimeString());
@@ -1105,10 +1105,7 @@ namespace ActiveUp.Net.Mail
         {
             string ressource = string.Empty;
             
-            if (signaturesFilePath == null || signaturesFilePath == string.Empty)
-                ressource = Header.GetResource("ActiveUp.Net.Common.bouncedSignatures.xml");
-            else
-                ressource = System.IO.File.OpenText(signaturesFilePath).ReadToEnd();
+            ressource = string.IsNullOrEmpty(signaturesFilePath) ? Header.GetResource("ActiveUp.Net.Common.bouncedSignatures.xml") : System.IO.File.OpenText(signaturesFilePath).ReadToEnd();
 
             System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
             doc.LoadXml(ressource);

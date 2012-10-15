@@ -73,8 +73,6 @@ namespace ActiveUp.Net.Mail
                 byte[] body = GetEncoding(fromCharset).GetBytes(input);
                 int index = 0, wrap = 0, check = 0;
 
-                byte decim = 0;
-
                 for (index = 0; index < body.Length; index++)
                 {
                     if (wrap == 0 && index + 73 - check < body.Length)
@@ -90,7 +88,7 @@ namespace ActiveUp.Net.Mail
                         check = 0;
                     }
 
-                    decim = body[index];
+                    byte decim = body[index];
                     if ((decim < 33 || decim == 61 || decim > 126) && decim != 32)
                         sb.Append("=" + decim.ToString("X").PadLeft(2, '0'));
                     else

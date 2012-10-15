@@ -26,13 +26,6 @@ namespace ActiveUp.Net.Mail
     public class EmbeddedObjectCollection : MimePartCollection
     {
         /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public EmbeddedObjectCollection()
-        {
-
-        }
-        /// <summary>
         /// Add a MimePart to the embedded objects collection.
         /// </summary>
         /// <param name="part"></param>

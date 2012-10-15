@@ -36,8 +36,8 @@ namespace ActiveUp.Net.Mail
 	{
 		private static string _logFile = string.Empty;
 		private static ArrayList _logEntries = new ArrayList();
-		private static bool _logInMemory = false, _disabled = false, _useTraceContext = false, _useTraceConsole = false;
-		private static int _logLevel = 0;
+		private static bool _logInMemory, _disabled, _useTraceContext, _useTraceConsole;
+		private static int _logLevel;
 		private static bool _isChecked = false;
 				
 		/// <summary>
@@ -162,7 +162,7 @@ namespace ActiveUp.Net.Mail
 				logString.Append(" ");
 				logString.Append(line);
 
-				if (_logFile != null && _logFile.Length > 0)
+				if (!string.IsNullOrEmpty(_logFile))
 					AddEntryToFile(logString.ToString());
 
 #if !PocketPC

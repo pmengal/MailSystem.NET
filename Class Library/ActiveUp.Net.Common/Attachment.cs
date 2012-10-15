@@ -29,14 +29,7 @@ namespace ActiveUp.Net.Mail
 	{
 		bool _isLoaded = false;
 		string _originalPath;
-		/// <summary>
-		/// Default constructor.
-		/// </summary>
-		public Attachment()
-		{
-
-		}
-		/*/// <summary>
+	    /*/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="filePath">Path of the file to be treated as an attachment.</param>

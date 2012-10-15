@@ -27,17 +27,7 @@ namespace ActiveUp.Net.Mail
     #endif
 	public class RegionCollection : System.Collections.CollectionBase
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public RegionCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Add an Region object in the collection.
 		/// </summary>
 		/// <param name="region">The Region.</param>

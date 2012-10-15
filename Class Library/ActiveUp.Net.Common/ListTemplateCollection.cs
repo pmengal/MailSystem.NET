@@ -27,17 +27,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class ListTemplateCollection : System.Collections.CollectionBase
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public ListTemplateCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Add a templated list in the collection.
 		/// </summary>
 		public void Add(ListTemplate listTemplate)

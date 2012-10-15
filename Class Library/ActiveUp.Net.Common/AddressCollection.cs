@@ -28,15 +28,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class AddressCollection : List<Address>
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public AddressCollection()
-		{
-			//
-		}
-		
-		/// <summary>
+	    /// <summary>
 		/// Allows the developer to add a collection of Address objects in another one.
 		/// </summary>
 		/// <param name="first">The first collection.</param>

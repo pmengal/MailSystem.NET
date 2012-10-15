@@ -43,8 +43,7 @@ namespace ActiveUp.Net.Security
         }
         public static Signature Parse(string input, Message signedMessage)
         {
-            Signature signature;
-            signature = signedMessage != null ? new Signature(signedMessage) : new Signature();
+            Signature signature = signedMessage != null ? new Signature(signedMessage) : new Signature();
 
             MatchCollection matches = Regex.Matches(input, @"[a-zA-Z]+=[^;]+(?=(;|\Z))");
             ActiveUp.Net.Mail.Logger.AddEntry(matches.Count.ToString());

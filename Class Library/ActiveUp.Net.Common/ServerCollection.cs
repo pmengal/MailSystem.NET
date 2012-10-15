@@ -27,15 +27,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class ServerCollection : System.Collections.CollectionBase
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public ServerCollection()
-		{
-
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Allows the developer to add a collection of Server objects in another one.
 		/// </summary>
 		/// <param name="first">The first collection.</param>

@@ -27,11 +27,6 @@ namespace ActiveUp.Net.Mail
 #endif
     public class ContentType : StructuredHeaderField
     {
-        public ContentType()
-        {
-
-        }
-
         string _mimeType = "text/plain";
 
         public string Type

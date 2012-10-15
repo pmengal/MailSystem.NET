@@ -36,17 +36,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class ConditionalCollection : System.Collections.CollectionBase
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public ConditionalCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Add an Condition object in the collection.
 		/// </summary>
 		/// <param name="condition">The Condition.</param>
@@ -175,14 +165,7 @@ namespace ActiveUp.Net.Mail
 		{
 			foreach (Condition condition in List)
 			{
-				if (condition.Operator == OperatorType.NotExists) 
-				{
-					condition.Match = true;
-				}
-				else 
-				{
-					condition.Match = false;
-				}
+				condition.Match = condition.Operator == OperatorType.NotExists;
 			}
 		}
 		/// <summary>

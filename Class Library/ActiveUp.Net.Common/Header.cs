@@ -96,17 +96,10 @@ namespace ActiveUp.Net.Mail
         /// <returns>A BounceStatus object containing the level of revelance and if 100% identified, the erroneous email address.</returns>
         public BounceResult GetBounceStatus(string signaturesFilePath)
         {
-            string ressource = string.Empty;
-            
-            if (signaturesFilePath == null || signaturesFilePath == string.Empty)
-            {
-                ressource = Header.GetResource("ActiveUp.Net.Common.bouncedSignatures.xml");
-            }
-            else
-                ressource = System.IO.File.OpenText(signaturesFilePath).ReadToEnd();
-            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+            string ressource = string.IsNullOrEmpty(signaturesFilePath) ? Header.GetResource("ActiveUp.Net.Common.bouncedSignatures.xml") : System.IO.File.OpenText(signaturesFilePath).ReadToEnd();
+            var doc = new System.Xml.XmlDocument();
             doc.LoadXml(ressource);
-            BounceResult result = new BounceResult();
+            var result = new BounceResult();
 
             foreach (System.Xml.XmlElement el in doc.GetElementsByTagName("signature"))
             {
@@ -123,7 +116,7 @@ namespace ActiveUp.Net.Mail
         public static string GetResource(string resource)
         {
             System.IO.Stream stm = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
-            System.IO.StreamReader reader = new System.IO.StreamReader(stm);
+            var reader = new System.IO.StreamReader(stm);
             string str = reader.ReadToEnd();
             reader.Close();
             stm.Close();
@@ -165,7 +158,7 @@ namespace ActiveUp.Net.Mail
 
             if (this.Date.Equals(DateTime.MinValue)) this.Date = DateTime.Now;
             
-            if (this.MessageId == null || this.MessageId == string.Empty)
+            if (string.IsNullOrEmpty(this.MessageId))
                 this.MessageId = "<AU" + Codec.GetUniqueString() + "@" + System.Net.Dns.GetHostName() + ">";
 
             if (this.ContentType.MimeType.Length > 0)
@@ -1036,8 +1029,10 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                UsenetXrefList xref = new UsenetXrefList();
-                xref.Host = this.HeaderFields["xref"].Split(' ')[0];
+                UsenetXrefList xref = new UsenetXrefList
+                                          {
+                                              Host = this.HeaderFields["xref"].Split(' ')[0]
+                                          };
                 string[] splitted = this.HeaderFields["xref"].Split(' ');
                 for (int i = 1; i < splitted.Length; i++) if (splitted[i].IndexOf(":") != -1) xref.Groups.Add(splitted[i].Split(':')[0], splitted[i].Split(':')[1]);
                 return xref;

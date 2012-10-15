@@ -27,17 +27,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class FieldFormatCollection : System.Collections.CollectionBase
 	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public FieldFormatCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Add an FieldFormat object in the collection.
 		/// </summary>
 		/// <param name="fieldFormat">The FieldFormat.</param>

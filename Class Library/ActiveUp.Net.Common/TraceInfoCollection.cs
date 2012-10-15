@@ -24,11 +24,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class TraceInfoCollection : System.Collections.CollectionBase
 	{
-		public TraceInfoCollection()
-		{
-
-		}
-		public void Add(TraceInfo traceInfo)
+	    public void Add(TraceInfo traceInfo)
 		{
 			this.InnerList.Add(traceInfo);
 		}

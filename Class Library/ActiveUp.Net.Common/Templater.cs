@@ -20,6 +20,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.Net;
 using System.Text;
 #if !PocketPC
 using System.Web.UI;
@@ -601,14 +602,10 @@ namespace ActiveUp.Net.Mail
 			
 			if (filename.ToUpper().StartsWith("HTTP://") || filename.ToUpper().StartsWith("HTTPS://"))
 			{
-				System.IO.Stream stream;
-				System.Net.WebRequest webRequest;
-				System.Net.WebResponse webResponse;
+			    WebRequest webRequest = System.Net.WebRequest.Create(filename);
+				WebResponse webResponse = webRequest.GetResponse();
 
-				webRequest = System.Net.WebRequest.Create(filename);
-				webResponse = webRequest.GetResponse();
-
-				stream = webResponse.GetResponseStream();
+				Stream stream = webResponse.GetResponseStream();
 				content = new StreamReader(stream).ReadToEnd();
 			}
 			else

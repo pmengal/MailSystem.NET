@@ -27,7 +27,7 @@ namespace ActiveUp.Net.Mail
 #endif
 	public class BounceResult
 	{
-		private int _level = 0;
+		private int _level;
 		private string _email = string.Empty;
 
 
