@@ -297,9 +297,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static CtchResponse ParseFromString(string response)
         {
-            CtchResponse ctchResponse = new CtchResponse();
-
-            ctchResponse.FullResponse = response;
+            CtchResponse ctchResponse = new CtchResponse {FullResponse = response};
 
             try
             {

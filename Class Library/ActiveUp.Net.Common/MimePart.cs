@@ -501,7 +501,7 @@ namespace ActiveUp.Net.Mail
                     
                     if (this.ContentType.MimeType.ToLower().IndexOf("text/") != -1)
                     {
-                        return Codec.ToQuotedPrintable(this.TextContent, (this.Charset != null) ? this.Charset : "us-ascii");
+                        return Codec.ToQuotedPrintable(this.TextContent, this.Charset ?? "us-ascii");
                     }
                     else if (this.ContentType.MimeType.ToLower().IndexOf("message/") != -1 ||
                         this.ContentType.MimeType.ToLower().IndexOf("image/") != -1 ||
@@ -570,8 +570,7 @@ namespace ActiveUp.Net.Mail
 			get
 			{
                 string result = string.Empty;
-                if (this.ContentType.Parameters["charset"] != null) result = this.ContentType.Parameters["charset"];
-                else result = null;
+                result = this.ContentType.Parameters["charset"] ?? null;
                 //PocketPC may or may not support iso-8859 depending on their region. Hence we take codePage 1252 as standard which is
                 //superset of iso-8859
 #if PocketPC

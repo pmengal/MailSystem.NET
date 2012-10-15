@@ -44,8 +44,7 @@ namespace ActiveUp.Net.Security
         public static Signature Parse(string input, Message signedMessage)
         {
             Signature signature;
-            if (signedMessage != null) signature = new Signature(signedMessage);
-            else signature = new Signature();
+            signature = signedMessage != null ? new Signature(signedMessage) : new Signature();
 
             MatchCollection matches = Regex.Matches(input, @"[a-zA-Z]+=[^;]+(?=(;|\Z))");
             ActiveUp.Net.Mail.Logger.AddEntry(matches.Count.ToString());
@@ -81,8 +80,7 @@ namespace ActiveUp.Net.Security
                 else if (tag.Equals("s")) signature._s = value;
                 else if (tag.Equals("q"))
                 {
-                    if (value.Equals("dns")) signature._q = QueryMethod.Dns;
-                    else signature._q = QueryMethod.Other;
+                    signature._q = value.Equals("dns") ? QueryMethod.Dns : QueryMethod.Other;
                 }
                 else if (tag.Equals("h")) signature._h = value.Split(':');
             }

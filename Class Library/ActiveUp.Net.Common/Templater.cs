@@ -53,13 +53,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.Logger Logger
 		{
-			get
-			{
-				if (_logger == null)
-					_logger = new ActiveUp.Net.Mail.Logger();
-				return _logger;
-			}
-			set
+			get { return _logger ?? (_logger = new ActiveUp.Net.Mail.Logger()); }
+		    set
 			{
 				_logger = value;
 			}
@@ -70,13 +65,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.Message Message
 		{
-			get
-			{
-				if (_message == null)
-					_message = new ActiveUp.Net.Mail.Message();
-				return _message;
-			}
-			set
+			get { return _message ?? (_message = new ActiveUp.Net.Mail.Message()); }
+		    set
 			{
 				_message = value;
 			}
@@ -334,23 +324,17 @@ namespace ActiveUp.Net.Mail
 
 								if (reader.GetAttribute("PADDINGDIR") != null && reader.GetAttribute("PADDINGDIR") != string.Empty)
 								{
-									if (reader.GetAttribute("PADDINGDIR").ToUpper() == "LEFT")
-										fieldFormat.PaddingDir = PaddingDirection.Left;
-									else
-										fieldFormat.PaddingDir = PaddingDirection.Right;
-									ActiveUp.Net.Mail.Logger.AddEntry("Attribute PADDINGDIR: " + reader.GetAttribute("PADDINGDIR"), 0);
+								    fieldFormat.PaddingDir = reader.GetAttribute("PADDINGDIR").ToUpper() == "LEFT" ? PaddingDirection.Left : PaddingDirection.Right;
+								    ActiveUp.Net.Mail.Logger.AddEntry("Attribute PADDINGDIR: " + reader.GetAttribute("PADDINGDIR"), 0);
 								}
 
 								else if (reader.GetAttribute("paddingdir") != null && reader.GetAttribute("paddingdir") != string.Empty)
 								{
-									if (reader.GetAttribute("paddingdir").ToUpper() == "left")
-										fieldFormat.PaddingDir = PaddingDirection.Left;
-									else
-										fieldFormat.PaddingDir = PaddingDirection.Right;
-									ActiveUp.Net.Mail.Logger.AddEntry("Attribute paddingdir: " + reader.GetAttribute("paddingdir"), 0);
+								    fieldFormat.PaddingDir = reader.GetAttribute("paddingdir").ToUpper() == "left" ? PaddingDirection.Left : PaddingDirection.Right;
+								    ActiveUp.Net.Mail.Logger.AddEntry("Attribute paddingdir: " + reader.GetAttribute("paddingdir"), 0);
 								}
 
-								if (reader.GetAttribute("TOTALWIDTH") != null && reader.GetAttribute("TOTALWIDTH") != string.Empty)
+							    if (reader.GetAttribute("TOTALWIDTH") != null && reader.GetAttribute("TOTALWIDTH") != string.Empty)
 								{
 									try
 									{
@@ -652,14 +636,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public RegionCollection Regions
 		{
-			get
-			{
-				if (_regions == null)
-					_regions = new RegionCollection();
-
-				return _regions;
-			}
-			set
+			get { return _regions ?? (_regions = new RegionCollection()); }
+		    set
 			{
 				_regions = value;
 			}
@@ -670,14 +648,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ConditionalCollection Conditions
 		{
-			get
-			{
-				if (_conditions == null)
-					_conditions = new ConditionalCollection();
-
-				return _conditions;
-			}
-			set
+			get { return _conditions ?? (_conditions = new ConditionalCollection()); }
+		    set
 			{
 				_conditions = value;
 			}
@@ -688,14 +660,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public FieldFormatCollection FieldsFormats
 		{
-			get
-			{
-				if (_fieldsFormats == null)
-					_fieldsFormats = new FieldFormatCollection();
-
-				return _fieldsFormats;
-			}
-			set
+			get { return _fieldsFormats ?? (_fieldsFormats = new FieldFormatCollection()); }
+		    set
 			{
 				_fieldsFormats = value;
 			}
@@ -723,13 +689,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.ServerCollection SmtpServers
 		{
-			get
-			{
-				if (_smtpServers == null)
-					_smtpServers = new ActiveUp.Net.Mail.ServerCollection();
-				return _smtpServers;
-			}
-			set
+			get { return _smtpServers ?? (_smtpServers = new ActiveUp.Net.Mail.ServerCollection()); }
+		    set
 			{
 				_smtpServers = value;
 			}
@@ -740,13 +701,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.ListTemplateCollection ListTemplates
 		{
-			get
-			{
-				if (_listTemplates == null)
-					_listTemplates = new ActiveUp.Net.Mail.ListTemplateCollection();
-				return _listTemplates;
-			}
-			set
+			get { return _listTemplates ?? (_listTemplates = new ActiveUp.Net.Mail.ListTemplateCollection()); }
+		    set
 			{
 				_listTemplates = value;
 			}

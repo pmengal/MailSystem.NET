@@ -412,10 +412,7 @@ namespace ActiveUp.Net.Mail
             get
             {
                 string subject = string.Empty;
-                if (this.HeaderFields["subject"] != null)
-                    subject = Codec.RFC2047Decode(this.HeaderFields.GetValues("subject")[0]);
-                else
-                    subject = null;
+                subject = this.HeaderFields["subject"] != null ? Codec.RFC2047Decode(this.HeaderFields.GetValues("subject")[0]) : null;
 
 #if TRIAL
                 return ProductHelper.GetTrialString(subject, TrialStringType.ShortText);

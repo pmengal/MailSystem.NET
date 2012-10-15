@@ -72,13 +72,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public static ArrayList LogEntries
 		{
-			get
-			{
-				if (_logEntries == null)
-					_logEntries = new ArrayList();
-				return _logEntries;
-			}
-			set
+			get { return _logEntries ?? (_logEntries = new ArrayList()); }
+		    set
 			{
 				_logEntries = value;
 			}

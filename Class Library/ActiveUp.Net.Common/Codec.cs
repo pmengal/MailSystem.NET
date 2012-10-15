@@ -189,10 +189,7 @@ namespace ActiveUp.Net.Mail
             // Remove whitespaces
             input = whiteSpace.Replace(
                 input,
-                delegate(Match a)
-                {
-                    return "?==?";
-                });
+                a => "?==?");
 
             // Decode encoded words
             return encodedWord.Replace(

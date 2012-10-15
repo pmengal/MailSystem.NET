@@ -994,10 +994,7 @@ namespace ActiveUp.Net.Mail
         public string StoreToFile(string fileName, bool useTemp)
         {
             string tempPath = "";
-            if (useTemp)
-                tempPath = System.IO.Path.GetTempFileName();
-            else
-                tempPath = fileName;
+            tempPath = useTemp ? System.IO.Path.GetTempFileName() : fileName;
             System.IO.StreamWriter sw = System.IO.File.CreateText(tempPath);
             sw.Write(this.ToMimeString());
             sw.Close();

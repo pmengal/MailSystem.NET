@@ -247,19 +247,20 @@ namespace ActiveUp.Net.Mail
     /// <returns>A collection of Mx Records.</returns>
 	public static ActiveUp.Net.Mail.MxRecordCollection GetMxRecords(string address, string host, int port, int timeout)
 	{
-        MxRecordCollection mxRecords = new MxRecordCollection();
+        var mxRecords = new MxRecordCollection();
 
-        DnsQuery query = new DnsQuery(IPAddress.Parse(host));
+        var query = new DnsQuery(IPAddress.Parse(host))
+                        {
+                            RecursiveQuery = true,
+                            DnsServer = {Port = port},
+                            Domain = address
+                        };
 
-        query.RecursiveQuery = true;
-        query.DnsServer.Port = port;
-        query.Domain = address;
-  
         DnsAnswer answer = query.QueryServer(RecordType.MX, timeout);
 
-        foreach (DnsEntry entry in answer.Answers)
+        foreach (Answer entry in answer.Answers)
         {
-            MXRecord mxRecord = (MXRecord)entry.Data;
+            var mxRecord = (MXRecord)entry.Data;
 
             mxRecords.Add(mxRecord.Domain, mxRecord.Preference);
         }
@@ -337,11 +338,10 @@ namespace ActiveUp.Net.Mail
 		{
 			int currentPos = pos;
 			byte[] buffer = streamData;
-			byte labelLength;
-			bool pointerFound = false;
+		    bool pointerFound = false;
 			string temp = string.Empty, stringData = System.Text.Encoding.ASCII.GetString(streamData,0,streamData.Length);
 
-			labelLength = buffer[currentPos];
+			byte labelLength = buffer[currentPos];
 
 			while (labelLength != 0 && !pointerFound)
 			{
