@@ -240,7 +240,7 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                string pattern = @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b";
+                const string pattern = @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b";
 
                 if (this.Trace.Count > 0 && Regex.IsMatch(this.Trace[0].From, pattern))
                 {

@@ -31,16 +31,20 @@ namespace ActiveUp.Net.Mail
 		/// <summary>
 		/// Detect whitespace between encoded words as stated by RFC2047
 		/// </summary>
-        private static Regex whiteSpace = new Regex(@"(\?=)(\s*)(=\?)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        private static readonly Regex WhiteSpace = new Regex(@"(\?=)(\s*)(=\?)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
         
         /// <summary>
         /// Detect encoded words as stated by RFC2047
         /// </summary>
-		private static Regex encodedWord = new Regex(@"(=\?)(?<charset>[^(\?)]*)(\?)(?<encoding>[BbQq])(\?)(?<message>[^(\?)]*)(\?=)", RegexOptions.CultureInvariant);
+		private static readonly Regex EncodedWord = new Regex(@"(=\?)(?<charset>[^(\?)]*)(\?)(?<encoding>[BbQq])(\?)(?<message>[^(\?)]*)(\?=)", RegexOptions.CultureInvariant);
 		
+		/// <summary>
+		/// Generates a unique string from the running process and datetime stamp
+		/// </summary>
+		/// <returns></returns>
 		public static string GetUniqueString()
 		{
-			return System.Diagnostics.Process.GetCurrentProcess().Id.ToString()+System.DateTime.Now.ToString("yyMMddhhmmss")+System.DateTime.Now.Millisecond.ToString()+(new Random().GetHashCode());
+			return System.Diagnostics.Process.GetCurrentProcess().Id+DateTime.Now.ToString("yyMMddhhmmss")+DateTime.Now.Millisecond+(new Random().GetHashCode());
 		}
 		/// <summary>
 		/// Encodes the text in quoted-printable format conforming to the RFC 2045 and RFC 2046.
@@ -65,7 +69,7 @@ namespace ActiveUp.Net.Mail
 
 		{
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            var sb = new System.Text.StringBuilder();
 
             // Added this verification, there was an error here.
             if (input != null)
@@ -185,12 +189,12 @@ namespace ActiveUp.Net.Mail
         public static string RFC2047Decode(string input)
         {
             // Remove whitespaces
-            input = whiteSpace.Replace(
+            input = WhiteSpace.Replace(
                 input,
                 a => "?==?");
 
             // Decode encoded words
-            return encodedWord.Replace(
+            return EncodedWord.Replace(
                 input,
                 delegate(Match curRes)
                 {
@@ -366,7 +370,7 @@ namespace ActiveUp.Net.Mail
             {
                 inbytes[j] = (byte)radix64Alphabet.IndexOf(input[j]);
             }
-            List<Byte> outbytes = new List<Byte>();
+            var outbytes = new List<Byte>();
             for (int i = 0; i < length / 4; i++)
             {
                 outbytes.Add(((byte)((inbytes[i * 4] << 2) + (inbytes[i * 4 + 1] >> 4))));

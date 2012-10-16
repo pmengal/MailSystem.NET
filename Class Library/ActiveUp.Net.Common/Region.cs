@@ -143,7 +143,7 @@ namespace ActiveUp.Net.Mail
 						webResponse = webRequest.GetResponse();
 						stream = webResponse.GetResponseStream();
 						content = new StreamReader(stream).ReadToEnd();
-						System.Text.RegularExpressions.Regex rx = new System.Text.RegularExpressions.Regex(@"<body.*?>(.*?)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline);
+						var rx = new System.Text.RegularExpressions.Regex(@"<body.*?>(.*?)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline);
 					    MatchCollection mc = rx.Matches(content);
 						if (mc.Count > 0)
 							{
