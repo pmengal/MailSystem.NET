@@ -336,9 +336,9 @@ namespace ActiveUp.Net.Mail
             const long CRC24_INIT = 0xb704ceL;
             const long CRC24_POLY = 0x1864cfbL;
             long crc = CRC24_INIT;
-            for (int i = 0; i < binput.Length; i++)
+            foreach (byte t in binput)
             {
-                crc ^= (((long)binput[i]) << 16);
+                crc ^= (((long)t) << 16);
                 for (int j = 0; j < 8; j++)
                 {
                     crc <<= 1;
