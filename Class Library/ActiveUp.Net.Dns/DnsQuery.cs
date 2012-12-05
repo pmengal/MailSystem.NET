@@ -306,7 +306,7 @@ namespace ActiveUp.Net.Dns
             set 
                 {
                     if (value.Length == 0 || value.Length > 255 ||
-                        !Regex.IsMatch(value, @"^[a-z|A-Z|0-9|-|_]{1,63}(\.[a-z|A-Z|0-9|\-]{1,63})+$"))
+                        !Regex.IsMatch(value, @"^[a-z|A-Z|0-9|\-|_]{1,63}(\.[a-z|A-Z|0-9|\-]{1,63})+$"))
                         throw new DnsQueryException("Invalid Domain Name", null);
                     domain = value; 
                 }
