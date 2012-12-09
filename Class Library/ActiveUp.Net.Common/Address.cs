@@ -19,7 +19,7 @@ using ActiveUp.Net.Mail;
 
 namespace ActiveUp.Net.Mail
 {
-    #region Address Object
+	#region Address Object
 
 	/// <summary>
 	/// Represent an Internet Email address with the owner's fullname.
@@ -27,10 +27,10 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
 	[System.Serializable]
 #endif
-    public class Address
+	public class Address
 	{
 		string _email, _name;
-        /// <summary>
+		/// <summary>
 		/// The default constructor. Set all properties to string.Empty.
 		/// </summary>
 		public Address()
@@ -47,9 +47,9 @@ namespace ActiveUp.Net.Mail
 		{
 			/*this.Email = 
 			this.Name = string.Empty;*/
-            Address addr = Parser.ParseAddress(email);
-            this.Email = addr.Email;
-            this.Name = addr.Name;
+			Address addr = Parser.ParseAddress(email);
+			this.Email = addr.Email;
+			this.Name = addr.Name;
 		}
 
 		/// <summary>
@@ -88,7 +88,7 @@ namespace ActiveUp.Net.Mail
 //#if TRIAL
 //                return ProductHelper.GetTrialString(this._name, TrialStringType.LongText);
 //#else
-                return _name;
+				return _name;
 //#endif
 			}
 			set
@@ -120,16 +120,16 @@ namespace ActiveUp.Net.Mail
 			}
 		}
 
-        /// <summary>
-        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </returns>
-        public override string ToString()
-        {
-            return this.Merged;
-        }
+		/// <summary>
+		/// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+		/// </returns>
+		public override string ToString()
+		{
+			return this.Merged;
+		}
 
 		///<summary>
 		/// Gets an HTML formatted link to the address (mailto: form).
@@ -138,7 +138,7 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-                string getString = string.Empty;
+				string getString = string.Empty;
 
 				if (this.Name.Length > 0)
 				{

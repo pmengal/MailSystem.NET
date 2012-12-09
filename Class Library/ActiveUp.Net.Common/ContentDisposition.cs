@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ActiveUp.Net.Mail;
 using System.Collections.Specialized;
@@ -83,8 +84,7 @@ namespace ActiveUp.Net.Mail
         {
             string str = string.Empty;
             str += "Content-Disposition: " + this.Disposition;
-            foreach (string key in this.Parameters.AllKeys) str += ";\r\n\t" + key + "=" + this.Parameters[key];
-            return str;
+            return this.Parameters.AllKeys.Aggregate(str, (current, key) => current + (";\r\n\t" + key + "=" + this.Parameters[key]));
         }
 
         public static bool operator ==(ContentDisposition t1, int t2)

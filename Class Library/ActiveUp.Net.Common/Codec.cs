@@ -19,6 +19,7 @@ using System;
 
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace ActiveUp.Net.Mail
@@ -291,7 +292,7 @@ namespace ActiveUp.Net.Mail
         {
             string output = string.Empty;
             string[] parts = input.Split('-');
-            foreach (string str in parts) output += str[0].ToString().ToUpper() + str.Substring(1) + "-";
+            output = parts.Aggregate(output, (current, str) => current + (str[0].ToString().ToUpper() + str.Substring(1) + "-"));
             return output.TrimEnd('-');
         }
 		/// <summary>

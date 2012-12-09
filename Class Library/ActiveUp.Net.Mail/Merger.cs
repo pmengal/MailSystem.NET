@@ -224,8 +224,6 @@ namespace ActiveUp.Net.Mail
 		/// <summary>
 		/// Merge a message with the specified item.
 		/// </summary>
-		/// <param name="message">The Message object to merge.</param>
-		/// <param name="item">The item to use for merging.</param>
 		/// <returns>The merged the message.</returns>
 		public Message MergeMessage()
 		{
@@ -327,12 +325,14 @@ namespace ActiveUp.Net.Mail
 			return Body;
 		}
 
-		/// <summary>
-		/// Process IDs in the message.
-		/// </summary>
-		/// <param name="Body">The body text to use for merging.</param>
-		/// <returns>The merged message.</returns>
-		private string ProcessIDs(string Body, object dataSource, bool repeat)
+	    /// <summary>
+	    /// Process IDs in the message.
+	    /// </summary>
+	    /// <param name="Body">The body text to use for merging.</param>
+	    /// <param name="dataSource"></param>
+	    /// <param name="repeat"></param>
+	    /// <returns>The merged message.</returns>
+	    private string ProcessIDs(string Body, object dataSource, bool repeat)
 		{
 			
 			//process conditions
@@ -760,10 +760,9 @@ namespace ActiveUp.Net.Mail
 		private ArrayList GetFields(string source)
 		{
 			ArrayList fields = new ArrayList();
-			int startIndex = 0, nextOccurence;
-			string field;
-			
-			if (source != null && source.Length > 0)
+		    int startIndex = 0;
+
+		    if (!string.IsNullOrEmpty(source))
 			{
 
 				while(source.IndexOf("$", startIndex) > -1)
@@ -774,8 +773,8 @@ namespace ActiveUp.Net.Mail
 					// Is a field ?
 					if (source.IndexOf("$", startIndex + 1) > -1)
 					{
-						nextOccurence = source.IndexOf("$", startIndex + 1);
-						field = source.Substring(startIndex + 1, nextOccurence - startIndex - 1);
+						int nextOccurence = source.IndexOf("$", startIndex + 1);
+						string field = source.Substring(startIndex + 1, nextOccurence - startIndex - 1);
 
 						if (field.IndexOf(" ") == -1 && field.IndexOf("\n") == -1 && field.Length >= 2)
 						{
@@ -798,13 +797,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.Logger Logger
 		{
-			get
-			{
-				if (_logger == null)
-					_logger = new ActiveUp.Net.Mail.Logger();
-				return _logger;
-			}
-			set
+			get { return _logger ?? (_logger = new ActiveUp.Net.Mail.Logger()); }
+		    set
 			{
 				_logger = value;
 			}
@@ -818,7 +812,7 @@ namespace ActiveUp.Net.Mail
 		private IEnumerator GetEnumerator(object dataSource)
 		{
 			if (dataSource == null) return null;
-			ActiveUp.Net.Mail.Logger.AddEntry("Getting IEnumerator. DataSource type: " + dataSource.ToString(), 0);
+			ActiveUp.Net.Mail.Logger.AddEntry("Getting IEnumerator. DataSource type: " + dataSource, 0);
 
 			// Set the IEnumerator object
 			IEnumerator items = null;
@@ -859,17 +853,15 @@ namespace ActiveUp.Net.Mail
 			return items;
 		}
 
-		public bool IsNumeric(string s)
+		/// <summary>
+		/// Checks if supplied expression is a numeric value. Supports multiple languages.
+		/// </summary>
+		/// <param name="expression">An expression that needs to be checked.</param>
+		/// <returns>A boolean response that is True if it is a numeric value.</returns>
+		public bool IsNumeric(object expression)
 		{
-			try 
-			{
-				Double.Parse(s);
-			}
-			catch 
-			{
-				return false;
-			}
-			return true;
+		    double retNum;
+            return Double.TryParse(Convert.ToString(expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
 		}
 		
 		/// <summary>
@@ -888,19 +880,11 @@ namespace ActiveUp.Net.Mail
 					FieldFormat fieldFormat = this.FieldsFormats[field];
 
 					if (fieldFormat.Format.Length > 0)
-						if (IsNumeric(replacement)) {
-							replacement = string.Format(fieldFormat.Format, Double.Parse(replacement));
-						}
-						else { 
-							replacement = string.Format(fieldFormat.Format, replacement);
-						}
+						replacement = IsNumeric(replacement) ? string.Format(fieldFormat.Format, Double.Parse(replacement)) : string.Format(fieldFormat.Format, replacement);
 
 					if (fieldFormat.TotalWidth > 0)
 					{
-						if (fieldFormat.PaddingDir == PaddingDirection.Left)
-							replacement = replacement.PadLeft(fieldFormat.TotalWidth, fieldFormat.PaddingChar);
-						else
-							replacement = replacement.PadRight(fieldFormat.TotalWidth, fieldFormat.PaddingChar);
+						replacement = fieldFormat.PaddingDir == PaddingDirection.Left ? replacement.PadLeft(fieldFormat.TotalWidth, fieldFormat.PaddingChar) : replacement.PadRight(fieldFormat.TotalWidth, fieldFormat.PaddingChar);
 					}
 				}
 
@@ -948,28 +932,22 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The AddressCollection with replaced content.</returns>
 		private ActiveUp.Net.Mail.AddressCollection ReplaceInAddresses(ActiveUp.Net.Mail.AddressCollection addresses, string field, string replacement)
 		{
-			for(int index=0;index<addresses.Count;index++)
-			{
-				addresses[index].Email = ReplaceField(addresses[index].Email, field, replacement);
-				addresses[index].Name = ReplaceField(addresses[index].Name, field, replacement);
-			}
+		    foreach (Address t in addresses)
+		    {
+		        t.Email = ReplaceField(t.Email, field, replacement);
+		        t.Name = ReplaceField(t.Name, field, replacement);
+		    }
 
-			return addresses;
+		    return addresses;
 		}
 
-		/// <summary>
+	    /// <summary>
 		/// Gets or sets the region collection.
 		/// </summary>
 		public RegionCollection Regions
 		{
-			get
-			{
-				if (_regions == null)
-					_regions = new RegionCollection();
-
-				return _regions;
-			}
-			set
+			get { return _regions ?? (_regions = new RegionCollection()); }
+		    set
 			{
 				_regions = value;
 			}
@@ -980,14 +958,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ConditionalCollection Conditions
 		{
-			get
-			{
-				if (_conditions == null)
-					_conditions = new ConditionalCollection();
-
-				return _conditions;
-			}
-			set
+			get { return _conditions ?? (_conditions = new ConditionalCollection()); }
+		    set
 			{
 				_conditions = value;
 			}
@@ -998,14 +970,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public FieldFormatCollection FieldsFormats
 		{
-			get
-			{
-				if (_fieldsFormats == null)
-					_fieldsFormats = new FieldFormatCollection();
-
-				return _fieldsFormats;
-			}
-			set
+			get { return _fieldsFormats ?? (_fieldsFormats = new FieldFormatCollection()); }
+		    set
 			{
 				_fieldsFormats = value;
 			}
@@ -1016,13 +982,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.ServerCollection SmtpServers
 		{
-			get
-			{
-				if (_smtpServers == null)
-					_smtpServers = new ActiveUp.Net.Mail.ServerCollection();
-				return _smtpServers;
-			}
-			set
+			get { return _smtpServers ?? (_smtpServers = new ActiveUp.Net.Mail.ServerCollection()); }
+		    set
 			{
 				_smtpServers = value;
 			}
@@ -1033,13 +994,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.Message Message
 		{
-			get
-			{
-				if (_message == null)
-					_message = new ActiveUp.Net.Mail.Message();
-				return _message;
-			}
-			set
+			get { return _message ?? (_message = new ActiveUp.Net.Mail.Message()); }
+		    set
 			{
 				_message = value;
 			}
@@ -1050,13 +1006,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public ActiveUp.Net.Mail.ListTemplateCollection ListTemplates
 		{
-			get
-			{
-				if (_listTemplates == null)
-					_listTemplates = new ActiveUp.Net.Mail.ListTemplateCollection();
-				return _listTemplates;
-			}
-			set
+			get { return _listTemplates ?? (_listTemplates = new ActiveUp.Net.Mail.ListTemplateCollection()); }
+		    set
 			{
 				_listTemplates = value;
 			}

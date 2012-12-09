@@ -357,9 +357,9 @@ namespace ActiveUp.Net.Mail
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             string[] separated = input.Split(' ');
             string templine = string.Empty;
-            for (int i = 0; i < separated.Length; i++)
+            foreach (string t in separated)
             {
-                if (templine.Length + separated[i].Length < 77) templine += separated[i] + " ";
+                if (templine.Length + t.Length < 77) templine += t + " ";
                 else
                 {
                     sb.Append(templine + "\r\n ");
@@ -923,8 +923,9 @@ namespace ActiveUp.Net.Mail
                 if (comma_separated[i].IndexOf("@") == -1 && comma_separated.Length > (i + 1))
                     comma_separated[i + 1] = comma_separated[i] + comma_separated[i + 1];
 
-            for (int i = 0; i < comma_separated.Length; i++) if(comma_separated[i].IndexOf("@")!=-1)
-                addresses.Add(Parser.ParseAddress((comma_separated[i].IndexOf("<") != -1 && comma_separated[i].IndexOf(":") != -1 && comma_separated[i].IndexOf(":") < comma_separated[i].IndexOf("<")) ? ((comma_separated[i].Split(':')[0].IndexOf("\"") == -1) ? comma_separated[i].Split(':')[1] : comma_separated[i]) : comma_separated[i]));
+            foreach (string t in comma_separated)
+                if(t.IndexOf("@")!=-1)
+                    addresses.Add(Parser.ParseAddress((t.IndexOf("<") != -1 && t.IndexOf(":") != -1 && t.IndexOf(":") < t.IndexOf("<")) ? ((t.Split(':')[0].IndexOf("\"") == -1) ? t.Split(':')[1] : t) : t));
 
             //MatchCollection matches = Regex.Matches(input, "(\"(?<name>.+?)\")*\\s*<?(?<email>[^<>,\"\\s]+)>?");
 

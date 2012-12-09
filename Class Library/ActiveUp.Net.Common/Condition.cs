@@ -25,7 +25,7 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
 	[System.Serializable]
 #endif
-    public class Condition
+	public class Condition
 	{
 		private string _regionID, _field, _value, _nulltext;
 		private OperatorType _operator;
@@ -283,24 +283,15 @@ namespace ActiveUp.Net.Mail
 				_field = value;
 			}
 		}
-        /// <summary>
-        /// Determines whether the specified s is numeric.
-        /// </summary>
-        /// <param name="s">The s.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified s is numeric; otherwise, <c>false</c>.
-        /// </returns>
-		public bool IsNumeric(string s)
+		/// <summary>
+		/// Checks if supplied expression is a numeric value. Supports multiple languages.
+		/// </summary>
+		/// <param name="expression">An expression that needs to be checked.</param>
+		/// <returns>A boolean response that is True if it is a numeric value.</returns>
+		public bool IsNumeric(object expression)
 		{
-			try 
-			{
-				double.Parse(s);
-			}
-			catch 
-			{
-				return false;
-			}
-			return true;
+			double retNum;
+			return Double.TryParse(Convert.ToString(expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
 		}
 	}
 }

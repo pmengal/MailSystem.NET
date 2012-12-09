@@ -16,6 +16,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ActiveUp.Net.Mail
 {
@@ -92,13 +93,9 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-				string _addresses="";
-			
-				foreach(Address address in this)
-				{
-					_addresses += address.Merged+",";
-				}
-				return _addresses.TrimEnd(',');
+				string _addresses= this.Aggregate("", (current, address) => current + (address.Merged + ","));
+
+			    return _addresses.TrimEnd(',');
 			}
 		}
 		/// <summary>
@@ -109,13 +106,22 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-				string _addresses="";
-			
-				foreach(Address address in this)
-				{
-					_addresses += address.Link+";";
-				}
-				return _addresses.TrimEnd(';');
+
+                //
+                // Commented-out code is here just for clarification, since
+                // some argued Aggregate function is not as clear at first as
+                // foreach.
+                // 
+                
+                //string _addresses = "";
+
+                //foreach (Address address in this)
+                //{
+                //    _addresses += address.Link + ";";
+                //}
+				string _addresses= this.Aggregate("", (current, address) => current + (address.Link + ";"));
+
+			    return _addresses.TrimEnd(';');
 			}
 		}
 	}

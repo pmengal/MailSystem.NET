@@ -18,6 +18,7 @@
 //using System.Management;
 using System;
 using System.Collections;
+using System.Linq;
 using Microsoft.Win32;
 using ActiveUp.Net.Mail;
 #if !PocketPC
@@ -389,17 +390,8 @@ namespace ActiveUp.Net.Mail
 
 		private static bool IsPresent(ArrayList list, string valueToTest)
 		{
-			foreach(string valueList in list)
-			{
-				if (valueToTest == valueList)
-				{
-					return true;
-				}
-			}
-
-			return false;
+		    return list.Cast<string>().Any(valueList => valueToTest == valueList);
 		}
-
 	}
 }
 

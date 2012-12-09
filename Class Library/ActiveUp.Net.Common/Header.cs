@@ -15,6 +15,7 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System.Linq;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Mail;
 using System.Collections.Generic;
@@ -1039,8 +1040,7 @@ namespace ActiveUp.Net.Mail
             }
             set
             {
-                string temp = "";
-                foreach (string str in value.Groups.AllKeys) temp += " " + str + ":" + value.Groups[str];
+                string temp = value.Groups.AllKeys.Aggregate("", (current, str) => current + (" " + str + ":" + value.Groups[str]));
                 this.HeaderFields["xref"] = value.Host + temp;
             }
         }
