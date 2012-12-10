@@ -1176,11 +1176,24 @@ namespace ActiveUp.Net.Mail
 
             if (command.Length < 200) this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
             else this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs("long command data"));
-            base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+
+#if !PocketPC
+            if (this._sslStream != null) {
+                this._sslStream.Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+            }
+            else {
+                base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+            }
+#endif
+
+#if PocketPC
+                        base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+#endif
+
             if (command.Length < 200) this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
             else this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
             this.OnTcpReading();
-            System.IO.StreamReader sr = new System.IO.StreamReader(base.GetStream(), true);
+            System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream());
             System.Text.StringBuilder buffer = new System.Text.StringBuilder();
             string temp = "";
             string lastline = "";
