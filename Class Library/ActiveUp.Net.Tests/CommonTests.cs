@@ -90,5 +90,14 @@ namespace ActiveUp.Net.Tests
             string encodedText = Codec.RFC2047Encode(decodedText, "iso-8859-1");
             Assert.AreEqual(decodedText, Codec.RFC2047Decode(encodedText));
         }
+
+        [Test(Description = "Verify the correct parsing of multiple trace entries in a mail and use the latest one as message.ReceivedDate")]
+        public void ParseMultipleMessageTrace()
+        {
+            Message message = new Message();
+            message = Parser.ParseMessageFromFile("resource\\testmail.eml");
+            Assert.AreEqual(message.ReceivedDate, new DateTime(2013, 01, 06, 07, 07, 07));
+            Assert.AreEqual(message.Date, new DateTime(2013, 01, 04, 03, 04, 04));
+        }
     }
 }

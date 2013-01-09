@@ -33,7 +33,7 @@ namespace ActiveUp.Net.Mail
     /// Base class for all Parser objects.
     /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [System.Serializable]
 #endif
     public class Parser
     {
@@ -183,7 +183,7 @@ namespace ActiveUp.Net.Mail
                 else if (part.ContentDisposition.Disposition.Equals("inline")) message.EmbeddedObjects.Add(part);
                 // Other parts are miscellaneous. How they are to be displayed is at the end-user's discretion.
                 // Fix for avoid attach original mail message
-                else if(!message.BodyText.ToMimePart().ContentTransferEncoding.Equals(part.ContentTransferEncoding))
+                else if (!message.BodyText.ToMimePart().ContentTransferEncoding.Equals(part.ContentTransferEncoding))
                 {
                     message.UnknownDispositionMimeParts.Add(part);
                 }
@@ -260,15 +260,15 @@ namespace ActiveUp.Net.Mail
                     part.BinaryContent = Convert.FromBase64String(part.TextContent);
 #if !PocketPC
                 }
-                 catch (System.FormatException)
+                catch (System.FormatException)
                 {
-                    part.TextContent = part.TextContent.Remove(part.TextContent.LastIndexOf("=")+1);
+                    part.TextContent = part.TextContent.Remove(part.TextContent.LastIndexOf("=") + 1);
                     part.BinaryContent = Convert.FromBase64String(part.TextContent);
                 }
 #endif
 
                 if (part.ContentDisposition != ContentDisposition.Attachment)
-                    part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent,0,part.BinaryContent.Length);
+                    part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent, 0, part.BinaryContent.Length);
             }
             // This is a quoted-printable encoded part body.
             else if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.QuotedPrintable))
@@ -381,7 +381,7 @@ namespace ActiveUp.Net.Mail
         }
 
         #endregion
-        
+
         #region Mime part parsing
 
         /// <summary>
@@ -548,7 +548,7 @@ namespace ActiveUp.Net.Mail
             Parser.ParseHeader(ref hdr);
             return hdr;
         }
-        
+
         /// <summary>
         /// Parses a MemoryStream's content to a Header object.
         /// </summary>
@@ -634,7 +634,7 @@ namespace ActiveUp.Net.Mail
         public static void ParseHeader(ref Header header)
         {
 #if !PocketPC
-            string hdr = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(header.OriginalData,0,header.OriginalData.Length);
+            string hdr = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(header.OriginalData, 0, header.OriginalData.Length);
 #else
             string hdr = Pop3Client.PPCEncode.GetString(header.OriginalData, 0, header.OriginalData.Length);
 #endif
@@ -657,8 +657,8 @@ namespace ActiveUp.Net.Mail
                 else if (name.Equals("content-disposition")) header.ContentDisposition = Parser.GetContentDisposition(m.Value);
                 //else
                 //{
-                    header.HeaderFields.Add(name, value);
-                    header.HeaderFieldNames.Add(name, m.Value.Substring(0, m.Value.IndexOf(':')));
+                header.HeaderFields.Add(name, value);
+                header.HeaderFieldNames.Add(name, m.Value.Substring(0, m.Value.IndexOf(':')));
                 //}
                 m = m.NextMatch();
 
@@ -728,7 +728,7 @@ namespace ActiveUp.Net.Mail
         {
             //string msg = System.Text.Encoding.ASCII.GetString(data);
 #if !PocketPC
-            string msg = System.Text.Encoding.UTF8.GetString(data,0,data.Length);
+            string msg = System.Text.Encoding.UTF8.GetString(data, 0, data.Length);
 #else
             string msg = Pop3Client.PPCEncode.GetString(data, 0, data.Length);
 #endif
@@ -750,8 +750,15 @@ namespace ActiveUp.Net.Mail
                 {
                     string name = key;
                     string value = message.HeaderFields[key];
-                    // TODO : Fix trace
-                    if (name.Equals("received")) message.Trace.Add(Parser.ParseTrace(key + ": " + value));
+                    if (name.Equals("received"))
+                    {
+                        System.Text.RegularExpressions.Match m = System.Text.RegularExpressions.Regex.Match(value, @"from.+?(?=(from|$))");
+                        while (m.Success)
+                        {
+                            message.Trace.Add(Parser.ParseTrace(key + ": " + m.Value));
+                            m = m.NextMatch();
+                        }
+                    }
                     else if (name.Equals("to")) message.To = Parser.ParseAddresses(value);
                     else if (name.Equals("cc")) message.Cc = Parser.ParseAddresses(value);
                     else if (name.Equals("bcc")) message.Bcc = Parser.ParseAddresses(value);
@@ -827,7 +834,7 @@ namespace ActiveUp.Net.Mail
             Parser.ParseMessage(buf);//ref msg);
             return msg;
         }
-                
+
         /// <summary>
         /// Parses a Message from a string formatted accordingly to the RFC822.
         /// </summary>
@@ -1021,7 +1028,7 @@ namespace ActiveUp.Net.Mail
         {
             TraceInfo traceInfo = new TraceInfo();
             System.Text.RegularExpressions.Match m = System.Text.RegularExpressions.Regex.Match(input, @"from.+?(?=(from|by|via|with|for|id|;|\r?\n))");
-            if (m.Success) traceInfo.From = m.Value.Trim(' ','\t');
+            if (m.Success) traceInfo.From = m.Value.Trim(' ', '\t');
             m = System.Text.RegularExpressions.Regex.Match(input, @"(?<=by ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
             if (m.Success) traceInfo.By = m.Value.Trim(' ', '\t');
             m = System.Text.RegularExpressions.Regex.Match(input, @"(?<=via ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
