@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ActiveUp.Net.Tests</RootNamespace>
     <AssemblyName>ActiveUp.Net.Tests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,20 +76,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ActiveUp.Net.Common\ActiveUp.Net.Common.csproj">
-      <Project>{3A83AE95-C23F-48B4-9F1A-AD4B32C37B93}</Project>
-      <Name>ActiveUp.Net.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ActiveUp.Net.Mail\ActiveUp.Net.Mail.csproj">
-      <Project>{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6}</Project>
-      <Name>ActiveUp.Net.Mail</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ActiveUp.Net.Smtp\ActiveUp.Net.Smtp.csproj">
-      <Project>{D9BCD15E-A438-4554-89D3-1CF122167FDD}</Project>
-      <Name>ActiveUp.Net.Smtp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="resource\testmail.eml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -109,6 +96,20 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ActiveUp.Net.Common\ActiveUp.Net.Common.csproj">
+      <Project>{3A83AE95-C23F-48B4-9F1A-AD4B32C37B93}</Project>
+      <Name>ActiveUp.Net.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Mail\ActiveUp.Net.Mail.csproj">
+      <Project>{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6}</Project>
+      <Name>ActiveUp.Net.Mail</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Smtp\ActiveUp.Net.Smtp.csproj">
+      <Project>{D9BCD15E-A438-4554-89D3-1CF122167FDD}</Project>
+      <Name>ActiveUp.Net.Smtp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
