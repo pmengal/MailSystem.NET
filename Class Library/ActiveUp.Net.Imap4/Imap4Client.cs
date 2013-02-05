@@ -994,7 +994,7 @@ namespace ActiveUp.Net.Mail
                     response = sr.ReadLine();
                     this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(response));
 
-                    if (response.ToUpper().IndexOf("RECENT") > 0)
+                    if (response.ToUpper().IndexOf("RECENT") > 0 || response.ToUpper().IndexOf("EXISTS") > 0)
                     {
                         this.OnNewMessageReceived(new NewMessageReceivedEventArgs(int.Parse(response.Split(' ')[1])));
                     }

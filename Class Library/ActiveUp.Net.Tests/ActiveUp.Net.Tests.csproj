@@ -72,6 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonTests.cs" />
+    <Compile Include="FluentTests.cs" />
+    <Compile Include="ImapTests.cs" />
     <Compile Include="SmtpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,6 +103,10 @@
     <ProjectReference Include="..\ActiveUp.Net.Common\ActiveUp.Net.Common.csproj">
       <Project>{3A83AE95-C23F-48B4-9F1A-AD4B32C37B93}</Project>
       <Name>ActiveUp.Net.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Imap4\ActiveUp.Net.Imap4.csproj">
+      <Project>{6BEE77DF-2DD2-41C3-BA16-60E20B1EDDCC}</Project>
+      <Name>ActiveUp.Net.Imap4</Name>
     </ProjectReference>
     <ProjectReference Include="..\ActiveUp.Net.Mail\ActiveUp.Net.Mail.csproj">
       <Project>{2BD4C73E-C8DB-420E-9505-96D3F3BCA7B6}</Project>

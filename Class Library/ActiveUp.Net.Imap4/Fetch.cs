@@ -16,6 +16,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Mail;
 
@@ -1128,6 +1130,58 @@ namespace ActiveUp.Net.Mail
 			return ActiveUp.Net.Mail.Parser.ParseMessage(this.Message(messageOrdinal));
 		}
 
+
+        /// <summary>
+        /// Fetches the message's Rfc822 compliant form and adds the GMail specific headers
+        /// </summary>
+        /// <param name="messageOrdinal">The ordinal position of the message to be fetched.</param>
+        /// <returns>The message's data as a Message object.</returns>
+        public ActiveUp.Net.Mail.Message MessageObjectWithGMailExtensions(int messageOrdinal)
+        {
+            return InnerMessageObjectWithGMailExtensions(messageOrdinal, true);
+        }
+
+        /// <summary>
+        /// Fetches the message's Rfc822 compliant form and adds the GMail specific headers without marking it as read
+        /// </summary>
+        /// <param name="messageOrdinal">The ordinal position of the message to be fetched.</param>
+        /// <returns>The message's data as a Message object.</returns>
+        public ActiveUp.Net.Mail.Message MessageObjectPeekWithGMailExtensions(int messageOrdinal)
+        {
+            return InnerMessageObjectWithGMailExtensions(messageOrdinal, false);
+        }
+
+	    private Message InnerMessageObjectWithGMailExtensions(int messageOrdinal, bool markMessagesAsRead)
+	    {
+	        if (!ParentMailbox.SourceClient.ServerCapabilities.Contains("X-GM-EXT-1"))
+	            throw new InvalidOperationException("The server you're connecting to is missing the GMail extensions");
+	        var response = MessageRawString(messageOrdinal, markMessagesAsRead, "X-GM-LABELS", "X-GM-MSGID", "UID");
+	        Logger.AddEntry(response);
+	        var messageBytes = System.Text.Encoding.UTF8.GetBytes(ExtractMessageFromReponse(response));
+	        ParentMailbox.SourceClient.OnMessageRetrieved(new MessageRetrievedEventArgs(messageBytes, messageOrdinal));
+	        var message = Parser.ParseMessage(messageBytes);
+	        AppendGMailExtensions(message, response);
+	        AppendUid(message, response);
+	        return message;
+	    }
+
+	    private void AppendGMailExtensions(Message message, string response)
+	    {
+            var labelsMatch = Regex.Match(response, @"X-GM-LABELS \(([^\)]*?)\)");
+	        if (labelsMatch.Success)
+	            message.AddHeaderField("X-GM-LABELS", labelsMatch.Groups[1].Value);
+            var msgIdMatch = Regex.Match(response, @"X-GM-MSGID ([0-9]+)");
+	        if (msgIdMatch.Success)
+                message.AddHeaderField("X-GM-MSGID", Int64.Parse(msgIdMatch.Groups[1].Value).ToString("x"));
+	    }
+
+	    private void AppendUid(Message message, string response)
+	    {
+            var msgIdMatch = Regex.Match(response, @"UID ([0-9]+)");
+            if (msgIdMatch.Success)
+                message.AddHeaderField("X-MSG-UID", msgIdMatch.Groups[1].Value);
+	    }
+
         private delegate Message DelegateMessageObject(int messageOrdinal);
         private DelegateMessageObject _delegateMessageObject;
 
@@ -1213,22 +1267,40 @@ namespace ActiveUp.Net.Mail
 		/// <param name="messageOrdinal">The ordinal position of the message to be fetched.</param>
 		/// <returns>The message's data as a string.</returns>
 		/// <example><see cref="Fetch.MessageObject"/></example>
-        public string MessageString(int messageOrdinal) {
-            this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            this.ParentMailbox.SourceClient.OnMessageRetrieving(new ActiveUp.Net.Mail.MessageRetrievingEventArgs(messageOrdinal));
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822", getFetchOptions());
-            ActiveUp.Net.Mail.Logger.AddEntry(response);
-
-            int messageSize = Convert.ToInt32(response.Substring(response.IndexOf("{") + 1, response.IndexOf("}") - response.IndexOf("{") - 1));
-            int messageStart = response.IndexOf("}") + 3;
-            string message = response.Substring(messageStart, messageSize);
-            // Some (older) MS Exchange versions return a smaller message size, use old version as fallback if last character is not new line or the next line starts not with FLAGS
-            if (message.Substring(message.Length - 2, 2) != "\r\n" || !response.Substring(messageStart + messageSize).Trim().ToUpper().StartsWith("FLAGS")) {
-                message = response.Substring(messageStart, response.LastIndexOf(")") - messageStart);
-            }
+        public string MessageString(int messageOrdinal)
+		{
+		    var response = MessageRawString(messageOrdinal, true);
+            Logger.AddEntry(response);
+		    var message = ExtractMessageFromReponse(response);
 
             this.ParentMailbox.SourceClient.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(message), messageOrdinal));
             return message;
+        }
+
+	    private static string ExtractMessageFromReponse(string response)
+	    {
+	        int messageSize = Convert.ToInt32(response.Substring(response.IndexOf("{") + 1, response.IndexOf("}") - response.IndexOf("{") - 1));
+            int messageStart = response.IndexOf("}") + 3;
+            string message = response.Substring(messageStart, messageSize);
+            // Some (older) MS Exchange versions return a smaller message size, use old version as fallback if last character is not new line or the next line starts not with FLAGS
+            if (message.Substring(message.Length - 2, 2) != "\r\n" || !response.Substring(messageStart + messageSize).Trim().ToUpper().StartsWith("FLAGS"))
+                message = response.Substring(messageStart, response.LastIndexOf(")") - messageStart);
+	        return message;
+	    }
+
+	    /// <summary>
+	    /// Fetches the raw reponse for a message fetch.
+	    /// </summary>
+	    /// <param name="messageOrdinal">The ordinal position of the message to be fetched.</param>
+	    /// <param name="markMessagesAsRead">Set to true to mark the retrieved messages as read</param>
+	    /// <param name="extraDataItemToFetch">Extra fields to retrive besides rfc822</param>
+	    /// <returns>The response data as a string.</returns>
+	    private string MessageRawString(int messageOrdinal, bool markMessagesAsRead, params string[] extraDataItemToFetch)
+        {
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(messageOrdinal));
+            var dataItemsToRetrieve = string.Join(" ", new[] { markMessagesAsRead ? "rfc822" : "body.peek[]" }.Concat(extraDataItemToFetch));
+            return ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " (" + dataItemsToRetrieve + ")", getFetchOptions());
         }
 
         private delegate string DelegateMessageString(int messageOrdinal);
@@ -1418,19 +1490,13 @@ namespace ActiveUp.Net.Mail
                 response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body[mime]", getFetchOptions());
             else
                 response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.peek", getFetchOptions());
-
-            int messageSize = Convert.ToInt32(response.Substring(response.IndexOf("{") + 1, response.IndexOf("}") - response.IndexOf("{") - 1));
-            int messageStart = response.IndexOf("}") + 3;
-            string message = response.Substring(messageStart, messageSize);
-            // Some (older) MS Exchange versions return a smaller message size, use old version as fallback if last character is not new line or the next line starts not with FLAGS
-            if (message.Substring(message.Length - 2, 2) != "\r\n" || !response.Substring(messageStart + messageSize).Trim().ToUpper().StartsWith("FLAGS")) {
-                message = response.Substring(messageStart, response.LastIndexOf(")") - messageStart);
-            }
+            
+		    var message = ExtractMessageFromReponse(response);
 
             this.ParentMailbox.SourceClient.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(message), messageOrdinal));
             return message;
         }
-
+        
         private delegate string DelegateMessageStringPeek(int messageOrdinal);
         private DelegateMessageStringPeek _delegateMessageStringPeek;
 
