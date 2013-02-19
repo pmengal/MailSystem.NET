@@ -50,7 +50,7 @@ namespace ActiveUp.Net.Mail
             this.ContentDisposition.FileName = filename;
             this.ContentName = filename;
 
-            if (this.ContentType.MimeType.ToLower().IndexOf("text/") != -1)
+            if (IsText)
             {
                 this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
                 this.TextContent = System.Text.Encoding.GetEncoding("utf-8").GetString(this.BinaryContent,0,this.BinaryContent.Length);
@@ -77,7 +77,7 @@ namespace ActiveUp.Net.Mail
 			this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
 			this.ContentName = System.IO.Path.GetFileName(path);
 			if(generateContentId) this.SetContentId();
-			if(this.ContentType.MimeType.ToLower().IndexOf("text/")!=-1)
+			if(IsText)
 			{
 				this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
 				this.TextContent = System.Text.Encoding.GetEncoding("utf-8").GetString(this.BinaryContent,0,this.BinaryContent.Length);
@@ -104,7 +104,7 @@ namespace ActiveUp.Net.Mail
             this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
             this.ContentName = System.IO.Path.GetFileName(path);
             this.ContentId = contentId;
-            if (this.ContentType.MimeType.ToLower().IndexOf("text/") != -1)
+            if (IsText)
             {
                 this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
                 this.TextContent = System.Text.Encoding.GetEncoding("utf-8").GetString(this.BinaryContent, 0, this.BinaryContent.Length);
@@ -132,7 +132,7 @@ namespace ActiveUp.Net.Mail
             this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
             this.ContentName = System.IO.Path.GetFileName(path);
             this.ContentId = contentId;
-            if (this.ContentType.MimeType.ToLower().IndexOf("text/") != -1)
+            if (IsText)
             {
                 this.Charset = charset;
                 this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
@@ -161,7 +161,7 @@ namespace ActiveUp.Net.Mail
 			this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
 			this.ContentName = System.IO.Path.GetFileName(path);
 			if(generateContentId) this.SetContentId();
-			if(this.ContentType.MimeType.ToLower().IndexOf("text/")!=-1)
+			if(IsText)
 			{
 				this.Charset = charset;
 				this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
@@ -231,14 +231,13 @@ namespace ActiveUp.Net.Mail
         /// <summary>
         /// The MIME string.
         /// </summary>
+        /// <param name="forceBase64Encoding">if set to <c>true</c> forces inner elements to be base64 encoded</param>
         /// <returns></returns>
-        public string ToMimeString()
+        public string ToMimeString(bool forceBase64Encoding = false)
         {
             string content = string.Empty;
 
             if (this.ContentType.Type.Equals("multipart"))
-                //|| this.ContentType.Type.Equals("image")
-                //|| this.ContentType.Type.Equals("application"))
             {
                 string boundary = string.Empty;
 
@@ -253,37 +252,24 @@ namespace ActiveUp.Net.Mail
                 else boundary = this.ContentType.Parameters["boundary"];
 
                 // Add the header.
-                content += this.GetHeaderString();
+                content += this.GetHeaderString(forceBase64Encoding);
 
                 // Add the subparts.
                 foreach (MimePart subpart in this.SubParts)
                 {
                     content += "\r\n\r\n--" + boundary + "\r\n";
-                    content += subpart.ToMimeString();
+                    content += subpart.ToMimeString(forceBase64Encoding);
                 }
-                //content += this.TextContentTransferEncoded;
 
                 // Close the packet.
                 content += "\r\n\r\n" + "--" + boundary + "--" +"\r\n";
 
                 return content;
             }
+
+            content = forceBase64Encoding ? this.Base64EncodeAndWrap() : this.TextContentTransferEncoded;
             
-            // Modified by PMENGAL
-            // All textplain is encoded with quoted-printable even if it is set to UTF7 or whatever.
-            /*if (this.ContentTransferEncoding == ActiveUp.Net.Mail.ContentTransferEncoding.SevenBits)
-            {
-                content = this.TextContent;
-            }
-            else
-            {
-                if (this.ContentType.MimeType.ToLower().IndexOf("text/") != -1) content = Codec.ToQuotedPrintable(this.TextContent, (this.Charset != null) ? this.Charset : "us-ascii");
-                else if (this.ContentType.MimeType.ToLower().IndexOf("message/") != -1) content = this.TextContent;
-                else content = Codec.Wrap(System.Convert.ToBase64String(this.BinaryContent), 77);
-            }*/
-            content = this.TextContentTransferEncoded;
-            
-            return this.GetHeaderString() + "\r\n" + content;
+            return this.GetHeaderString(forceBase64Encoding) + "\r\n" + content;
         }
 #if !PocketPC
         public static MimePart GetSignaturePart(SignedCms cms)
@@ -303,7 +289,7 @@ namespace ActiveUp.Net.Mail
             return part;
         }
 #endif
-        public string GetHeaderString()
+        public string GetHeaderString(bool forceBase64Encoding = false)
         {
             string str = string.Empty;
 
@@ -313,10 +299,16 @@ namespace ActiveUp.Net.Mail
             // Add the content-disposition if specified.
             if (this.ContentDisposition.Disposition.Length > 0) 
                 str += this.ContentDisposition.ToString() + "\r\n";
-            
+
             // Add other header fields.
             foreach (string key in this.HeaderFields.AllKeys)
             {
+                if (key.Equals("content-transfer-encoding"))
+                {
+                    str += Codec.GetFieldName(key) + ": " + (forceBase64Encoding ? "base64" : HeaderFields[key]) + "\r\n";
+                    continue;
+                }
+
                 // We already have content-type and disposition.
                 if (!key.Equals("content-type") && !key.Equals("content-disposition"))
                     str += Codec.GetFieldName(key) + ": " + this.HeaderFields[key] + "\r\n";
@@ -479,41 +471,29 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public string TextContentTransferEncoded
         {
-           
-            get
+           get
             {
-                if (this.ContentTransferEncoding == ActiveUp.Net.Mail.ContentTransferEncoding.SevenBits)
-                {
-                    
-                    return this.TextContent;
-                }
-                else if (this.ContentTransferEncoding == ActiveUp.Net.Mail.ContentTransferEncoding.Base64)
-                {
-                    
-                    if (this.BinaryContent.Length > 0)
-                        return Codec.Wrap(System.Convert.ToBase64String(this.BinaryContent), 78);
-                    else
-                        return Codec.Wrap(System.Convert.ToBase64String(System.Text.Encoding.GetEncoding(this.Charset).GetBytes(this.TextContent)), 78);
-                }
-                else
-                {
-                    
-                    if (this.ContentType.MimeType.ToLower().IndexOf("text/") != -1)
-                    {
-                        return Codec.ToQuotedPrintable(this.TextContent, this.Charset ?? "us-ascii");
-                    }
-                    else if (this.ContentType.MimeType.ToLower().IndexOf("message/") != -1 ||
-                        this.ContentType.MimeType.ToLower().IndexOf("image/") != -1 ||
-                        this.ContentType.MimeType.ToLower().IndexOf("application/") != -1)
-                    {
-                        return this.TextContent;
-                    }
-                    else
-                    {
-                        return Codec.Wrap(System.Convert.ToBase64String(this.BinaryContent), 77);
-                    }
-                }
+                if (ContentTransferEncoding == ContentTransferEncoding.SevenBits)
+                    return TextContent;
+
+                if (ContentTransferEncoding == ContentTransferEncoding.Base64)
+                    return Base64EncodeAndWrap();
+
+                if (IsText)
+                    return Codec.ToQuotedPrintable(TextContent, Charset ?? "us-ascii");
+                
+                if (MimeType.Contains("message/") || MimeType.Contains("image/") || MimeType.Contains("application/"))
+                    return TextContent;
+                
+                return Codec.Wrap(Convert.ToBase64String(BinaryContent), 77);
             }
+        }
+
+        private string Base64EncodeAndWrap()
+        {
+            if (IsBinary)
+                return Codec.Wrap(Convert.ToBase64String(BinaryContent), 78);
+            return Codec.Wrap(Convert.ToBase64String(System.Text.Encoding.GetEncoding(Charset).GetBytes(TextContent)), 78);
         }
 
         /// <summary>
@@ -560,6 +540,16 @@ namespace ActiveUp.Net.Mail
 				this._contentType = value;
 			}
 		}
+
+        public string MimeType
+        {
+            get { return ContentType.MimeType.ToLower(); }
+        }
+
+        public bool IsText
+        {
+            get { return MimeType.Contains("text/"); }
+        }
 
 		/// <summary>
 		/// The Charset of the MimePart.
@@ -656,6 +646,8 @@ namespace ActiveUp.Net.Mail
 			}
 		}
 
+        public bool IsBinary { get { return BinaryContent.Length > 0; } }
+
 		/// <summary>
 		/// The Content-Location.
 		/// </summary>
@@ -679,9 +671,7 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.BinaryContent.Length > 0) return this.BinaryContent.Length;
-                else return this.TextContent.Length;
-                //return this._intsize;
+                return IsBinary ? BinaryContent.Length : TextContent.Length;
             }
         }
 

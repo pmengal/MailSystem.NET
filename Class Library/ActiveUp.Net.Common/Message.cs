@@ -633,42 +633,17 @@ namespace ActiveUp.Net.Mail
         /// The MIME representation of the message.
         /// </summary>
         /// <param name="removeBlindCopies">if set to <c>true</c> remove blind copies (BCC) from the header.</param>
+        /// <param name="forceBase64Encoding">if set to <c>true</c> forces inner elements to be base64 encoded</param>
         /// <returns></returns>
-        public string ToMimeString(bool removeBlindCopies)
+        public string ToMimeString(bool removeBlindCopies, bool forceBase64Encoding = false)
         {
             
             CheckBuiltMimePartTree();
 
-            //if (!ActiveUp.Base.InternalLicense.Status.IsRegistered)
-            //{
-            //    if (this.BodyHtml.Text.Length > 0
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.UnRegisteredHtmlSent) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.UnRegisteredHtmlReceived) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.SponsorHtmlSent) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.SponsorHtmlReceived) == -1)
-            //        this.BodyHtml.Text = ActiveUp.Base.InternalLicense.UnRegisteredHtmlSent + "<br><br>" +  this.BodyHtml.Text;
-
-            //    if ((this.BodyText.Text.Length > 0 || this.BodyHtml.Text.Length == 0)
-            //        && this.BodyText.Text.IndexOf(ActiveUp.Base.InternalLicense.UnRegisteredTextSent) == -1
-            //        && this.BodyText.Text.IndexOf(ActiveUp.Base.InternalLicense.UnRegisteredTextReceived) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.SponsorTextSent) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.SponsorTextReceived) == -1)
-            //        this.BodyText.Text = ActiveUp.Base.InternalLicense.UnRegisteredTextSent + "\r\n\r\n" + this.BodyText.Text; 
-            //}
-            //else if (ActiveUp.Base.InternalLicense.IsSponsored())
-            //{
-            //    if (this.BodyHtml.Text.Length > 0
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.UnRegisteredHtmlSent) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.UnRegisteredHtmlReceived) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.SponsorHtmlSent) == -1
-            //        && this.BodyHtml.Text.IndexOf(ActiveUp.Base.InternalLicense.SponsorHtmlReceived) == -1)
-            //        this.BodyHtml.Text += "<br><br>" + ActiveUp.Base.InternalLicense.SponsorHtmlSent;
-            //}
-
             StringBuilder sb = new StringBuilder();
             sb.Append(string.Concat(((Header)this).ToHeaderString(removeBlindCopies).TrimEnd('\r', '\n'), Tokenizer.NewLine));
             sb.Append(Tokenizer.NewLine);
-            string messageAsPart = this.PartTreeRoot.ToMimeString();
+            string messageAsPart = this.PartTreeRoot.ToMimeString(forceBase64Encoding);
             int bodyStart = Regex.Match(messageAsPart, @"(?<=\r?\n\r?\n).").Index;
             sb.Append(messageAsPart.Substring(bodyStart).TrimStart('\r', '\n'));
 
