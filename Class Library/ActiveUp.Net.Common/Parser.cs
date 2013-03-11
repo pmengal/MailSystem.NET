@@ -956,8 +956,17 @@ namespace ActiveUp.Net.Mail
                 if (input.IndexOf("<") == -1) address.Email = Parser.RemoveWhiteSpaces(input);
                 else
                 {
-                    address.Email = System.Text.RegularExpressions.Regex.Match(input, "<(.|[.])*>").Value.TrimStart('<').TrimEnd('>');
-                    address.Name = input.Replace("<" + address.Email + ">", "");
+                    if (input.IndexOf("\"") >= 0)
+                    {
+                        string displayName = System.Text.RegularExpressions.Regex.Match(input, "\".*\"").Value;
+                        address.Email = input.Replace(displayName, "").Trim().TrimStart('<').TrimEnd('>');
+                        address.Name = displayName;
+                    }
+                    else
+                    {
+                        address.Email = System.Text.RegularExpressions.Regex.Match(input, "<(.|[.])*>").Value.TrimStart('<').TrimEnd('>');
+                        address.Name = input.Replace("<" + address.Email + ">", "");
+                    }
                     address.Email = Parser.Clean(Parser.RemoveWhiteSpaces(address.Email)).Replace("\"", "");
                     if (address.Name.IndexOf("\"") == -1) address.Name = Parser.Clean(address.Name);
                     address.Name = address.Name.Trim(new char[] { ' ', '\"' });
