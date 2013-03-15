@@ -1924,7 +1924,7 @@ namespace ActiveUp.Net.Mail
             string response = this.Command("STAT");
             //ActiveUp.Net.Mail.Logger.AddEntry(response);
             this.MessageCount = Int32.Parse(response.Split(' ')[1]);
-            this.TotalSize = Int32.Parse(response.Split(' ')[2]);
+            this.TotalSize = Int64.Parse(response.Split(' ')[2]);
         }
 
         public IAsyncResult BeginUpdateStats(AsyncCallback callback)
