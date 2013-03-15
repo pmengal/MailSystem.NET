@@ -231,7 +231,7 @@ namespace ActiveUp.Net.Mail
         #region Private fields
 
         int _messageCount;
-        int _totalSize;
+        long _totalSize;
 #if !PocketPC
         System.Net.Security.SslStream _sslStream;
 #endif
@@ -303,7 +303,7 @@ namespace ActiveUp.Net.Mail
         /// pop.Disconnect();
         /// </code>
         /// </example>
-        public int TotalSize
+        public long TotalSize
         {
             get
             {
@@ -626,7 +626,7 @@ namespace ActiveUp.Net.Mail
                 this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, host, response));
                 response = this.Command("STAT");
                 this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
+                this._totalSize = System.Convert.ToInt64(response.Split(' ')[2]);
                 return presponse;
             }
             public IAsyncResult BeginConnect(string host, int port, string username, string password, AsyncCallback callback)
@@ -713,7 +713,7 @@ namespace ActiveUp.Net.Mail
                     this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(user, pass, host, response));
                     response = this.Command("STAT");
                     this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                    this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
+                    this._totalSize = System.Convert.ToInt64(response.Split(' ')[2]);
                 }
                 return presponse;
             }
@@ -857,7 +857,7 @@ namespace ActiveUp.Net.Mail
                 this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(user, pass, host, response));
                 response = this.Command("STAT");
                 this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
+                this._totalSize = System.Convert.ToInt64(response.Split(' ')[2]);
                 return presponse;
             }
             public IAsyncResult BeginConnectSsl(string host, int port, string user, string pass, SslHandShake sslHandShake, AsyncCallback callback)
