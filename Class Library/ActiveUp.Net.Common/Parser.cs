@@ -961,6 +961,11 @@ namespace ActiveUp.Net.Mail
                         string displayName = System.Text.RegularExpressions.Regex.Match(input, "\".*\"").Value;
                         address.Email = input.Replace(displayName, "").Trim().TrimStart('<').TrimEnd('>');
                         address.Name = displayName;
+                        if (address.Email == "" && address.Name != "")
+                        {
+                            address.Email = address.Name;
+                            address.Name = "";
+                        }
                     }
                     else
                     {
