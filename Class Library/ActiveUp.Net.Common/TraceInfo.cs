@@ -160,7 +160,9 @@ namespace ActiveUp.Net.Mail
             if (!this.For.Equals(string.Empty)) source += " for " + this.For + "\r\n ";
             if (!this.Via.Equals(string.Empty)) source += " via " + this.Via + "\r\n ";
             if (!this.Id.Equals(string.Empty)) source += " id " + this.Id + "\r\n ";
-            
+
+            if (string.IsNullOrEmpty(source))
+                return "";
             return source.Remove(0,source.Length - 3) + ";" + this.Date.ToString("r");
 		}
 		/// <summary>
