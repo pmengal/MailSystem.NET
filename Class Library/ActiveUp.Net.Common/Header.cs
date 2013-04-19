@@ -137,8 +137,9 @@ namespace ActiveUp.Net.Mail
         /// The MIME representation of the header.
         /// </summary>
         /// <param name="removeBlindCopies">if set to <c>true</c> remove blind copies (BCC).</param>
+        /// <param name="forceBase64Encoding">if set to <c>true</c> forces inner elements to be base64 encoded</param>
         /// <returns></returns>
-        public string ToHeaderString(bool removeBlindCopies)
+        public string ToHeaderString(bool removeBlindCopies, bool forceBase64Encoding = false)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             /*foreach (TraceInfo trace in this.Trace) sb.AppendLine("Received: " + trace.ToString());
@@ -175,17 +176,12 @@ namespace ActiveUp.Net.Mail
                 contentDisposition = contentDisposition.Substring(contentDisposition.IndexOf(":") + 1).TrimStart(' ');
                 this.AddHeaderField("Content-Disposition", contentDisposition);
             }
-
-            if (this.ContentType.Type.Equals("text"))
-            {
-                string contentTransferEncoding = this.ContentTransferEncoding.ToString();
-                contentTransferEncoding = contentTransferEncoding.Substring(contentTransferEncoding.IndexOf(":") + 1).TrimStart(' ');
-                this.AddHeaderField("Content-Transfer-Encoding", "quoted-printable");
-
-            }
-            //sb.Append(this.ContentType.ToString() + "\r\n");
-            //if (this.ContentDisposition.Disposition == "attachment") sb.AppendLine(this.ContentDisposition.ToString());
             
+            if (forceBase64Encoding)
+                AddHeaderField("Content-Transfer-Encoding", "base64");
+            else if (ContentType.Type.Equals("text"))
+                AddHeaderField("Content-Transfer-Encoding", "quoted-printable");
+
             System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
             System.Version v = asm.GetName().Version;
 

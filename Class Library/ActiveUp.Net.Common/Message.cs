@@ -641,7 +641,7 @@ namespace ActiveUp.Net.Mail
             CheckBuiltMimePartTree();
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(string.Concat(((Header)this).ToHeaderString(removeBlindCopies).TrimEnd('\r', '\n'), Tokenizer.NewLine));
+            sb.Append(string.Concat(((Header)this).ToHeaderString(removeBlindCopies, forceBase64Encoding).TrimEnd('\r', '\n'), Tokenizer.NewLine));
             sb.Append(Tokenizer.NewLine);
             string messageAsPart = this.PartTreeRoot.ToMimeString(forceBase64Encoding);
             int bodyStart = Regex.Match(messageAsPart, @"(?<=\r?\n\r?\n).").Index;
