@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using ActiveUp.Net.Mail;
 using NUnit.Framework;
@@ -120,6 +121,32 @@ namespace ActiveUp.Net.Tests.Common
             mimePart.Charset.ShouldEqual("ASCII");
             mimePart.ContentId.ShouldEqual("<" + contentId + ">");
             mimePart.ContentTransferEncoding.ShouldEqual(ContentTransferEncoding.QuotedPrintable);
+        }
+
+        [Test]
+        public void should_save_to_file()
+        {
+            var binaryContent = Encoding.UTF8.GetBytes("My MIME part content");
+            var mimePart = new MimePart(binaryContent, _textContentFileName);
+            var tempFilePath = Path.GetTempFileName();
+
+            var returnValue = mimePart.StoreToFile(tempFilePath);
+
+            returnValue.ShouldEqual(returnValue);
+            File.ReadAllBytes(tempFilePath).ShouldEqual(binaryContent);
+        }
+
+        [Test]
+        public void should_erase_the_file_before_writing_in_it_to_remove_eventual_leftovers_when_overwriting()
+        {
+            var binaryContent = Encoding.UTF8.GetBytes("My MIME part content");
+            var shortBinaryContent = Encoding.UTF8.GetBytes("My MIME part");
+            var tempFilePath = Path.GetTempFileName();
+
+            new MimePart(binaryContent, _textContentFileName).StoreToFile(tempFilePath);
+            new MimePart(shortBinaryContent, _textContentFileName).StoreToFile(tempFilePath);
+
+            File.ReadAllBytes(tempFilePath).ShouldEqual(shortBinaryContent);
         }
     }
 }

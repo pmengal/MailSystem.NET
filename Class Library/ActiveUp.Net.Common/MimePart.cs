@@ -145,9 +145,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public string StoreToFile(string destinationPath)
         {
-            System.IO.FileStream fs = new System.IO.FileStream(destinationPath, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);
-            fs.Write(this.BinaryContent, 0, this.BinaryContent.Length);
-            fs.Close();
+            File.WriteAllBytes(destinationPath, BinaryContent);
             return destinationPath;
         }
 
