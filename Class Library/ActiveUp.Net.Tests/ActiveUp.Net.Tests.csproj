@@ -72,13 +72,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonTests.cs" />
+    <Compile Include="Common\MimePartTests.cs" />
     <Compile Include="FluentTests.cs" />
     <Compile Include="ImapTests.cs" />
     <Compile Include="SmtpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resource\test_picture.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="resource\testmail.eml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="resource\test_textfile.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

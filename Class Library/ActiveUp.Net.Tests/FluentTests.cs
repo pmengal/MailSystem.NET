@@ -8,5 +8,15 @@ namespace ActiveUp.Net.Tests
         {
             Assert.AreEqual(other, obj);
         }
+
+        public static void ShouldBeNull(this object obj)
+        {
+            Assert.IsNull(obj);
+        }
+
+        public static void ShouldNotBeNull(this object obj)
+        {
+            Assert.IsNotNull(obj);
+        }
     }
 }

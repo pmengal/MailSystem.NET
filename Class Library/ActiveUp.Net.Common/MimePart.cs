@@ -15,6 +15,8 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System.IO;
+using System.Text;
 using ActiveUp.Net.Mail;
 using System.Collections.Specialized;
 #if !PocketPC
@@ -35,85 +37,28 @@ namespace ActiveUp.Net.Mail
 #endif
     public class MimePart
     {
-
         #region Constructors
 
         public MimePart()
 		{
-
-		}
-
-        public MimePart(byte[] attachment, string filename)
-        {
-            this._binaryContent = attachment;
-            this.ContentType.MimeType = MimeTypesHelper.GetMimeqType(filename);
-            this.ContentDisposition.FileName = filename;
-            this.ContentName = filename;
-
-            if (IsText)
-            {
-                this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
-                this.TextContent = System.Text.Encoding.GetEncoding("utf-8").GetString(this.BinaryContent,0,this.BinaryContent.Length);
-            }
-            else
-            {
-                this.ContentTransferEncoding = ContentTransferEncoding.Base64;
-                this.TextContent = System.Convert.ToBase64String(this.BinaryContent);
-            }
         }
 
-		/// <summary>
-		/// Creates a MimePart object with the content of the file located at the given path.
-		/// </summary>
-		/// <param name="path">File containing the content of the MimePart.</param>
-		/// <param name="generateContentId">If true, a Content-ID Header field will be added to allow referencing of this part in the message.</param>
-		public MimePart(string path, bool generateContentId)
-		{
-			System.IO.FileStream fs = System.IO.File.OpenRead(path);
-			this._binaryContent = new byte[(int)fs.Length];
-			fs.Read(this.BinaryContent,0,(int)fs.Length);
-			fs.Close();
-			this.ContentType.MimeType = MimeTypesHelper.GetMimeqType(System.IO.Path.GetExtension(path));
-			this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
-			this.ContentName = System.IO.Path.GetFileName(path);
-			if(generateContentId) this.SetContentId();
-			if(IsText)
-			{
-				this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
-				this.TextContent = System.Text.Encoding.GetEncoding("utf-8").GetString(this.BinaryContent,0,this.BinaryContent.Length);
-			}
-			else
-			{
-				this.ContentTransferEncoding = ContentTransferEncoding.Base64;
-				this.TextContent = System.Convert.ToBase64String(this.BinaryContent);
-			}
-		}
+        public MimePart(byte[] attachment, string fileExtension)
+            : this(attachment, MimeTypesHelper.GetMimeqType(fileExtension), fileExtension)
+        {
+        }
 
         /// <summary>
         /// Creates a MimePart object with the content of the file located at the given path.
         /// </summary>
         /// <param name="path">File containing the content of the MimePart.</param>
-        /// <param name="contentId">The Content-ID Header field will be used for the part.</param>
-        public MimePart(string path, string contentId)
+        /// <param name="generateContentId">If true, a Content-ID Header field will be added to allow referencing of this part in the message.</param>
+        /// <param name="charset">If the file contains text, the charset of the text can be provided to ensure better handling.</param>
+        public MimePart(string path, bool generateContentId, string charset = null)
+            : this(File.ReadAllBytes(path), MimeTypesHelper.GetMimeqType(Path.GetExtension(path)), Path.GetFileName(path), charset)
         {
-            System.IO.FileStream fs = System.IO.File.OpenRead(path);
-            this._binaryContent = new byte[(int)fs.Length];
-            fs.Read(this.BinaryContent, 0, (int)fs.Length);
-            fs.Close();
-            this.ContentType.MimeType = MimeTypesHelper.GetMimeqType(System.IO.Path.GetExtension(path));
-            this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
-            this.ContentName = System.IO.Path.GetFileName(path);
-            this.ContentId = contentId;
-            if (IsText)
-            {
-                this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
-                this.TextContent = System.Text.Encoding.GetEncoding("utf-8").GetString(this.BinaryContent, 0, this.BinaryContent.Length);
-            }
-            else
-            {
-                this.ContentTransferEncoding = ContentTransferEncoding.Base64;
-                this.TextContent = System.Convert.ToBase64String(this.BinaryContent);
-            }
+            if (generateContentId)
+                SetContentId();
         }
 
         /// <summary>
@@ -122,56 +67,34 @@ namespace ActiveUp.Net.Mail
         /// <param name="path">File containing the content of the MimePart.</param>
         /// <param name="contentId">The Content-ID Header field will be used for the part.</param>
         /// <param name="charset">If the file contains text, the charset of the text can be provided to ensure better handling.</param>
-        public MimePart(string path, string contentId, string charset)
+        public MimePart(string path, string contentId, string charset = null)
+            : this(File.ReadAllBytes(path), MimeTypesHelper.GetMimeqType(Path.GetExtension(path)), Path.GetFileName(path), charset)
         {
-            System.IO.FileStream fs = System.IO.File.OpenRead(path);
-            this._binaryContent = new byte[(int)fs.Length];
-            fs.Read(this.BinaryContent, 0, (int)fs.Length);
-            fs.Close();
-            this.ContentType.MimeType = MimeTypesHelper.GetMimeqType(System.IO.Path.GetExtension(path));
-            this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
-            this.ContentName = System.IO.Path.GetFileName(path);
-            this.ContentId = contentId;
-            if (IsText)
-            {
-                this.Charset = charset;
-                this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
-                this.TextContent = System.Text.Encoding.GetEncoding(charset).GetString(this.BinaryContent, 0, this.BinaryContent.Length);
-            }
-            else
-            {
-                this.ContentTransferEncoding = ContentTransferEncoding.Base64;
-                this.TextContent = System.Convert.ToBase64String(this.BinaryContent);
-            }
+            ContentId = contentId;
         }
 
-		/// <summary>
-		/// Creates a MimePart object with the content of the file located at the given path.
-		/// </summary>
-		/// <param name="path">File containing the content of the MimePart.</param>
-		/// <param name="generateContentId">If true, a Content-ID Header field will be added to allow referencing of this part in the message.</param>
-		/// <param name="charset">If the file contains text, the charset of the text can be provided to ensure better handling.</param>
-		public MimePart(string path, bool generateContentId, string charset)
-		{
-			System.IO.FileStream fs = System.IO.File.OpenRead(path);
-			this._binaryContent = new byte[(int)fs.Length];
-			fs.Read(this.BinaryContent,0,(int)fs.Length);
-			fs.Close();
-			this.ContentType.MimeType = MimeTypesHelper.GetMimeqType(System.IO.Path.GetExtension(path));
-			this.ContentDisposition.FileName = System.IO.Path.GetFileName(path);
-			this.ContentName = System.IO.Path.GetFileName(path);
-			if(generateContentId) this.SetContentId();
-			if(IsText)
-			{
-				this.Charset = charset;
-				this.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
-				this.TextContent = System.Text.Encoding.GetEncoding(charset).GetString(this.BinaryContent,0,this.BinaryContent.Length);
-			}
-			else
-			{
-				this.ContentTransferEncoding = ContentTransferEncoding.Base64;
-				this.TextContent = System.Convert.ToBase64String(this.BinaryContent);
-			}
+        private MimePart(byte[] content, string mimeType, string fileName, string charset = null)
+        {
+            _binaryContent = content;
+            ContentType.MimeType = mimeType;
+            ContentDisposition.FileName = fileName;
+            ContentName = fileName;
+
+            BuildTextContent(charset);
+        }
+
+        private void BuildTextContent(string charset = null)
+        {
+            if (IsText)
+            {
+                Charset = charset;
+                ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
+                TextContent = Encoding.GetEncoding(charset ?? Encoding.UTF8.BodyName).GetString(BinaryContent, 0, BinaryContent.Length);
+                return;
+            }
+            
+            ContentTransferEncoding = ContentTransferEncoding.Base64;
+            TextContent = Convert.ToBase64String(BinaryContent);
         }
 
         #endregion

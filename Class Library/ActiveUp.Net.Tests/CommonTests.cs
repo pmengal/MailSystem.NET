@@ -96,6 +96,7 @@ namespace ActiveUp.Net.Tests
         {
             Message message = new Message();
             message = Parser.ParseMessageFromFile("resource\\testmail.eml");
+            // TODO: The code seems legit, is the test wrong?
             Assert.AreEqual(message.ReceivedDate, new DateTime(2013, 01, 06, 07, 07, 07));
             Assert.AreEqual(message.Date, new DateTime(2013, 01, 04, 03, 04, 04));
         }
