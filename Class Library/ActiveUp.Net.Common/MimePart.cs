@@ -247,18 +247,7 @@ namespace ActiveUp.Net.Mail
             set { this._subEntities = value; }
         }
 
-        private Message _parentMessage;
-        public Message ParentMessage
-        {
-            get
-            {
-                return _parentMessage;
-            }
-            set
-            {
-                _parentMessage = value;
-            }
-        }
+        public Message ParentMessage { get; set; }
 
         /// <summary>
 		/// All Header fields names.
