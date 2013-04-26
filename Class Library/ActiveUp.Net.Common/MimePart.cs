@@ -101,15 +101,12 @@ namespace ActiveUp.Net.Mail
 
         #region Private fields
 
-        string _textContent, _contentName = string.Empty;
         ContentDisposition _contentDisposition = new ContentDisposition();
         ContentType _contentType = new ContentType();
         byte[] _binaryContent = new byte[0];
         NameValueCollection _fieldNames = new NameValueCollection();
         NameValueCollection _fields = new NameValueCollection();
-        string _originalContent;
         MimePartCollection _subEntities = new MimePartCollection();
-        MimePart _container;
 
         #endregion
 
@@ -130,7 +127,7 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public void SetContentId(string contentID)
 		{
-			this.ContentId = contentID;
+			ContentId = contentID;
 		}
 
         public string GetCidReference()
@@ -189,7 +186,7 @@ namespace ActiveUp.Net.Mail
             }
 
             content = forceBase64Encoding ? this.Base64EncodeAndWrap() : this.TextContentTransferEncoded;
-            
+
             return this.GetHeaderString(forceBase64Encoding) + "\r\n" + content;
         }
 #if !PocketPC
@@ -375,17 +372,7 @@ namespace ActiveUp.Net.Mail
 		/// <summary>
 		/// The text content of a MIME Part.
 		/// </summary>
-		public string TextContent
-		{
-			get
-			{
-				return _textContent;
-			}
-			set
-			{
-				this._textContent = value;
-			}
-		}
+        public string TextContent { get; set; }
 
         /// <summary>
         /// The text content of a MIME Part.
@@ -420,32 +407,12 @@ namespace ActiveUp.Net.Mail
         /// <summary>
         /// The multipart typed part containing this part.
         /// </summary>
-        public MimePart Container
-        {
-            get
-            {
-                return _container;
-            }
-            set
-            {
-                this._container = value;
-            }
-        }
+        public MimePart Container { get; set; }
 
         /// <summary>
         /// The original content of a parsed MIME Part.
         /// </summary>
-        public string OriginalContent
-        {
-            get
-            {
-                return _originalContent;
-            }
-            set
-            {
-                this._originalContent = value;
-            }
-        }
+        public string OriginalContent { get; set; }
 		
         /// <summary>
 		/// The Content-Type of the MimePart.
