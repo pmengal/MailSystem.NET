@@ -209,30 +209,26 @@ namespace ActiveUp.Net.Mail
 #endif
         public string GetHeaderString(bool forceBase64Encoding = false)
         {
-            string str = string.Empty;
+            var builder = new StringBuilder();
+            builder.Append(ContentType + Codec.CrLf);
 
-            // Add the content-type. Default is text/plain.
-            str += this.ContentType.ToString() + "\r\n";
+            if (ContentDisposition.Disposition.Length > 0)
+                builder.Append(ContentDisposition + Codec.CrLf);
 
-            // Add the content-disposition if specified.
-            if (this.ContentDisposition.Disposition.Length > 0) 
-                str += this.ContentDisposition.ToString() + "\r\n";
-
-            // Add other header fields.
-            foreach (string key in this.HeaderFields.AllKeys)
+            foreach (var headerName in HeaderFields.AllKeys)
             {
-                if (key.Equals("content-transfer-encoding"))
-                {
-                    str += Codec.GetFieldName(key) + ": " + (forceBase64Encoding ? "base64" : HeaderFields[key]) + "\r\n";
+                if (headerName == "content-type" || headerName == "content-disposition")
                     continue;
-                }
 
-                // We already have content-type and disposition.
-                if (!key.Equals("content-type") && !key.Equals("content-disposition"))
-                    str += Codec.GetFieldName(key) + ": " + this.HeaderFields[key] + "\r\n";
+                var headerValue = HeaderFields[headerName];
+
+                if (forceBase64Encoding && headerName == "content-transfer-encoding")
+                    headerValue = "base64";
+
+                builder.AppendFormat("{0}: {1}\r\n", Codec.GetFieldName(headerName), headerValue);
             }
             
-            return str.Trim('\r', '\n') + "\r\n";
+            return builder.ToString().Trim('\r', '\n') + Codec.CrLf;
         }
 
         #endregion

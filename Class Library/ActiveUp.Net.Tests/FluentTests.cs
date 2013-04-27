@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Text.RegularExpressions;
+using NUnit.Framework;
 
 namespace ActiveUp.Net.Tests
 {
@@ -17,6 +18,11 @@ namespace ActiveUp.Net.Tests
         public static void ShouldNotBeNull(this object obj)
         {
             Assert.IsNotNull(obj);
+        }
+
+        public static void ShouldMatch(this string str, string pattern)
+        {
+            Assert.IsTrue(Regex.IsMatch(str, pattern), "Input:\n" + str + "\nDidn't match pattern: \n" + pattern);
         }
     }
 }

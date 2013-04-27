@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using ActiveUp.Net.Mail;
 using NUnit.Framework;
 
@@ -9,6 +10,8 @@ namespace ActiveUp.Net.Tests.Common
     [TestFixture]
     public class MimePartTests
     {
+        private const string _textfilePath = @"resource\test_textfile.txt";
+        private const string _imagefilePath = @"resource\test_picture.gif";
         private const string _textContentFileName = ".txt";
         private const string _binaryContentFileName = ".gif";
 
@@ -49,10 +52,9 @@ namespace ActiveUp.Net.Tests.Common
         [TestCase(false)]
         public void should_initialize_from_file(bool generateContentId)
         {
-            const string filePath = @"resource\test_picture.gif";
-            var fileBytes = File.ReadAllBytes(filePath);
+            var fileBytes = File.ReadAllBytes(_imagefilePath);
             
-            var mimePart = new MimePart(filePath, generateContentId);
+            var mimePart = new MimePart(_imagefilePath, generateContentId);
 
             mimePart.BinaryContent.ShouldEqual(fileBytes);
             mimePart.ContentType.MimeType.ShouldEqual("image/gif");
@@ -69,10 +71,9 @@ namespace ActiveUp.Net.Tests.Common
         [TestCase(false)]
         public void should_initialize_from_file_with_charset(bool generateContentId)
         {
-            const string filePath = @"resource\test_textfile.txt";
-            var fileBytes = File.ReadAllBytes(filePath);
-            
-            var mimePart = new MimePart(filePath, generateContentId, "ASCII");
+            var fileBytes = File.ReadAllBytes(_textfilePath);
+
+            var mimePart = new MimePart(_textfilePath, generateContentId, "ASCII");
 
             mimePart.BinaryContent.ShouldEqual(fileBytes);
             mimePart.ContentType.MimeType.ShouldEqual("text/plain");
@@ -90,11 +91,10 @@ namespace ActiveUp.Net.Tests.Common
         [Test]
         public void should_initialize_from_file_with_content_id()
         {
-            const string filePath = @"resource\test_picture.gif";
-            var fileBytes = File.ReadAllBytes(filePath);
+            var fileBytes = File.ReadAllBytes(_imagefilePath);
             const string contentId = "ContentId";
-            
-            var mimePart = new MimePart(filePath, contentId);
+
+            var mimePart = new MimePart(_imagefilePath, contentId);
 
             mimePart.BinaryContent.ShouldEqual(fileBytes);
             mimePart.ContentType.MimeType.ShouldEqual("image/gif");
@@ -108,11 +108,10 @@ namespace ActiveUp.Net.Tests.Common
         [Test]
         public void should_initialize_from_file_with_content_id_and_charset()
         {
-            const string filePath = @"resource\test_textfile.txt";
-            var fileBytes = File.ReadAllBytes(filePath);
+            var fileBytes = File.ReadAllBytes(_textfilePath);
             const string contentId = "ContentId";
             
-            var mimePart = new MimePart(filePath, contentId, "ASCII");
+            var mimePart = new MimePart(_textfilePath, contentId, "ASCII");
 
             mimePart.BinaryContent.ShouldEqual(fileBytes);
             mimePart.ContentType.MimeType.ShouldEqual("text/plain");
@@ -147,6 +146,56 @@ namespace ActiveUp.Net.Tests.Common
             new MimePart(shortBinaryContent, _textContentFileName).StoreToFile(tempFilePath);
 
             File.ReadAllBytes(tempFilePath).ShouldEqual(shortBinaryContent);
+        }
+
+        [Test]
+        public void should_generate_basic_header_string()
+        {
+            var fileBytes = File.ReadAllBytes(_textfilePath);
+            var mimePart = new MimePart(fileBytes, _textContentFileName);
+
+            var headerString = mimePart.GetHeaderString();
+
+            headerString.ShouldMatch("Content-Type: text/plain;\r\n");
+            headerString.ShouldMatch("Content-Name: .txt");
+            headerString.ShouldMatch("Content-Transfer-Encoding: quoted-printable");
+            headerString.ShouldMatch("\r\n$");
+        }
+
+        [Test]
+        public void should_generate_header_string_with_content_disposition()
+        {
+            var fileBytes = File.ReadAllBytes(_textfilePath);
+            var mimePart = new MimePart(fileBytes, _textContentFileName) { ContentDisposition = { Disposition = "foo" } };
+
+            var headerString = mimePart.GetHeaderString();
+
+            headerString.ShouldMatch("Content-Disposition: foo;\r\n");
+        }
+
+        [Test]
+        public void should_not_repeat_content_disposition_nor_content_type_if_they_were_added_to_the_header_fields()
+        {
+            var fileBytes = File.ReadAllBytes(_textfilePath);
+            var mimePart = new MimePart(fileBytes, _textContentFileName) { ContentDisposition = { Disposition = "foo" } };
+            mimePart.HeaderFields.Add("content-disposition", "foo");
+            mimePart.HeaderFields.Add("content-type", "foo");
+
+            var headerString = mimePart.GetHeaderString();
+
+            Regex.Matches(headerString, "Content-Disposition").Count.ShouldEqual(1);
+            Regex.Matches(headerString, "Content-Type").Count.ShouldEqual(1);
+        }
+
+        [Test]
+        public void should_force_base64_encoding_if_specified()
+        {
+            var fileBytes = File.ReadAllBytes(_textfilePath);
+            var mimePart = new MimePart(fileBytes, _textContentFileName);
+
+            var headerString = mimePart.GetHeaderString(forceBase64Encoding: true);
+
+            headerString.ShouldMatch("Content-Transfer-Encoding: base64");
         }
     }
 }

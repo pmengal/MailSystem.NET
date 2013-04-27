@@ -29,6 +29,8 @@ namespace ActiveUp.Net.Mail
 	/// </summary>
 	public abstract class Codec
 	{
+	    public const string CrLf = "\r\n";
+
 		/// <summary>
 		/// Detect whitespace between encoded words as stated by RFC2047
 		/// </summary>
