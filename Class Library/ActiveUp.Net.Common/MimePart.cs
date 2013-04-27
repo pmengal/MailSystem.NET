@@ -15,6 +15,7 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using ActiveUp.Net.Mail;
@@ -23,6 +24,7 @@ using System.Collections.Specialized;
 using System.Security.Cryptography.Pkcs;
 #endif
 using System;
+using System.Linq;
 
 namespace ActiveUp.Net.Mail 
 {
@@ -215,20 +217,24 @@ namespace ActiveUp.Net.Mail
             if (ContentDisposition.Disposition.Length > 0)
                 builder.Append(ContentDisposition + Codec.CrLf);
 
-            foreach (var headerName in HeaderFields.AllKeys)
-            {
-                if (headerName == "content-type" || headerName == "content-disposition")
-                    continue;
+            AppendContentEncoding(builder, forceBase64Encoding);
 
-                var headerValue = HeaderFields[headerName];
-
-                if (forceBase64Encoding && headerName == "content-transfer-encoding")
-                    headerValue = "base64";
-
-                builder.AppendFormat("{0}: {1}\r\n", Codec.GetFieldName(headerName), headerValue);
-            }
+            var headersToAppend = HeaderFields.AllKeys.Except(new[] { "content-type", "content-disposition", "content-transfer-encoding" });
+            AppendGivenHeaderFields(builder, headersToAppend);
             
             return builder.ToString().Trim('\r', '\n') + Codec.CrLf;
+        }
+
+        private void AppendContentEncoding(StringBuilder builder, bool forceBase64Encoding)
+        {
+            var headerValue = forceBase64Encoding ? "base64" : HeaderFields["content-transfer-encoding"];
+            builder.AppendFormat("{0}: {1}\r\n", Codec.GetFieldName("content-transfer-encoding"), headerValue);
+        }
+
+        private void AppendGivenHeaderFields(StringBuilder builder, IEnumerable<string> headerNames)
+        {
+            foreach (var headerName in headerNames)
+                builder.AppendFormat("{0}: {1}\r\n", Codec.GetFieldName(headerName), HeaderFields[headerName]);
         }
 
         #endregion
