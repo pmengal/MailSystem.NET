@@ -197,5 +197,13 @@ namespace ActiveUp.Net.Tests.Common
 
             headerString.ShouldMatch("Content-Transfer-Encoding: base64");
         }
+
+        [Test]
+        public void should_handle_parts_with_no_charset_and_empty_binary_content_when_forcing_base64()
+        {
+            var mimePart = new MimePart(new byte[0], _textContentFileName);
+
+            Assert.DoesNotThrow(() => mimePart.ToMimeString(true));
+        }
     }
 }
