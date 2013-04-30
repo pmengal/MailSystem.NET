@@ -201,7 +201,7 @@ namespace ActiveUp.Net.Tests.Common
         [Test]
         public void should_handle_parts_with_no_charset_and_empty_binary_content_when_forcing_base64()
         {
-            var mimePart = new MimePart(new byte[0], _textContentFileName);
+            var mimePart = new MimePart(new byte[0], _textContentFileName) { TextContent = null };
 
             Assert.DoesNotThrow(() => mimePart.ToMimeString(true));
         }

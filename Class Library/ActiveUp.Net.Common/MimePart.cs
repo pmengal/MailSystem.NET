@@ -392,7 +392,7 @@ namespace ActiveUp.Net.Mail
         {
             if (IsBinary)
                 return Codec.Wrap(Convert.ToBase64String(BinaryContent), 78);
-            return Codec.Wrap(Convert.ToBase64String(Encoding.GetEncoding(Charset ?? Encoding.UTF8.BodyName).GetBytes(TextContent)), 78);
+            return Codec.Wrap(Convert.ToBase64String(Encoding.GetEncoding(Charset ?? Encoding.UTF8.BodyName).GetBytes(TextContent ?? string.Empty)), 78);
         }
 
         /// <summary>
