@@ -16,6 +16,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
+using System.IO;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Security;
 using System.Text;
@@ -1106,11 +1107,14 @@ namespace ActiveUp.Net.Mail
                         base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
 #endif
 
-            if (command.Length < 200) this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
-            else this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
-            this.OnTcpReading();
-            System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream());
-            System.Text.StringBuilder buffer = new System.Text.StringBuilder();
+            if (command.Length < 200)
+                OnTcpWritten(new TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+            else
+                OnTcpWritten(new TcpWrittenEventArgs("long command data"));
+            
+            OnTcpReading();
+            var sr = new StreamReader(GetStream());
+            var buffer = new StringBuilder();
 
             var commandAsUpper = command.ToUpper();
             string temp = "";
@@ -1118,18 +1122,16 @@ namespace ActiveUp.Net.Mail
             while (true)
             {
                 temp = sr.ReadLine();
-                ActiveUp.Net.Mail.Logger.AddEntry("bordel : " + temp);
                 buffer.Append(temp + "\r\n");
-                if (commandAsUpper.StartsWith("LIST") == true)
+                if (commandAsUpper.StartsWith("LIST"))
                 {
                     if (temp.StartsWith(stamp) || (temp.StartsWith("+ ") && options.IsPlusCmdAllowed))
                     {
                         lastline = temp;
                         break;
                     }
-                }
-
-                else if (commandAsUpper.StartsWith("DONE") == true)
+                } 
+                else if (commandAsUpper.StartsWith("DONE"))
                 {
                     lastline = temp;
                     stamp = lastline.Split(' ')[0];
@@ -1153,15 +1155,15 @@ namespace ActiveUp.Net.Mail
                 var utf8Bytes = Encoding.Convert(sr.CurrentEncoding, Encoding.UTF8, sr.CurrentEncoding.GetBytes(bufferString));
                 bufferString = Encoding.UTF8.GetString(utf8Bytes);
             }
-                
+
             if (buffer.Length < 200)
-                this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(bufferString));
+                OnTcpRead(new TcpReadEventArgs(bufferString));
             else 
-                this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
+                OnTcpRead(new TcpReadEventArgs("long data"));
             if (lastline.StartsWith(stamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ "))
                 return bufferString;
-            else
-                throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed : " + bufferString);
+            
+            throw new Imap4Exception("Command \"" + command + "\" failed : " + bufferString);
         }
         public IAsyncResult BeginCommand(string command, string stamp, AsyncCallback callback, CommandOptions options = null)
         {
