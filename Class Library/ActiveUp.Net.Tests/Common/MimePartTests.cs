@@ -89,6 +89,17 @@ namespace ActiveUp.Net.Tests.Common
         }
 
         [Test]
+        public void should_generate_unique_ContentId()
+        {
+            var firstContentId = new MimePart(_textfilePath, true).ContentId;
+            var secondContentId = new MimePart(_textfilePath, true).ContentId;
+
+            firstContentId.ShouldMatch("^<AMLv2[0-9]*@[^>]*>$");
+            secondContentId.ShouldMatch("^<AMLv2[0-9]*@[^>]*>$");
+            firstContentId.ShouldNotEqual(secondContentId);
+        }
+
+        [Test]
         public void should_initialize_from_file_with_content_id()
         {
             var fileBytes = File.ReadAllBytes(_imagefilePath);
@@ -188,6 +199,16 @@ namespace ActiveUp.Net.Tests.Common
         }
 
         [Test]
+        public void should_generage_header_string_with_contentId()
+        {
+            var mimePart = new MimePart(_textfilePath, true);
+
+            var headerString = mimePart.GetHeaderString();
+
+            headerString.ShouldMatch("Content-ID: <AMLv2[0-9]*@[^>]*>\r\n");
+        }
+
+        [Test]
         public void should_force_base64_encoding_if_specified()
         {
             var fileBytes = File.ReadAllBytes(_textfilePath);
@@ -204,6 +225,140 @@ namespace ActiveUp.Net.Tests.Common
             var mimePart = new MimePart(new byte[0], _textContentFileName) { TextContent = null };
 
             Assert.DoesNotThrow(() => mimePart.ToMimeString(true));
+        }
+
+        [Test]
+        public void should_serialize_single_part_message_to_mime_string()
+        {
+            var textFileContent = File.ReadAllText(_textfilePath);
+            var mimePart = new MimePart(_textfilePath, false);
+
+            var mimeString = mimePart.ToMimeString();
+
+            mimeString.ShouldMatch("Content-Type: text/plain;\r\n");
+            mimeString.ShouldMatch(@"\r\n" + textFileContent + "$");
+        }
+
+        [Test]
+        public void should_use_existing_boundary_if_provided_when_generating_mime_string()
+        {
+            var mimePart = CreateMultipartMimePart("MyAmazingBoundary");
+
+            var mimeString = mimePart.ToMimeString();
+
+            mimeString.ShouldMatch(@"	boundary=""MyAmazingBoundary""\r\n");
+            Regex.Matches(mimeString, "MyAmazingBoundary").Count.ShouldEqual(4);
+        }
+
+        private static MimePart CreateMultipartMimePart(string boundaryOverride = null)
+        {
+            return new MimePart
+                {
+                    ContentType =
+                        {
+                            MimeType = "multipart/mixed",
+                            Parameters = { { "boundary", boundaryOverride } }
+                        },
+                    SubParts = new MimePartCollection
+                        {
+                            new MimePart(_textfilePath, true),
+                            new MimePart(_imagefilePath, false)
+                        }
+                };
+        }
+
+        [Test]
+        public void should_serialize_multipart_message_to_mime_string()
+        {
+            var mimePart = CreateMultipartMimePart();
+
+            var subParts = mimePart.ToMimeString().SplitMimeParts();
+
+            subParts.Length.ShouldEqual(3);
+            var messagePart = subParts[0];
+            messagePart.ShouldMatch("^Content-Type: multipart/mixed;\r\n");
+            messagePart.ShouldMatch(@"	boundary=""---AU_MimePart_[0-9]*""\r\n");
+            var textPart = subParts[1];
+            textPart.ShouldMatch("^Content-Type: text/plain;\r\n");
+            textPart.ShouldMatch("Hello, World !\r\n\r\n$");
+            var imagePart = subParts[2];
+            imagePart.ShouldMatch("^Content-Type: image/gif");
+            imagePart.ShouldMatch("-----AU_MimePart_[0-9]*--\r\n$");
+        }
+
+        [Test]
+        public void should_serialize_to_mime_string_mutipart_message_with_nested_parts()
+        {
+            var mimePart = new MimePart
+                {
+                    ContentType =
+                        {
+                            MimeType = "multipart/mixed",
+                            Parameters = { { "boundary", "OuterBoundary" } }
+                        },
+                    SubParts = new MimePartCollection
+                        {
+                            new MimePart
+                                {
+                                    ContentType =
+                                        {
+                                            MimeType = "multipart/mixed",
+                                            Parameters = { { "boundary", "InnerBoundary" } }
+
+                                        },
+                                    SubParts = new MimePartCollection
+                                        {
+                                            new MimePart(_textfilePath, true),
+                                            new MimePart(_imagefilePath, false)
+                                        }
+                                },
+                            new MimePart(_imagefilePath, false)
+                        }
+                };
+
+            var outerSubParts = mimePart.ToMimeString().SplitMimeParts("--OuterBoundary\r\n");
+            outerSubParts.Length.ShouldEqual(3);
+            var mixedPart = outerSubParts[1];
+            mixedPart.ShouldMatch("^Content-Type: multipart/mixed;");
+            mixedPart.ShouldMatch(@"	boundary=""InnerBoundary""\r\n");
+            var imagePart = outerSubParts[2];
+            imagePart.ShouldMatch("^Content-Type: image/gif");
+            imagePart.ShouldMatch("--OuterBoundary--\r\n$");
+
+            var innerSubParts = mixedPart.SplitMimeParts("--InnerBoundary\r\n");
+            innerSubParts.Length.ShouldEqual(3);
+            var innerTextPart = innerSubParts[1];
+            innerTextPart.ShouldMatch("^Content-Type: text/plain;\r\n");
+            innerTextPart.ShouldMatch("Hello, World !\r\n\r\n$");
+            var innerImagePart = innerSubParts[2];
+            innerImagePart.ShouldMatch("^Content-Type: image/gif");
+            innerImagePart.ShouldMatch("--InnerBoundary--\r\n\r\n\r\n$");
+        }
+
+        [Test]
+        public void should_force_base64_encoding_when_serializing_to_mime_string()
+        {
+            var mimePart = CreateMultipartMimePart();
+
+            var subParts = mimePart.ToMimeString(forceBase64Encoding: true).SplitMimeParts();
+
+            subParts.Length.ShouldEqual(3);
+            var messagePart = subParts[0];
+            messagePart.ShouldMatch("^Content-Type: multipart/mixed;\r\n");
+            messagePart.ShouldMatch("Content-Transfer-Encoding: base64");
+            var textPart = subParts[1];
+            textPart.ShouldMatch("Content-Transfer-Encoding: base64");
+            textPart.ShouldMatch("SGVsbG8sIFdvcmxkICE=\r\n\r\n$");
+            var imagePart = subParts[2];
+            imagePart.ShouldMatch("Content-Transfer-Encoding: base64");
+        }
+    }
+
+    public static class ExtendString
+    {
+        public static string[] SplitMimeParts(this string mimeString, string boundary = "-----AU_MimePart_[0-9]*\r\n")
+        {
+            return Regex.Split(mimeString, boundary);
         }
     }
 }

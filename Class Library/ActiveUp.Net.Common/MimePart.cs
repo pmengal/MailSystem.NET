@@ -18,7 +18,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using ActiveUp.Net.Mail;
 using System.Collections.Specialized;
 #if !PocketPC
 using System.Security.Cryptography.Pkcs;
@@ -35,7 +34,7 @@ namespace ActiveUp.Net.Mail
 	/// The base class used by the Attachment and EmbeddedObject classes.
 	/// </summary>
 #if !PocketPC
-	[System.Serializable]
+	[Serializable]
 #endif
     public class MimePart
     {
@@ -155,42 +154,38 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public string ToMimeString(bool forceBase64Encoding = false)
         {
-            string content = string.Empty;
-
-            if (this.ContentType.Type.Equals("multipart"))
+            var content = string.Empty;
+            if (ContentType.Type != "multipart")
             {
-                string boundary = string.Empty;
-
-                // If there is no boundary, create one.
-                if (this.ContentType.Parameters["boundary"] == null
-                    || this.ContentType.Parameters["boundary"].Length < 1)
-                {
-                    string unique = Codec.GetUniqueString();
-                    boundary = "---AU_MimePart_" + unique;
-                    this.ContentType.Parameters.Add("boundary", boundary);
-                }
-                else boundary = this.ContentType.Parameters["boundary"];
-
-                // Add the header.
-                content += this.GetHeaderString(forceBase64Encoding);
-
-                // Add the subparts.
-                foreach (MimePart subpart in this.SubParts)
-                {
-                    content += "\r\n\r\n--" + boundary + "\r\n";
-                    content += subpart.ToMimeString(forceBase64Encoding);
-                }
-
-                // Close the packet.
-                content += "\r\n\r\n" + "--" + boundary + "--" +"\r\n";
-
-                return content;
+                content = forceBase64Encoding ? Base64EncodeAndWrap() : TextContentTransferEncoded;
+                return GetHeaderString(forceBase64Encoding) + Codec.CrLf + content;
             }
 
-            content = forceBase64Encoding ? this.Base64EncodeAndWrap() : this.TextContentTransferEncoded;
+            InitializeBoundaryIfNotProvided();
+            var boundary = ContentType.Parameters["boundary"];
+            content += GetHeaderString(forceBase64Encoding);
 
-            return this.GetHeaderString(forceBase64Encoding) + "\r\n" + content;
+            foreach (MimePart subpart in SubParts)
+            {
+                content += "\r\n\r\n--" + boundary + Codec.CrLf;
+                content += subpart.ToMimeString(forceBase64Encoding);
+            }
+
+            content += "\r\n\r\n" + "--" + boundary + "--" + Codec.CrLf;
+
+            return content;
         }
+
+        private void InitializeBoundaryIfNotProvided()
+        {
+            if (!string.IsNullOrEmpty(ContentType.Parameters["boundary"]))
+                return;
+
+            // TODO: Factorize the boundary name
+            var newBoundary = "---AU_MimePart_" + Codec.GetUniqueString();
+            ContentType.Parameters.Add("boundary", newBoundary);
+        }
+
 #if !PocketPC
         public static MimePart GetSignaturePart(SignedCms cms)
         {

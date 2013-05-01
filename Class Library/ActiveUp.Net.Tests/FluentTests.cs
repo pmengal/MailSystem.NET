@@ -10,6 +10,11 @@ namespace ActiveUp.Net.Tests
             Assert.AreEqual(other, obj);
         }
 
+        public static void ShouldNotEqual(this object obj, object other)
+        {
+            Assert.AreNotEqual(other, obj);
+        }
+
         public static void ShouldBeNull(this object obj)
         {
             Assert.IsNull(obj);
