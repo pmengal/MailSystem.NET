@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -351,6 +352,42 @@ namespace ActiveUp.Net.Tests.Common
             textPart.ShouldMatch("SGVsbG8sIFdvcmxkICE=\r\n\r\n$");
             var imagePart = subParts[2];
             imagePart.ShouldMatch("Content-Transfer-Encoding: base64");
+        }
+
+        [Test]
+        public void should_return_proper_content_encoding()
+        {
+            var mimePart = new MimePart();
+
+            mimePart.HeaderFields["content-transfer-encoding"] = "quoted-printable";
+            mimePart.ContentTransferEncoding.ShouldEqual(ContentTransferEncoding.QuotedPrintable);
+            mimePart.HeaderFields["content-transfer-encoding"] = "base64";
+            mimePart.ContentTransferEncoding.ShouldEqual(ContentTransferEncoding.Base64);
+            mimePart.HeaderFields["content-transfer-encoding"] = "8bit";
+            mimePart.ContentTransferEncoding.ShouldEqual(ContentTransferEncoding.EightBits);
+            mimePart.HeaderFields["content-transfer-encoding"] = "7bit";
+            mimePart.ContentTransferEncoding.ShouldEqual(ContentTransferEncoding.SevenBits);
+            mimePart.HeaderFields["content-transfer-encoding"] = "binary";
+            mimePart.ContentTransferEncoding.ShouldEqual(ContentTransferEncoding.Binary);
+            mimePart.HeaderFields["content-transfer-encoding"] = "bla";
+            mimePart.ContentTransferEncoding.ShouldEqual(ContentTransferEncoding.Unknown);
+        }
+
+        [Test]
+        public void should_set_proper_content_encoding()
+        {
+            var mimePart = new MimePart();
+
+            mimePart.ContentTransferEncoding = ContentTransferEncoding.Binary;
+            mimePart.HeaderFields["content-transfer-encoding"].ShouldEqual("binary");
+            mimePart.ContentTransferEncoding = ContentTransferEncoding.QuotedPrintable;
+            mimePart.HeaderFields["content-transfer-encoding"].ShouldEqual("quoted-printable");
+            mimePart.ContentTransferEncoding = ContentTransferEncoding.SevenBits;
+            mimePart.HeaderFields["content-transfer-encoding"].ShouldEqual("7bit");
+            mimePart.ContentTransferEncoding = ContentTransferEncoding.EightBits;
+            mimePart.HeaderFields["content-transfer-encoding"].ShouldEqual("8bit");
+            mimePart.ContentTransferEncoding = ContentTransferEncoding.None;
+            mimePart.HeaderFields["content-transfer-encoding"].ShouldEqual("base64");
         }
     }
 

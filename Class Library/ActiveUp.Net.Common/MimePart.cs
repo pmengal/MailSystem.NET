@@ -473,35 +473,42 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-				if(this.HeaderFields["content-transfer-encoding"]!=null) 
-				{
-                    if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("quoted-printable") != -1) return ContentTransferEncoding.QuotedPrintable;
-					else if(this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("base64")!=-1) return ContentTransferEncoding.Base64;
-                    else if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("8bit") != -1) return ContentTransferEncoding.EightBits;
-                    else if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("7bit") != -1) return ContentTransferEncoding.SevenBits;
-                    else if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("binary") != -1) return ContentTransferEncoding.Binary;
-					else return ContentTransferEncoding.Unknown;
-				}
-				else return ContentTransferEncoding.Unknown;
+			    switch (HeaderFields["content-transfer-encoding"])
+			    {
+			        case "quoted-printable":
+                        return ContentTransferEncoding.QuotedPrintable;
+                    case "base64":
+                        return ContentTransferEncoding.Base64;
+                    case "8bit":
+                        return ContentTransferEncoding.EightBits;
+                    case "7bit":
+                        return ContentTransferEncoding.SevenBits;
+                    case "binary":
+                        return ContentTransferEncoding.Binary;
+                    default:
+                        return ContentTransferEncoding.Unknown;
+			    }
 			}
 			set
 			{
-				if(this.HeaderFields["content-transfer-encoding"]!=null) 
-				{
-					if(value==ContentTransferEncoding.Binary) this.HeaderFields["content-transfer-encoding"] = "binary";
-					else if(value==ContentTransferEncoding.QuotedPrintable) this.HeaderFields["content-transfer-encoding"] = "quoted-printable";
-					else if(value==ContentTransferEncoding.SevenBits) this.HeaderFields["content-transfer-encoding"] = "7bit";
-					else if(value==ContentTransferEncoding.EightBits) this.HeaderFields["content-transfer-encoding"] = "8bit";
-					else this.HeaderFields["content-transfer-encoding"] = "base64";
-				}
-				else
-				{
-					if(value==ContentTransferEncoding.Binary) this.HeaderFields.Add("content-transfer-encoding","binary");
-					else if(value==ContentTransferEncoding.QuotedPrintable) this.HeaderFields.Add("content-transfer-encoding","quoted-printable");
-					else if(value==ContentTransferEncoding.SevenBits) this.HeaderFields.Add("content-transfer-encoding","7bit");
-					else if(value==ContentTransferEncoding.EightBits) this.HeaderFields.Add("content-transfer-encoding","8bit");
-					else this.HeaderFields.Add("content-transfer-encoding","base64");
-				}
+			    switch (value)
+			    {
+			        case ContentTransferEncoding.Binary:
+			            HeaderFields["content-transfer-encoding"] = "binary";
+			            break;
+			        case ContentTransferEncoding.QuotedPrintable:
+                        HeaderFields["content-transfer-encoding"] = "quoted-printable";
+			            break;
+			        case ContentTransferEncoding.SevenBits:
+                        HeaderFields["content-transfer-encoding"] = "7bit";
+			            break;
+			        case ContentTransferEncoding.EightBits:
+                        HeaderFields["content-transfer-encoding"] = "8bit";
+			            break;
+			        default:
+                        HeaderFields["content-transfer-encoding"] = "base64";
+			            break;
+			    }
 			}
 		}
 
@@ -527,15 +534,8 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		public string ContentLocation
 		{
-			get
-			{
-				if(this.HeaderFields["content-location"]!=null) return this.HeaderFields["content-location"];
-				else return null;
-			}
-			set
-			{
-				this.HeaderFields["content-location"] = value;
-			}
+			get { return HeaderFields["content-location"]; }
+		    set { HeaderFields["content-location"] = value; }
         }
 
         /// <summary>
@@ -543,10 +543,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public int Size
         {
-            get
-            {
-                return IsBinary ? BinaryContent.Length : TextContent.Length;
-            }
+            get  { return IsBinary ? BinaryContent.Length : TextContent.Length; }
         }
 
         /// <summary>
@@ -557,16 +554,16 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                string filename = string.Empty;
+                var filename = string.Empty;
 
-                if (this.HeaderFields["filename"] != null)
-                    filename = this.HeaderFields.GetValues("filename")[0];
-                else if (this.ContentDisposition != null && this.ContentDisposition.FileName != null)
-                    filename = this.ContentDisposition.FileName;
-                else if (this.ContentDisposition.Parameters["filename"] != null)
-                    filename = this.ContentDisposition.Parameters["filename"];
+                if (HeaderFields["filename"] != null)
+                    filename = HeaderFields.GetValues("filename")[0];
+                else if (ContentDisposition != null && this.ContentDisposition.FileName != null)
+                    filename = ContentDisposition.FileName;
+                else if (ContentDisposition.Parameters["filename"] != null)
+                    filename = ContentDisposition.Parameters["filename"];
                 else if (!string.IsNullOrEmpty(this.ContentName))
-                    filename = this.ContentName;
+                    filename = ContentName;
 
                 filename = filename.Replace("\"", string.Empty);
 
@@ -578,10 +575,11 @@ namespace ActiveUp.Net.Mail
             }
             set
             {
-                if (this.HeaderFields["filename"] != null) this.HeaderFields["filename"] = value;
-                else this.AddHeaderField("filename", value);
+                if (HeaderFields["filename"] != null)
+                    HeaderFields["filename"] = value;
+                else AddHeaderField("filename", value);
 
-                this.ContentDisposition.FileName = value;
+                ContentDisposition.FileName = value;
             }
         }
 
@@ -592,13 +590,9 @@ namespace ActiveUp.Net.Mail
         /// <param name="value">The value.</param>
         private void AddHeaderField(string name, string value)
         {
-            string key = name.ToLower();
-
-            if (this.HeaderFields[key] == null) this.HeaderFields.Add(key, value);
-            else this.HeaderFields[key] = value;
-
-            if (this.HeaderFieldNames[key] == null ) this.HeaderFieldNames.Add(key, name);
-            else this.HeaderFieldNames[key] = name;
+            var key = name.ToLower();
+            HeaderFields[key] = value;
+            HeaderFieldNames[key] = name;
         }
 
         #endregion
