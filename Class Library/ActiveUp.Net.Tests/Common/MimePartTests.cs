@@ -389,6 +389,22 @@ namespace ActiveUp.Net.Tests.Common
             mimePart.ContentTransferEncoding = ContentTransferEncoding.None;
             mimePart.HeaderFields["content-transfer-encoding"].ShouldEqual("base64");
         }
+
+        [Test]
+        public void should_content_transfer_encode_text()
+        {
+            var longTextMessage = "This is a long text message that is big enough to be wrapped and contains characters like \r\n or < that will be encoded";
+            var mimePart = new MimePart(Encoding.UTF8.GetBytes(longTextMessage), _textContentFileName);
+
+            mimePart.ContentTransferEncoding = ContentTransferEncoding.SevenBits;
+            mimePart.TextContentTransferEncoded.ShouldEqual(longTextMessage);
+            mimePart.ContentTransferEncoding = ContentTransferEncoding.EightBits;
+            mimePart.TextContentTransferEncoded.ShouldEqual("This is a long text message that is big enough to be wrapped and contains=\r\n characters like =0D=0A or < that will be encoded");
+            mimePart.ContentType.MimeType = "message/thing";
+            mimePart.TextContentTransferEncoded.ShouldEqual("This is a long text message that is big enough to be wrapped and contains characters like \r\n or < that will be encoded");
+            mimePart.ContentType.MimeType = "unknown";
+            mimePart.TextContentTransferEncoded.ShouldEqual("VGhpcyBpcyBhIGxvbmcgdGV4dCBtZXNzYWdlIHRoYXQgaXMgYmlnIGVub3VnaCB0byBiZSB3cm\r\nFwcGVkIGFuZCBjb250YWlucyBjaGFyYWN0ZXJzIGxpa2UgDQogb3IgPCB0aGF0IHdpbGwgYmUg\r\nZW5jb2RlZA==");
+        }
     }
 
     public static class ExtendString
