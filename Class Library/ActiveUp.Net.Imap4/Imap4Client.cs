@@ -1147,6 +1147,8 @@ namespace ActiveUp.Net.Mail
                         break;
                     }
                 }
+                else
+                    throw new Imap4Exception("Unexpected end of stream");
             }
             var bufferString = buffer.ToString();
 
