@@ -7,7 +7,7 @@ IF NOT DEFINED SHFBROOT (
 
 echo Compiling...
 %SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe ActiveUp.Net.sln /p:Configuration=Retail /p:Platform="Any CPU"
-rem %SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe Build\Documentation.shfbproj /p:Configuration=Release
+%SystemRoot%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe Build\Documentation.shfbproj /p:Configuration=Release
 
 echo Preparing release...
 
