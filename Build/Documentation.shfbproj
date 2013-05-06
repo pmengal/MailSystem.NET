@@ -17,24 +17,24 @@
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Common.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Common.xml" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Dns.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Dns.xml" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Imap4.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Imap4.xml" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Mail.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Mail.xml" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Nntp.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Nntp.xml" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.OpenPGP.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.OpenPGP.xml" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Pop3.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Pop3.xml" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Smtp.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Smtp.xml" xmlns="" />
-    </DocumentationSources>
-  </PropertyGroup>
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Common.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Common.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Dns.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Dns.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Imap4.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Imap4.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Mail.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Mail.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Nntp.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Nntp.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.OpenPGP.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.OpenPGP.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Pop3.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Pop3.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Smtp.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\bin\Retail\ActiveUp.Net.Smtp.xml" xmlns="" />
+    </DocumentationSources>                                
+  </PropertyGroup>                                         
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
