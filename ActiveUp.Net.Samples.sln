@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveUp.Net.Samples", "Samples\CS\ActiveUp.Net.Samples\ActiveUp.Net.Samples.csproj", "{D7048DA0-D973-4B69-9133-BF6620561E77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		MailSystem Dev|Any CPU = MailSystem Dev|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Retail|Any CPU = Retail|Any CPU
+		Trial|Any CPU = Trial|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.MailSystem Dev|Any CPU.ActiveCfg = MailSystem Dev|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.MailSystem Dev|Any CPU.Build.0 = MailSystem Dev|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Retail|Any CPU.ActiveCfg = Retail|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Retail|Any CPU.Build.0 = Retail|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Trial|Any CPU.ActiveCfg = Trial|Any CPU
+		{D7048DA0-D973-4B69-9133-BF6620561E77}.Trial|Any CPU.Build.0 = Trial|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

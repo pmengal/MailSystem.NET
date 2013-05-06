@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <!-- The configuration and platform will be used to determine which
          assemblies to include from solution and project documentation
@@ -18,21 +18,22 @@
     <HtmlHelpName>Documentation</HtmlHelpName>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Common.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Common.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Dns.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Dns.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Imap4.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Imap4.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Mail.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Mail.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Nntp.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Nntp.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.OpenPGP.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.OpenPGP.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Pop3.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Pop3.xml" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Smtp.dll" xmlns="" />
-<DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Smtp.xml" xmlns="" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Common.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Dns.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Dns.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Imap4.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Imap4.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Mail.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Mail.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Nntp.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Nntp.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.OpenPGP.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.OpenPGP.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Pop3.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Pop3.xml" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Smtp.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\Class Library\ActiveUp.Net.Mail\bin\Debug\ActiveUp.Net.Smtp.xml" xmlns="" />
+    </DocumentationSources>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->

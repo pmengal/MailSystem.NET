@@ -28,9 +28,7 @@ using System.Web;
 using System.Xml;
 using System.Text.RegularExpressions;
 using ActiveUp.Net.Mail;
-#if !PocketPC
-using System.Web.UI;
-#endif
+
 namespace ActiveUp.Net.Mail
 {
 	/// <summary>
