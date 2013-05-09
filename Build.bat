@@ -1,6 +1,7 @@
 @echo off
 IF NOT DEFINED SHFBROOT (
 	echo Please install Sandcastle help file builder
+	echo https://shfb.codeplex.com/
 	pause
 	exit
 )
