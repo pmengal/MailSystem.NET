@@ -31,9 +31,9 @@ namespace ActiveUp.Net.Samples.Validation
             bool result = false;
             
             if (_cbUseDnsToValidateEmail.Checked && _tbDnsServer.Text != string.Empty)
-                result = Validator.Validate(_tbEmail.Text, _tbDnsServer.Text);
+                result = SmtpValidator.Validate(_tbEmail.Text, _tbDnsServer.Text);
             else
-                result = Validator.Validate(_tbEmail.Text);
+                result = SmtpValidator.Validate(_tbEmail.Text);
 
             if (result)
             { 

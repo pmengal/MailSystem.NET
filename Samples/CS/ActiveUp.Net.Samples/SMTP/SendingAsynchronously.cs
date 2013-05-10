@@ -56,7 +56,7 @@ namespace ActiveUp.Net.Samples.SMTP
             {
                 //Send the message specifying the address of the smtp server, asynchronously
                 //SendingDone method gets the notification once the message sending is done.
-                message.BeginSend(this._tbSmtpServer.Text, new AsyncCallback(this.SendingDone));
+                SmtpClient.BeginSend(message, this._tbSmtpServer.Text, new AsyncCallback(this.SendingDone));
             }
 
             catch (SmtpException ex)

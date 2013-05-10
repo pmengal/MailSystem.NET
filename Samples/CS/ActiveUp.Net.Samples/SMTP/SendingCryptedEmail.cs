@@ -118,7 +118,7 @@ namespace ActiveUp.Net.Samples.SMTP
                 // We send the email using the specified SMTP server
                 this.AddLogEntry("Sending message.");
                            
-                message.Send(this._tbSmtpServer.Text);
+                SmtpClient.Send(message, this._tbSmtpServer.Text);
 
                 this.AddLogEntry("Message sent successfully.");
             }

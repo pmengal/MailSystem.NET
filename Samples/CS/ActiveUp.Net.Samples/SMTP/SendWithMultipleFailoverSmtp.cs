@@ -59,7 +59,7 @@ namespace ActiveUp.Net.Samples.SMTP
 
             try
             {
-                message.Send(smtpServers);
+                SmtpClient.Send(message, smtpServers);
 
                 this.AddLogEntry("Message sent successfully.");
             }

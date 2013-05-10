@@ -23,7 +23,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -39,6 +39,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,31 +84,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ActiveUp.Net.Common">
-      <HintPath>..\..\..\Release\ActiveUp.Net.Common.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.Common\obj\Debug\ActiveUp.Net.Common.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Dns">
-      <HintPath>..\..\..\Release\ActiveUp.Net.Dns.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.Dns\obj\Debug\ActiveUp.Net.Dns.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Groupware">
-      <HintPath>..\..\..\Release\ActiveUp.Net.Groupware.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.Groupware\obj\Debug\ActiveUp.Net.Groupware.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Imap4">
-      <HintPath>..\..\..\Release\ActiveUp.Net.Imap4.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.Imap4\obj\Debug\ActiveUp.Net.Imap4.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Mail">
-      <HintPath>..\..\..\Release\ActiveUp.Net.Mail.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.Mail\obj\Debug\ActiveUp.Net.Mail.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Nntp">
-      <HintPath>..\..\..\Release\ActiveUp.Net.Nntp.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.Nntp\obj\Debug\ActiveUp.Net.Nntp.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.OpenPGP">
-      <HintPath>..\..\..\Release\ActiveUp.Net.OpenPGP.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.OpenPGP\obj\Debug\ActiveUp.Net.OpenPGP.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Pop3">
-      <HintPath>..\..\..\Release\ActiveUp.Net.Pop3.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.Pop3\obj\Debug\ActiveUp.Net.Pop3.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.WhoIs">
-      <HintPath>..\..\..\Release\ActiveUp.Net.WhoIs.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.WhoIs\obj\Debug\ActiveUp.Net.WhoIs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -348,6 +349,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -851,6 +853,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Class Library\ActiveUp.Net.Smtp\ActiveUp.Net.Smtp.csproj">
+      <Project>{D9BCD15E-A438-4554-89D3-1CF122167FDD}</Project>
+      <Name>ActiveUp.Net.Smtp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

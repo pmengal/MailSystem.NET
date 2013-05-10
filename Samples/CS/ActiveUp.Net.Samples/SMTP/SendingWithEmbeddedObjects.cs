@@ -55,7 +55,7 @@ namespace ActiveUp.Net.Samples.SMTP
                 message.EmbeddedObjects.Add((string)((Utils.ItemTag)_lvEmbeddedObject.Items[i]).Tag, true);
                 bodyHtml += "<img src = \"cid:" + message.EmbeddedObjects[i].ContentId + "\" />";
             }
-            message.Send("mail.example.com", 25, "user1@example.com", "userpassword", SaslMechanism.CramMd5);
+            SmtpClient.Send(message, "mail.example.com", 25, "user1@example.com", "userpassword", SaslMechanism.CramMd5);
 
             message.BodyHtml.Format = BodyFormat.Html;
             if (bodyHtml.Length > 0)
@@ -72,7 +72,7 @@ namespace ActiveUp.Net.Samples.SMTP
 
             try
             {
-                message.Send(this._tbSmtpServer.Text);
+                SmtpClient.Send(message, this._tbSmtpServer.Text);
 
                 this.AddLogEntry("Message sent successfully.");
             }

@@ -73,7 +73,7 @@ namespace ActiveUp.Net.Samples.Common
 
             try
             {
-                message.Send(this._tbSmtpServer.Text);
+                SmtpClient.Send(message, this._tbSmtpServer.Text);
 
                 this.AddLogEntry("Message sent successfully.");
             }

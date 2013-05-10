@@ -55,7 +55,7 @@ namespace ActiveUp.Net.Samples.SMTP
 
             try
             {
-                message.Send(this.smtpServerAddressTextbox.Text, Convert.ToInt32(this.portTextbox.Text),
+                SmtpClient.Send(message, this.smtpServerAddressTextbox.Text, Convert.ToInt32(this.portTextbox.Text),
                     this.loginTextbox.Text, this.passwordTextbox.Text, SaslMechanism.Login);
 
                 this.AddLogEntry("Message sent successfully.");

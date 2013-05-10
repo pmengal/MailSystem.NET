@@ -48,7 +48,8 @@ namespace ActiveUp.Net.Samples.IMAP4
             message.To.Add(this.emailAddressTextbox.Text);
             message.Subject = "This is a notification test.";
             message.BodyText.Text = "This is a notification test.";
-            message.DirectSend();
+
+            SmtpClient.DirectSend(message);
 
             this.AddLogEntry("Notification test message sent.");
         }

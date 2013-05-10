@@ -87,7 +87,7 @@ namespace ActiveUp.Net.Samples.Template
                 try
                 {
                     // We send the mail
-                    merger.Message.Send(smtpServerAddressTextbox.Text);
+                    SmtpClient.Send(merger.Message, smtpServerAddressTextbox.Text);
 
                     this.AddLogEntry("Message sent successfully.");
                 }

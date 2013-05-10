@@ -18,7 +18,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ApplicationIcon>
     </ApplicationIcon>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -62,43 +62,43 @@
     <Reference Include="Accessibility" />
     <Reference Include="ActiveUp.Net.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6cceae6a4844c51b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Common.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Common.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Dns, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=6fc67824e0089991, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Dns.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Dns.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Groupware, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=db51b95d57ebfe25, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Groupware.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Groupware.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Imap4, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=9d424b1770e92b68, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Imap4.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Imap4.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Mail, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=851b9e39ef2572fb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Mail.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Mail.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Nntp, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=01416978360a49a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Nntp.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Nntp.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.OpenPGP, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=0e094b86584219e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.OpenPGP.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.OpenPGP.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Pop3, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=962567372c07b9fe, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Pop3.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Pop3.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.Smtp, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=366752d00f09ae34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.Smtp.dll</HintPath>
+      <HintPath>..\..\..\Class Library\Bin\Debug\ActiveUp.Net.Smtp.dll</HintPath>
     </Reference>
     <Reference Include="ActiveUp.Net.WhoIs, Version=3.1.3251.349, Culture=neutral, PublicKeyToken=6b9afb81c1de5ed4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\ActiveUp.Net.WhoIs.dll</HintPath>
+      <HintPath>..\..\..\Class Library\ActiveUp.Net.WhoIs\obj\Debug\ActiveUp.Net.WhoIs.dll</HintPath>
     </Reference>
     <Reference Include="AxInterop.SHDocVw, Version=1.1.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>

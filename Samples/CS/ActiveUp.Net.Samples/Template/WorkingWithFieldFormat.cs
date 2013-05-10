@@ -84,8 +84,7 @@ namespace ActiveUp.Net.Samples.Template
                 this.AddLogEntry("Sending template message.");
 
                 //Handle the error in case any
-            
-                merger.Message.Send(smtpServerAddressTextbox.Text);
+                SmtpClient.Send(merger.Message, smtpServerAddressTextbox.Text);
 
                 this.AddLogEntry("Message sent successfully.");
             }

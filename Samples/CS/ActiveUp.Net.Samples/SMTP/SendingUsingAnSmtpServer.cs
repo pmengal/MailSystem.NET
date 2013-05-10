@@ -54,7 +54,7 @@ namespace ActiveUp.Net.Samples.SMTP
 
             try
             {
-                message.Send(this.smtpServerAddressTextbox.Text);
+                SmtpClient.Send(message, this.smtpServerAddressTextbox.Text);
 
                 this.AddLogEntry("Message sent successfully.");
             }

@@ -50,7 +50,7 @@ namespace ActiveUp.Net.Samples.Template
                     smtp = smtpServerAddressTextbox.Text;
                 }
 
-                templater.Message.Send(smtp);
+                SmtpClient.Send(templater.Message, smtp);
 
                 this.AddLogEntry("Message sent successfully.");
             }

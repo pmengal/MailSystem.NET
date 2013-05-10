@@ -49,7 +49,7 @@ namespace ActiveUp.Net.Samples.Validation
                     Header h = pop.RetrieveHeaderObject(n);
                     ac = new AddressCollection();
                     ac.Add(h.From);
-                    ac = Validator.Filter(ac);
+                    ac = SmtpValidator.Filter(ac);
 
                     //If address is not filtered
                     if (ac.Count > 0)

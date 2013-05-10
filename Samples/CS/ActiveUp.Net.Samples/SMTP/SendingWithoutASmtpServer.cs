@@ -53,7 +53,7 @@ namespace ActiveUp.Net.Samples.SMTP
 
             try
             {
-                message.DirectSend();
+                SmtpClient.DirectSend(message);
 
                 this.AddLogEntry("Message sent successfully.");
             }

@@ -70,7 +70,7 @@ namespace ActiveUp.Net.Samples.Template
             try
             {
                 // We send the mail
-                message.Send(smtpServerAddressTextbox.Text);
+                SmtpClient.Send(message, smtpServerAddressTextbox.Text);
 
                 this.AddLogEntry("Message sent successfully.");
             }
