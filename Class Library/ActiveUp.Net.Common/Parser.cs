@@ -338,7 +338,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         internal static string Clean(string input)
         {
-            return System.Text.RegularExpressions.Regex.Replace(input, @"(\(((\\\))|[^)])*\))", "").Trim(' ');
+            return Regex.Replace(input, @"(\(((\\\))|[^)])*\))", "").Trim(' ');
         }
 
         #endregion
@@ -990,40 +990,37 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         /// <param name="input">The input.</param>
         /// <returns></returns>
-        public static System.DateTime ParseAsUniversalDateTime(string input)
+        public static DateTime ParseAsUniversalDateTime(string input)
         {
             try
             {
-                input = Parser.ReplaceTimeZone(input);
-                input = Parser.Clean(input);
-                input = System.Text.RegularExpressions.Regex.Replace(input, @" +", " ");
-                input = System.Text.RegularExpressions.Regex.Replace(input, @"( +: +)|(: +)|( +:)", ":");
-                if (input.IndexOf(",") != -1)
-                {
+                input = ReplaceTimeZone(input);
+                input = Clean(input);
+                input = Regex.Replace(input, @" +", " ");
+                input = Regex.Replace(input, @"( +: +)|(: +)|( +:)", ":");
+                if (input.Contains(","))
                     input = input.Replace(input.Split(',')[0] + ", ", "");
-                }
-                string[] parts = input.Replace("\t", string.Empty).Split(' ');
-                int year = System.Convert.ToInt32(parts[2]);
+                var parts = input.Replace("\t", string.Empty).Split(' ');
+                var year = Convert.ToInt32(parts[2]);
                 if (year < 100)
                 {
                     if (year > 49) year += 1900;
                     else year += 2000;
                 }
-                int month = Parser.GetMonth(parts[1]);
-                int day = System.Convert.ToInt32(parts[0]);
-                string[] dateParts = parts[3].Split(':');
-                int hour = System.Convert.ToInt32(dateParts[0]);
-                int minute = System.Convert.ToInt32(dateParts[1]);
-                int second = 0;
-                if (dateParts.Length > 2) second = System.Convert.ToInt32(dateParts[2]);
-                int offset_hours = System.Convert.ToInt32(parts[4].Substring(0, 3));
-                int offset_minutes = System.Convert.ToInt32(parts[4].Substring(3, 2));
-                System.DateTime date = new System.DateTime(year, month, day, hour, minute, second);
-                date = date.AddHours(-offset_hours);
-                date = date.AddMinutes(-offset_minutes);
-                return date;
+                var month = GetMonth(parts[1]);
+                var day = Convert.ToInt32(parts[0]);
+                var timeParts = parts[3].Split(':');
+                var hour = Convert.ToInt32(timeParts[0]);
+                var minute = Convert.ToInt32(timeParts[1]);
+                var second = 0;
+                if (timeParts.Length > 2)
+                    second = Convert.ToInt32(timeParts[2]);
+                var offsetHours = Convert.ToInt32(parts[4].Substring(0, 3));
+                var offsetMinutes = Convert.ToInt32(parts[4].Substring(3, 2));
+                var date = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+                return date.AddHours(-offsetHours).AddMinutes(-offsetMinutes);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return DateTime.MinValue;
             }

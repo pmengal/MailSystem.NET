@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonTests.cs" />
+    <Compile Include="Common\ParserTests.cs" />
     <Compile Include="Common\MimePartTests.cs" />
     <Compile Include="FluentTests.cs" />
     <Compile Include="ImapTests.cs" />

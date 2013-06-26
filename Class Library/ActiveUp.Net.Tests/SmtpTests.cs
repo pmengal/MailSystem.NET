@@ -11,6 +11,7 @@ namespace ActiveUp.Net.Tests
     public class SmtpTests
     {
         [Test(Description = "This test is used to verify that subject encoding is done and later decoded correctly by GMAIL.")]
+        [Ignore("Manual test")]
         public void GmailSubjectEncodingTest()
         {
             Message message = new Message();
