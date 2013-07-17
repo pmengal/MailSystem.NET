@@ -177,6 +177,7 @@
     <Compile Include="TraceInfoCollection.cs" />
     <Compile Include="TrustAllCertificatePolicy.cs" />
     <Compile Include="UsenetXrefList.cs" />
+    <Compile Include="Utils\ExtendString.cs" />
     <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Security;
 using NUnit.Framework;
@@ -13,6 +14,7 @@ namespace ActiveUp.Net.Tests
         private const string _imapPassword = "[password]";
         private const int _imapPort = 993;
         private const string _imapServerAddress = "imap.gmail.com";
+
 
         [Test, Ignore("Manual tests")]
         public void GetGmailLabels()
@@ -60,6 +62,25 @@ namespace ActiveUp.Net.Tests
             File.WriteAllText(Path.Combine(tempFolder, "normal_message.eml"),  message.ToMimeString());
             File.WriteAllText(Path.Combine(tempFolder, "base64_message.eml"),  message.ToMimeString(false, true));
             Process.Start(tempFolder);
+        }
+
+        [Test, Ignore("Manual tests")]
+        public void GetMailWithWeirdSubject()
+        {
+            var mail = GetCrappyEmailFromGmail();
+        }
+
+        public Message GetCrappyEmailFromGmail()
+        {
+            var client = new Imap4Client();
+            client.ConnectSsl(_imapServerAddress, _imapPort);
+            client.Login(_imapLogin, _imapPassword);
+
+
+            var inbox = client.SelectMailbox(@"[Gmail]/All Mail");
+
+            var matchingOrdinals = inbox.Search("X-GM-MSGID 1439630496790426424");
+            return inbox.Fetch.MessageObjectWithGMailExtensions(matchingOrdinals.First());
         }
     }
 }
