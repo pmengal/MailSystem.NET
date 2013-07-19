@@ -52,6 +52,12 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ActiveUp.Net.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.4.1.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <SpecificVersion>False</SpecificVersion>
@@ -72,16 +78,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonTests.cs" />
-    <Compile Include="Common\CodecTests.cs" />
     <Compile Include="Common\ParserTests.cs" />
     <Compile Include="Common\MimePartTests.cs" />
-    <Compile Include="Common\Utils\ExtendStringTests.cs" />
+    <Compile Include="Common\RFC2047\Rfc2047DecoderTests.cs" />
+    <Compile Include="Common\RFC2047\Rfc2047DecoderTests.Splitter.cs" />
     <Compile Include="FluentTests.cs" />
     <Compile Include="ImapTests.cs" />
     <Compile Include="SmtpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resource\sample_headers.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="resource\test_picture.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -126,6 +135,9 @@
       <Project>{D9BCD15E-A438-4554-89D3-1CF122167FDD}</Project>
       <Name>ActiveUp.Net.Smtp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ActiveUp.Net.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

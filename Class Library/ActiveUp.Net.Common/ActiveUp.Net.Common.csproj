@@ -164,6 +164,11 @@
     <Compile Include="QueuingService.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="RegionCollection.cs" />
+    <Compile Include="Rfc2047\AsciiWord.cs" />
+    <Compile Include="Rfc2047\TokenBase.cs" />
+    <Compile Include="Rfc2047\Rfc2047Codec.cs" />
+    <Compile Include="Rfc2047\Separator.cs" />
+    <Compile Include="Rfc2047\EncodedWord.cs" />
     <Compile Include="SaslMechanism.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ServerCollection.cs" />
@@ -177,7 +182,6 @@
     <Compile Include="TraceInfoCollection.cs" />
     <Compile Include="TrustAllCertificatePolicy.cs" />
     <Compile Include="UsenetXrefList.cs" />
-    <Compile Include="Utils\ExtendString.cs" />
     <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>

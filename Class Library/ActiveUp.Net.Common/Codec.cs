@@ -21,6 +21,7 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ActiveUp.Net.Common.Rfc2047;
 
 namespace ActiveUp.Net.Mail
 {
@@ -37,11 +38,6 @@ namespace ActiveUp.Net.Mail
         private static readonly Regex WhiteSpace = new Regex(@"(\?=)(\s*)(=\?)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
         
         /// <summary>
-        /// Detect encoded words as stated by RFC2047
-        /// </summary>
-		private static readonly Regex EncodedWord = new Regex(@"(=\?)(?<charset>[^(\?)]*)(\?)(?<encoding>[BbQq])(\?)(?<message>[^(\?)]*)(\?=)", RegexOptions.CultureInvariant);
-		
-		/// <summary>
 		/// Generates a unique string from the running process and datetime stamp
 		/// </summary>
 		/// <returns></returns>
@@ -139,8 +135,9 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public static string RFC2047Encode(string input, string charset)
 		{
-			return "=?"+charset+"?B?"+System.Convert.ToBase64String(GetEncoding(charset).GetBytes(input))+"?=";
+		    return Rfc2047Codec.Encode(input, charset);
 		}
+
         /// <summary>
         /// Return encoding based on encoding name
         /// Tries to resolve some wrong-formatted encoding names
@@ -190,28 +187,9 @@ namespace ActiveUp.Net.Mail
 		/// output returns I once wrote that ActiveMail rocks ! Here are some weird characters =ç.
 		/// </example>
         public static string RFC2047Decode(string input)
-        {
-            // Remove whitespaces
-            input = WhiteSpace.Replace(
-                input,
-                a => "?==?");
-
-            // Decode encoded words
-            return EncodedWord.Replace(
-                input,
-                delegate(Match curRes)
-                {
-                    if (curRes.Groups["encoding"].Value.Equals("B", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return GetEncoding(curRes.Groups["charset"].Value).GetString(Convert.FromBase64String(curRes.Groups["message"].Value));
-                    }
-                    else
-                    {
-                        string tmpbuffer = curRes.Groups["message"].Value.Replace("_", " ");
-                        return Codec.FromQuotedPrintable(tmpbuffer, curRes.Groups["charset"].Value);
-                    }
-                });
-        }
+		{
+		    return Rfc2047Codec.Decode(input);
+		}
 		
 		/// <summary>
 		/// Decodes text from quoted-printable format defined in RFC 2045 and RFC 2046.

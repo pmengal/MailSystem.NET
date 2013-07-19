@@ -50,3 +50,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: InternalsVisibleTo("ActiveUp.Net.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100410af98e2c0f72503b6705a859a15b91ed7a8fb5361184aeacc798e5b07e688ce8e878adc06995052e5e5ba60439251d8f2fee73e716e669f73f3ca5205f309ec67a1cdc53ed69e1e185831813156f61a8c10fef832b76293adb6201050debe596f27595d1f2f94aeb73bc23604d099f2039052c0c39e41ed8e3ae5638ad24d8")]

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Security;
 using NUnit.Framework;
@@ -65,22 +67,34 @@ namespace ActiveUp.Net.Tests
         }
 
         [Test, Ignore("Manual tests")]
-        public void GetMailWithWeirdSubject()
+        public void dump_emails_for_tests()
         {
-            var mail = GetCrappyEmailFromGmail();
+            var headers = DumpHeadersFromImap();
+
+            using (var writer = new StreamWriter("headers.txt"))
+            {
+                foreach (var header in headers)
+                    writer.WriteLine(header);
+            }   
         }
 
-        public Message GetCrappyEmailFromGmail()
+        public IEnumerable<string> DumpHeadersFromImap()
         {
             var client = new Imap4Client();
             client.ConnectSsl(_imapServerAddress, _imapPort);
             client.Login(_imapLogin, _imapPassword);
 
 
-            var inbox = client.SelectMailbox(@"[Gmail]/All Mail");
+            var allMail = client.SelectMailbox(@"[Gmail]/Tous les messages");
 
-            var matchingOrdinals = inbox.Search("X-GM-MSGID 1439630496790426424");
-            return inbox.Fetch.MessageObjectWithGMailExtensions(matchingOrdinals.First());
+            var matchingOrdinals = allMail.Search("FROM \"interfax@interfax.ru\"").Take(500).ToList();
+            var matchingRussianOrdinals = allMail.Search("FROM \"paubin@bloomberg.net\"").Take(500).ToList();
+
+            foreach (var matchingOrdinal in matchingOrdinals.Concat(matchingRussianOrdinals))
+            {
+                var response = client.Command("fetch " + matchingOrdinal + " (rfc822.header UID)", new CommandOptions { IsPlusCmdAllowed = false });
+                yield return response.Substring(response.IndexOf("}") + 3, response.LastIndexOf(")") - response.IndexOf("}") - 3);
+            }
         }
     }
 }
