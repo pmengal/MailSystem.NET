@@ -738,6 +738,16 @@ namespace ActiveUp.Net.Mail
 		{
             this.SourceClient.Command("store " + messageOrdinal.ToString() + " +flags.silent " + ((FlagCollection)flags).Merged);
 		}
+        /// <summary>
+        /// Same as AddFlags() except no response is requested.
+        /// </summary>
+        /// <param name="messageOrdinal">The message range ordinal position (from:to)</param>
+        /// <param name="flags">Flags to be added to the message.</param>
+        /// <example><see cref="Mailbox.AddFlags"/></example>
+        public void AddFlagsSilent(string messageOrdinal, IFlagCollection flags)
+        {
+            this.SourceClient.Command("store " + messageOrdinal + " flags.silent " + ((FlagCollection)flags).Merged);
+        }
 
         private delegate void DelegateAddFlagsSilent(int messageOrdinal, IFlagCollection flags);
         private DelegateAddFlagsSilent _delegateAddFlagsSilent;
@@ -1358,7 +1368,17 @@ namespace ActiveUp.Net.Mail
 			
 			ActiveUp.Net.Mail.FlagCollection flags = new ActiveUp.Net.Mail.FlagCollection();
 			flags.Add("Deleted");
-			for(int i=1;i<=this.MessageCount;i++) this.AddFlagsSilent(i,flags);
+            switch (this.MessageCount)
+            {
+                case 0:
+                    break;
+                case 1:
+                    this.AddFlagsSilent(1, flags);
+                    break;
+                default:
+                    this.AddFlagsSilent("1:" + this.MessageCount, flags);
+                    break;
+            }
 			if(expunge) this.SourceClient.Expunge();
 		}
 
