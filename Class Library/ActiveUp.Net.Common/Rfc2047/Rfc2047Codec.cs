@@ -17,7 +17,7 @@ namespace ActiveUp.Net.Common.Rfc2047
         /// <summary>
         /// Detect encoded words as stated by RFC2047
         /// </summary>
-        private static readonly Regex EncodedWordRegex = new Regex(@"(=\?)(?<charset>[^(\?)]*)(\?)(?<encoding>[BbQq])(\?)(?<message>[^(\?)]*)(\?=)", RegexOptions.CultureInvariant);
+        private static readonly Regex EncodedWordRegex = new Regex(@"(=\?)(?<charset>[^(\?)]*)(\?)(?<encoding>[BbQq])(\?)(?<message>[^ ?]*)(\?=)", RegexOptions.CultureInvariant);
 
         public static string Decode(string input)
         {
