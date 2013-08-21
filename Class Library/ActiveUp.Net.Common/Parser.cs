@@ -949,36 +949,49 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static Address ParseAddress(string input)
         {
-            Address address = new Address();
             input = input.TrimEnd(';');
             try
             {
-                if (input.IndexOf("<") == -1) address.Email = Parser.RemoveWhiteSpaces(input);
-                else
-                {
-                    if (input.IndexOf("\"") >= 0)
-                    {
-                        string displayName = System.Text.RegularExpressions.Regex.Match(input, "\".*\"").Value;
-                        address.Email = input.Replace(displayName, "").Trim().TrimStart('<').TrimEnd('>');
-                        address.Name = displayName;
-                        if (address.Email == "" && address.Name != "")
-                        {
-                            address.Email = address.Name;
-                            address.Name = "";
-                        }
-                    }
-                    else
-                    {
-                        address.Email = System.Text.RegularExpressions.Regex.Match(input, "<(.|[.])*>").Value.TrimStart('<').TrimEnd('>');
-                        address.Name = input.Replace("<" + address.Email + ">", "");
-                    }
-                    address.Email = Parser.Clean(Parser.RemoveWhiteSpaces(address.Email)).Replace("\"", "");
-                    if (address.Name.IndexOf("\"") == -1) address.Name = Parser.Clean(address.Name);
-                    address.Name = address.Name.Trim(new char[] { ' ', '\"' });
-                }
+                if (!input.Contains("<"))
+                    return new Address { Email = RemoveWhiteSpaces(input) };
+
+                var address = input.Contains("\"") ? ParseAddressWithQuotedDisplayName(input) : ParseAddressWithUnquotedDisplayName(input);
+
+                CleanupAddress(address);
+
                 return address;
             }
-            catch { return new Address(input); }
+            catch
+            {
+                return new Address { Email = input };
+            }
+        }
+
+        private static Address ParseAddressWithQuotedDisplayName(string input)
+        {
+            var displayNameMatch = Regex.Match(input, "\"(.*)(\"|<)");
+            var email = input.Replace(displayNameMatch.Value, string.Empty).Trim().Trim(new[] { '<', '>' });
+            var displayName = displayNameMatch.Groups[1].Value;
+
+            if (string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(displayName))
+                return new Address(displayName, string.Empty);
+
+            return new Address(email, displayName);
+        }
+
+        private static Address ParseAddressWithUnquotedDisplayName(string input)
+        {
+            var email = Regex.Match(input, "<(.|[.])*>").Value.Trim(new[] { '<', '>' });
+            var displayName = input.Replace("<" + email + ">", string.Empty);
+            return new Address(email, displayName);
+        }
+
+        private static void CleanupAddress(Address address)
+        {
+            address.Email = Clean(RemoveWhiteSpaces(address.Email)).Replace("\"", string.Empty);
+            if (!address.Name.Contains("\""))
+                address.Name = Clean(address.Name);
+            address.Name = address.Name.Trim(new[] { ' ', '\"' });
         }
 
         #endregion

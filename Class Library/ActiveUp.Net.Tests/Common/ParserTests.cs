@@ -57,5 +57,53 @@ namespace ActiveUp.Net.Tests.Common
 
             utcDate.ShouldEqual(new DateTime(2013, 06, 24, 09, 37, 00));
         }
+
+        [Test]
+        public void should_parse_basic_address()
+        {
+            var address = Parser.ParseAddress("here@there.com");
+            address.Email.ShouldEqual("here@there.com");
+            address.Name.ShouldEqual(string.Empty);
+        }
+
+        [Test]
+        public void should_parse_quoted_address()
+        {
+            var address = Parser.ParseAddress("<\"here@there.com\">");
+            address.Email.ShouldEqual("here@there.com");
+            address.Name.ShouldEqual(string.Empty);
+        }
+
+        [Test]
+        public void should_parse_address_with_quoted_display_name()
+        {
+            var address = Parser.ParseAddress("\"Display Name\" <display@name.de>");
+            address.Email.ShouldEqual("display@name.de");
+            address.Name.ShouldEqual("Display Name");
+        }
+
+        [Test]
+        public void should_parse_address_with_non_quoted_display_name()
+        {
+            var address = Parser.ParseAddress("DisplayName <display@name.de>");
+            address.Email.ShouldEqual("display@name.de");
+            address.Name.ShouldEqual("DisplayName");
+        }
+
+        [Test]
+        public void should_parse_address_with_chevrons_in_display_name()
+        {
+            var address = Parser.ParseAddress("\"Display Name <with Chevrons>\" <Chevrons@displayname.de>");
+            address.Email.ShouldEqual("Chevrons@displayname.de");
+            address.Name.ShouldEqual("Display Name <with Chevrons>");
+        }
+
+        [Test]
+        public void should_parse_address_with_no_closing_quote_after_display_name()
+        {
+            var address = Parser.ParseAddress("\"Display Name only one quote <Chevrons@displayname.de>");
+            address.Email.ShouldEqual("Chevrons@displayname.de");
+            address.Name.ShouldEqual("Display Name only one quote");
+        }
     }
 }
