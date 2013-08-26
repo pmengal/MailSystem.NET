@@ -836,6 +836,7 @@ namespace ActiveUp.Net.Mail
             base.Close();
             return greeting;
         }
+
         public IAsyncResult BeginDisconnect(AsyncCallback callback)
         {
             this._delegateDisconnect = this.Disconnect;
@@ -845,6 +846,11 @@ namespace ActiveUp.Net.Mail
         public string EndDisconnect(IAsyncResult result)
         {
             return this._delegateDisconnect.EndInvoke(result);
+        }
+
+        public void CloseBaseTCPConnection()
+        {
+            base.Close();
         }
 
         #endregion

@@ -980,6 +980,11 @@ namespace ActiveUp.Net.Mail
                 return this._delegateDisconnect.EndInvoke(result);
             }
 
+            public void CloseBaseTCPConnection()
+            {
+                base.Close();
+            }
+
             #endregion
 
         #endregion
