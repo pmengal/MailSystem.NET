@@ -204,9 +204,17 @@ namespace ActiveUp.Net.Mail
                     }
                     else if (part.ContentType.SubType.Equals("html"))
                     {
-                        message.IsHtml = true;
-                        message.BodyHtml.Charset = part.Charset;
-                        message.BodyHtml.Text = part.TextContent;
+                        if (part.ContentDisposition.Disposition == "inline")
+                        {
+                            message.IsHtml = true;
+                            message.BodyHtml.Text += part.TextContent;
+                        }
+                        else
+                        {
+                            message.IsHtml = true;
+                            message.BodyHtml.Charset = part.Charset;
+                            message.BodyHtml.Text = part.TextContent;
+                        }
                     }
                     else if (part.ContentType.SubType.Equals("xml"))
                     {

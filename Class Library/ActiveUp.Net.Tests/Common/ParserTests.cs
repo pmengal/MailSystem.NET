@@ -107,11 +107,19 @@ namespace ActiveUp.Net.Tests.Common
         }
 
         [Test]
-        public void should_append_parts_with_inline_disposition()
+        public void should_append_text_parts_with_inline_disposition()
         {
-            var message = Parser.ParseMessageFromFile("resource\\multipart_email.eml");
+            var message = Parser.ParseMessageFromFile("resource\\text_multipart_email.eml");
 
             message.BodyText.Text.ShouldEqual("Good morning,\r\nThis is the body of the message.\r\n\r\nThis is the attached disclamer\r\n");
+        }
+
+        [Test]
+        public void should_append_html_parts_with_inline_disposition()
+        {
+            var message = Parser.ParseMessageFromFile("resource\\html_multipart_email.eml");
+
+            message.BodyHtml.Text.ShouldEqual("Good morning,\r\n<em>This is the body of the message.</em>\r\n\r\nThis is the <em>attached</em> disclamer\r\n");
         }
     }
 }
