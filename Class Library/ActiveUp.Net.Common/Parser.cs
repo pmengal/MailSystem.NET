@@ -194,8 +194,13 @@ namespace ActiveUp.Net.Mail
                 {
                     if (part.ContentType.SubType.Equals("plain"))
                     {
-                        message.BodyText.Charset = part.Charset;
-                        message.BodyText.Text = part.TextContent;
+                        if (part.ContentDisposition.Disposition == "inline")
+                            message.BodyText.Text += part.TextContent;
+                        else
+                        {
+                            message.BodyText.Charset = part.Charset;
+                            message.BodyText.Text = part.TextContent;
+                        }
                     }
                     else if (part.ContentType.SubType.Equals("html"))
                     {

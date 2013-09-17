@@ -105,5 +105,13 @@ namespace ActiveUp.Net.Tests.Common
             address.Email.ShouldEqual("Chevrons@displayname.de");
             address.Name.ShouldEqual("Display Name only one quote");
         }
+
+        [Test]
+        public void should_append_parts_with_inline_disposition()
+        {
+            var message = Parser.ParseMessageFromFile("resource\\multipart_email.eml");
+
+            message.BodyText.Text.ShouldEqual("Good morning,\r\nThis is the body of the message.\r\n\r\nThis is the attached disclamer\r\n");
+        }
     }
 }
