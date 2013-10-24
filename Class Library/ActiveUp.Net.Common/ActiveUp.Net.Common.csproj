@@ -117,7 +117,6 @@
     <Compile Include="Condition.cs" />
     <Compile Include="ConditionalCollection.cs" />
     <Compile Include="ContentDisposition.cs" />
-    <None Include="ContentDispositionv1.cs" />
     <Compile Include="ContentTransferEncoding.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="Converter.cs" />
@@ -157,7 +156,6 @@
     <Compile Include="OperatorType.cs" />
     <Compile Include="PaddingDirection.cs" />
     <Compile Include="Parser.cs" />
-    <None Include="Parserv1.cs" />
     <Compile Include="ParsingException.cs" />
     <Compile Include="ProductHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
