@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Collections.Specialized;
+using ActiveUp.Net.Common.Rfc2047;
 #if !PocketPC
 using System.Security.Cryptography.Pkcs;
 #endif
@@ -247,9 +248,9 @@ namespace ActiveUp.Net.Mail
             get
             {
                 if (HeaderFields["content-name"] != null)
-                    return HeaderFields.GetValues("content-name")[0];
+                    return Rfc2047Codec.Decode(HeaderFields.GetValues("content-name")[0]);
                 if (ContentType != null && ContentType.Parameters["name"] != null)
-                    return ContentType.Parameters["name"];
+                    return Rfc2047Codec.Decode(ContentType.Parameters["name"]);
                 return null;
             }
             set

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ActiveUp.Net.Mail;
@@ -120,6 +121,14 @@ namespace ActiveUp.Net.Tests.Common
             var message = Parser.ParseMessageFromFile("resource\\html_multipart_email.eml");
 
             message.BodyHtml.Text.ShouldEqual("Good morning,\r\n<em>This is the body of the message.</em>\r\n\r\nThis is the <em>attached</em> disclamer\r\n");
+        }
+
+        [Test]
+        public void should_decode_content_name()
+        {
+            var message = Parser.ParseMessage(File.ReadAllText("resource\\japanese_email.eml"));
+
+            message.Attachments[0].ContentName.ShouldEqual("大阪瓦斯9532.pdf");
         }
     }
 }
