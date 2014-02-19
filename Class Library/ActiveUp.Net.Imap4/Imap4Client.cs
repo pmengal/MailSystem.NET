@@ -16,10 +16,10 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.IO;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Security;
 using System.Text;
+using System.IO;
 
 namespace ActiveUp.Net.Mail
 {
@@ -486,6 +486,22 @@ namespace ActiveUp.Net.Mail
             return sb.ToString();
         }
 
+        private void receiveResponseData(Stream stream) 
+        {
+            byte[] readBuffer = new byte[this.Client.ReceiveBufferSize];
+            int readbytes = 0;
+
+            readbytes = this.GetStream().Read(readBuffer, 0, readBuffer.Length);
+            while (readbytes > 0) 
+            {
+                stream.Write(readBuffer, 0, readbytes);
+                readbytes = 0;
+                if (this.Available > 0)
+                    readbytes = this.GetStream().Read(readBuffer, 0, readBuffer.Length);
+            }
+
+        }
+
         #endregion
 
         #region Public methods
@@ -836,7 +852,6 @@ namespace ActiveUp.Net.Mail
             base.Close();
             return greeting;
         }
-
         public IAsyncResult BeginDisconnect(AsyncCallback callback)
         {
             this._delegateDisconnect = this.Disconnect;
@@ -1001,7 +1016,7 @@ namespace ActiveUp.Net.Mail
                     response = sr.ReadLine();
                     this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(response));
 
-                    if (response.ToUpper().IndexOf("RECENT") > 0 || response.ToUpper().IndexOf("EXISTS") > 0)
+                    if (response.ToUpper().IndexOf("RECENT") > 0)
                     {
                         this.OnNewMessageReceived(new NewMessageReceivedEventArgs(int.Parse(response.Split(' ')[1])));
                     }
@@ -1030,6 +1045,173 @@ namespace ActiveUp.Net.Mail
         #endregion
 
         #region Command sending, receiving and stream access
+
+        //Binary result
+        public byte[] CommandBinary(string command, CommandOptions options = null) {
+            return this.CommandBinary(command, System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString()), options);
+        }
+
+        public byte[] CommandBinary(string command, string stamp, CommandOptions options = null) {
+            if (options == null)
+                options = new CommandOptions();
+
+            if (command.Length < 200)
+                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+            else
+                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs("long command data"));
+            //base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+
+            // Although I have still not read all the relevant code but here it looks that you are
+            // directly trying to write to the network stream which is incorrect. I have commented your
+            // line above writing directly to network stream and have slightly changed it to write to
+            // sslstream. I am unable to biuld this solution as 200+ missing file errors are shown. But
+            // I have run the NUnit test twice and it is passing succesfully therefore I have not checked
+            // the reading portion from ssl stream. Theoreticaly decrytpion exception should only get generated
+            // when there is a problem with reading from ssl stream but may be because direct attempt was made
+            // to write to Network stream so some how it threw decryption exception.
+            // please see it run and test it--------Atif
+
+            // Complement the Atif changes. Use the flag for !PocketPC config for avoid build errors.
+
+#if !PocketPC
+            if (this._sslStream != null) {
+                this._sslStream.Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+            } else {
+                base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+            }
+#endif
+
+#if PocketPC
+                        base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+#endif
+
+            if (command.Length < 200)
+                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+            else
+                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
+            this.OnTcpReading();
+            System.Text.StringBuilder buffer = new System.Text.StringBuilder();
+
+            var commandAsUpper = command.ToUpper();
+            string temp = "";
+            string lastline = "";
+            using (StreamReader sr = new StreamReader(new MemoryStream())) {
+                while (true) {
+                    if (sr.EndOfStream) {
+                        long streamPos = sr.BaseStream.Position;
+                        this.receiveResponseData(sr.BaseStream);
+                        sr.BaseStream.Seek(streamPos, SeekOrigin.Begin);
+                    }
+                    temp = sr.ReadLine();
+                    ActiveUp.Net.Mail.Logger.AddEntry("bordel : " + temp);
+                    buffer.Append(temp + "\r\n");
+                    if (commandAsUpper.StartsWith("LIST") == true) {
+                        if (temp.StartsWith(stamp) || (temp.StartsWith("+ ") && options.IsPlusCmdAllowed)) {
+                            lastline = temp;
+                            break;
+                        }
+                    } else if (commandAsUpper.StartsWith("DONE") == true) {
+                        lastline = temp;
+                        stamp = lastline.Split(' ')[0];
+                        break;
+                    } else if (temp != null) {
+                        //Had to remove + check - this was failing when the email contained a line with + 
+                        //Please add comments as to why here, and reimplement differently
+                        if (temp.StartsWith(stamp) || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || (temp.StartsWith("+ ") && options.IsPlusCmdAllowed)) {
+                            lastline = temp;
+                            break;
+                        }
+                    }
+                }
+                var bufferString = buffer.ToString();
+                byte[] bufferBytes = new byte[sr.BaseStream.Length];
+                sr.BaseStream.Seek(0, SeekOrigin.Begin);
+                sr.BaseStream.Read(bufferBytes, 0, bufferBytes.Length);
+
+                if (!sr.CurrentEncoding.Equals(Encoding.UTF8)) {
+                    var utf8Bytes = Encoding.Convert(sr.CurrentEncoding, Encoding.UTF8, sr.CurrentEncoding.GetBytes(bufferString));
+                    bufferString = Encoding.UTF8.GetString(utf8Bytes);
+                }
+
+                if (buffer.Length < 200)
+                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(bufferString));
+                else
+                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
+                if (lastline.StartsWith(stamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ "))
+                    return bufferBytes;
+                else
+                    throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
+            }
+        }
+
+        public byte[] CommandBinary(string command, string stamp, string checkStamp, CommandOptions options = null)
+        {
+            if (options == null)
+                options = new CommandOptions();
+
+            if (command.Length < 200)
+                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+            else
+                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs("long command data"));
+            base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+            if (command.Length < 200)
+                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+            else
+                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
+            this.OnTcpReading();
+            //System.IO.StreamReader sr = new System.IO.StreamReader(base.GetStream(), true);
+            System.Text.StringBuilder buffer = new System.Text.StringBuilder();
+            string temp = "";
+            string lastline = "";
+            using (StreamReader sr = new StreamReader(new MemoryStream()))
+            {
+                while (true)
+                {
+                    if (sr.EndOfStream)
+                    {
+                        long streamPos = sr.BaseStream.Position;
+                        this.receiveResponseData(sr.BaseStream);
+                        sr.BaseStream.Seek(streamPos, SeekOrigin.Begin);
+                    }
+                    temp = sr.ReadLine();
+                    buffer.Append(temp + "\r\n");
+                    if (temp.StartsWith("+ ") && options.IsPlusCmdAllowed)
+                    {
+                        lastline = temp;
+                        break;
+                    }
+
+                    if (temp.StartsWith(checkStamp) || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()))
+                    {
+                        lastline = temp;
+                        break;
+                    }
+                }
+
+                byte[] bufferBytes = new byte[sr.BaseStream.Length];
+                sr.BaseStream.Seek(0, SeekOrigin.Begin);
+                sr.BaseStream.Read(bufferBytes, 0, bufferBytes.Length);
+
+                if (buffer.Length < 200)
+                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(buffer.ToString()));
+                else
+                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
+                if (lastline.StartsWith(checkStamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ "))
+                    return bufferBytes;
+                else                    
+                    throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
+            }
+        }
+
+        //With Encoding parameter
+        public string Command(string command, string stamp, Encoding encoding, CommandOptions options = null) {
+            return encoding.GetString(this.CommandBinary(command, stamp, options));
+        }
+
+        public string Command(string command, string stamp, string checkStamp, Encoding encoding, CommandOptions options = null)
+        {
+            return encoding.GetString(this.CommandBinary(command, stamp, checkStamp, options));
+        }
 
         /// <summary>
         /// Sends the command to the server.
@@ -1079,99 +1261,7 @@ namespace ActiveUp.Net.Mail
 
         public string Command(string command, string stamp, CommandOptions options = null)
         {
-            if (options == null)
-                options = new CommandOptions();
-
-            if (command.Length < 200) this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
-            else this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs("long command data"));
-            //base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-
-            // Although I have still not read all the relevant code but here it looks that you are
-            // directly trying to write to the network stream which is incorrect. I have commented your
-            // line above writing directly to network stream and have slightly changed it to write to
-            // sslstream. I am unable to biuld this solution as 200+ missing file errors are shown. But
-            // I have run the NUnit test twice and it is passing succesfully therefore I have not checked
-            // the reading portion from ssl stream. Theoreticaly decrytpion exception should only get generated
-            // when there is a problem with reading from ssl stream but may be because direct attempt was made
-            // to write to Network stream so some how it threw decryption exception.
-            // please see it run and test it--------Atif
-
-            // Complement the Atif changes. Use the flag for !PocketPC config for avoid build errors.
-
-#if !PocketPC
-            if (this._sslStream != null)
-            {
-                this._sslStream.Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-            }
-            else
-            {
-                base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-            }
-#endif
-
-#if PocketPC
-                        base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-#endif
-
-            if (command.Length < 200)
-                OnTcpWritten(new TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
-            else
-                OnTcpWritten(new TcpWrittenEventArgs("long command data"));
-            
-            OnTcpReading();
-            var sr = new StreamReader(GetStream());
-            var buffer = new StringBuilder();
-
-            var commandAsUpper = command.ToUpper();
-            string temp = "";
-            string lastline = "";
-            while (true)
-            {
-                temp = sr.ReadLine();
-                buffer.Append(temp + "\r\n");
-                if (commandAsUpper.StartsWith("LIST"))
-                {
-                    if (temp.StartsWith(stamp) || (temp.StartsWith("+ ") && options.IsPlusCmdAllowed))
-                    {
-                        lastline = temp;
-                        break;
-                    }
-                } 
-                else if (commandAsUpper.StartsWith("DONE"))
-                {
-                    lastline = temp;
-                    stamp = lastline.Split(' ')[0];
-                    break;
-                }
-                else if (temp != null)
-                {
-                    //Had to remove + check - this was failing when the email contained a line with + 
-                    //Please add comments as to why here, and reimplement differently
-                    if (temp.StartsWith(stamp) || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || (temp.StartsWith("+ ") && options.IsPlusCmdAllowed))
-                    {
-                        lastline = temp;
-                        break;
-                    }
-                }
-                else
-                    throw new Imap4Exception("Unexpected end of stream");
-            }
-            var bufferString = buffer.ToString();
-
-            if (!sr.CurrentEncoding.Equals(Encoding.UTF8))
-            {
-                var utf8Bytes = Encoding.Convert(sr.CurrentEncoding, Encoding.UTF8, sr.CurrentEncoding.GetBytes(bufferString));
-                bufferString = Encoding.UTF8.GetString(utf8Bytes);
-            }
-
-            if (buffer.Length < 200)
-                OnTcpRead(new TcpReadEventArgs(bufferString));
-            else 
-                OnTcpRead(new TcpReadEventArgs("long data"));
-            if (lastline.StartsWith(stamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ "))
-                return bufferString;
-            
-            throw new Imap4Exception("Command \"" + command + "\" failed : " + bufferString);
+            return this.Command(command, stamp, Encoding.UTF8, options);
         }
         public IAsyncResult BeginCommand(string command, string stamp, AsyncCallback callback, CommandOptions options = null)
         {
@@ -1181,52 +1271,7 @@ namespace ActiveUp.Net.Mail
 
         public string Command(string command, string stamp, string checkStamp, CommandOptions options = null)
         {
-            if (options == null)
-                options = new CommandOptions();
-
-            if (command.Length < 200) this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
-            else this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs("long command data"));
-
-#if !PocketPC
-            if (this._sslStream != null) {
-                this._sslStream.Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-            }
-            else {
-                base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-            }
-#endif
-
-#if PocketPC
-                        base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-#endif
-
-            if (command.Length < 200) this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
-            else this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
-            this.OnTcpReading();
-            System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream());
-            System.Text.StringBuilder buffer = new System.Text.StringBuilder();
-            string temp = "";
-            string lastline = "";
-            while (true)
-            {
-                temp = sr.ReadLine();
-                buffer.Append(temp + "\r\n");
-                if (temp.StartsWith("+ ") && options.IsPlusCmdAllowed)
-                {
-                    lastline = temp;
-                    break;
-                }
-
-                if (temp.StartsWith(checkStamp) || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()))
-                {
-                    lastline = temp;
-                    break;
-                }
-            }
-            if (buffer.Length < 200) this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(buffer.ToString()));
-            else this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
-            if (lastline.StartsWith(checkStamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ ")) return buffer.ToString();
-            else throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed : " + buffer.ToString());
+            return this.Command(command, stamp, checkStamp, Encoding.UTF8, options);
         }
         public IAsyncResult BeginCommand(string command, string stamp, string checkStamp, AsyncCallback callback, CommandOptions options = null)
         {

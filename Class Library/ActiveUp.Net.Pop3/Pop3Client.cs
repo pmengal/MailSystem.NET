@@ -20,6 +20,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using ActiveUp.Net.Mail;
 using ActiveUp.Net.Security;
+using System.IO;
 
 namespace ActiveUp.Net.Mail
 {
@@ -231,7 +232,7 @@ namespace ActiveUp.Net.Mail
         #region Private fields
 
         int _messageCount;
-        long _totalSize;
+        int _totalSize;
 #if !PocketPC
         System.Net.Security.SslStream _sslStream;
 #endif
@@ -303,7 +304,7 @@ namespace ActiveUp.Net.Mail
         /// pop.Disconnect();
         /// </code>
         /// </example>
-        public long TotalSize
+        public int TotalSize
         {
             get
             {
@@ -488,6 +489,21 @@ namespace ActiveUp.Net.Mail
             System.Threading.Thread.Sleep(1);
         }
 #endif
+        private void receiveResponseData(Stream stream)
+        {
+            byte[] readBuffer = new byte[this.Client.ReceiveBufferSize];
+            int readbytes = 0;
+
+            readbytes = this.GetStream().Read(readBuffer, 0, readBuffer.Length);
+            while (readbytes > 0)
+            {
+                stream.Write(readBuffer, 0, readbytes);
+                readbytes = 0;
+                if (this.Available > 0)
+                    readbytes = this.GetStream().Read(readBuffer, 0, readBuffer.Length);
+            }
+
+        }
 
         #endregion
 
@@ -626,7 +642,7 @@ namespace ActiveUp.Net.Mail
                 this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, host, response));
                 response = this.Command("STAT");
                 this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                this._totalSize = System.Convert.ToInt64(response.Split(' ')[2]);
+                this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
                 return presponse;
             }
             public IAsyncResult BeginConnect(string host, int port, string username, string password, AsyncCallback callback)
@@ -713,7 +729,7 @@ namespace ActiveUp.Net.Mail
                     this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(user, pass, host, response));
                     response = this.Command("STAT");
                     this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                    this._totalSize = System.Convert.ToInt64(response.Split(' ')[2]);
+                    this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
                 }
                 return presponse;
             }
@@ -857,7 +873,7 @@ namespace ActiveUp.Net.Mail
                 this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(user, pass, host, response));
                 response = this.Command("STAT");
                 this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                this._totalSize = System.Convert.ToInt64(response.Split(' ')[2]);
+                this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
                 return presponse;
             }
             public IAsyncResult BeginConnectSsl(string host, int port, string user, string pass, SslHandShake sslHandShake, AsyncCallback callback)
@@ -1297,9 +1313,7 @@ namespace ActiveUp.Net.Mail
                 this.GetStream().Write(System.Text.Encoding.GetEncoding("iso-8859-1").GetBytes("RETR " + messageIndex.ToString() + "\r\n"), 0, 7 + messageIndex.ToString().Length);
                 this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("RETR " + messageIndex.ToString()));
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                this.OnTcpReading();
-                //System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream(), System.Text.Encoding.ASCII);
-                System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream(), System.Text.Encoding.GetEncoding("iso-8859-1"));
+                this.OnTcpReading();     
 #else
                 this.GetStream().Write(PPCEncode.GetBytes("RETR " + messageIndex.ToString() + "\r\n"), 0, 7 + messageIndex.ToString().Length);
                 this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("RETR " + messageIndex.ToString()));
@@ -1307,32 +1321,56 @@ namespace ActiveUp.Net.Mail
                 this.OnTcpReading();
                 System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream(), PPCEncode);
 #endif
-                string str = sr.ReadLine();
-                if (str.StartsWith("+OK"))
-                {
-                    while (true)
+                using (StreamReader sr = new StreamReader(new MemoryStream()))
+                {                    
+                    this.receiveResponseData(sr.BaseStream);
+                    sr.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                    string str = sr.ReadLine();
+                    string firstMsgLine = null;
+                    if (str.StartsWith("+OK"))
                     {
-                        str = sr.ReadLine();
-                        if (str != ".")
+                        while (true)
                         {
-                            if (str.StartsWith(@".."))
-                                sb.Append(str.Substring(1) + "\r\n");
-                            else
-                                sb.Append(str + "\r\n");
+                            if (sr.EndOfStream)
+                            {
+                                long streamPos = sr.BaseStream.Position;
+                                this.receiveResponseData(sr.BaseStream);
+                                sr.BaseStream.Seek(streamPos, SeekOrigin.Begin);
+                            }
+                            str = sr.ReadLine();
+                            if (firstMsgLine == null)
+                                firstMsgLine = str;
+                            if (str != ".")
+                            {
+                                if (str.StartsWith(@".."))
+                                    sb.Append(str.Substring(1) + "\r\n");
+                                else
+                                    sb.Append(str + "\r\n");
+                            } else
+                                break;
                         }
-                        else break;
-                    }
-                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("Long message data..."));
-                }
-                else throw new ActiveUp.Net.Mail.Pop3Exception("RETR failed : " + str);
-                //byte[] buf = System.Text.Encoding.ASCII.GetBytes(sb.ToString());
+                        this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("Long message data..."));
+                    } else
+                        throw new ActiveUp.Net.Mail.Pop3Exception("RETR failed : " + str);
+                    //byte[] buf = System.Text.Encoding.ASCII.GetBytes(sb.ToString());
 #if !PocketPC
-                byte[] buf = System.Text.Encoding.GetEncoding("iso-8859-1").GetBytes(sb.ToString());
+                    //extract message
+                    sr.BaseStream.Seek(0, SeekOrigin.Begin);
+                    byte[] response = new byte[sr.BaseStream.Length];
+                    sr.BaseStream.Read(response, 0, response.Length);
+
+                    string prefix = sr.CurrentEncoding.GetString(response).Substring(0, sr.CurrentEncoding.GetString(response).IndexOf(firstMsgLine));
+                    string suffix = sr.CurrentEncoding.GetString(response).Substring(sr.CurrentEncoding.GetString(response).LastIndexOf("."));
+                    byte[] buf = new byte[sr.BaseStream.Length - sr.CurrentEncoding.GetByteCount(prefix) - sr.CurrentEncoding.GetByteCount(suffix)];                    
+                    Array.Copy(response, sr.CurrentEncoding.GetByteCount(prefix), buf, 0, buf.Length); 
+                   
 #else
                 byte[] buf = PPCEncode.GetBytes(sb.ToString());
 #endif
-                this.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(buf, messageIndex, this.MessageCount));
-                return buf;
+                    this.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(buf, messageIndex, this.MessageCount));
+                    return buf;
+                }
             }
             else
                 throw new Pop3Exception("The specified message index is invalid. Please specify an index that is greater than 0 and less or equal that MessageCount.");
@@ -1929,7 +1967,7 @@ namespace ActiveUp.Net.Mail
             string response = this.Command("STAT");
             //ActiveUp.Net.Mail.Logger.AddEntry(response);
             this.MessageCount = Int32.Parse(response.Split(' ')[1]);
-            this.TotalSize = Int64.Parse(response.Split(' ')[2]);
+            this.TotalSize = Int32.Parse(response.Split(' ')[2]);
         }
 
         public IAsyncResult BeginUpdateStats(AsyncCallback callback)

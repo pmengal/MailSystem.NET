@@ -37,6 +37,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class Parser
     {
+        private static System.Text.Encoding defaultEncoding = System.Text.Encoding.GetEncoding("iso-8859-1");
 
         #region Methods
 
@@ -133,14 +134,35 @@ namespace ActiveUp.Net.Mail
         private static void ParseSubParts(ref MimePart part, Message message)
         {
             string boundary = part.ContentType.Parameters["boundary"];
+            string parentPartAsciiBody = Encoding.ASCII.GetString(part.BinaryContent);
+            byte[] parentPartBinary = part.BinaryContent;
+
             ActiveUp.Net.Mail.Logger.AddEntry("boundary : " + boundary);
-            string[] arrpart = Regex.Split(part.OriginalContent, @"\r?\n?" + Regex.Escape("--" + boundary));
+            string[] arrpart = Regex.Split(parentPartAsciiBody, @"\r?\n?" + Regex.Escape("--" + boundary));
+
             for (int i = 1; i < arrpart.Length - 1; i++)
             {
                 string strpart = arrpart[i];
+                int bounaryByteLen = Encoding.ASCII.GetByteCount(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));                
+                int binaryPartLen = bounaryByteLen + Encoding.ASCII.GetByteCount(strpart.ToCharArray());
+
+                //complete Part (incl. boundary)
+                byte[] binaryPart = new byte[binaryPartLen];
+                Array.Copy(parentPartBinary, binaryPart, binaryPart.Length);
+
+                //Body only (without Boundary)
+                byte[] binaryBody = new byte[Encoding.ASCII.GetByteCount(strpart)];
+                Array.Copy(binaryPart, bounaryByteLen, binaryBody, 0, binaryBody.Length);
+
+                //Remove Subpart from ParentPart
+                byte[] tmp = new byte[parentPartBinary.Length - binaryPart.Length];
+                Array.Copy(parentPartBinary, binaryPart.Length, tmp, 0, (parentPartBinary.Length - binaryPart.Length));
+                parentPartBinary = tmp;
+                parentPartAsciiBody = Encoding.ASCII.GetString(parentPartBinary);
+
                 if (!strpart.StartsWith("--") && !string.IsNullOrEmpty(strpart))
                 {
-                    MimePart newpart = Parser.ParseMimePart(strpart, message);
+                    MimePart newpart = Parser.ParseMimePart(binaryBody, message);
                     newpart.ParentMessage = message;
                     newpart.Container = part;
                     part.SubParts.Add(newpart);
@@ -194,27 +216,14 @@ namespace ActiveUp.Net.Mail
                 {
                     if (part.ContentType.SubType.Equals("plain"))
                     {
-                        if (part.ContentDisposition.Disposition == "inline")
-                            message.BodyText.Text += part.TextContent;
-                        else
-                        {
-                            message.BodyText.Charset = part.Charset;
-                            message.BodyText.Text = part.TextContent;
-                        }
+                        message.BodyText.Charset = part.Charset;
+                        message.BodyText.Text = part.TextContent;
                     }
                     else if (part.ContentType.SubType.Equals("html"))
                     {
-                        if (part.ContentDisposition.Disposition == "inline")
-                        {
-                            message.IsHtml = true;
-                            message.BodyHtml.Text += part.TextContent;
-                        }
-                        else
-                        {
-                            message.IsHtml = true;
-                            message.BodyHtml.Charset = part.Charset;
-                            message.BodyHtml.Text = part.TextContent;
-                        }
+                        message.IsHtml = true;
+                        message.BodyHtml.Charset = part.Charset;
+                        message.BodyHtml.Text = part.TextContent;
                     }
                     else if (part.ContentType.SubType.Equals("xml"))
                     {
@@ -265,6 +274,8 @@ namespace ActiveUp.Net.Mail
             // This is a Base64 encoded part body.
             if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.Base64))
             {
+
+                part.TextContent = Encoding.ASCII.GetString(part.BinaryContent);
 #if !PocketPC
                 try
                 {
@@ -280,6 +291,7 @@ namespace ActiveUp.Net.Mail
                 }
 #endif
 
+                part.TextContent = Encoding.ASCII.GetString(part.BinaryContent);
                 if (part.ContentDisposition != ContentDisposition.Attachment)
                     part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent, 0, part.BinaryContent.Length);
             }
@@ -290,17 +302,15 @@ namespace ActiveUp.Net.Mail
                 //    charset = part.Container.Charset;
 
                 // Let's decode.
+                part.TextContent = Encoding.ASCII.GetString(part.BinaryContent);
                 part.TextContent = Codec.FromQuotedPrintable(part.TextContent, charset);
                 // Knowing the charset, we can provide a binary version of this body data.
                 part.BinaryContent = Codec.GetEncoding(charset).GetBytes(part.TextContent);
             }
             // Otherwise, this is an unencoded part body and we keep the text version as it is.
             else
-            {
-                var encoding = Codec.GetEncoding(charset);
-                // Knowing the charset, we can provide a binary version of this body data.
-                part.BinaryContent = encoding.GetBytes(part.TextContent);
-                part.TextContent = encoding.GetString(part.BinaryContent);
+            {                                
+                part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent);
             }
         }
 
@@ -367,7 +377,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static string Fold(string input)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            StringBuilder sb = new System.Text.StringBuilder();
             string[] separated = input.Split(' ');
             string templine = string.Empty;
             foreach (string t in separated)
@@ -414,11 +424,12 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns></returns>
-        public static MimePart ParseMimePart(string data, Message message)
+        public static MimePart ParseMimePart(byte[] binaryData, Message message)
         {
             MimePart part = new MimePart();
+            String data = Encoding.ASCII.GetString(binaryData);
             part.ParentMessage = message;
-            part.OriginalContent = data;
+            part.OriginalContent = data; //ASCII content for header parsing            
 
             try
             {
@@ -450,10 +461,12 @@ namespace ActiveUp.Net.Mail
                     if (bodyStart < data.Length)
                     {
                         body = data.Substring(bodyStart);
+                        part.BinaryContent = GetBinaryPart(binaryData, body);                                         
                     }
 
+                    //Body will be set by DecodePartBody() => decode part.BinaryContent 
                     // Store the (maybe still encoded) body.
-                    part.TextContent = body;
+                    //part.TextContent = body; 
 
 
 
@@ -518,6 +531,14 @@ namespace ActiveUp.Net.Mail
             }
 
             return part;
+        }
+
+
+        private static byte[] GetBinaryPart(byte[] srcData, String asciiPart) {
+            byte[] result = new byte[Encoding.ASCII.GetByteCount(asciiPart.ToCharArray())];
+            Array.Copy(srcData, (srcData.Length - result.Length), result, 0, result.Length);
+
+            return result;
         }
 
         #endregion
@@ -741,7 +762,7 @@ namespace ActiveUp.Net.Mail
         {
             //string msg = System.Text.Encoding.ASCII.GetString(data);
 #if !PocketPC
-            string msg = System.Text.Encoding.UTF8.GetString(data, 0, data.Length);
+            //string msg = System.Text.Encoding.UTF8.GetString(data, 0, data.Length);
 #else
             string msg = Pop3Client.PPCEncode.GetString(data, 0, data.Length);
 #endif
@@ -751,7 +772,7 @@ namespace ActiveUp.Net.Mail
             try
             {
                 // Build a part tree and get all headers. 
-                MimePart part = ParseMimePart(msg, message);
+                MimePart part = ParseMimePart(data, message);
 
                 // Fill a new message object with the new information.
                 message.OriginalData = data;
@@ -944,7 +965,7 @@ namespace ActiveUp.Net.Mail
                     comma_separated[i + 1] = comma_separated[i] + comma_separated[i + 1];
 
             foreach (string t in comma_separated)
-                if(t.IndexOf("@")!=-1)
+                if (t.IndexOf("@") != -1)
                     addresses.Add(Parser.ParseAddress((t.IndexOf("<") != -1 && t.IndexOf(":") != -1 && t.IndexOf(":") < t.IndexOf("<")) ? ((t.Split(':')[0].IndexOf("\"") == -1) ? t.Split(':')[1] : t) : t));
 
             //MatchCollection matches = Regex.Matches(input, "(\"(?<name>.+?)\")*\\s*<?(?<email>[^<>,\"\\s]+)>?");
@@ -968,7 +989,16 @@ namespace ActiveUp.Net.Mail
                 if (!input.Contains("<"))
                     return new Address { Email = RemoveWhiteSpaces(input) };
 
-                var address = input.Contains("\"") ? ParseAddressWithQuotedDisplayName(input) : ParseAddressWithUnquotedDisplayName(input);
+                Address address = null;
+
+                Match displayNameMatch = Regex.Match(input, "(\"?(.+)(\"?(?=\\s?<)|(?=<)))");
+                if (displayNameMatch.Success)
+                {
+                    address = new Address(input.Replace(displayNameMatch.Value, string.Empty).Trim().Trim(new[] { '<', '>' }), displayNameMatch.Groups[1].Value);
+                } else
+                {
+                    address = new Address(input.Trim().Trim(new[] { '<', '>' }), string.Empty);
+                }
 
                 CleanupAddress(address);
 
@@ -980,32 +1010,16 @@ namespace ActiveUp.Net.Mail
             }
         }
 
-        private static Address ParseAddressWithQuotedDisplayName(string input)
-        {
-            var displayNameMatch = Regex.Match(input, "\"(.*)(\"|<)");
-            var email = input.Replace(displayNameMatch.Value, string.Empty).Trim().Trim(new[] { '<', '>' });
-            var displayName = displayNameMatch.Groups[1].Value;
-
-            if (string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(displayName))
-                return new Address(displayName, string.Empty);
-
-            return new Address(email, displayName);
-        }
-
-        private static Address ParseAddressWithUnquotedDisplayName(string input)
-        {
-            var email = Regex.Match(input, "<(.|[.])*>").Value.Trim(new[] { '<', '>' });
-            var displayName = input.Replace("<" + email + ">", string.Empty);
-            return new Address(email, displayName);
-        }
 
         private static void CleanupAddress(Address address)
         {
-            address.Email = Clean(RemoveWhiteSpaces(address.Email)).Replace("\"", string.Empty);
+            //address.Email = Clean(RemoveWhiteSpaces(address.Email)).Replace("\"", string.Empty);
+            address.Email = Clean(RemoveWhiteSpaces(address.Email)).Replace("\\\"", string.Empty).Replace("\"", string.Empty); //Cleanup required?
             if (!address.Name.Contains("\""))
                 address.Name = Clean(address.Name);
             address.Name = address.Name.Trim(new[] { ' ', '\"' });
         }
+
 
         #endregion
 
@@ -1026,27 +1040,28 @@ namespace ActiveUp.Net.Mail
                 input = Regex.Replace(input, @"( +: +)|(: +)|( +:)", ":");
                 if (input.Contains(","))
                     input = input.Replace(input.Split(',')[0] + ", ", "");
-                var parts = input.Replace("\t", string.Empty).Split(' ');
-                var year = Convert.ToInt32(parts[2]);
+                string[] parts = input.Replace("\t", string.Empty).Split(' ');
+                int year = Convert.ToInt32(parts[2]);
                 if (year < 100)
                 {
                     if (year > 49) year += 1900;
                     else year += 2000;
                 }
-                var month = GetMonth(parts[1]);
-                var day = Convert.ToInt32(parts[0]);
-                var timeParts = parts[3].Split(':');
-                var hour = Convert.ToInt32(timeParts[0]);
-                var minute = Convert.ToInt32(timeParts[1]);
-                var second = 0;
-                if (timeParts.Length > 2)
-                    second = Convert.ToInt32(timeParts[2]);
-                var offsetHours = Convert.ToInt32(parts[4].Substring(0, 3));
-                var offsetMinutes = Convert.ToInt32(parts[4].Substring(3, 2));
-                var date = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-                return date.AddHours(-offsetHours).AddMinutes(-offsetMinutes);
+                int month = Parser.GetMonth(parts[1]);
+                int day = System.Convert.ToInt32(parts[0]);
+                string[] dateParts = parts[3].Split(':');
+                int hour = System.Convert.ToInt32(dateParts[0]);
+                int minute = System.Convert.ToInt32(dateParts[1]);
+                int second = 0;
+                if (dateParts.Length > 2) second = System.Convert.ToInt32(dateParts[2]);
+                int offset_hours = System.Convert.ToInt32(parts[4].Substring(0, 3));
+                int offset_minutes = System.Convert.ToInt32(parts[4].Substring(3, 2));
+                System.DateTime date = new System.DateTime(year, month, day, hour, minute, second);
+                date = date.AddHours(-offset_hours);
+                date = date.AddMinutes(-offset_minutes);
+                return date;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return DateTime.MinValue;
             }
