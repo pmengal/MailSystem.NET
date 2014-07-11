@@ -26,5 +26,13 @@ namespace ActiveUp.Net.Tests
             Message message = Parser.ParseMessageFromFile("resource\\testmail.eml");
             Assert.AreEqual(expected, message.ReceivedDate);
         }
+        
+        [Test(Description = "Attachment without filename")]
+        public void ParseAttachmentWitoutFilename()
+        {
+            Message message = Parser.ParseMessageFromFile("resource\\AttachmentWitoutFilename.eml");
+            for (int i = 0; i < message.Attachments.Count; i++)
+                Assert.IsNotNullOrEmpty(message.Attachments[i].Filename);
+        }
     }
 }
