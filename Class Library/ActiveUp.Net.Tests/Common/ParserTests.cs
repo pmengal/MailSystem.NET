@@ -107,6 +107,9 @@ namespace ActiveUp.Net.Tests.Common
             address.Name.ShouldEqual("Display Name only one quote");
         }
 
+		/// <summary>
+		/// [discussion:641270] - Created discussion to validate if this test is rigth.
+		/// </summary>
         [Test]
         public void should_append_text_parts_with_inline_disposition()
         {
@@ -115,6 +118,9 @@ namespace ActiveUp.Net.Tests.Common
             message.BodyText.Text.ShouldEqual("Good morning,\r\nThis is the body of the message.\r\n\r\nThis is the attached disclamer\r\n");
         }
 
+		/// <summary>
+		/// [discussion:641270] - Created discussion to validate if this test is rigth.
+		/// </summary>
         [Test]
         public void should_append_html_parts_with_inline_disposition()
         {
