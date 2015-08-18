@@ -1,0 +1,69 @@
+                                                                                                                                                                                                                                                               
+Delivered-To: destinataryto@email.com
+Received: by 10.28.188.11 with SMTP id m11csp2172576wmf;
+        Tue, 18 Aug 2015 11:29:01 -0700 (PDT)
+X-Received: by 10.180.73.2 with SMTP id h2mr47125016wiv.72.1439922540342;
+        Tue, 18 Aug 2015 11:29:00 -0700 (PDT)
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of origin@email.com designates 208.84.243.66 as permitted sender) smtp.mailfrom=origin@email.com
+Received-SPF: pass (google.com: domain of origin@email.com designates 208.84.243.66 as permitted sender) client-ip=208.84.243.66;
+Received: by 10.180.245.240 with POP3 id xr16mf7119069wic.0;
+        Tue, 18 Aug 2015 11:29:00 -0700 (PDT)
+X-Gmail-Fetch-Info: destinataryto@email.com 1 pop.enterprise.com 110 destinataryto@email.com
+Return-path: <origin@email.com>
+Envelope-to: destinataryto@email.com
+Delivery-date: Tue, 18 Aug 2015 14:26:22 -0400
+Received: from [10.114.3.13] (helo=smtp.domain.com)
+	by walmailscan.yourhostingaccount.com with esmtp (Exim)
+	id 1ZRlaY-0000Fi-El
+	for destinataryto@email.com; Tue, 18 Aug 2015 14:26:22 -0400
+Received: from if05-mail-sr09-mia.mta.domain.com ([208.84.243.66])
+	by walmailscan with bizsmtp
+	id 6JSM1r00h1SgC0G01JSNXi; Tue, 18 Aug 2015 14:26:22 -0400
+X-EN-OrigIP: 208.84.243.66
+X-EN-IMPSID: 6JSM1r00h1SgC0G01JSNXi
+Received: from 12v.tpn.domain.com (unknown [10.235.200.52])
+	by mail-sr09-mia.tpn.domain.com (Postfix) with ESMTP id BD4414010325
+	for <destinataryto@email.com>; Tue, 18 Aug 2015 18:26:20 +0000 (UTC)
+X-Domain-Karma:         -2%
+X-Domain-Hash: c4333474352bfaff34e16e5feaeed7ff
+Received: from localhost (25p.domain.com [208.84.242.168])
+	(authenticated user useraccount!domain)
+	by 12v.tpn.domain.com (Postfix) with ESMTPA id A5A9520045275
+	for <destinataryto@email.com>; Tue, 18 Aug 2015 18:26:20 +0000 (UTC)
+reply-to: origin@email.com
+date: Tue, 18 Aug 15 18:26:20 +0000
+in-reply-to: <OID_1439472422896254_0origin@email.com> <20150807130428.D9434C199C953@bart0093.correio.pw>
+references: <OID_1439472422896254_0origin@email.com> <20150807130428.D9434C199C953@bart0093.correio.pw>
+subject: =?UTF-8?B?RW5jOiBSZTogQ09NVU5JQ0FETyBJTVBPUlRBTlRFIC0gU0VHVVJPUyA=?=
+ =?UTF-8?B?VU5JTUVEIA==?=
+message-id: <OID_1439922303798166_0origin@email.com>
+to: destinataryto@email.com
+X-Confirm-Reading-To: origin@email.com
+Return-Receipt-To: origin@email.com
+Disposition-Notification-To: origin@email.com
+X-Priority: 1
+x-msmail-priority: high
+importance: high
+priority: high
+x-origin: 179.184.224.171
+from: origin@email.com
+content-type: text/html; charset=utf-8
+content-transfer-encoding: QUOTED-PRINTABLE
+mime-version: 1.0
+X-CMAE-Score: 0
+
+<p>------- Mensagem encaminhada -------<br>De: origin@email.com<br>=
+Para: Financial Enterprise financialc@customer.com<br>CC:<br>Assunto: Re: C=
+OMUNICADO IMPORTANTE - XXXXXXX XXXXXX<br>Data: 13/08/2015 13h32min29s UTC<b=
+r><br>Bom Dia!<br><br>Diante da comunica=C3=A7=C3=A3o enviada, e com os nov=
+os valores de convenio m=C3=A9dico apresentados,&nbsp; <u><strong>informamo=
+s que n=C3=A3o daremos continuidade ao contrato e n=C3=A3o aceitaremos a mi=
+gra=C3=A7=C3=A3o.</strong></u><br><br>Qualquer duvida estamos a disposi=C3=
+=A7=C3=A3o.<br><br>Assinatura do cliente empresa XXX LTDA ME<br>Fulanos da =
+Silva Mestre - 00000-0000<br><br><br><br></p><p>Em Sex 7/08/15 10:04, Finan=
+cial Enterprise financialc@customer.com escreveu:</p><blockquote>Bom dia!<b=
+r><br>Segue anexo comunicado referente ao reajuste (XXXXXXX XXXXXX) e rela=
+=C3=A7=C3=A3o de benefici=C3=A1rios com readequa=C3=A7=C3=A3o de pre=C3=A7o=
+s.<div><br><strong>Att,<br>Caroline </strong><br><strong>Financial Departme=
+nt   <br>+55&nbsp;11 0000-0000</strong><br><br></div></blockquote>

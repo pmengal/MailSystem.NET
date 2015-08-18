@@ -409,7 +409,7 @@ namespace ActiveUp.Net.Mail
 		{
 			get
 			{
-			    switch (HeaderFields["content-transfer-encoding"])
+			    switch ((HeaderFields["content-transfer-encoding"] ?? "").ToLower())
 			    {
 			        case "quoted-printable":
                         return ContentTransferEncoding.QuotedPrintable;

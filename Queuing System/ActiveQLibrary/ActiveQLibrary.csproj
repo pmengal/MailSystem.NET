@@ -192,9 +192,7 @@
     <Compile Include="CustomControl\ListBoxVS.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControl\ListViewVS.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="CustomControl\ListViewVS.cs" />
     <Compile Include="CustomControl\MenuItemVS.cs">
       <SubType>Component</SubType>
     </Compile>
