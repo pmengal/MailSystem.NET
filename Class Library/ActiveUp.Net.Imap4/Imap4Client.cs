@@ -1565,8 +1565,12 @@ namespace ActiveUp.Net.Mail
             {
                 try
                 {
-                    box = t[i].Substring(t[i].IndexOf("\" ") + 1).Trim(new char[] { ' ', '\"' });
-                    if (box != reference) mailboxes.Add(this.ExamineMailbox(box));
+                    if (t[i].ToUpper().Trim().StartsWith("* LIST"))
+                    {
+                        box = t[i].Substring(t[i].IndexOf("\" ") + 1).Trim(new char[] { ' ', '\"' });
+                        if (box != reference)
+                            mailboxes.Add(this.ExamineMailbox(box));
+                    }
                 }
                 catch { continue; }
             }
@@ -1916,7 +1920,7 @@ namespace ActiveUp.Net.Mail
         }
 
         /// <summary>
-        /// Same as SelectMailbox() except that the mailbox is opened with read-only permission.
+        /// Same as <see cref="SelectMailbox(string)"/> except that the mailbox is opened with read-only permission.
         /// </summary>
         /// <param name="mailboxName">The mailbox to be examined.</param>
         /// <returns>The examined mailbox.</returns>
