@@ -137,12 +137,13 @@ namespace ActiveUp.Net.Mail
             string parentPartAsciiBody = Encoding.ASCII.GetString(part.BinaryContent);
             byte[] parentPartBinary = part.BinaryContent;
 
-            ActiveUp.Net.Mail.Logger.AddEntry("boundary : " + boundary);
+            Logger.AddEntry("boundary : " + boundary);
             string[] arrpart = Regex.Split(parentPartAsciiBody, @"\r?\n?" + Regex.Escape("--" + boundary));
 
-            for (int i = 1; i < arrpart.Length - 1; i++)
+            foreach(var strpart in arrpart)
             {
-                string strpart = arrpart[i];
+                if (string.IsNullOrWhiteSpace(strpart)) continue;
+
                 int bounaryByteLen = Encoding.ASCII.GetByteCount(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));                
                 int binaryPartLen = bounaryByteLen + Encoding.ASCII.GetByteCount(strpart.ToCharArray());
 
@@ -157,7 +158,7 @@ namespace ActiveUp.Net.Mail
                 //Remove Subpart from ParentPart
                 byte[] tmp = new byte[parentPartBinary.Length - binaryPart.Length];
                 Array.Copy(parentPartBinary, binaryPart.Length, tmp, 0, (parentPartBinary.Length - binaryPart.Length));
-                parentPartBinary = tmp;
+                parentPartBinary = tmp.Length > 0 ? tmp : parentPartBinary;
                 parentPartAsciiBody = Encoding.ASCII.GetString(parentPartBinary);
 
                 if (!strpart.StartsWith("--") && !string.IsNullOrEmpty(strpart))
@@ -431,12 +432,11 @@ namespace ActiveUp.Net.Mail
         /// <summary>
         /// Parses the MIME part.
         /// </summary>
-        /// <param name="data">The data.</param>
         /// <returns></returns>
         public static MimePart ParseMimePart(byte[] binaryData, Message message)
         {
             MimePart part = new MimePart();
-            String data = Encoding.ASCII.GetString(binaryData);
+            string data = Encoding.ASCII.GetString(binaryData);
             part.ParentMessage = message;
             part.OriginalContent = data; //ASCII content for header parsing            
 
@@ -449,8 +449,6 @@ namespace ActiveUp.Net.Mail
                 //TODO: remove this workaround
                 if (bodyStart == 0)
                 {
-                    //bodyStart = data.IndexOf("\r\n\r\n");
-                    // Fix for a bug - the bodyStart was -1 (Invalid), MCALADO: 04/07/2008
                     int indexBody = data.IndexOf("\r\n\r\n");
                     if (indexBody > 0)
                     {
@@ -459,11 +457,9 @@ namespace ActiveUp.Net.Mail
                 }
                 if (data.Length >= headerEnd)
                 {
-
                     string header = data.Substring(0, headerEnd);
 
-                    header = Parser.Unfold(header);
-                    //header = header);
+                    header = Unfold(header);
 
                     // The bodyStart need to be greather than data.length - MCALADO: 04/07/2008
                     string body = string.Empty;
@@ -473,24 +469,17 @@ namespace ActiveUp.Net.Mail
                         part.BinaryContent = GetBinaryPart(binaryData, body);                                         
                     }
 
-                    //Body will be set by DecodePartBody() => decode part.BinaryContent 
-                    // Store the (maybe still encoded) body.
-                    //part.TextContent = body; 
-
-
-
-
                     // Parse header fields and their parameters.
                     Match m = Regex.Match(header, @"(?<=((\r?\n)|\n)|\A)\S+:(.|(\r?\n[\t ]))+(?=((\r?\n)\S)|\Z)");
                     while (m.Success)
                     {
                         if (m.Value.ToLower().StartsWith("content-type:"))
                         {
-                            part.ContentType = Parser.GetContentType(m.Value);
+                            part.ContentType = GetContentType(m.Value);
                         }
                         else if (m.Value.ToLower().StartsWith("content-disposition:"))
                         {
-                            part.ContentDisposition = Parser.GetContentDisposition(m.Value);
+                            part.ContentDisposition = GetContentDisposition(m.Value);
                         }
                         part.HeaderFields.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(m.Value.IndexOf(':') + 1).Trim(' ', '\r', '\n')));
                         part.HeaderFieldNames.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(0, m.Value.IndexOf(':')).Trim(' ', '\r', '\n')));
@@ -502,7 +491,7 @@ namespace ActiveUp.Net.Mail
                     // This is a container part.
                     if (part.ContentType.Type.ToLower().Equals("multipart"))
                     {
-                        Parser.ParseSubParts(ref part, message);
+                        ParseSubParts(ref part, message);
                     }
                     // This is a nested message.
                     else if (part.ContentType.Type.ToLower().Equals("message"))
@@ -532,7 +521,6 @@ namespace ActiveUp.Net.Mail
                         // event is not supported.
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -543,7 +531,7 @@ namespace ActiveUp.Net.Mail
         }
 
 
-        private static byte[] GetBinaryPart(byte[] srcData, String asciiPart) {
+        private static byte[] GetBinaryPart(byte[] srcData, string asciiPart) {
             byte[] result = new byte[Encoding.ASCII.GetByteCount(asciiPart.ToCharArray())];
             Array.Copy(srcData, (srcData.Length - result.Length), result, 0, result.Length);
 
@@ -696,7 +684,7 @@ namespace ActiveUp.Net.Mail
                 else if (name.Equals("reply-to")) header.ReplyTo = Parser.ParseAddress(value);
                 else if (name.Equals("from")) header.From = Parser.ParseAddress(value);
                 else if (name.Equals("sender")) header.Sender = Parser.ParseAddress(value);
-                else if (name.Equals("content-type")) header.ContentType = Parser.GetContentType(m.Value);
+                else if (name.Equals("content-type")) header.ContentType = GetContentType(m.Value);
                 else if (name.Equals("content-disposition")) header.ContentDisposition = Parser.GetContentDisposition(m.Value);
                 //else
                 //{
@@ -808,7 +796,7 @@ namespace ActiveUp.Net.Mail
                     else if (name.Equals("reply-to")) message.ReplyTo = Parser.ParseAddress(value);
                     else if (name.Equals("from")) message.From = Parser.ParseAddress(value);
                     else if (name.Equals("sender")) message.Sender = Parser.ParseAddress(value);
-                    else if (name.Equals("content-type")) message.ContentType = Parser.GetContentType(key + ": " + value);
+                    else if (name.Equals("content-type")) message.ContentType = GetContentType(key + ": " + value);
                     else if (name.Equals("content-disposition")) message.ContentDisposition = Parser.GetContentDisposition(key + ": " + value);
                     else if (name.Equals("domainkey-signature")) message.Signatures.DomainKeys = Signature.Parse(key + ": " + value, message);
                 }

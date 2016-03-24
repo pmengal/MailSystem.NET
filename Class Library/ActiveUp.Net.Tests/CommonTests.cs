@@ -23,16 +23,6 @@ namespace ActiveUp.Net.Tests {
             Assert.AreEqual(expected, message.ReceivedDate);
         }
 
-        /// <summary>
-        /// TODO: Change test to fail process correct action in attachment without filename. Actualy the system process.
-        /// </summary>
-        [Test(Description = "Attachment without filename")]
-        public void ParseAttachmentWitoutFilename() {
-            Message message = Parser.ParseMessageFromFile("resource\\AttachmentWitoutFilename.eml");
-            for (int i = 0; i < message.Attachments.Count; i++)
-                Assert.IsNotNull(message.Attachments[i].Filename);
-        }
-
         [Test(Description = "Email with content-transfer-encoding 'QUOTED-PRINTABLE'")]
         public void ParseEncodeQuotedPrintable() {
             #region Expected Body

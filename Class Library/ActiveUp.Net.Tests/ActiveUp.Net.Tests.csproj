@@ -100,14 +100,15 @@
     <Content Include="resource\test_textfile.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="resource\AttachmentWitoutFilename.eml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="resource\attachment-witout-file-name.eml" />
     <None Include="resource\html_multipart_email.eml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="resource\japanese_email.eml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resource\html_multipart_related_email_with_subparts.eml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="resource\testmail-quoted-printable.eml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
