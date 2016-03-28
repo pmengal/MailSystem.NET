@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MailSystem.Net-trunk</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>pmengal (https://mailsystem.codeplex.com/team/view)</authors>
     <owners>pmengal</owners>
     <licenseUrl>https://mailsystem.codeplex.com/license</licenseUrl>
@@ -12,6 +12,6 @@
     <tags>Mail Library csharp</tags>
   </metadata>
   <files>
-    <file src="Class Library\bin\Debug\*.dll" target="lib" />
+    <file src="Class Library\bin\Release\*.dll" target="lib" />
   </files>
 </package>
