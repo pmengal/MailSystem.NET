@@ -149,6 +149,17 @@ namespace ActiveUp.Net.Tests.Common
         }
 
         /// <summary>
+        ///  https://tools.ietf.org/html/rfc2387
+        /// </summary>
+        [Test(Description = "")]
+        public void should_recognize_line_break_of_notepad_text_in_body()
+        {
+            var message = Parser.ParseMessageFromFile("resource\\quoted-printable-notepad-linebreak.eml");
+            message.BodyText.Text.ShouldEqual("Alatur,\r\rFoi criada uma nova solicitação para TESTE SOLICITANTE.\r\rCliente: TESTE HOTEL\rEmpresa: TESTE\rC. Custo: TESTE TESTE\r\r\r>>> PASSAGEM AÉREA\rDescrição.: (GRU) Cumbica / (LAS) Las Vegas 04/Jan Manhã (06:00 às 12:00) (Econômica)\rHorário...: considerando saída\rPagamento.: FATURADO\r\rDescrição.: (LAS) Las Vegas / (GRU) Cumbica 07/Jan Manhã (06:00 às 12:00) (Econômica)\rHorário...: considerando saída\rPagamento.: FATURADO\r\r\r>>> SOLICITANTE\rteste solicitante (fulfillment@alatur.com)\r\r\rDestinatários que estão recebendo esse email: \rtms@argoit.com.br (tms@argoit.com.br)\rteste solicitante (fulfillment@alatur.com)\rtesteodare@encontact.com.br (testeodare@encontact.com.br)\rodare@encontact.com.br (odare@encontact.com.br)\r\rPara acessá-la clique em: \r<https://arb.alatur.com/alatur/default.aspx?Id=5a03cdaf-1503-e611-9406-90b11c25f027&LinkId=FLXMfbCeRo72PRAkakfyOg%3d%3d> \r\rEMAIL AUTOMÁTICO, NÃO RESPONDA ESSA MENSAGEM\r\n");
+            message.BodyHtml.Text.ShouldEqual("");
+        }
+
+        /// <summary>
         /// TODO: Change test to fail process correct action in attachment without filename. Actualy the system process.
         /// </summary>
         [Test(Description = "Attachment without filename")]
