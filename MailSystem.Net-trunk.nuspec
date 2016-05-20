@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MailSystem.Net-trunk</id>
-    <version>1.0.2</version>
+    <version>$version$</version>
     <authors>pmengal (https://mailsystem.codeplex.com/team/view)</authors>
     <owners>pmengal</owners>
     <licenseUrl>https://mailsystem.codeplex.com/license</licenseUrl>
