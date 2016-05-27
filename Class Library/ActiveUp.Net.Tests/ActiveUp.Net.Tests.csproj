@@ -112,6 +112,9 @@
     <None Include="resource\html_multipart_related_email_with_subparts.eml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="resource\multipart_body_text_and_html.eml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="resource\quoted-printable-notepad-linebreak.eml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

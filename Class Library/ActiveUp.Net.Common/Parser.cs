@@ -496,21 +496,12 @@ namespace ActiveUp.Net.Mail
                     // This is a nested message.
                     else if (part.ContentType.Type.ToLower().Equals("message"))
                     {
-                        // TODO
+                        // TODO: Create an interpreter to this.
                     }
-                    // This is a leaf of the part tree
-                    // Check necessary for single part emails (fix from alex294 on CodePlex)
-                    // Why would we consider the body only to the first string?  Doesn't make sense - and fails
-                    //else if (part.ContentType.Type.ToLower().Equals("text"))
-                    //{
-                    //    int BodyEnd = body.IndexOf(' ');
-                    //    if (BodyEnd > 0)
-                    //    {
-                    //        part.TextContent = body.Substring(0, BodyEnd);
-                    //    }
-                    //}
-
-                    DecodePartBody(ref part);
+                    else
+                    {
+                        DecodePartBody(ref part);
+                    }
 
                     try
                     {
