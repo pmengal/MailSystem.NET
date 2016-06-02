@@ -140,11 +140,11 @@ namespace ActiveUp.Net.Mail
             Logger.AddEntry("boundary : " + boundary);
             string[] arrpart = Regex.Split(parentPartAsciiBody, @"\r?\n?" + Regex.Escape("--" + boundary));
 
-            foreach(var strpart in arrpart)
+            foreach (var strpart in arrpart)
             {
                 if (string.IsNullOrWhiteSpace(strpart)) continue;
 
-                int bounaryByteLen = Encoding.ASCII.GetByteCount(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));                
+                int bounaryByteLen = Encoding.ASCII.GetByteCount(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));
                 int binaryPartLen = bounaryByteLen + Encoding.ASCII.GetByteCount(strpart.ToCharArray());
 
                 //complete Part (incl. boundary)
@@ -193,6 +193,11 @@ namespace ActiveUp.Net.Mail
             DispatchPart(message.PartTreeRoot, ref message);
         }
 
+        /// <summary>
+        /// Process message Part loaded to complete Message.
+        /// </summary>
+        /// <param name="part">Loaded part from EML.</param>
+        /// <param name="message">Final message.</param>
         private static void DispatchPart(MimePart part, ref Message message)
         {
             // This is a container part.
@@ -213,29 +218,33 @@ namespace ActiveUp.Net.Mail
 
                 // We will consider the highest-level text parts that are not attachments to be the intended for display.
                 // We know the highest-level parts will be set, because the parser first goes to the deepest level and returns top-level parts last.
-                if (part.ContentType.Type.Equals("text") && !part.ContentDisposition.Disposition.Equals("attachment"))
+                if (part.ContentType.Type.ToLower().Equals("text") && !part.ContentDisposition.Disposition.ToLower().Equals("attachment"))
                 {
-                    if (part.ContentType.SubType.Equals("plain"))
+                    if (part.ContentType.SubType.ToLower().Equals("plain"))
                     {
-						if (part.ContentDisposition.Disposition == "inline")
-							message.BodyText.Text += part.TextContent;
-						else {
-							message.BodyText.Charset = part.Charset;
-							message.BodyText.Text = part.TextContent;
-						}
+                        if (part.ContentDisposition.Disposition.ToLower() == "inline")
+                            message.BodyText.Text += part.TextContent;
+                        else
+                        {
+                            message.BodyText.Charset = part.Charset;
+                            message.BodyText.Text = part.TextContent;
+                        }
                     }
-                    else if (part.ContentType.SubType.Equals("html"))
+                    else if (part.ContentType.SubType.ToLower().Equals("html"))
                     {
-						if (part.ContentDisposition.Disposition == "inline") {
-							message.IsHtml = true;
-							message.BodyHtml.Text += part.TextContent;
-						} else {
-							message.IsHtml = true;
-							message.BodyHtml.Charset = part.Charset;
-							message.BodyHtml.Text = part.TextContent;
-						}
+                        if (part.ContentDisposition.Disposition.ToLower() == "inline")
+                        {
+                            message.IsHtml = true;
+                            message.BodyHtml.Text += part.TextContent;
+                        }
+                        else
+                        {
+                            message.IsHtml = true;
+                            message.BodyHtml.Charset = part.Charset;
+                            message.BodyHtml.Text = part.TextContent;
+                        }
                     }
-                    else if (part.ContentType.SubType.Equals("xml"))
+                    else if (part.ContentType.SubType.ToLower().Equals("xml"))
                     {
                         //Recupera anexos que nao estejam marcados com 'Content-Disposition' e 'attachment'. Alguns anexos com mimetype xml podem ter essa caracteristica.
                         //Recovers attachments that are not marked with 'Content-Disposition' 'attachment'. Some attachments with xml mime-type may have this feature.
@@ -245,7 +254,7 @@ namespace ActiveUp.Net.Mail
 
                 // Parse message/rfc822 parts as Message objects and place them in the appropriate collection.
                 if (part.ContentType.MimeType.Equals("message/rfc822"))
-                    message.SubMessages.Add(Parser.ParseMessage(part.BinaryContent));
+                    message.SubMessages.Add(ParseMessage(part.BinaryContent));
 
                 if (part.ContentType.MimeType.Equals("application/pkcs7-signature")
                     || part.ContentType.MimeType.Equals("application/x-pkcs7-signature"))
@@ -319,7 +328,7 @@ namespace ActiveUp.Net.Mail
             }
             // Otherwise, this is an unencoded part body and we keep the text version as it is.
             else
-            {                                
+            {
                 part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent);
             }
         }
@@ -466,7 +475,7 @@ namespace ActiveUp.Net.Mail
                     if (bodyStart < data.Length)
                     {
                         body = data.Substring(bodyStart);
-                        part.BinaryContent = GetBinaryPart(binaryData, body);                                         
+                        part.BinaryContent = GetBinaryPart(binaryData, body);
                     }
 
                     // Parse header fields and their parameters.
@@ -522,7 +531,8 @@ namespace ActiveUp.Net.Mail
         }
 
 
-        private static byte[] GetBinaryPart(byte[] srcData, string asciiPart) {
+        private static byte[] GetBinaryPart(byte[] srcData, string asciiPart)
+        {
             byte[] result = new byte[Encoding.ASCII.GetByteCount(asciiPart.ToCharArray())];
             Array.Copy(srcData, (srcData.Length - result.Length), result, 0, result.Length);
 
@@ -983,7 +993,8 @@ namespace ActiveUp.Net.Mail
                 if (displayNameMatch.Success)
                 {
                     address = new Address(input.Replace(displayNameMatch.Value, string.Empty).Trim().Trim(new[] { '<', '>' }), displayNameMatch.Groups[1].Value);
-                } else
+                }
+                else
                 {
                     address = new Address(input.Trim().Trim(new[] { '<', '>' }), string.Empty);
                 }

@@ -100,6 +100,10 @@
     <Content Include="resource\test_textfile.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
+    <None Include="resource\multipart_with_type_using_camel_case.eml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="resource\attachment-witout-file-name.eml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

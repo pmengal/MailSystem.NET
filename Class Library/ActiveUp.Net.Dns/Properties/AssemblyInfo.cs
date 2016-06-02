@@ -31,9 +31,9 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below: 2.2.0209.0
-[assembly: AssemblyVersion("5.0.3454.364")]
+[assembly: AssemblyVersion("2.0.2.*")]
 #if !PocketPC
-[assembly: AssemblyFileVersion("5.0.3454.364")]
+[assembly: AssemblyFileVersion("2.0.2.0")]
 #endif
 
 [assembly: System.Security.AllowPartiallyTrustedCallers]
