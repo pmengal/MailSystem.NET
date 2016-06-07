@@ -26,10 +26,10 @@ namespace ActiveUp.Net.Mail
 		/// The LOGIN mechanism (BASE64 encoded exchanges).
 		/// </summary>
 		Login,
-		/*/// <summary>
+		/// <summary>
 		/// The PLAIN mechanism (identity<NUL>username<NUL>password).
 		/// </summary>
-		Plain,*/
+		Plain,
 		/*/// <summary>
 		/// The DIGEST-MD5 mechanism. [RFC2831]
 		/// </summary>

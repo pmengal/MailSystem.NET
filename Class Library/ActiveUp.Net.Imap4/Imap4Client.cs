@@ -33,7 +33,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public class Imap4Client : System.Net.Sockets.TcpClient
     {
-        
+
         #region Constructors
 
         public Imap4Client()
@@ -407,7 +407,7 @@ namespace ActiveUp.Net.Mail
 
         #region Private utility methods
 
-        private string _CramMd5(string username, string password)
+        protected string _CramMd5(string username, string password)
         {
             this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password));
             string stamp = System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString());
@@ -415,12 +415,11 @@ namespace ActiveUp.Net.Mail
             string digest = System.Text.Encoding.ASCII.GetString(data, 0, data.Length);
             string response = this.Command(System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(username + " " + ActiveUp.Net.Mail.Crypto.HMACMD5Digest(password, digest))), stamp);
             this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, response));
-            this.Mailboxes = this.GetMailboxes("", "%");
-            this.AllMailboxes = this.GetMailboxes("", "*");
+            this.LoadMailboxes();
             return response;
         }
 
-        private string _Login(string username, string password)
+        protected string _Login(string username, string password)
         {
             this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password));
             string stamp = System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString());
@@ -428,8 +427,19 @@ namespace ActiveUp.Net.Mail
             this.Command(System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(username)), stamp);
             string response = this.Command(System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(password)), stamp);
             this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, response));
-            this.Mailboxes = this.GetMailboxes("", "%");
-            this.AllMailboxes = this.GetMailboxes("", "*");
+            this.LoadMailboxes();
+            return response;
+        }
+
+        protected string _Plain(string username, string password) 
+        {
+            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password));
+            string stamp = System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString());
+            this.Command("authenticate plain", stamp);
+            string response = this.Command(System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes('\0' + username + '\0' + password)), "", stamp);
+            // needs to use UTF8 encoding instead of ASCII at least for password chars. _Login might need to use UTF8 as well
+            this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, response));
+            this.LoadMailboxes();
             return response;
         }
 
@@ -486,13 +496,13 @@ namespace ActiveUp.Net.Mail
             return sb.ToString();
         }
 
-        private void receiveResponseData(Stream stream) 
+        private void receiveResponseData(Stream stream)
         {
             byte[] readBuffer = new byte[this.Client.ReceiveBufferSize];
             int readbytes = 0;
 
             readbytes = this.GetStream().Read(readBuffer, 0, readBuffer.Length);
-            while (readbytes > 0) 
+            while (readbytes > 0)
             {
                 stream.Write(readBuffer, 0, readbytes);
                 readbytes = 0;
@@ -910,8 +920,7 @@ namespace ActiveUp.Net.Mail
             this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password, this.host));
             string response = this.Command("login " + username + " " + password);
             this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, this.host, response));
-            this.Mailboxes = this.GetMailboxes("", "%");
-            this.AllMailboxes = this.GetMailboxes("", "*");
+            this.LoadMailboxes();
             return response;
         }
         public IAsyncResult BeginLogin(string username, string password, AsyncCallback callback)
@@ -979,6 +988,8 @@ namespace ActiveUp.Net.Mail
                     return this._CramMd5(username, password);
                 case ActiveUp.Net.Mail.SaslMechanism.Login:
                     return this._Login(username, password);
+                case ActiveUp.Net.Mail.SaslMechanism.Plain:
+                    return this._Plain(username, password);
             }
             return string.Empty;
         }
@@ -1047,11 +1058,13 @@ namespace ActiveUp.Net.Mail
         #region Command sending, receiving and stream access
 
         //Binary result
-        public byte[] CommandBinary(string command, CommandOptions options = null) {
+        public byte[] CommandBinary(string command, CommandOptions options = null)
+        {
             return this.CommandBinary(command, System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString()), options);
         }
 
-        public byte[] CommandBinary(string command, string stamp, CommandOptions options = null) {
+        public byte[] CommandBinary(string command, string stamp, CommandOptions options = null)
+        {
             if (options == null)
                 options = new CommandOptions();
 
@@ -1074,9 +1087,12 @@ namespace ActiveUp.Net.Mail
             // Complement the Atif changes. Use the flag for !PocketPC config for avoid build errors.
 
 #if !PocketPC
-            if (this._sslStream != null) {
+            if (this._sslStream != null)
+            {
                 this._sslStream.Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-            } else {
+            }
+            else
+            {
                 base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
             }
 #else
@@ -1094,9 +1110,12 @@ namespace ActiveUp.Net.Mail
             string partResponse = "";
             string lastLine = "";
             string lastLineOfPartResponse = "";
-            using (StreamReader sr = new StreamReader(new MemoryStream())) {
-                while (true) {
-                    if (sr.EndOfStream) {
+            using (StreamReader sr = new StreamReader(new MemoryStream()))
+            {
+                while (true)
+                {
+                    if (sr.EndOfStream)
+                    {
                         long streamPos = sr.BaseStream.Position;
                         receiveResponseData(sr.BaseStream);
                         sr.BaseStream.Seek(streamPos, SeekOrigin.Begin);
@@ -1114,28 +1133,38 @@ namespace ActiveUp.Net.Mail
                         pos = 0;
                     lastLineOfPartResponse = partResponse.Substring(pos);
 
-                    if (commandAsUpper.StartsWith("LIST") == true) {
-                        if (lastLineOfPartResponse.StartsWith(stamp) || (lastLineOfPartResponse.StartsWith("+ ") && options.IsPlusCmdAllowed)) {
+                    if (commandAsUpper.StartsWith("LIST") == true)
+                    {
+                        if (lastLineOfPartResponse.StartsWith(stamp) || (lastLineOfPartResponse.StartsWith("+ ") && options.IsPlusCmdAllowed))
+                        {
                             lastLine = lastLineOfPartResponse;
                             break;
                         }
-                    } else if (commandAsUpper.StartsWith("DONE") == true) {
+                    }
+                    else if (commandAsUpper.StartsWith("DONE") == true)
+                    {
                         lastLine = lastLineOfPartResponse;
                         stamp = lastLine.Split(' ')[0];
                         break;
-                    } else if (lastLineOfPartResponse != null) {
+                    }
+                    else if (lastLineOfPartResponse != null)
+                    {
                         //Had to remove + check - this was failing when the email contained a line with + 
                         //Please add comments as to why here, and reimplement differently
-                        if (lastLineOfPartResponse.StartsWith(stamp) || lastLineOfPartResponse.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || (lastLineOfPartResponse.StartsWith("+ ") && options.IsPlusCmdAllowed)) {
+                        if (lastLineOfPartResponse.StartsWith(stamp) || lastLineOfPartResponse.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || ((lastLineOfPartResponse.StartsWith("+ ") || lastLineOfPartResponse.StartsWith("+\r\n")) && options.IsPlusCmdAllowed))
+                        {
                             lastLine = lastLineOfPartResponse;
                             break;
-                        } else {
+                        }
+                        else
+                        {
                             if (buffer.Length > 100)
                                 lastLineOfPartResponse = buffer.ToString().Substring(buffer.Length - 100).Replace("\r\n", "");
                             else
                                 lastLineOfPartResponse = buffer.ToString().Replace("\r\n", "");
                             int stampPos = lastLineOfPartResponse.IndexOf(stamp + " OK");
-                            if (stampPos > 0) {
+                            if (stampPos > 0)
+                            {
                                 lastLine = lastLineOfPartResponse.Substring(stampPos);
                                 break;
                             }
@@ -1148,7 +1177,8 @@ namespace ActiveUp.Net.Mail
                 sr.BaseStream.Seek(0, SeekOrigin.Begin);
                 sr.BaseStream.Read(bufferBytes, 0, bufferBytes.Length);
 
-                if (!sr.CurrentEncoding.Equals(Encoding.UTF8)) {
+                if (!sr.CurrentEncoding.Equals(Encoding.UTF8))
+                {
                     var utf8Bytes = Encoding.Convert(sr.CurrentEncoding, Encoding.UTF8, sr.CurrentEncoding.GetBytes(bufferString));
                     bufferString = Encoding.UTF8.GetString(utf8Bytes);
                 }
@@ -1157,7 +1187,7 @@ namespace ActiveUp.Net.Mail
                     this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(bufferString));
                 else
                     this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
-                if (lastLine.StartsWith(stamp + " OK") || lastLine.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || lastLine.StartsWith("+ "))
+                if (lastLine.StartsWith(stamp + " OK") || lastLine.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || lastLine.StartsWith("+ ") || lastLine.StartsWith("+\r\n"))
                     return bufferBytes;
                 else
                     throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
@@ -1216,7 +1246,7 @@ namespace ActiveUp.Net.Mail
                     this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(buffer.ToString()));
                 else
                     this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
-                if (lastline.StartsWith(checkStamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ "))
+                if (lastline.StartsWith(checkStamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ ") || temp.StartsWith("+\r\n"))
                     return bufferBytes;
                 else
                     throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
@@ -1224,7 +1254,8 @@ namespace ActiveUp.Net.Mail
         }
 
         //With Encoding parameter
-        public string Command(string command, string stamp, Encoding encoding, CommandOptions options = null) {
+        public string Command(string command, string stamp, Encoding encoding, CommandOptions options = null)
+        {
             return encoding.GetString(this.CommandBinary(command, stamp, options));
         }
 
