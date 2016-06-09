@@ -28,36 +28,59 @@ namespace ActiveUp.Net.Common.Rfc2047
             if (!tokenEnumerator.MoveNext())
                 return string.Empty;
 
-            var firstToken = WrapTokensAndLinkThem(tokenEnumerator);
+            var tokenPages = WrapTokensAndLinkThem(tokenEnumerator);
 
-            var output = OutputTokens(firstToken);
+            var output = "";
+            foreach (var token in tokenPages)
+            {
+                output += OutputTokens(token);
+            }
             if (isSurroundedByComments)
                 return "(" + output + ")";
             return output;
         }
 
-        private static TokenBase WrapTokensAndLinkThem(IEnumerator<string> tokenEnumerator)
+        private static Queue<TokenBase> WrapTokensAndLinkThem(IEnumerator<string> tokenEnumerator)
         {
-            var firstToken = WrapToken(tokenEnumerator.Current);
-            var lastWord = (firstToken is Separator) ? null : firstToken;
-            var lastSeparator = (firstToken is Separator) ? firstToken : null;
+            var tokenBasePages = new Queue<TokenBase>();
+            bool mustContinue = true;
 
-            while (tokenEnumerator.MoveNext())
+            // Break in pages because biggest token list made exception when process recursive OutputTokens.
+            while (mustContinue)
             {
-                var wrappedToken = WrapToken(tokenEnumerator.Current);
-                if (wrappedToken is Separator)
-                {
-                    lastWord.NextSeparator = wrappedToken;
-                    lastSeparator = wrappedToken;
-                    continue;
-                }
+                mustContinue = false;
+                var firstToken = WrapToken(tokenEnumerator.Current);
+                var lastWord = (firstToken is Separator) ? null : firstToken;
+                var lastSeparator = (firstToken is Separator) ? firstToken : null;
 
-                if (lastWord != null)
-                    lastWord.NextWord = wrappedToken;
-                lastSeparator.NextWord = wrappedToken;
-                lastWord = wrappedToken;
+                var tokenCount = 0;
+                while (tokenEnumerator.MoveNext())
+                {
+                    tokenCount++;
+                    var wrappedToken = WrapToken(tokenEnumerator.Current);
+                    if (wrappedToken is Separator)
+                    {
+                        lastWord.NextSeparator = wrappedToken;
+                        lastSeparator = wrappedToken;
+                        continue;
+                    }
+
+                    if (lastWord != null)
+                        lastWord.NextWord = wrappedToken;
+                    lastSeparator.NextWord = wrappedToken;
+                    lastWord = wrappedToken;
+
+                    if (tokenCount >= 500)
+                    {
+                        mustContinue = true;
+                        tokenEnumerator.MoveNext();
+                        break;
+                    }
+                }
+                tokenBasePages.Enqueue(firstToken);
             }
-            return firstToken;
+
+            return tokenBasePages;
         }
 
         private static string OutputTokens(TokenBase token)
