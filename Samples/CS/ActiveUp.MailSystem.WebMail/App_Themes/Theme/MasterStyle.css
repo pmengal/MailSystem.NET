@@ -1,0 +1,96 @@
+﻿body
+{
+	margin:0;
+	padding:0;
+	text-align:center;
+}
+
+#left
+{
+	border: thin solid Black;
+	float: left;
+	width: 130px;
+	height: 500px;
+	text-align: center;
+	background-repeat:repeat;
+	background-image: url('../../images/bk-head.gif');
+}
+
+#right
+{
+	border-style: solid;
+	border-width:thin;
+	border-color: Black;
+	float: left;
+	width: 728px;
+	height: 500px;
+} 
+
+#layoutCenter
+{
+	width: 900px;
+	height: 1300px;
+	margin:0 auto;
+	padding: 10px;
+	text-align:left;
+}
+
+#top
+{
+	border-style: solid;
+	border-width:thin;
+	border-color: Black;
+	border-right-color:transparent;
+	width: 862px;
+	height: 40px;
+	position:absolute;
+}
+
+#topRight
+{
+	border-style: solid;
+	border-width:thin;
+	border-color: Black;
+	border-left-color:transparent;
+	width: 862px;
+	height: 40px;
+	text-align:right;
+}
+
+
+.Items
+{
+	margin: 12px;
+	font-family: Verdana;
+	font-size: small;
+	font-weight: bold;
+}
+
+.CustomLabel
+{
+	color: #005099
+}
+
+a.linkmenu  
+{ 
+	color: #646464; font-size: 9px; line-height: 12px; text-align: center;
+	text-decoration:none;
+}
+a.linkmenu:hover  
+{ 
+	color: #000; font-size: 9px; line-height: 12px; text-align: center;
+	text-decoration:none;
+}
+
+.DropDownLanguage
+{
+	color: #000; 
+	font-size: 9px; 
+	font-family: verdana; 
+	background-color: #bbd0f1; 
+	margin: 4px; 
+	border: solid 1px #5279ab; 
+	width: 150px; 
+	height: 17px;
+	vertical-align:middle;
+}

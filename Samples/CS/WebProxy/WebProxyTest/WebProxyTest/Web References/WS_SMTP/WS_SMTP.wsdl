@@ -1,0 +1,1486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="SetFrom">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFrom" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetFromResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetFromResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetFromWithName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFrom" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetFromWithNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetFromWithNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddToAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strTo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddToAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddToAddressResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddToAddressWithName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strTo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strToName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddToAddressWithNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddToAddressWithNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddCCAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCC" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddCCAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddCCAddressResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddCCAddressWithName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strCC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddCCAddressWithNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddCCAddressWithNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddBCCAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBCC" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddBCCAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddBCCAddressResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddBCCAddressWithName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBCC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddBCCAddressWithNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddBCCAddressWithNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPort">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="iPort" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPortResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetPortResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddHost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="host" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddHostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddHostResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddHostWithPort">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="host" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="port" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddHostWithPortResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddHostWithPortResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSubject">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSubjectResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetSubjectResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetstrBodyHTML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyHTML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetstrBodyHTMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetstrBodyHTMLResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetBodyText">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetBodyTextResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetBodyTextResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSessionedMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UseSSL" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="UseMD5" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="protocol" type="tns:SslProtocols" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="SslProtocols">
+        <s:list>
+          <s:simpleType>
+            <s:restriction base="s:string">
+              <s:enumeration value="None" />
+              <s:enumeration value="Ssl2" />
+              <s:enumeration value="Ssl3" />
+              <s:enumeration value="Tls" />
+              <s:enumeration value="Default" />
+            </s:restriction>
+          </s:simpleType>
+        </s:list>
+      </s:simpleType>
+      <s:element name="SendSessionedMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendSessionedMailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail01">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail01Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail01Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail02">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail02Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail02Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail03">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendMail03Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail03Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail04">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail04Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail04Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail05">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail05Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail05Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail06">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail06Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail06Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail07">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail07Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail07Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail08">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail08Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail08Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail09">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail09Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail09Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail10">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyHTML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail10Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail10Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail11">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyHTML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iPort" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail11Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail11Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail12">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyHTML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iPort" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail12Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail12Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail13">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyHTML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iPort" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bUseSSL" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail13Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail13Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail14">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyHTML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iPort" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bUseSSL" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="bUseMD5" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail14Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMail14Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strFromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBCCTos" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSubject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strBodyHTML" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strHost" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iPort" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bUseSSL" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="bUseMD5" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="baAttachment" type="tns:ArrayOfBase64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="strFileName" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBase64Binary">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="base64Binary" nillable="true" type="s:base64Binary" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendMailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SetFromSoapIn">
+    <wsdl:part name="parameters" element="tns:SetFrom" />
+  </wsdl:message>
+  <wsdl:message name="SetFromSoapOut">
+    <wsdl:part name="parameters" element="tns:SetFromResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetFromWithNameSoapIn">
+    <wsdl:part name="parameters" element="tns:SetFromWithName" />
+  </wsdl:message>
+  <wsdl:message name="SetFromWithNameSoapOut">
+    <wsdl:part name="parameters" element="tns:SetFromWithNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddToAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:AddToAddress" />
+  </wsdl:message>
+  <wsdl:message name="AddToAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:AddToAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddToAddressWithNameSoapIn">
+    <wsdl:part name="parameters" element="tns:AddToAddressWithName" />
+  </wsdl:message>
+  <wsdl:message name="AddToAddressWithNameSoapOut">
+    <wsdl:part name="parameters" element="tns:AddToAddressWithNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddCCAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:AddCCAddress" />
+  </wsdl:message>
+  <wsdl:message name="AddCCAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:AddCCAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddCCAddressWithNameSoapIn">
+    <wsdl:part name="parameters" element="tns:AddCCAddressWithName" />
+  </wsdl:message>
+  <wsdl:message name="AddCCAddressWithNameSoapOut">
+    <wsdl:part name="parameters" element="tns:AddCCAddressWithNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddBCCAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:AddBCCAddress" />
+  </wsdl:message>
+  <wsdl:message name="AddBCCAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:AddBCCAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddBCCAddressWithNameSoapIn">
+    <wsdl:part name="parameters" element="tns:AddBCCAddressWithName" />
+  </wsdl:message>
+  <wsdl:message name="AddBCCAddressWithNameSoapOut">
+    <wsdl:part name="parameters" element="tns:AddBCCAddressWithNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetPortSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPort" />
+  </wsdl:message>
+  <wsdl:message name="SetPortSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPortResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddHostSoapIn">
+    <wsdl:part name="parameters" element="tns:AddHost" />
+  </wsdl:message>
+  <wsdl:message name="AddHostSoapOut">
+    <wsdl:part name="parameters" element="tns:AddHostResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddHostWithPortSoapIn">
+    <wsdl:part name="parameters" element="tns:AddHostWithPort" />
+  </wsdl:message>
+  <wsdl:message name="AddHostWithPortSoapOut">
+    <wsdl:part name="parameters" element="tns:AddHostWithPortResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetUserSoapIn">
+    <wsdl:part name="parameters" element="tns:SetUser" />
+  </wsdl:message>
+  <wsdl:message name="SetUserSoapOut">
+    <wsdl:part name="parameters" element="tns:SetUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSubjectSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSubject" />
+  </wsdl:message>
+  <wsdl:message name="SetSubjectSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSubjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetstrBodyHTMLSoapIn">
+    <wsdl:part name="parameters" element="tns:SetstrBodyHTML" />
+  </wsdl:message>
+  <wsdl:message name="SetstrBodyHTMLSoapOut">
+    <wsdl:part name="parameters" element="tns:SetstrBodyHTMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetBodyTextSoapIn">
+    <wsdl:part name="parameters" element="tns:SetBodyText" />
+  </wsdl:message>
+  <wsdl:message name="SetBodyTextSoapOut">
+    <wsdl:part name="parameters" element="tns:SetBodyTextResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendSessionedMailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendSessionedMail" />
+  </wsdl:message>
+  <wsdl:message name="SendSessionedMailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendSessionedMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMail01SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail01" />
+  </wsdl:message>
+  <wsdl:message name="SendMail01SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail01Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail02SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail02" />
+  </wsdl:message>
+  <wsdl:message name="SendMail02SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail02Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail03SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail03" />
+  </wsdl:message>
+  <wsdl:message name="SendMail03SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail03Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail04SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail04" />
+  </wsdl:message>
+  <wsdl:message name="SendMail04SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail04Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail05SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail05" />
+  </wsdl:message>
+  <wsdl:message name="SendMail05SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail05Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail06SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail06" />
+  </wsdl:message>
+  <wsdl:message name="SendMail06SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail06Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail07SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail07" />
+  </wsdl:message>
+  <wsdl:message name="SendMail07SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail07Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail08SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail08" />
+  </wsdl:message>
+  <wsdl:message name="SendMail08SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail08Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail09SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail09" />
+  </wsdl:message>
+  <wsdl:message name="SendMail09SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail09Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail10SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail10" />
+  </wsdl:message>
+  <wsdl:message name="SendMail10SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail10Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail11SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail11" />
+  </wsdl:message>
+  <wsdl:message name="SendMail11SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail11Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail12SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail12" />
+  </wsdl:message>
+  <wsdl:message name="SendMail12SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail12Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail13SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail13" />
+  </wsdl:message>
+  <wsdl:message name="SendMail13SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail13Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMail14SoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail14" />
+  </wsdl:message>
+  <wsdl:message name="SendMail14SoapOut">
+    <wsdl:part name="parameters" element="tns:SendMail14Response" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WS_SMTPSoap">
+    <wsdl:operation name="SetFrom">
+      <wsdl:input message="tns:SetFromSoapIn" />
+      <wsdl:output message="tns:SetFromSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetFromWithName">
+      <wsdl:input message="tns:SetFromWithNameSoapIn" />
+      <wsdl:output message="tns:SetFromWithNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddToAddress">
+      <wsdl:input message="tns:AddToAddressSoapIn" />
+      <wsdl:output message="tns:AddToAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddToAddressWithName">
+      <wsdl:input message="tns:AddToAddressWithNameSoapIn" />
+      <wsdl:output message="tns:AddToAddressWithNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddCCAddress">
+      <wsdl:input message="tns:AddCCAddressSoapIn" />
+      <wsdl:output message="tns:AddCCAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddCCAddressWithName">
+      <wsdl:input message="tns:AddCCAddressWithNameSoapIn" />
+      <wsdl:output message="tns:AddCCAddressWithNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddBCCAddress">
+      <wsdl:input message="tns:AddBCCAddressSoapIn" />
+      <wsdl:output message="tns:AddBCCAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddBCCAddressWithName">
+      <wsdl:input message="tns:AddBCCAddressWithNameSoapIn" />
+      <wsdl:output message="tns:AddBCCAddressWithNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPort">
+      <wsdl:input message="tns:SetPortSoapIn" />
+      <wsdl:output message="tns:SetPortSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddHost">
+      <wsdl:input message="tns:AddHostSoapIn" />
+      <wsdl:output message="tns:AddHostSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddHostWithPort">
+      <wsdl:input message="tns:AddHostWithPortSoapIn" />
+      <wsdl:output message="tns:AddHostWithPortSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUser">
+      <wsdl:input message="tns:SetUserSoapIn" />
+      <wsdl:output message="tns:SetUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSubject">
+      <wsdl:input message="tns:SetSubjectSoapIn" />
+      <wsdl:output message="tns:SetSubjectSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetstrBodyHTML">
+      <wsdl:input message="tns:SetstrBodyHTMLSoapIn" />
+      <wsdl:output message="tns:SetstrBodyHTMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetBodyText">
+      <wsdl:input message="tns:SetBodyTextSoapIn" />
+      <wsdl:output message="tns:SetBodyTextSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSessionedMail">
+      <wsdl:input message="tns:SendSessionedMailSoapIn" />
+      <wsdl:output message="tns:SendSessionedMailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail01">
+      <wsdl:input message="tns:SendMail01SoapIn" />
+      <wsdl:output message="tns:SendMail01SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail02">
+      <wsdl:input message="tns:SendMail02SoapIn" />
+      <wsdl:output message="tns:SendMail02SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail03">
+      <wsdl:input message="tns:SendMail03SoapIn" />
+      <wsdl:output message="tns:SendMail03SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail04">
+      <wsdl:input message="tns:SendMail04SoapIn" />
+      <wsdl:output message="tns:SendMail04SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail05">
+      <wsdl:input message="tns:SendMail05SoapIn" />
+      <wsdl:output message="tns:SendMail05SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail06">
+      <wsdl:input message="tns:SendMail06SoapIn" />
+      <wsdl:output message="tns:SendMail06SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail07">
+      <wsdl:input message="tns:SendMail07SoapIn" />
+      <wsdl:output message="tns:SendMail07SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail08">
+      <wsdl:input message="tns:SendMail08SoapIn" />
+      <wsdl:output message="tns:SendMail08SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail09">
+      <wsdl:input message="tns:SendMail09SoapIn" />
+      <wsdl:output message="tns:SendMail09SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail10">
+      <wsdl:input message="tns:SendMail10SoapIn" />
+      <wsdl:output message="tns:SendMail10SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail11">
+      <wsdl:input message="tns:SendMail11SoapIn" />
+      <wsdl:output message="tns:SendMail11SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail12">
+      <wsdl:input message="tns:SendMail12SoapIn" />
+      <wsdl:output message="tns:SendMail12SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail13">
+      <wsdl:input message="tns:SendMail13SoapIn" />
+      <wsdl:output message="tns:SendMail13SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail14">
+      <wsdl:input message="tns:SendMail14SoapIn" />
+      <wsdl:output message="tns:SendMail14SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <wsdl:input message="tns:SendMailSoapIn" />
+      <wsdl:output message="tns:SendMailSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WS_SMTPSoap" type="tns:WS_SMTPSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetFrom">
+      <soap:operation soapAction="http://tempuri.org/SetFrom" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFromWithName">
+      <soap:operation soapAction="http://tempuri.org/SetFromWithName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddToAddress">
+      <soap:operation soapAction="http://tempuri.org/AddToAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddToAddressWithName">
+      <soap:operation soapAction="http://tempuri.org/AddToAddressWithName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCCAddress">
+      <soap:operation soapAction="http://tempuri.org/AddCCAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCCAddressWithName">
+      <soap:operation soapAction="http://tempuri.org/AddCCAddressWithName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddBCCAddress">
+      <soap:operation soapAction="http://tempuri.org/AddBCCAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddBCCAddressWithName">
+      <soap:operation soapAction="http://tempuri.org/AddBCCAddressWithName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPort">
+      <soap:operation soapAction="http://tempuri.org/SetPort" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddHost">
+      <soap:operation soapAction="http://tempuri.org/AddHost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddHostWithPort">
+      <soap:operation soapAction="http://tempuri.org/AddHostWithPort" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUser">
+      <soap:operation soapAction="http://tempuri.org/SetUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSubject">
+      <soap:operation soapAction="http://tempuri.org/SetSubject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetstrBodyHTML">
+      <soap:operation soapAction="http://tempuri.org/SetstrBodyHTML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetBodyText">
+      <soap:operation soapAction="http://tempuri.org/SetBodyText" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSessionedMail">
+      <soap:operation soapAction="http://tempuri.org/SendSessionedMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail01">
+      <soap:operation soapAction="http://tempuri.org/SendMail01" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail02">
+      <soap:operation soapAction="http://tempuri.org/SendMail02" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail03">
+      <soap:operation soapAction="http://tempuri.org/SendMail03" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail04">
+      <soap:operation soapAction="http://tempuri.org/SendMail04" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail05">
+      <soap:operation soapAction="http://tempuri.org/SendMail05" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail06">
+      <soap:operation soapAction="http://tempuri.org/SendMail06" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail07">
+      <soap:operation soapAction="http://tempuri.org/SendMail07" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail08">
+      <soap:operation soapAction="http://tempuri.org/SendMail08" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail09">
+      <soap:operation soapAction="http://tempuri.org/SendMail09" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail10">
+      <soap:operation soapAction="http://tempuri.org/SendMail10" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail11">
+      <soap:operation soapAction="http://tempuri.org/SendMail11" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail12">
+      <soap:operation soapAction="http://tempuri.org/SendMail12" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail13">
+      <soap:operation soapAction="http://tempuri.org/SendMail13" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail14">
+      <soap:operation soapAction="http://tempuri.org/SendMail14" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WS_SMTPSoap12" type="tns:WS_SMTPSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetFrom">
+      <soap12:operation soapAction="http://tempuri.org/SetFrom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFromWithName">
+      <soap12:operation soapAction="http://tempuri.org/SetFromWithName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddToAddress">
+      <soap12:operation soapAction="http://tempuri.org/AddToAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddToAddressWithName">
+      <soap12:operation soapAction="http://tempuri.org/AddToAddressWithName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCCAddress">
+      <soap12:operation soapAction="http://tempuri.org/AddCCAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCCAddressWithName">
+      <soap12:operation soapAction="http://tempuri.org/AddCCAddressWithName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddBCCAddress">
+      <soap12:operation soapAction="http://tempuri.org/AddBCCAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddBCCAddressWithName">
+      <soap12:operation soapAction="http://tempuri.org/AddBCCAddressWithName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPort">
+      <soap12:operation soapAction="http://tempuri.org/SetPort" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddHost">
+      <soap12:operation soapAction="http://tempuri.org/AddHost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddHostWithPort">
+      <soap12:operation soapAction="http://tempuri.org/AddHostWithPort" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUser">
+      <soap12:operation soapAction="http://tempuri.org/SetUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSubject">
+      <soap12:operation soapAction="http://tempuri.org/SetSubject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetstrBodyHTML">
+      <soap12:operation soapAction="http://tempuri.org/SetstrBodyHTML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetBodyText">
+      <soap12:operation soapAction="http://tempuri.org/SetBodyText" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSessionedMail">
+      <soap12:operation soapAction="http://tempuri.org/SendSessionedMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail01">
+      <soap12:operation soapAction="http://tempuri.org/SendMail01" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail02">
+      <soap12:operation soapAction="http://tempuri.org/SendMail02" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail03">
+      <soap12:operation soapAction="http://tempuri.org/SendMail03" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail04">
+      <soap12:operation soapAction="http://tempuri.org/SendMail04" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail05">
+      <soap12:operation soapAction="http://tempuri.org/SendMail05" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail06">
+      <soap12:operation soapAction="http://tempuri.org/SendMail06" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail07">
+      <soap12:operation soapAction="http://tempuri.org/SendMail07" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail08">
+      <soap12:operation soapAction="http://tempuri.org/SendMail08" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail09">
+      <soap12:operation soapAction="http://tempuri.org/SendMail09" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail10">
+      <soap12:operation soapAction="http://tempuri.org/SendMail10" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail11">
+      <soap12:operation soapAction="http://tempuri.org/SendMail11" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail12">
+      <soap12:operation soapAction="http://tempuri.org/SendMail12" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail13">
+      <soap12:operation soapAction="http://tempuri.org/SendMail13" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail14">
+      <soap12:operation soapAction="http://tempuri.org/SendMail14" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap12:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WS_SMTP">
+    <wsdl:port name="WS_SMTPSoap" binding="tns:WS_SMTPSoap">
+      <soap:address location="http://localhost:2091/SMTP/WS_SMTP.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WS_SMTPSoap12" binding="tns:WS_SMTPSoap12">
+      <soap12:address location="http://localhost:2091/SMTP/WS_SMTP.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
