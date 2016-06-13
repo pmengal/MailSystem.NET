@@ -1,0 +1,58 @@
+
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = ".\SMTP\", ".\SMTP\", "{8B7A01AA-0F45-4E12-98A3-BF774035C459}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.VirtualPath = "/SMTP"
+		Debug.AspNetCompiler.PhysicalPath = ".\SMTP\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\SMTP\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/SMTP"
+		Release.AspNetCompiler.PhysicalPath = ".\SMTP\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\SMTP\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "4526"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Debug|.NET.ActiveCfg = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Debug|.NET.Build.0 = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Release|.NET.ActiveCfg = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Release|.NET.Build.0 = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{8B7A01AA-0F45-4E12-98A3-BF774035C459}.Release|Mixed Platforms.Build.0 = Debug|.NET
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Release|.NET.ActiveCfg = Release|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0549C98E-D7DE-4A66-9D41-E38CCCF25B67}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
