@@ -15,10 +15,7 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 #if !PocketPC
 using System.Security.Cryptography.Pkcs;
 #endif
@@ -33,11 +30,11 @@ namespace ActiveUp.Net.Mail
     /// Base class for all Parser objects.
     /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class Parser
     {
-        private static System.Text.Encoding defaultEncoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+        private static Encoding defaultEncoding = Encoding.GetEncoding("iso-8859-1");
 
         #region Methods
 
@@ -122,9 +119,14 @@ namespace ActiveUp.Net.Mail
             //TODO: include TAB detection in Regex
             field.Disposition = Regex.Match(input.Replace("\t", ""), @"(?<=: ?)\S+?(?=([;\s]|\Z))").Value;
             //TODO: include TAB detection in Regex
-            System.Text.RegularExpressions.Match parammatch = System.Text.RegularExpressions.Regex.Match(input.Replace("\t", ""), @"(?<=;[ \t]?)[^;]*=[^;]*(?=(;|\Z))");
+            Match parammatch = Regex.Match(input.Replace("\t", ""), @"(?<=;[ \t]?)[^;]*=[^;]*(?=(;|\Z))");
             for (; parammatch.Success; parammatch = parammatch.NextMatch()) field.Parameters.Add(FormatFieldName(parammatch.Value.Substring(0, parammatch.Value.IndexOf('='))), parammatch.Value.Substring(parammatch.Value.IndexOf('=') + 1).Replace("\"", "").Trim('\r', '\n'));
             return field;
+        }
+
+        private static int GetASCIIByteCountOfPart(string part)
+        {
+            return Encoding.ASCII.GetByteCount(part);
         }
 
         /// <summary>
@@ -134,7 +136,7 @@ namespace ActiveUp.Net.Mail
         private static void ParseSubParts(ref MimePart part, Message message)
         {
             string boundary = part.ContentType.Parameters["boundary"];
-            string parentPartAsciiBody = Encoding.ASCII.GetString(part.BinaryContent);
+            string parentPartAsciiBody = ToASCII(part.BinaryContent);
             byte[] parentPartBinary = part.BinaryContent;
 
             Logger.AddEntry("boundary : " + boundary);
@@ -142,32 +144,43 @@ namespace ActiveUp.Net.Mail
 
             foreach (var strpart in arrpart)
             {
-                if (string.IsNullOrWhiteSpace(strpart)) continue;
+                if (string.IsNullOrWhiteSpace(strpart))
+                    continue;
 
-                int bounaryByteLen = Encoding.ASCII.GetByteCount(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));
-                int binaryPartLen = bounaryByteLen + Encoding.ASCII.GetByteCount(strpart.ToCharArray());
+                int bounaryByteLen = GetASCIIByteCountOfPart(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));
+                int binaryPartLen = bounaryByteLen + GetASCIIByteCountOfPart(strpart);
+                parentPartAsciiBody = null;
 
                 //complete Part (incl. boundary)
                 byte[] binaryPart = new byte[binaryPartLen];
                 Array.Copy(parentPartBinary, binaryPart, binaryPart.Length);
 
                 //Body only (without Boundary)
-                byte[] binaryBody = new byte[Encoding.ASCII.GetByteCount(strpart)];
+                byte[] binaryBody = new byte[GetASCIIByteCountOfPart(strpart)];
                 Array.Copy(binaryPart, bounaryByteLen, binaryBody, 0, binaryBody.Length);
 
                 //Remove Subpart from ParentPart
                 byte[] tmp = new byte[parentPartBinary.Length - binaryPart.Length];
                 Array.Copy(parentPartBinary, binaryPart.Length, tmp, 0, (parentPartBinary.Length - binaryPart.Length));
-                parentPartBinary = tmp.Length > 0 ? tmp : parentPartBinary;
-                parentPartAsciiBody = Encoding.ASCII.GetString(parentPartBinary);
+                parentPartBinary = null;
+                binaryPart = null;
+                GC.Collect(GC.MaxGeneration);
+                GC.WaitForPendingFinalizers();
+
+                parentPartBinary = tmp;
+                parentPartAsciiBody = ToASCII(parentPartBinary);
+                tmp = null;
 
                 if (!strpart.StartsWith("--") && !string.IsNullOrEmpty(strpart))
                 {
-                    MimePart newpart = Parser.ParseMimePart(binaryBody, message);
-                    newpart.ParentMessage = message;
+                    MimePart newpart = ParseMimePart(binaryBody, message);
                     newpart.Container = part;
                     part.SubParts.Add(newpart);
                 }
+
+                binaryBody = null;
+                GC.Collect(GC.MaxGeneration);
+                GC.WaitForPendingFinalizers();
             }
         }
 
@@ -179,9 +192,7 @@ namespace ActiveUp.Net.Mail
         private static void DispatchParts(MimePart root, ref Message message)
         {
             foreach (MimePart entity in root.SubParts)
-            {
                 DispatchPart(entity, ref message);
-            }
         }
 
         /// <summary>
@@ -201,20 +212,21 @@ namespace ActiveUp.Net.Mail
         private static void DispatchPart(MimePart part, ref Message message)
         {
             // This is a container part.
-            if (part.SubParts.Count > 0) DispatchParts(part, ref message);
+            if (part.SubParts.Count > 0)
+                DispatchParts(part, ref message);
             // This is a leaf part.
             else
             {
                 // If this part has to be displayed has an attachment, add it to the appropriate collection.
-                if (part.ContentDisposition.Disposition.Equals("attachment")) message.Attachments.Add(part);
+                if (part.ContentDisposition.Disposition.Equals("attachment"))
+                    message.Attachments.Add(part);
                 // If this part has to be displayed at the same time as the main body, add it to the appropriate collection.
-                else if (part.ContentDisposition.Disposition.Equals("inline")) message.EmbeddedObjects.Add(part);
+                else if (part.ContentDisposition.Disposition.Equals("inline"))
+                    message.EmbeddedObjects.Add(part);
                 // Other parts are miscellaneous. How they are to be displayed is at the end-user's discretion.
                 // Fix for avoid attach original mail message
                 else if (!message.BodyText.ToMimePart().ContentTransferEncoding.Equals(part.ContentTransferEncoding))
-                {
                     message.UnknownDispositionMimeParts.Add(part);
-                }
 
                 // We will consider the highest-level text parts that are not attachments to be the intended for display.
                 // We know the highest-level parts will be set, because the parser first goes to the deepest level and returns top-level parts last.
@@ -290,48 +302,42 @@ namespace ActiveUp.Net.Mail
             if (charset.ToLower() == "iso-8859-1")
                 charset = "windows-1252";
 #endif
-            // This is a Base64 encoded part body.
             if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.Base64))
-            {
-
-                part.TextContent = Encoding.ASCII.GetString(part.BinaryContent);
-#if !PocketPC
-                try
-                {
-#endif
-                    //We have the Base64 string so we can decode it.
-                    part.BinaryContent = Convert.FromBase64String(part.TextContent);
-#if !PocketPC
-                }
-                catch (System.FormatException)
-                {
-                    part.TextContent = part.TextContent.Remove(part.TextContent.LastIndexOf("=") + 1);
-                    part.BinaryContent = Convert.FromBase64String(part.TextContent);
-                }
-#endif
-
-                part.TextContent = Encoding.ASCII.GetString(part.BinaryContent);
-                if (part.ContentDisposition != ContentDisposition.Attachment)
-                    part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent, 0, part.BinaryContent.Length);
-            }
-            // This is a quoted-printable encoded part body.
+                DecodeBase64Part(part, charset);
             else if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.QuotedPrintable))
             {
-                //else if (part.Container != null && part.Container.Charset != null && part.Container.Charset.Length > 0)
-                //    charset = part.Container.Charset;
-
-                // Let's decode.
-                part.TextContent = Encoding.ASCII.GetString(part.BinaryContent);
-                part.TextContent = Codec.FromQuotedPrintable(part.TextContent, charset);
-                // Knowing the charset, we can provide a binary version of this body data.
+                part.TextContent = Codec.FromQuotedPrintable(ToASCII(part.BinaryContent), charset);
                 part.BinaryContent = Codec.GetEncoding(charset).GetBytes(part.TextContent);
             }
-            // Otherwise, this is an unencoded part body and we keep the text version as it is.
             else
-            {
                 part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent);
-            }
         }
+
+        private static void DecodeBase64Part(MimePart part, string charset)
+        {
+            string text = ToASCII(part.BinaryContent);
+            byte[] binary = null;
+#if !PocketPC
+            try
+            {
+#endif
+                binary = Convert.FromBase64String(text);
+#if !PocketPC
+            }
+            catch (FormatException)
+            {
+                text = text.Remove(text.LastIndexOf("=") + 1);
+                binary = Convert.FromBase64String(text);
+            }
+#endif
+            text = ToASCII(binary);
+            if (part.ContentDisposition != ContentDisposition.Attachment)
+                text = Codec.GetEncoding(charset).GetString(binary, 0, binary.Length);
+
+            part.TextContent = text;
+            part.BinaryContent = binary;
+        }
+
 
         /// <summary>
         /// Replaces the time zone.
@@ -360,7 +366,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         internal static string RemoveWhiteSpaces(string input)
         {
-            return System.Text.RegularExpressions.Regex.Replace(input, @"\s+", "");
+            return Regex.Replace(input, @"\s+", "");
         }
 
         /// <summary>
@@ -396,12 +402,13 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static string Fold(string input)
         {
-            StringBuilder sb = new System.Text.StringBuilder();
+            StringBuilder sb = new StringBuilder();
             string[] separated = input.Split(' ');
             string templine = string.Empty;
             foreach (string t in separated)
             {
-                if (templine.Length + t.Length < 77) templine += t + " ";
+                if (templine.Length + t.Length < 77)
+                    templine += t + " ";
                 else
                 {
                     sb.Append(templine + "\r\n ");
@@ -419,7 +426,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static string Unfold(string input)
         {
-            return System.Text.RegularExpressions.Regex.Replace(input, @"\r?\n(?=[ \t])", "");
+            return Regex.Replace(input, @"\r?\n(?=[ \t])", "");
         }
 
         #endregion
@@ -431,95 +438,100 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         /// <param name="sender">The sender object.</param>
         /// <param name="header">The header object.</param>
-        public delegate void OnBodyParsedEvent(Object sender, Message message);
+        public delegate void OnBodyParsedEvent(object sender, Message message);
 
         /// <summary>
         /// Event handler for body parsed.
         /// </summary>
         public static event OnBodyParsedEvent BodyParsed;
 
+        private static string ToASCII(byte[] data) 
+        {
+            const int BUFFER_SIZE = 2048;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.Length; i += BUFFER_SIZE)
+                sb.Append(ConvertByteBlock(data, i, Math.Min(BUFFER_SIZE, data.Length - i)));
+
+            return sb.ToString();
+        }
+
+        private static string ConvertByteBlock(byte[] data, int start, int length) 
+        {
+            return Encoding.ASCII.GetString(data, start, length);
+        }
+
+        private static void ParseHeaderFields(MimePart part, int headerEnd) 
+        {
+            string header = Unfold(part.OriginalContent.Substring(0, headerEnd));
+            Match m = Regex.Match(header, @"(?<=((\r?\n)|\n)|\A)\S+:(.|(\r?\n[\t ]))+(?=((\r?\n)\S)|\Z)");
+            while (m.Success) 
+            {
+                if (m.Value.ToLower().StartsWith("content-type:"))
+                    part.ContentType = GetContentType(m.Value);
+                else if (m.Value.ToLower().StartsWith("content-disposition:"))
+                    part.ContentDisposition = GetContentDisposition(m.Value);
+
+                part.HeaderFields.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(m.Value.IndexOf(':') + 1).Trim(' ', '\r', '\n')));
+                part.HeaderFieldNames.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(0, m.Value.IndexOf(':')).Trim(' ', '\r', '\n')));
+                m = m.NextMatch();
+            }
+        }
+
+        private static void ParseBody(byte[] binaryData, MimePart part, int bodyStart)
+        {
+            if (bodyStart < part.OriginalContent.Length)
+            {
+                string body = part.OriginalContent.Substring(bodyStart);
+                part.BinaryContent = GetBinaryPart(binaryData, body);
+            }
+        }
+
+
         /// <summary>
         /// Parses the MIME part.
         /// </summary>
+        /// <param name="binaryData">The data.</param>
         /// <returns></returns>
         public static MimePart ParseMimePart(byte[] binaryData, Message message)
         {
             MimePart part = new MimePart();
-            string data = Encoding.ASCII.GetString(binaryData);
             part.ParentMessage = message;
-            part.OriginalContent = data; //ASCII content for header parsing            
+            part.OriginalContent = ToASCII(binaryData); //ASCII content for header parsing            
 
             try
             {
                 // Separate header and body.
-                int headerEnd = Regex.Match(data, @".(?=\r?\n\r?\n)").Index + 1;
-                int bodyStart = Regex.Match(data, @"(?<=\r?\n\r?\n).").Index;
+                int headerEnd = Regex.Match(part.OriginalContent, @".(?=\r?\n\r?\n)").Index + 1;
+                int bodyStart = Regex.Match(part.OriginalContent, @"(?<=\r?\n\r?\n).").Index;
 
                 //TODO: remove this workaround
                 if (bodyStart == 0)
                 {
-                    int indexBody = data.IndexOf("\r\n\r\n");
+                    int indexBody = part.OriginalContent.IndexOf("\r\n\r\n");
                     if (indexBody > 0)
                     {
                         bodyStart = indexBody;
                     }
                 }
-                if (data.Length >= headerEnd)
+                if (part.OriginalContent.Length >= headerEnd)
                 {
-                    string header = data.Substring(0, headerEnd);
-
-                    header = Unfold(header);
-
-                    // The bodyStart need to be greather than data.length - MCALADO: 04/07/2008
-                    string body = string.Empty;
-                    if (bodyStart < data.Length)
-                    {
-                        body = data.Substring(bodyStart);
-                        part.BinaryContent = GetBinaryPart(binaryData, body);
-                    }
-
-                    // Parse header fields and their parameters.
-                    Match m = Regex.Match(header, @"(?<=((\r?\n)|\n)|\A)\S+:(.|(\r?\n[\t ]))+(?=((\r?\n)\S)|\Z)");
-                    while (m.Success)
-                    {
-                        if (m.Value.ToLower().StartsWith("content-type:"))
-                        {
-                            part.ContentType = GetContentType(m.Value);
-                        }
-                        else if (m.Value.ToLower().StartsWith("content-disposition:"))
-                        {
-                            part.ContentDisposition = GetContentDisposition(m.Value);
-                        }
-                        part.HeaderFields.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(m.Value.IndexOf(':') + 1).Trim(' ', '\r', '\n')));
-                        part.HeaderFieldNames.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(0, m.Value.IndexOf(':')).Trim(' ', '\r', '\n')));
-                        m = m.NextMatch();
-                    }
+                    ParseHeaderFields(part, headerEnd);
+                    ParseBody(binaryData, part, bodyStart);
 
                     // Build the part tree.
-
                     // This is a container part.
                     if (part.ContentType.Type.ToLower().Equals("multipart"))
-                    {
                         ParseSubParts(ref part, message);
-                    }
                     // This is a nested message.
                     else if (part.ContentType.Type.ToLower().Equals("message"))
                     {
                         // TODO: Create an interpreter to this.
                     }
                     else
-                    {
                         DecodePartBody(ref part);
-                    }
 
-                    try
-                    {
+                    if (BodyParsed != null)
                         BodyParsed(null, message);
-                    }
-                    catch (Exception)
-                    {
-                        // event is not supported.
-                    }
                 }
             }
             catch (Exception ex)
@@ -533,7 +545,7 @@ namespace ActiveUp.Net.Mail
 
         private static byte[] GetBinaryPart(byte[] srcData, string asciiPart)
         {
-            byte[] result = new byte[Encoding.ASCII.GetByteCount(asciiPart.ToCharArray())];
+            byte[] result = new byte[GetASCIIByteCountOfPart(asciiPart)];
             Array.Copy(srcData, (srcData.Length - result.Length), result, 0, result.Length);
 
             return result;
@@ -571,13 +583,13 @@ namespace ActiveUp.Net.Mail
         /// </example> 
         public static Header ParseHeader(string filePath)
         {
-            System.IO.FileStream fs = System.IO.File.OpenRead(filePath);
+            FileStream fs = File.OpenRead(filePath);
             byte[] data = new byte[fs.Length];
-            fs.Read(data, 0, System.Convert.ToInt32(fs.Length));
+            fs.Read(data, 0, Convert.ToInt32(fs.Length));
             fs.Close();
             Header hdr = new Header();
             hdr.OriginalData = data;
-            Parser.ParseHeader(ref hdr);
+            ParseHeader(ref hdr);
             return hdr;
         }
 
@@ -607,13 +619,13 @@ namespace ActiveUp.Net.Mail
         /// var subject:string = header.Subject;
         /// </code>
         /// </example> 
-        public static Header ParseHeader(System.IO.MemoryStream inputStream)
+        public static Header ParseHeader(MemoryStream inputStream)
         {
             byte[] buf = new byte[inputStream.Length];
             inputStream.Read(buf, 0, buf.Length);
             Header hdr = new Header();
             hdr.OriginalData = buf;
-            Parser.ParseHeader(ref hdr);
+            ParseHeader(ref hdr);
             return hdr;
         }
 
@@ -643,7 +655,7 @@ namespace ActiveUp.Net.Mail
         {
             Header hdr = new Header();
             hdr.OriginalData = data;
-            Parser.ParseHeader(ref hdr);
+            ParseHeader(ref hdr);
             return hdr;
         }
 
@@ -652,7 +664,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         /// <param name="sender">The sender object.</param>
         /// <param name="header">The header object.</param>
-        public delegate void OnHeaderFieldParsingEvent(Object sender, Header header);
+        public delegate void OnHeaderFieldParsingEvent(object sender, Header header);
 
         /// <summary>
         /// Event handler for header field parsing.
@@ -666,27 +678,36 @@ namespace ActiveUp.Net.Mail
         public static void ParseHeader(ref Header header)
         {
 #if !PocketPC
-            string hdr = System.Text.Encoding.GetEncoding("iso-8859-1").GetString(header.OriginalData, 0, header.OriginalData.Length);
+            string hdr = Encoding.GetEncoding("iso-8859-1").GetString(header.OriginalData, 0, header.OriginalData.Length);
 #else
             string hdr = Pop3Client.PPCEncode.GetString(header.OriginalData, 0, header.OriginalData.Length);
 #endif
-            hdr = System.Text.RegularExpressions.Regex.Match(hdr, @"[\s\S]+?((?=\r?\n\r?\n)|\Z)").Value;
-            hdr = Parser.Unfold(hdr);
+            hdr = Regex.Match(hdr, @"[\s\S]+?((?=\r?\n\r?\n)|\Z)").Value;
+            hdr = Unfold(hdr);
             //hdr = hdr);
-            System.Text.RegularExpressions.Match m = System.Text.RegularExpressions.Regex.Match(hdr, @"(?<=((\r?\n)|\n)|\A)\S+:(.|(\r?\n[\t ]))+(?=((\r?\n)\S)|\Z)");
+            Match m = Regex.Match(hdr, @"(?<=((\r?\n)|\n)|\A)\S+:(.|(\r?\n[\t ]))+(?=((\r?\n)\S)|\Z)");
             while (m.Success)
             {
                 string name = FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':')));
                 string value = Codec.RFC2047Decode(m.Value.Substring(m.Value.IndexOf(":") + 1)).Trim('\r', '\n').TrimStart(' ');
-                if (name.Equals("received")) header.Trace.Add(Parser.ParseTrace(m.Value.Trim(' ')));
-                else if (name.Equals("to")) header.To = Parser.ParseAddresses(value);
-                else if (name.Equals("cc")) header.Cc = Parser.ParseAddresses(value);
-                else if (name.Equals("bcc")) header.Bcc = Parser.ParseAddresses(value);
-                else if (name.Equals("reply-to")) header.ReplyTo = Parser.ParseAddress(value);
-                else if (name.Equals("from")) header.From = Parser.ParseAddress(value);
-                else if (name.Equals("sender")) header.Sender = Parser.ParseAddress(value);
-                else if (name.Equals("content-type")) header.ContentType = GetContentType(m.Value);
-                else if (name.Equals("content-disposition")) header.ContentDisposition = Parser.GetContentDisposition(m.Value);
+                if (name.Equals("received"))
+                    header.Trace.Add(ParseTrace(m.Value.Trim(' ')));
+                else if (name.Equals("to"))
+                    header.To = ParseAddresses(value);
+                else if (name.Equals("cc"))
+                    header.Cc = ParseAddresses(value);
+                else if (name.Equals("bcc"))
+                    header.Bcc = ParseAddresses(value);
+                else if (name.Equals("reply-to"))
+                    header.ReplyTo = ParseAddress(value);
+                else if (name.Equals("from"))
+                    header.From = ParseAddress(value);
+                else if (name.Equals("sender"))
+                    header.Sender = ParseAddress(value);
+                else if (name.Equals("content-type"))
+                    header.ContentType = GetContentType(m.Value);
+                else if (name.Equals("content-disposition"))
+                    header.ContentDisposition = GetContentDisposition(m.Value);
                 //else
                 //{
                 header.HeaderFields.Add(name, value);
@@ -729,7 +750,7 @@ namespace ActiveUp.Net.Mail
         {
 
 #if !PocketPC
-            return Parser.ParseHeader(System.Text.Encoding.GetEncoding("iso-8859-1").GetBytes(data));
+            return ParseHeader(Encoding.GetEncoding("iso-8859-1").GetBytes(data));
 #else
             return Parser.ParseHeader(Pop3Client.PPCEncode.GetBytes(data));
 #endif
@@ -744,7 +765,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         /// <param name="sender">The sender object.</param>
         /// <param name="header">The exception object.</param>
-        public delegate void OnErrorParsingEvent(Object sender, Exception ex);
+        public delegate void OnErrorParsingEvent(object sender, Exception ex);
 
         /// <summary>
         /// Event handler for error parsing.
@@ -758,13 +779,6 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static Message ParseMessage(byte[] data)
         {
-            //string msg = System.Text.Encoding.ASCII.GetString(data);
-#if !PocketPC
-            //string msg = System.Text.Encoding.UTF8.GetString(data, 0, data.Length);
-#else
-            string msg = Pop3Client.PPCEncode.GetString(data, 0, data.Length);
-#endif
-
             Message message = new Message();
 
             try
@@ -784,22 +798,31 @@ namespace ActiveUp.Net.Mail
                     string value = message.HeaderFields[key];
                     if (name.Equals("received"))
                     {
-                        System.Text.RegularExpressions.Match m = System.Text.RegularExpressions.Regex.Match(value, @"from.+?(?=(from|$))");
+                        Match m = Regex.Match(value, @"from.+?(?=(from|$))");
                         while (m.Success)
                         {
-                            message.Trace.Add(Parser.ParseTrace(key + ": " + m.Value));
+                            message.Trace.Add(ParseTrace(key + ": " + m.Value));
                             m = m.NextMatch();
                         }
                     }
-                    else if (name.Equals("to")) message.To = Parser.ParseAddresses(value);
-                    else if (name.Equals("cc")) message.Cc = Parser.ParseAddresses(value);
-                    else if (name.Equals("bcc")) message.Bcc = Parser.ParseAddresses(value);
-                    else if (name.Equals("reply-to")) message.ReplyTo = Parser.ParseAddress(value);
-                    else if (name.Equals("from")) message.From = Parser.ParseAddress(value);
-                    else if (name.Equals("sender")) message.Sender = Parser.ParseAddress(value);
-                    else if (name.Equals("content-type")) message.ContentType = GetContentType(key + ": " + value);
-                    else if (name.Equals("content-disposition")) message.ContentDisposition = Parser.GetContentDisposition(key + ": " + value);
-                    else if (name.Equals("domainkey-signature")) message.Signatures.DomainKeys = Signature.Parse(key + ": " + value, message);
+                    else if (name.Equals("to"))
+                        message.To = ParseAddresses(value);
+                    else if (name.Equals("cc"))
+                        message.Cc = ParseAddresses(value);
+                    else if (name.Equals("bcc"))
+                        message.Bcc = ParseAddresses(value);
+                    else if (name.Equals("reply-to"))
+                        message.ReplyTo = ParseAddress(value);
+                    else if (name.Equals("from"))
+                        message.From = ParseAddress(value);
+                    else if (name.Equals("sender"))
+                        message.Sender = ParseAddress(value);
+                    else if (name.Equals("content-type"))
+                        message.ContentType = GetContentType(key + ": " + value);
+                    else if (name.Equals("content-disposition"))
+                        message.ContentDisposition = GetContentDisposition(key + ": " + value);
+                    else if (name.Equals("domainkey-signature"))
+                        message.Signatures.DomainKeys = Signature.Parse(key + ": " + value, message);
                 }
 
                 if (message.ContentType.MimeType.Equals("application/pkcs7-mime")
@@ -857,13 +880,13 @@ namespace ActiveUp.Net.Mail
         /// var subject:string = message.Subject;
         /// </code>
         /// </example>
-        public static Message ParseMessage(System.IO.MemoryStream inputStream)
+        public static Message ParseMessage(MemoryStream inputStream)
         {
             byte[] buf = new byte[inputStream.Length];
             inputStream.Read(buf, 0, buf.Length);
             Message msg = new Message();
             msg.OriginalData = buf;
-            Parser.ParseMessage(buf);//ref msg);
+            ParseMessage(buf);
             return msg;
         }
 
@@ -896,7 +919,7 @@ namespace ActiveUp.Net.Mail
         public static Message ParseMessage(string data)
         {
 #if !PocketPC
-            return Parser.ParseMessage(System.Text.Encoding.GetEncoding("iso-8859-1").GetBytes(data));
+            return ParseMessage(Encoding.GetEncoding("iso-8859-1").GetBytes(data));
 #else
             return Parser.ParseMessage(Pop3Client.PPCEncode.GetBytes(data));
 #endif
@@ -930,13 +953,27 @@ namespace ActiveUp.Net.Mail
         /// </example> 
         public static Message ParseMessageFromFile(string filePath)
         {
-            System.IO.FileStream fs = System.IO.File.OpenRead(filePath);
-            byte[] data = new byte[fs.Length];
-            fs.Read(data, 0, System.Convert.ToInt32(fs.Length));
-            fs.Close();
-            return Parser.ParseMessage(data);
+            byte[] data = null;
+            using (FileStream fs = File.OpenRead(filePath))
+            {
+                data = new byte[fs.Length];
+                ReadStream(fs, data);
+            }
+            return ParseMessage(data);
         }
 
+        private static void ReadStream(Stream stream, byte[] data)
+        {
+            int offset = 0;
+            int remaining = data.Length;
+            while (remaining > 0) {
+                int read = stream.Read(data, offset, remaining);
+                if (read <= 0)
+                    throw new EndOfStreamException(string.Format("End of stream reached with {0} bytes left to read", remaining));
+                remaining -= read;
+                offset += read;
+            }
+        }
         #endregion
 
         #region Address parsing
@@ -964,7 +1001,7 @@ namespace ActiveUp.Net.Mail
 
             foreach (string t in comma_separated)
                 if (t.IndexOf("@") != -1)
-                    addresses.Add(Parser.ParseAddress((t.IndexOf("<") != -1 && t.IndexOf(":") != -1 && t.IndexOf(":") < t.IndexOf("<")) ? ((t.Split(':')[0].IndexOf("\"") == -1) ? t.Split(':')[1] : t) : t));
+                    addresses.Add(ParseAddress((t.IndexOf("<") != -1 && t.IndexOf(":") != -1 && t.IndexOf(":") < t.IndexOf("<")) ? ((t.Split(':')[0].IndexOf("\"") == -1) ? t.Split(':')[1] : t) : t));
 
             //MatchCollection matches = Regex.Matches(input, "(\"(?<name>.+?)\")*\\s*<?(?<email>[^<>,\"\\s]+)>?");
 
@@ -991,16 +1028,11 @@ namespace ActiveUp.Net.Mail
 
                 Match displayNameMatch = Regex.Match(input, "(\"?(.+)(\"?(?=\\s?<)|(?=<)))");
                 if (displayNameMatch.Success)
-                {
                     address = new Address(input.Replace(displayNameMatch.Value, string.Empty).Trim().Trim(new[] { '<', '>' }), displayNameMatch.Groups[1].Value);
-                }
                 else
-                {
                     address = new Address(input.Trim().Trim(new[] { '<', '>' }), string.Empty);
-                }
 
                 CleanupAddress(address);
-
                 return address;
             }
             catch
@@ -1039,25 +1071,29 @@ namespace ActiveUp.Net.Mail
                 input = Regex.Replace(input, @"( +: +)|(: +)|( +:)", ":");
                 if (input.Contains(","))
                     input = input.Replace(input.Split(',')[0] + ", ", "");
-                var parts = input.Replace("\t", string.Empty).Split(' ');
-                var year = Convert.ToInt32(parts[2]);
+                string[] parts = input.Replace("\t", string.Empty).Split(' ');
+                int year = Convert.ToInt32(parts[2]);
                 if (year < 100)
                 {
-                    if (year > 49) year += 1900;
-                    else year += 2000;
+                    if (year > 49)
+                        year += 1900;
+                    else
+                        year += 2000;
                 }
-                var month = GetMonth(parts[1]);
-                var day = Convert.ToInt32(parts[0]);
-                var timeParts = parts[3].Split(':');
-                var hour = Convert.ToInt32(timeParts[0]);
-                var minute = Convert.ToInt32(timeParts[1]);
-                var second = 0;
-                if (timeParts.Length > 2)
-                    second = Convert.ToInt32(timeParts[2]);
-                var offsetHours = Convert.ToInt32(parts[4].Substring(0, 3));
-                var offsetMinutes = Convert.ToInt32(parts[4].Substring(3, 2));
-                var date = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-                return date.AddHours(-offsetHours).AddMinutes(-offsetMinutes);
+                int month = GetMonth(parts[1]);
+                int day = Convert.ToInt32(parts[0]);
+                string[] dateParts = parts[3].Split(':');
+                int hour = Convert.ToInt32(dateParts[0]);
+                int minute = Convert.ToInt32(dateParts[1]);
+                int second = 0;
+                if (dateParts.Length > 2)
+                    second = Convert.ToInt32(dateParts[2]);
+                int offset_hours = Convert.ToInt32(parts[4].Substring(0, 3));
+                int offset_minutes = Convert.ToInt32(parts[4].Substring(3, 2));
+                DateTime date = new DateTime(year, month, day, hour, minute, second);
+                date = date.AddHours(-offset_hours);
+                date = date.AddMinutes(-offset_minutes);
+                return date;
             }
             catch (Exception)
             {
@@ -1077,19 +1113,25 @@ namespace ActiveUp.Net.Mail
         public static TraceInfo ParseTrace(string input)
         {
             TraceInfo traceInfo = new TraceInfo();
-            System.Text.RegularExpressions.Match m = System.Text.RegularExpressions.Regex.Match(input, @"from.+?(?=(from|by|via|with|for|id|;|\r?\n))");
-            if (m.Success) traceInfo.From = m.Value.Trim(' ', '\t');
-            m = System.Text.RegularExpressions.Regex.Match(input, @"(?<=by ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
-            if (m.Success) traceInfo.By = m.Value.Trim(' ', '\t');
-            m = System.Text.RegularExpressions.Regex.Match(input, @"(?<=via ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
-            if (m.Success) traceInfo.Via = m.Value.Trim(' ', '\t');
-            m = System.Text.RegularExpressions.Regex.Match(input, @"(?<=with ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
-            if (m.Success) traceInfo.With = m.Value.Trim(' ', '\t');
-            m = System.Text.RegularExpressions.Regex.Match(input, @"(?<=for ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
-            if (m.Success) traceInfo.For = m.Value.Trim(' ', '\t');
-            m = System.Text.RegularExpressions.Regex.Match(input, @"(?<=id ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
-            if (m.Success) traceInfo.Id = m.Value.Trim(' ', '\t');
-            traceInfo.Date = Parser.ParseAsUniversalDateTime(input.Substring(input.LastIndexOf(';') + 1));
+            Match m = Regex.Match(input, @"from.+?(?=(from|by|via|with|for|id|;|\r?\n))");
+            if (m.Success)
+                traceInfo.From = m.Value.Trim(' ', '\t');
+            m = Regex.Match(input, @"(?<=by ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
+            if (m.Success)
+                traceInfo.By = m.Value.Trim(' ', '\t');
+            m = Regex.Match(input, @"(?<=via ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
+            if (m.Success)
+                traceInfo.Via = m.Value.Trim(' ', '\t');
+            m = Regex.Match(input, @"(?<=with ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
+            if (m.Success)
+                traceInfo.With = m.Value.Trim(' ', '\t');
+            m = Regex.Match(input, @"(?<=for ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
+            if (m.Success)
+                traceInfo.For = m.Value.Trim(' ', '\t');
+            m = Regex.Match(input, @"(?<=id ).+?(?= ?(from|by|via|with|for|id|;|\r?\n))");
+            if (m.Success)
+                traceInfo.Id = m.Value.Trim(' ', '\t');
+            traceInfo.Date = ParseAsUniversalDateTime(input.Substring(input.LastIndexOf(';') + 1));
             return traceInfo;
         }
 
@@ -1110,17 +1152,24 @@ namespace ActiveUp.Net.Mail
                     traceinfo = new TraceInfo();
                     //item = " " + Parser.Clean(item1);
                     itemlow = item.ToLower();
-                    if (itemlow.IndexOf(" from ") != -1) traceinfo.From = item.Substring(itemlow.IndexOf(" from ") + 6, item.IndexOf(" ", itemlow.IndexOf(" from ") + 6) - (itemlow.IndexOf(" from ") + 6)).TrimEnd(';');
-                    if (itemlow.IndexOf(" by ") != -1) traceinfo.By = item.Substring(itemlow.IndexOf(" by ") + 4, item.IndexOf(" ", itemlow.IndexOf(" by ") + 4) - (itemlow.IndexOf(" by ") + 4)).TrimEnd(';');
-                    if (itemlow.IndexOf(" for ") != -1) traceinfo.For = item.Substring(itemlow.IndexOf(" for ") + 5, item.IndexOf(" ", itemlow.IndexOf(" for ") + 5) - (itemlow.IndexOf(" for ") + 5)).TrimEnd(';');
-                    if (itemlow.IndexOf(" id ") != -1) traceinfo.Id = item.Substring(itemlow.IndexOf(" id ") + 4, item.IndexOf(" ", itemlow.IndexOf(" id ") + 4) - (itemlow.IndexOf(" id ") + 4)).TrimEnd(';');
-                    if (itemlow.IndexOf(" via ") != -1) traceinfo.Via = item.Substring(itemlow.IndexOf(" via ") + 5, item.IndexOf(" ", itemlow.IndexOf(" via ") + 5) - (itemlow.IndexOf(" via ") + 5)).TrimEnd(';');
-                    if (itemlow.IndexOf(" with ") != -1) traceinfo.With = item.Substring(itemlow.IndexOf(" with ") + 6, item.IndexOf(" ", itemlow.IndexOf(" with ") + 6) - (itemlow.IndexOf(" with ") + 6)).TrimEnd(';');
-                    traceinfo.Date = Parser.ParseAsUniversalDateTime(item.Split(';')[item.Split(';').Length - 1].Trim(' '));
+                    if (itemlow.IndexOf(" from ") != -1)
+                        traceinfo.From = item.Substring(itemlow.IndexOf(" from ") + 6, item.IndexOf(" ", itemlow.IndexOf(" from ") + 6) - (itemlow.IndexOf(" from ") + 6)).TrimEnd(';');
+                    if (itemlow.IndexOf(" by ") != -1)
+                        traceinfo.By = item.Substring(itemlow.IndexOf(" by ") + 4, item.IndexOf(" ", itemlow.IndexOf(" by ") + 4) - (itemlow.IndexOf(" by ") + 4)).TrimEnd(';');
+                    if (itemlow.IndexOf(" for ") != -1)
+                        traceinfo.For = item.Substring(itemlow.IndexOf(" for ") + 5, item.IndexOf(" ", itemlow.IndexOf(" for ") + 5) - (itemlow.IndexOf(" for ") + 5)).TrimEnd(';');
+                    if (itemlow.IndexOf(" id ") != -1)
+                        traceinfo.Id = item.Substring(itemlow.IndexOf(" id ") + 4, item.IndexOf(" ", itemlow.IndexOf(" id ") + 4) - (itemlow.IndexOf(" id ") + 4)).TrimEnd(';');
+                    if (itemlow.IndexOf(" via ") != -1)
+                        traceinfo.Via = item.Substring(itemlow.IndexOf(" via ") + 5, item.IndexOf(" ", itemlow.IndexOf(" via ") + 5) - (itemlow.IndexOf(" via ") + 5)).TrimEnd(';');
+                    if (itemlow.IndexOf(" with ") != -1)
+                        traceinfo.With = item.Substring(itemlow.IndexOf(" with ") + 6, item.IndexOf(" ", itemlow.IndexOf(" with ") + 6) - (itemlow.IndexOf(" with ") + 6)).TrimEnd(';');
+                    traceinfo.Date = ParseAsUniversalDateTime(item.Split(';')[item.Split(';').Length - 1].Trim(' '));
+
                     traceinfos.Add(traceinfo);
                 }
             }
-            catch { };
+            catch { }
             return traceinfos;
         }
 
