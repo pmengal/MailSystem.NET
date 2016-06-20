@@ -217,16 +217,26 @@ namespace ActiveUp.Net.Mail
             // This is a leaf part.
             else
             {
+                bool added = false;
                 // If this part has to be displayed has an attachment, add it to the appropriate collection.
                 if (part.ContentDisposition.Disposition.Equals("attachment"))
+                {
                     message.Attachments.Add(part);
+                    added = true;
+                }
                 // If this part has to be displayed at the same time as the main body, add it to the appropriate collection.
                 else if (part.ContentDisposition.Disposition.Equals("inline"))
+                {
                     message.EmbeddedObjects.Add(part);
+                    added = true;
+                }
                 // Other parts are miscellaneous. How they are to be displayed is at the end-user's discretion.
                 // Fix for avoid attach original mail message
                 else if (!message.BodyText.ToMimePart().ContentTransferEncoding.Equals(part.ContentTransferEncoding))
+                {
                     message.UnknownDispositionMimeParts.Add(part);
+                    added = true;
+                }
 
                 // We will consider the highest-level text parts that are not attachments to be the intended for display.
                 // We know the highest-level parts will be set, because the parser first goes to the deepest level and returns top-level parts last.
@@ -256,7 +266,7 @@ namespace ActiveUp.Net.Mail
                             message.BodyHtml.Text = part.TextContent;
                         }
                     }
-                    else if (part.ContentType.SubType.ToLower().Equals("xml"))
+                    else if (part.ContentType.SubType.ToLower().Equals("xml") && !added)
                     {
                         //Recupera anexos que nao estejam marcados com 'Content-Disposition' e 'attachment'. Alguns anexos com mimetype xml podem ter essa caracteristica.
                         //Recovers attachments that are not marked with 'Content-Disposition' 'attachment'. Some attachments with xml mime-type may have this feature.
@@ -794,9 +804,8 @@ namespace ActiveUp.Net.Mail
                 // Dispatch header fields to corresponding object.
                 foreach (string key in message.HeaderFields.AllKeys)
                 {
-                    string name = key;
                     string value = message.HeaderFields[key];
-                    if (name.Equals("received"))
+                    if (key.Equals("received"))
                     {
                         Match m = Regex.Match(value, @"from.+?(?=(from|$))");
                         while (m.Success)
@@ -805,36 +814,36 @@ namespace ActiveUp.Net.Mail
                             m = m.NextMatch();
                         }
                     }
-                    else if (name.Equals("to"))
+                    else if (key.Equals("to"))
                         message.To = ParseAddresses(value);
-                    else if (name.Equals("cc"))
+                    else if (key.Equals("cc"))
                         message.Cc = ParseAddresses(value);
-                    else if (name.Equals("bcc"))
+                    else if (key.Equals("bcc"))
                         message.Bcc = ParseAddresses(value);
-                    else if (name.Equals("reply-to"))
+                    else if (key.Equals("reply-to"))
                         message.ReplyTo = ParseAddress(value);
-                    else if (name.Equals("from"))
+                    else if (key.Equals("from"))
                         message.From = ParseAddress(value);
-                    else if (name.Equals("sender"))
+                    else if (key.Equals("sender"))
                         message.Sender = ParseAddress(value);
-                    else if (name.Equals("content-type"))
+                    else if (key.Equals("content-type"))
                         message.ContentType = GetContentType(key + ": " + value);
-                    else if (name.Equals("content-disposition"))
+                    else if (key.Equals("content-disposition"))
                         message.ContentDisposition = GetContentDisposition(key + ": " + value);
-                    else if (name.Equals("domainkey-signature"))
+                    else if (key.Equals("domainkey-signature"))
                         message.Signatures.DomainKeys = Signature.Parse(key + ": " + value, message);
                 }
 
-                if (message.ContentType.MimeType.Equals("application/pkcs7-mime")
-                    || message.ContentType.MimeType.Equals("application/x-pkcs7-mime"))
+                if (message.ContentType.MimeType.Equals("application/pkcs7-mime") || message.ContentType.MimeType.Equals("application/x-pkcs7-mime"))
                 {
-                    if (message.ContentType.Parameters["smime-type"] != null
-                        && message.ContentType.Parameters["smime-type"].Equals("enveloped-data")) message.IsSmimeEncrypted = true;
-                    if (message.ContentType.Parameters["smime-type"] != null
-                        && message.ContentType.Parameters["smime-type"].Equals("signed-data")) message.HasSmimeSignature = true;
+                    if (message.ContentType.Parameters["smime-type"] != null && message.ContentType.Parameters["smime-type"].Equals("enveloped-data"))
+                        message.IsSmimeEncrypted = true;
+                    if (message.ContentType.Parameters["smime-type"] != null && message.ContentType.Parameters["smime-type"].Equals("signed-data"))
+                        message.HasSmimeSignature = true;
                 }
 
-                if (message.ContentType.MimeType.Equals("multipart/signed")) message.HasSmimeDetachedSignature = true;
+                if (message.ContentType.MimeType.Equals("multipart/signed"))
+                    message.HasSmimeDetachedSignature = true;
 
                 // Keep a reference to the part tree within the new Message object.
                 message.PartTreeRoot = part;
