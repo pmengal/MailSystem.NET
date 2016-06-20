@@ -16,28 +16,25 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using ActiveUp.Net.Mail;
-using ActiveUp.Net.Mail;
-using System.Text;
 using System.IO;
+using System.Text;
 
-namespace ActiveUp.Net.Mail
-{
+namespace ActiveUp.Net.Mail {
 
     #region Fetch
 
-	/// <summary>
-	/// Allows to fetch (retrieve) partial or complete messages, as well as specific message informations.
-	/// </summary>
+    /// <summary>
+    /// Allows to fetch (retrieve) partial or complete messages, as well as specific message informations.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class Fetch
     {
 
         #region Private fields
 
-        ActiveUp.Net.Mail.Mailbox _parentMailbox;
+        Mailbox _parentMailbox;
         private string _response;
         private byte[] _binaryResponse;
 
@@ -99,8 +96,8 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public string Body(int messageOrdinal)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-			string response = this.ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" body", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+			string response = ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" body", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(" UID")-response.IndexOf("}")-7);
 		}
 
@@ -109,19 +106,19 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginBody(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateBody = this.Body;
-            return this._delegateBody.BeginInvoke(messageOrdinal, callback, this._delegateBody);
+            _delegateBody = Body;
+            return _delegateBody.BeginInvoke(messageOrdinal, callback, _delegateBody);
         }
 
         public string EndBody(IAsyncResult result)
         {
-            return this._delegateBody.EndInvoke(result);
+            return _delegateBody.EndInvoke(result);
         }
         
 		public string UidBody(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(" UID")-response.IndexOf("}")-7);
 		}
 
@@ -130,13 +127,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidBody(int uid, AsyncCallback callback)
         {
-            this._delegateUidBody = this.UidBody;
-            return this._delegateUidBody.BeginInvoke(uid, callback, this._delegateUidBody);
+            _delegateUidBody = UidBody;
+            return _delegateUidBody.BeginInvoke(uid, callback, _delegateUidBody);
         }
 
         public string EndUidBody(IAsyncResult result)
         {
-            return this._delegateUidBody.EndInvoke(result);
+            return _delegateUidBody.EndInvoke(result);
         }
 
 		/// <summary>
@@ -180,8 +177,8 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public string BodySection(int messageOrdinal, int section)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body[" + section + "]", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body[" + section + "]", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(" UID")-response.IndexOf("}")-7);
 		}
 
@@ -190,19 +187,19 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginBodySection(int messageOrdinal, int section, AsyncCallback callback)
         {
-            this._delegateBodySection = this.BodySection;
-            return this._delegateBodySection.BeginInvoke(messageOrdinal, section, callback, this._delegateBodySection);
+            _delegateBodySection = BodySection;
+            return _delegateBodySection.BeginInvoke(messageOrdinal, section, callback, _delegateBodySection);
         }
 
         public string EndBodySection(IAsyncResult result)
         {
-            return this._delegateBodySection.EndInvoke(result);
+            return _delegateBodySection.EndInvoke(result);
         }
 
 		public string UidBodySection(int uid, int section)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[" + section + "]", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[" + section + "]", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(" UID")-response.IndexOf("}")-7);
 		}
 
@@ -211,13 +208,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidBodySection(int uid, int section, AsyncCallback callback)
         {
-            this._delegateUidBodySection = this.BodySection;
-            return this._delegateUidBodySection.BeginInvoke(uid, section, callback, this._delegateUidBodySection);
+            _delegateUidBodySection = BodySection;
+            return _delegateUidBodySection.BeginInvoke(uid, section, callback, _delegateUidBodySection);
         }
 
         public string EndUidBodySection(IAsyncResult result)
         {
-            return this._delegateUidBodySection.EndInvoke(result);
+            return _delegateUidBodySection.EndInvoke(result);
         }
 
 		/// <summary>
@@ -260,8 +257,8 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public string BodyStructure(int messageOrdinal)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " bodystructure", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " bodystructure", getFetchOptions());
 			return response.Substring(response.IndexOf("bodystructure")+13,response.LastIndexOf(" UID")-response.IndexOf("bodystructure")-13);
 		}
 
@@ -270,19 +267,19 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginBodyStructure(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateBodyStructure = this.BodyStructure;
-            return this._delegateBodyStructure.BeginInvoke(messageOrdinal, callback, this._delegateBodyStructure);
+            _delegateBodyStructure = BodyStructure;
+            return _delegateBodyStructure.BeginInvoke(messageOrdinal, callback, _delegateBodyStructure);
         }
 
         public string EndBodyStructure(IAsyncResult result)
         {
-            return this._delegateBodyStructure.EndInvoke(result);
+            return _delegateBodyStructure.EndInvoke(result);
         }
 
 		public string UidBodyStructure(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " bodystructure", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " bodystructure", getFetchOptions());
 			return response.Substring(response.IndexOf("bodystructure")+13,response.LastIndexOf(" UID")-response.IndexOf("bodystructure")-13);
 		}
 
@@ -291,13 +288,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidBodyStructure(int uid, AsyncCallback callback)
         {
-            this._delegateUidBodyStructure = this.UidBodyStructure;
-            return this._delegateUidBodyStructure.BeginInvoke(uid, callback, this._delegateUidBodyStructure);
+            _delegateUidBodyStructure = UidBodyStructure;
+            return _delegateUidBodyStructure.BeginInvoke(uid, callback, _delegateUidBodyStructure);
         }
 
         public string EndUidBodyStructure(IAsyncResult result)
         {
-            return this._delegateUidBodyStructure.EndInvoke(result);
+            return _delegateUidBodyStructure.EndInvoke(result);
         }
 
 		/// <summary>
@@ -340,8 +337,8 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public string InternalDate(int messageOrdinal)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " internaldate", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " internaldate", getFetchOptions());
 			return response.Split('\"')[1];
 		}
 
@@ -350,19 +347,19 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginInternalDate(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateInternalDate = this.InternalDate;
-            return this._delegateInternalDate.BeginInvoke(messageOrdinal, callback, this._delegateInternalDate);
+            _delegateInternalDate = InternalDate;
+            return _delegateInternalDate.BeginInvoke(messageOrdinal, callback, _delegateInternalDate);
         }
 
         public string EndInternalDate(IAsyncResult result)
         {
-            return this._delegateInternalDate.EndInvoke(result);
+            return _delegateInternalDate.EndInvoke(result);
         }
 
 		public string UidInternalDate(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " internaldate", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " internaldate", getFetchOptions());
 			return response.Split('\"')[1];
 		}
 
@@ -371,13 +368,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidInternalDate(int uid, AsyncCallback callback)
         {
-            this._delegateUidInternalDate = this.UidInternalDate;
-            return this._delegateUidInternalDate.BeginInvoke(uid, callback, this._delegateUidInternalDate);
+            _delegateUidInternalDate = UidInternalDate;
+            return _delegateUidInternalDate.BeginInvoke(uid, callback, _delegateUidInternalDate);
         }
 
         public string EndUidInternalDate(IAsyncResult result)
         {
-            return this._delegateUidInternalDate.EndInvoke(result);
+            return _delegateUidInternalDate.EndInvoke(result);
         }
 
 		/// <summary>
@@ -420,9 +417,9 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public FlagCollection Flags(int messageOrdinal)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-			ActiveUp.Net.Mail.FlagCollection flags = new ActiveUp.Net.Mail.FlagCollection();
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " flags", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            FlagCollection flags = new FlagCollection();
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " flags", getFetchOptions());
 			string flags_string = System.Text.RegularExpressions.Regex.Split(response.ToLower(),"flags ")[1].TrimStart('(').Split(')')[0];
 			foreach(string str in flags_string.Split(' ')) if(str.StartsWith("\\")) flags.Add(str.Trim(new char[] {' ','\\',')','('}));
 			return flags;
@@ -433,20 +430,20 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginFlags(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateFlags = this.Flags;
-            return this._delegateFlags.BeginInvoke(messageOrdinal, callback, this._delegateFlags);
+            _delegateFlags = Flags;
+            return _delegateFlags.BeginInvoke(messageOrdinal, callback, _delegateFlags);
         }
 
         public FlagCollection EndFlags(IAsyncResult result)
         {
-            return this._delegateFlags.EndInvoke(result);
+            return _delegateFlags.EndInvoke(result);
         }
 
 		public FlagCollection UidFlags(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-			ActiveUp.Net.Mail.FlagCollection flags = new ActiveUp.Net.Mail.FlagCollection();
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " flags", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            FlagCollection flags = new FlagCollection();
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " flags", getFetchOptions());
 			string flags_string = System.Text.RegularExpressions.Regex.Split(response.ToLower(),"flags ")[1].TrimStart('(').Split(')')[0];
 			foreach(string str in flags_string.Split(' ')) if(str.StartsWith("\\")) flags.Add(str.Trim(new char[] {' ','\\',')','('}));
 			return flags;
@@ -457,13 +454,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidFlags(int uid, AsyncCallback callback)
         {
-            this._delegateUidFlags = this.UidFlags;
-            return this._delegateUidFlags.BeginInvoke(uid, callback, this._delegateUidFlags);
+            _delegateUidFlags = UidFlags;
+            return _delegateUidFlags.BeginInvoke(uid, callback, _delegateUidFlags);
         }
 
         public FlagCollection EndUidFlags(IAsyncResult result)
         {
-            return this._delegateUidFlags.EndInvoke(result);
+            return _delegateUidFlags.EndInvoke(result);
         }
 
 		/// <summary>
@@ -473,7 +470,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The message's Header as a byte array.</returns>
 		public byte[] Header(int messageOrdinal)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.HeaderString(messageOrdinal));
+			return Encoding.UTF8.GetBytes(HeaderString(messageOrdinal));
 		}
 
         private delegate byte[] DelegateHeader(int messageOrdinal);
@@ -481,18 +478,18 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginHeader(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateHeader = this.Header;
-            return this._delegateHeader.BeginInvoke(messageOrdinal, callback, this._delegateHeader);
+            _delegateHeader = Header;
+            return _delegateHeader.BeginInvoke(messageOrdinal, callback, _delegateHeader);
         }
 
         public byte[] EndHeader(IAsyncResult result)
         {
-            return this._delegateHeader.EndInvoke(result);
+            return _delegateHeader.EndInvoke(result);
         }
 
 		public byte[] UidHeader(int uid)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.UidHeaderString(uid));
+			return Encoding.UTF8.GetBytes(UidHeaderString(uid));
 		}
 
         private delegate byte[] DelegateUidHeader(int uid);
@@ -500,13 +497,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidHeader(int uid, AsyncCallback callback)
         {
-            this._delegateUidHeader = this.UidHeader;
-            return this._delegateUidHeader.BeginInvoke(uid, callback, this._delegateUidHeader);
+            _delegateUidHeader = UidHeader;
+            return _delegateUidHeader.BeginInvoke(uid, callback, _delegateUidHeader);
         }
 
         public byte[] EndUidHeader(IAsyncResult result)
         {
-            return this._delegateUidHeader.EndInvoke(result);
+            return _delegateUidHeader.EndInvoke(result);
         }
 
 		/// <summary>
@@ -549,7 +546,7 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public Header HeaderObject(int messageOrdinal)
 		{
-			return Parser.ParseHeader(this.Header(messageOrdinal));
+			return Parser.ParseHeader(Header(messageOrdinal));
 		}
 
         private delegate Header DelegateHeaderObject(int messageOrdinal);
@@ -557,18 +554,18 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginHeaderObject(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateHeaderObject = this.UidHeaderObject;
-            return this._delegateHeaderObject.BeginInvoke(messageOrdinal, callback, this._delegateHeaderObject);
+            _delegateHeaderObject = UidHeaderObject;
+            return _delegateHeaderObject.BeginInvoke(messageOrdinal, callback, _delegateHeaderObject);
         }
 
         public Header EndHeaderObject(IAsyncResult result)
         {
-            return this._delegateHeaderObject.EndInvoke(result);
+            return _delegateHeaderObject.EndInvoke(result);
         }
 
 		public Header UidHeaderObject(int uid)
 		{
-			return Parser.ParseHeader(this.UidHeader(uid));
+			return Parser.ParseHeader(UidHeader(uid));
 		}
 
         private delegate Header DelegateUidHeaderObject(int uid);
@@ -576,13 +573,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidHeaderObject(int uid, AsyncCallback callback)
         {
-            this._delegateUidHeaderObject = this.UidHeaderObject;
-            return this._delegateUidHeaderObject.BeginInvoke(uid, callback, this._delegateUidHeaderObject);
+            _delegateUidHeaderObject = UidHeaderObject;
+            return _delegateUidHeaderObject.BeginInvoke(uid, callback, _delegateUidHeaderObject);
         }
 
         public Header EndUidHeaderObject(IAsyncResult result)
         {
-            return this._delegateUidHeaderObject.EndInvoke(result);
+            return _delegateUidHeaderObject.EndInvoke(result);
         }
 
 		/// <summary>
@@ -591,44 +588,44 @@ namespace ActiveUp.Net.Mail
 		/// <param name="messageOrdinal">The ordinal position of the Header to be fetched.</param>
 		/// <returns>The message's Header as a MemoryStream.</returns>
 		/// <example><see cref="Fetch.HeaderObject"/></example>
-		public System.IO.MemoryStream HeaderStream(int messageOrdinal)
+		public MemoryStream HeaderStream(int messageOrdinal)
 		{
-			byte[] buf =  this.Header(messageOrdinal);
-			return new System.IO.MemoryStream(buf,0,buf.Length,false);
+			byte[] buf = Header(messageOrdinal);
+			return new MemoryStream(buf,0,buf.Length,false);
 		}
 
-        private delegate System.IO.MemoryStream DelegateHeaderStream(int messageOrdinal);
+        private delegate MemoryStream DelegateHeaderStream(int messageOrdinal);
         private DelegateHeaderStream _delegateHeaderStream;
 
         public IAsyncResult BeginHeaderStream(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateHeaderStream = this.HeaderStream;
-            return this._delegateHeaderStream.BeginInvoke(messageOrdinal, callback, this._delegateHeaderStream);
+            _delegateHeaderStream = HeaderStream;
+            return _delegateHeaderStream.BeginInvoke(messageOrdinal, callback, _delegateHeaderStream);
         }
 
-        public System.IO.MemoryStream EndHeaderStream(IAsyncResult result)
+        public MemoryStream EndHeaderStream(IAsyncResult result)
         {
-            return this._delegateHeaderStream.EndInvoke(result);
+            return _delegateHeaderStream.EndInvoke(result);
         }
 
-		public System.IO.MemoryStream UidHeaderStream(int uid)
+		public MemoryStream UidHeaderStream(int uid)
 		{
-			byte[] buf =  this.UidHeader(uid);
-			return new System.IO.MemoryStream(buf,0,buf.Length,false);
+			byte[] buf = UidHeader(uid);
+			return new MemoryStream(buf,0,buf.Length,false);
 		}
 
-        private delegate System.IO.MemoryStream DelegateUidHeaderStream(int uid);
+        private delegate MemoryStream DelegateUidHeaderStream(int uid);
         private DelegateUidHeaderStream _delegateUidHeaderStream;
 
         public IAsyncResult BeginUidHeaderStream(int uid, AsyncCallback callback)
         {
-            this._delegateUidHeaderStream = this.UidHeaderStream;
-            return this._delegateUidHeaderStream.BeginInvoke(uid, callback, this._delegateUidHeaderStream);
+            _delegateUidHeaderStream = UidHeaderStream;
+            return _delegateUidHeaderStream.BeginInvoke(uid, callback, _delegateUidHeaderStream);
         }
 
-        public System.IO.MemoryStream EndUidHeaderStream(IAsyncResult result)
+        public MemoryStream EndUidHeaderStream(IAsyncResult result)
         {
-            return this._delegateUidHeaderStream.EndInvoke(result);
+            return _delegateUidHeaderStream.EndInvoke(result);
         }
 
 		/// <summary>
@@ -639,11 +636,11 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Fetch.HeaderObject"/></example>
 		public string HeaderString(int messageOrdinal)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-			this.ParentMailbox.SourceClient.OnHeaderRetrieving(new ActiveUp.Net.Mail.HeaderRetrievingEventArgs(messageOrdinal));
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.header", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            ParentMailbox.SourceClient.OnHeaderRetrieving(new HeaderRetrievingEventArgs(messageOrdinal));
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.header", getFetchOptions());
 			string header = response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
-			this.ParentMailbox.SourceClient.OnHeaderRetrieved(new ActiveUp.Net.Mail.HeaderRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(header),messageOrdinal));
+            ParentMailbox.SourceClient.OnHeaderRetrieved(new HeaderRetrievedEventArgs(Encoding.UTF8.GetBytes(header),messageOrdinal));
 			return header;
 		}
 
@@ -652,26 +649,26 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginHeaderString(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateHeaderString = this.HeaderString;
-            return this._delegateHeaderString.BeginInvoke(messageOrdinal, callback, this._delegateHeaderString);
+            _delegateHeaderString = HeaderString;
+            return _delegateHeaderString.BeginInvoke(messageOrdinal, callback, _delegateHeaderString);
         }
 
         public string EndHeaderString(IAsyncResult result)
         {
-            return this._delegateHeaderString.EndInvoke(result);
+            return _delegateHeaderString.EndInvoke(result);
         }
 
 		public string UidHeaderString(int uid)
 		{
-            var response = String.Empty;
+            var response = string.Empty;
 
             try
             {
-                this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-                this.ParentMailbox.SourceClient.OnHeaderRetrieving(new ActiveUp.Net.Mail.HeaderRetrievingEventArgs(uid));
-                response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header", getFetchOptions());
+                ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+                ParentMailbox.SourceClient.OnHeaderRetrieving(new HeaderRetrievingEventArgs(uid));
+                response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header", getFetchOptions());
                 string header = response.Substring(response.IndexOf("}") + 3, response.LastIndexOf(")") - response.IndexOf("}") - 3);
-                this.ParentMailbox.SourceClient.OnHeaderRetrieved(new ActiveUp.Net.Mail.HeaderRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(header), uid));
+                ParentMailbox.SourceClient.OnHeaderRetrieved(new HeaderRetrievedEventArgs(Encoding.UTF8.GetBytes(header), uid));
                 return header;
             }
             catch (Exception ex)
@@ -685,13 +682,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidHeaderString(int uid, AsyncCallback callback)
         {
-            this._delegateUidHeaderString = this.UidHeaderString;
-            return this._delegateUidHeaderString.BeginInvoke(uid, callback, this._delegateUidHeaderString);
+            _delegateUidHeaderString = UidHeaderString;
+            return _delegateUidHeaderString.BeginInvoke(uid, callback, _delegateUidHeaderString);
         }
 
         public string EndUidHeaderString(IAsyncResult result)
         {
-            return this._delegateUidHeaderString.EndInvoke(result);
+            return _delegateUidHeaderString.EndInvoke(result);
         }
 
 		/// <summary>
@@ -744,13 +741,14 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public System.Collections.Specialized.NameValueCollection HeaderLinesPeek(int messageOrdinal, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body.peek[header.fields " + delimiters + "]", getFetchOptions());
-            else this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.peek.header.GetStringRepresentation() " + delimiters, getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1") != -1) response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body.peek[header.fields " + delimiters + "]", getFetchOptions());
+            else
+                ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.peek.header.GetStringRepresentation() " + delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -763,24 +761,25 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginHeaderLinesPeek(int messageOrdinal, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateHeaderLinesPeek = this.HeaderLinesPeek;
-            return this._delegateHeaderLinesPeek.BeginInvoke(messageOrdinal, headerHeaders, callback, this._delegateHeaderLinesPeek);
+            _delegateHeaderLinesPeek = HeaderLinesPeek;
+            return _delegateHeaderLinesPeek.BeginInvoke(messageOrdinal, headerHeaders, callback, _delegateHeaderLinesPeek);
         }
 
         public System.Collections.Specialized.NameValueCollection EndHeaderLinesPeek(IAsyncResult result)
         {
-            return this._delegateHeaderLinesPeek.EndInvoke(result);
+            return _delegateHeaderLinesPeek.EndInvoke(result);
         }
 
 		public System.Collections.Specialized.NameValueCollection UidHeaderLinesPeek(int uid, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body.peek[header.fields " + delimiters + "]", getFetchOptions());
-            else this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.peek.header.GetStringRepresentation() " + delimiters, getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1") != -1) response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body.peek[header.fields " + delimiters + "]", getFetchOptions());
+            else
+                ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.peek.header.GetStringRepresentation() " + delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -793,13 +792,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidHeaderLinesPeek(int uid, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateUidHeaderLinesPeek = this.UidHeaderLinesPeek;
-            return this._delegateUidHeaderLinesPeek.BeginInvoke(uid, headerHeaders, callback, this._delegateUidHeaderLinesPeek);
+            _delegateUidHeaderLinesPeek = UidHeaderLinesPeek;
+            return _delegateUidHeaderLinesPeek.BeginInvoke(uid, headerHeaders, callback, _delegateUidHeaderLinesPeek);
         }
 
         public System.Collections.Specialized.NameValueCollection EndUidHeaderLinesPeek(IAsyncResult result)
         {
-            return this._delegateUidHeaderLinesPeek.EndInvoke(result);
+            return _delegateUidHeaderLinesPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -811,13 +810,13 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Fetch.HeaderLines"/></example>
 		public System.Collections.Specialized.NameValueCollection HeaderLinesNotPeek(int messageOrdinal, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body.peek[header.fields.not " + delimiters + "]", getFetchOptions());
-            else response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.peek.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body.peek[header.fields.not " + delimiters + "]", getFetchOptions());
+            else response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.peek.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -830,24 +829,24 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginHeaderLinesNotPeek(int messageOrdinal, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateHeaderLinesNotPeek = this.HeaderLinesNotPeek;
-            return this._delegateHeaderLinesNotPeek.BeginInvoke(messageOrdinal, headerHeaders, callback, this._delegateHeaderLinesNotPeek);
+            _delegateHeaderLinesNotPeek = HeaderLinesNotPeek;
+            return _delegateHeaderLinesNotPeek.BeginInvoke(messageOrdinal, headerHeaders, callback, _delegateHeaderLinesNotPeek);
         }
 
         public System.Collections.Specialized.NameValueCollection EndHeaderLinesNotPeek(IAsyncResult result)
         {
-            return this._delegateHeaderLinesNotPeek.EndInvoke(result);
+            return _delegateHeaderLinesNotPeek.EndInvoke(result);
         }
 
 		public System.Collections.Specialized.NameValueCollection UidHeaderLinesNotPeek(int uid, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body.peek[header.fields.not " + delimiters + "]", getFetchOptions());
-            else response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.peek.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body.peek[header.fields.not " + delimiters + "]", getFetchOptions());
+            else response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.peek.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -860,13 +859,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidHeaderLinesNotPeek(int uid, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateUidHeaderLinesNotPeek = this.UidHeaderLinesNotPeek;
-            return this._delegateUidHeaderLinesNotPeek.BeginInvoke(uid, headerHeaders, callback, this._delegateUidHeaderLinesNotPeek);
+            _delegateUidHeaderLinesNotPeek = UidHeaderLinesNotPeek;
+            return _delegateUidHeaderLinesNotPeek.BeginInvoke(uid, headerHeaders, callback, _delegateUidHeaderLinesNotPeek);
         }
 
         public System.Collections.Specialized.NameValueCollection EndUidHeaderLinesNotPeek(IAsyncResult result)
         {
-            return this._delegateUidHeaderLinesNotPeek.EndInvoke(result);
+            return _delegateUidHeaderLinesNotPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -919,13 +918,14 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public System.Collections.Specialized.NameValueCollection HeaderLines(int messageOrdinal, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-			if(this.ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1")!=-1) response = this.ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" body[header.fields "+delimiters+"]", getFetchOptions());
-			else this.ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" rfc822.header.GetStringRepresentation() "+delimiters, getFetchOptions());
+			if(ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1")!=-1) response = ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" body[header.fields "+delimiters+"]", getFetchOptions());
+			else
+                ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" rfc822.header.GetStringRepresentation() "+delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -938,24 +938,25 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginHeaderLines(int messageOrdinal, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateHeaderLines = this.HeaderLines;
-            return this._delegateHeaderLines.BeginInvoke(messageOrdinal, headerHeaders, callback, this._delegateHeaderLines);
+            _delegateHeaderLines = HeaderLines;
+            return _delegateHeaderLines.BeginInvoke(messageOrdinal, headerHeaders, callback, _delegateHeaderLines);
         }
 
         public System.Collections.Specialized.NameValueCollection EndHeaderLines(IAsyncResult result)
         {
-            return this._delegateHeaderLines.EndInvoke(result);
+            return _delegateHeaderLines.EndInvoke(result);
         }
 
 		public System.Collections.Specialized.NameValueCollection UidHeaderLines(int uid, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[header.fields " + delimiters + "]", getFetchOptions());
-            else this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header.GetStringRepresentation() " + delimiters, getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.ToLower().IndexOf("imap4rev1") != -1) response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[header.fields " + delimiters + "]", getFetchOptions());
+            else
+                ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header.GetStringRepresentation() " + delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -968,13 +969,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidHeaderLines(int uid, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateUidHeaderLines = this.UidHeaderLines;
-            return this._delegateUidHeaderLines.BeginInvoke(uid, headerHeaders, callback, this._delegateUidHeaderLines);
+            _delegateUidHeaderLines = UidHeaderLines;
+            return _delegateUidHeaderLines.BeginInvoke(uid, headerHeaders, callback, _delegateUidHeaderLines);
         }
 
         public System.Collections.Specialized.NameValueCollection EndUidHeaderLines(IAsyncResult result)
         {
-            return this._delegateUidHeaderLines.EndInvoke(result);
+            return _delegateUidHeaderLines.EndInvoke(result);
         }
 
 		/// <summary>
@@ -986,13 +987,13 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Fetch.HeaderLines"/></example>
 		public System.Collections.Specialized.NameValueCollection HeaderLinesNot(int messageOrdinal, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body[header.fields.not " + delimiters + "]", getFetchOptions());
-            else response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " body[header.fields.not " + delimiters + "]", getFetchOptions());
+            else response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -1005,24 +1006,24 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginHeaderLinesNot(int messageOrdinal, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateHeaderLinesNot = this.HeaderLinesNot;
-            return this._delegateHeaderLinesNot.BeginInvoke(messageOrdinal, headerHeaders, callback, this._delegateHeaderLinesNot);
+            _delegateHeaderLinesNot = HeaderLinesNot;
+            return _delegateHeaderLinesNot.BeginInvoke(messageOrdinal, headerHeaders, callback, _delegateHeaderLinesNot);
         }
 
         public System.Collections.Specialized.NameValueCollection EndHeaderLinesNot(IAsyncResult result)
         {
-            return this._delegateHeaderLinesNot.EndInvoke(result);
+            return _delegateHeaderLinesNot.EndInvoke(result);
         }
 
 		public System.Collections.Specialized.NameValueCollection UidHeaderLinesNot(int uid, string[] headerHeaders)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
 			string delimiters = "(";
 			foreach(string str in headerHeaders) delimiters += str+" ";
 			delimiters = delimiters.Trim(' ')+")";
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[header.fields.not " + delimiters + "]", getFetchOptions());
-            else response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[header.fields.not " + delimiters + "]", getFetchOptions());
+            else response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.header.GetStringRepresentation().not " + delimiters, getFetchOptions());
 			response = response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n\r\n")-response.IndexOf("}")-3);
 			System.Collections.Specialized.NameValueCollection fieldcol = new System.Collections.Specialized.NameValueCollection();
 			string[] fields = System.Text.RegularExpressions.Regex.Split(response,"\r\n");
@@ -1035,13 +1036,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidHeaderLinesNot(int uid, string[] headerHeaders, AsyncCallback callback)
         {
-            this._delegateUidHeaderLinesNot = this.UidHeaderLinesNot;
-            return this._delegateUidHeaderLinesNot.BeginInvoke(uid, headerHeaders, callback, this._delegateUidHeaderLinesNot);
+            _delegateUidHeaderLinesNot = UidHeaderLinesNot;
+            return _delegateUidHeaderLinesNot.BeginInvoke(uid, headerHeaders, callback, _delegateUidHeaderLinesNot);
         }
 
         public System.Collections.Specialized.NameValueCollection EndUidHeaderLinesNot(IAsyncResult result)
         {
-            return this._delegateUidHeaderLinesNot.EndInvoke(result);
+            return _delegateUidHeaderLinesNot.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1051,16 +1052,16 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The message's data as a byte array.</returns>
 		/// <example><see cref="Fetch.MessageObject"/></example>
         public byte[] Message(int messageOrdinal) {
-            this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            this.ParentMailbox.SourceClient.OnMessageRetrieving(new ActiveUp.Net.Mail.MessageRetrievingEventArgs(messageOrdinal));
-            byte[] response = this.ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " rfc822", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(messageOrdinal));
+            byte[] response = ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " rfc822", getFetchOptions());
             _binaryResponse = response;
             _response = Encoding.UTF8.GetString(response);
-            ActiveUp.Net.Mail.Logger.AddEntry(_response);
+            Logger.AddEntry(GetType(), _response);
 
             byte[] message = ExtractMessageFromReponse(response);
 
-            this.ParentMailbox.SourceClient.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(message, messageOrdinal));
+            ParentMailbox.SourceClient.OnMessageRetrieved(new MessageRetrievedEventArgs(message, messageOrdinal));
             return message;
         }
 
@@ -1069,19 +1070,19 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginMessage(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessage = this.Message;
-            return this._delegateMessage.BeginInvoke(messageOrdinal, callback, this._delegateMessage);
+            _delegateMessage = Message;
+            return _delegateMessage.BeginInvoke(messageOrdinal, callback, _delegateMessage);
         }
 
         public byte[] EndMessage(IAsyncResult result)
         {
-            return this._delegateMessage.EndInvoke(result);
+            return _delegateMessage.EndInvoke(result);
         }
 
 
 		public byte[] UidMessage(int uid)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.UidMessageString(uid));
+			return Encoding.UTF8.GetBytes(UidMessageString(uid));
 		}
 
         private delegate byte[] DelegateUidMessage(int uid);
@@ -1089,13 +1090,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidMessage(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessage = this.UidMessage;
-            return this._delegateUidMessage.BeginInvoke(uid, callback, this._delegateUidMessage);
+            _delegateUidMessage = UidMessage;
+            return _delegateUidMessage.BeginInvoke(uid, callback, _delegateUidMessage);
         }
 
         public byte[] EndUidMessage(IAsyncResult result)
         {
-            return this._delegateUidMessage.EndInvoke(result);
+            return _delegateUidMessage.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1136,9 +1137,9 @@ namespace ActiveUp.Net.Mail
 		/// imap.Disconnect();
 		/// </code>
 		/// </example>
-		public ActiveUp.Net.Mail.Message MessageObject(int messageOrdinal)
+		public Message MessageObject(int messageOrdinal)
 		{
-			return ActiveUp.Net.Mail.Parser.ParseMessage(this.Message(messageOrdinal));
+			return Parser.ParseMessage(Message(messageOrdinal));
 		}
 
         private delegate Message DelegateMessageObject(int messageOrdinal);
@@ -1146,18 +1147,18 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginMessageObject(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessageObject = this.MessageObject;
-            return this._delegateMessageObject.BeginInvoke(messageOrdinal, callback, this._delegateMessageObject);
+            _delegateMessageObject = MessageObject;
+            return _delegateMessageObject.BeginInvoke(messageOrdinal, callback, _delegateMessageObject);
         }
 
         public Message EndMessageObject(IAsyncResult result)
         {
-            return this._delegateMessageObject.EndInvoke(result);
+            return _delegateMessageObject.EndInvoke(result);
         }
 
-		public ActiveUp.Net.Mail.Message UidMessageObject(int uid)
+		public Message UidMessageObject(int uid)
 		{
-			return ActiveUp.Net.Mail.Parser.ParseMessage(this.UidMessage(uid));
+			return Parser.ParseMessage(UidMessage(uid));
 		}
 
         private delegate Message DelegateUidMessageObject(int uid);
@@ -1165,13 +1166,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidMessageObject(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessageObject = this.UidMessageObject;
-            return this._delegateUidMessageObject.BeginInvoke(uid, callback, this._delegateUidMessageObject);
+            _delegateUidMessageObject = UidMessageObject;
+            return _delegateUidMessageObject.BeginInvoke(uid, callback, _delegateUidMessageObject);
         }
 
         public Message EndUidMessageObject(IAsyncResult result)
         {
-            return this._delegateUidMessageObject.EndInvoke(result);
+            return _delegateUidMessageObject.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1180,44 +1181,44 @@ namespace ActiveUp.Net.Mail
 		/// <param name="messageOrdinal">The ordinal position of the message to be fetched.</param>
 		/// <returns>The message's data as a MemoryStream.</returns>
 		/// <example><see cref="Fetch.MessageObject"/></example>
-		public System.IO.MemoryStream MessageStream(int messageOrdinal)
+		public MemoryStream MessageStream(int messageOrdinal)
 		{
-			byte[] buf =  this.Message(messageOrdinal);
-			return new System.IO.MemoryStream(buf,0,buf.Length,false);
+			byte[] buf = Message(messageOrdinal);
+			return new MemoryStream(buf,0,buf.Length,false);
 		}
 
-        private delegate System.IO.MemoryStream DelegateMessageStream(int messageOrdinal);
+        private delegate MemoryStream DelegateMessageStream(int messageOrdinal);
         private DelegateMessageStream _delegateMessageStream;
 
         public IAsyncResult BeginMessageStream(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessageStream = this.MessageStream;
-            return this._delegateMessageStream.BeginInvoke(messageOrdinal, callback, this._delegateMessageStream);
+            _delegateMessageStream = MessageStream;
+            return _delegateMessageStream.BeginInvoke(messageOrdinal, callback, _delegateMessageStream);
         }
 
-        public System.IO.MemoryStream EndMessageStream(IAsyncResult result)
+        public MemoryStream EndMessageStream(IAsyncResult result)
         {
-            return this._delegateMessageStream.EndInvoke(result);
+            return _delegateMessageStream.EndInvoke(result);
         }
 
-		public System.IO.MemoryStream UidMessageStream(int uid)
+		public MemoryStream UidMessageStream(int uid)
 		{
-			byte[] buf =  this.UidMessage(uid);
-			return new System.IO.MemoryStream(buf,0,buf.Length,false);
+			byte[] buf = UidMessage(uid);
+			return new MemoryStream(buf,0,buf.Length,false);
 		}
 
-        private delegate System.IO.MemoryStream DelegateUidMessageStream(int uid);
+        private delegate MemoryStream DelegateUidMessageStream(int uid);
         private DelegateUidMessageStream _delegateUidMessageStream;
 
         public IAsyncResult BeginUidMessageStream(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessageStream = this.UidMessageStream;
-            return this._delegateUidMessageStream.BeginInvoke(uid, callback, this._delegateUidMessageStream);
+            _delegateUidMessageStream = UidMessageStream;
+            return _delegateUidMessageStream.BeginInvoke(uid, callback, _delegateUidMessageStream);
         }
 
-        public System.IO.MemoryStream EndUidMessageStream(IAsyncResult result)
+        public MemoryStream EndUidMessageStream(IAsyncResult result)
         {
-            return this._delegateUidMessageStream.EndInvoke(result);
+            return _delegateUidMessageStream.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1228,22 +1229,22 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Fetch.MessageObject"/></example>
         public string MessageString(int messageOrdinal) 
         {
-            return Encoding.UTF8.GetString(this.Message(messageOrdinal));
+            return Encoding.UTF8.GetString(Message(messageOrdinal));
         }
 
         private static byte[] ExtractMessageFromReponse(byte[] response) 
         {
             byte[] message = null;
-            String responseString = Encoding.ASCII.GetString(response);
-            StringReader sr = new StringReader(responseString);             
-            String line = null;
-            String firstline = null;
+            string responseString = Encoding.ASCII.GetString(response);
+            StringReader sr = new StringReader(responseString);
+            string line = null;
+            string firstline = null;
 
             while ((line = sr.ReadLine()) != null) {
                 try {
                     int messageSize = Convert.ToInt32(line.Substring(line.IndexOf("{") + 1, line.IndexOf("}") - line.IndexOf("{") - 1));
                     if (messageSize >= response.Length)
-                        throw new InvalidDataException(String.Format("defined message size of '{0}' is higher then size of response ({1})", messageSize, response.Length));
+                        throw new InvalidDataException(string.Format("defined message size of '{0}' is higher then size of response ({1})", messageSize, response.Length));
                     message = new byte[messageSize];
                     firstline = sr.ReadLine();
                     break;
@@ -1262,7 +1263,7 @@ namespace ActiveUp.Net.Mail
                 Array.Copy(response, prefixLength, message, 0, message.Length);
 
                 // Some (older) MS Exchange versions return a smaller message size, use old version as fallback if last character is not new line or the next line starts not with FLAGS
-                String messageString = Encoding.ASCII.GetString(message);
+                string messageString = Encoding.ASCII.GetString(message);
                 if (messageString.Substring(messageString.Length - 2, 2) != "\r\n" || !responseString.Substring(responseString.IndexOf(messageString) + Encoding.ASCII.GetString(message).Length).Trim().ToUpper().StartsWith("FLAGS")) {
                     int suffixLength = Encoding.ASCII.GetByteCount(responseString.Substring(responseString.LastIndexOf(")")));
                     message = new byte[response.Length - prefixLength - suffixLength];
@@ -1281,22 +1282,22 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginMessageString(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessageString = this.MessageString;
-            return this._delegateMessageString.BeginInvoke(messageOrdinal, callback, this._delegateMessageString);
+            _delegateMessageString = MessageString;
+            return _delegateMessageString.BeginInvoke(messageOrdinal, callback, _delegateMessageString);
         }
 
         public string EndMessageString(IAsyncResult result)
         {
-            return this._delegateMessageString.EndInvoke(result);
+            return _delegateMessageString.EndInvoke(result);
         }
 
 		public string UidMessageString(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-			this.ParentMailbox.SourceClient.OnMessageRetrieving(new ActiveUp.Net.Mail.MessageRetrievingEventArgs(uid));
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822", getFetchOptions());
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(uid));
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822", getFetchOptions());
 			string message = response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
-			this.ParentMailbox.SourceClient.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(message),uid));
+            ParentMailbox.SourceClient.OnMessageRetrieved(new MessageRetrievedEventArgs(Encoding.UTF8.GetBytes(message),uid));
 			return message;
 		}
 
@@ -1305,13 +1306,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidMessageString(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessageString = this.UidMessageString;
-            return this._delegateUidMessageString.BeginInvoke(uid, callback, this._delegateUidMessageString);
+            _delegateUidMessageString = UidMessageString;
+            return _delegateUidMessageString.BeginInvoke(uid, callback, _delegateUidMessageString);
         }
 
         public string EndUidMessageString(IAsyncResult result)
         {
-            return this._delegateUidMessageString.EndInvoke(result);
+            return _delegateUidMessageString.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1322,21 +1323,21 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Fetch.MessageObject"/></example>
 		public byte[] MessagePeek(int messageOrdinal)
 		{
-            this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            this.ParentMailbox.SourceClient.OnMessageRetrieving(new ActiveUp.Net.Mail.MessageRetrievingEventArgs(messageOrdinal));
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(messageOrdinal));
             byte[] response;
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1)
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1)
             {
-                response = this.ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " body[mime]", getFetchOptions());                
+                response = ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " body[mime]", getFetchOptions());                
             } else
             {
-                response = this.ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " rfc822.peek", getFetchOptions());
+                response = ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " rfc822.peek", getFetchOptions());
             }
             _binaryResponse = response;
             _response = Encoding.UTF8.GetString(response);
             
             byte[] message = ExtractMessageFromReponse(response);
-            this.ParentMailbox.SourceClient.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(message, messageOrdinal));
+            ParentMailbox.SourceClient.OnMessageRetrieved(new MessageRetrievedEventArgs(message, messageOrdinal));
             return message;
 		}
 
@@ -1345,19 +1346,19 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginMessagePeek(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessagePeek = this.MessagePeek;
-            return this._delegateMessagePeek.BeginInvoke(messageOrdinal, callback, this._delegateMessagePeek);
+            _delegateMessagePeek = MessagePeek;
+            return _delegateMessagePeek.BeginInvoke(messageOrdinal, callback, _delegateMessagePeek);
         }
 
         public byte[] EndMessagePeek(IAsyncResult result)
         {
-            return this._delegateMessagePeek.EndInvoke(result);
+            return _delegateMessagePeek.EndInvoke(result);
         }
 
 
 		public byte[] UidMessagePeek(int uid)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.UidMessageStringPeek(uid));
+			return Encoding.UTF8.GetBytes(UidMessageStringPeek(uid));
 		}
 
         private delegate byte[] DelegateUidMessagePeek(int uid);
@@ -1365,13 +1366,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidMessagePeek(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessagePeek = this.UidMessagePeek;
-            return this._delegateUidMessagePeek.BeginInvoke(uid, callback, this._delegateUidMessagePeek);
+            _delegateUidMessagePeek = UidMessagePeek;
+            return _delegateUidMessagePeek.BeginInvoke(uid, callback, _delegateUidMessagePeek);
         }
 
         public byte[] EndUidMessagePeek(IAsyncResult result)
         {
-            return this._delegateUidMessagePeek.EndInvoke(result);
+            return _delegateUidMessagePeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1382,7 +1383,7 @@ namespace ActiveUp.Net.Mail
 		/// <example><see cref="Fetch.MessageObject"/></example>
 		public Message MessageObjectPeek(int messageOrdinal)
 		{
-			return Parser.ParseMessage(this.MessagePeek(messageOrdinal));
+			return Parser.ParseMessage(MessagePeek(messageOrdinal));
 		}
 
         private delegate Message DelegateMessageObjectPeek(int messageOrdinal);
@@ -1390,18 +1391,18 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginMessageObjectPeek(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessageObjectPeek = this.MessageObjectPeek;
-            return this._delegateMessageObjectPeek.BeginInvoke(messageOrdinal, callback, this._delegateMessageObjectPeek);
+            _delegateMessageObjectPeek = MessageObjectPeek;
+            return _delegateMessageObjectPeek.BeginInvoke(messageOrdinal, callback, _delegateMessageObjectPeek);
         }
 
         public Message EndMessageObjectPeek(IAsyncResult result)
         {
-            return this._delegateMessageObjectPeek.EndInvoke(result);
+            return _delegateMessageObjectPeek.EndInvoke(result);
         }
 
 		public Message UidMessageObjectPeek(int uid)
 		{
-			return Parser.ParseMessage(this.UidMessagePeek(uid));
+			return Parser.ParseMessage(UidMessagePeek(uid));
 		}
 
         private delegate Message DelegateUidMessageObjectPeek(int uid);
@@ -1409,13 +1410,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidMessageObjectPeek(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessageObjectPeek = this.UidMessageObjectPeek;
-            return this._delegateUidMessageObjectPeek.BeginInvoke(uid, callback, this._delegateUidMessageObjectPeek);
+            _delegateUidMessageObjectPeek = UidMessageObjectPeek;
+            return _delegateUidMessageObjectPeek.BeginInvoke(uid, callback, _delegateUidMessageObjectPeek);
         }
 
         public Message EndUidMessageObjectPeek(IAsyncResult result)
         {
-            return this._delegateUidMessageObjectPeek.EndInvoke(result);
+            return _delegateUidMessageObjectPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1424,44 +1425,44 @@ namespace ActiveUp.Net.Mail
 		/// <param name="messageOrdinal">The ordinal position of the message to be fetched.</param>
 		/// <returns>The message's data as a MemoryStream.</returns>
 		/// <example><see cref="Fetch.MessageStream"/></example>
-		public System.IO.MemoryStream MessageSreamPeek(int messageOrdinal)
+		public MemoryStream MessageSreamPeek(int messageOrdinal)
 		{
-			byte[] buf =  this.MessagePeek(messageOrdinal);
-			return new System.IO.MemoryStream(buf,0,buf.Length,false);
+			byte[] buf = MessagePeek(messageOrdinal);
+			return new MemoryStream(buf,0,buf.Length,false);
 		}
 
-        private delegate System.IO.MemoryStream DelegateMessageStreamPeek(int messageOrdinal);
+        private delegate MemoryStream DelegateMessageStreamPeek(int messageOrdinal);
         private DelegateMessageStreamPeek _delegateMessageStreamPeek;
 
         public IAsyncResult BeginMessageStreamPeek(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessageStreamPeek = this.MessageSreamPeek;
-            return this._delegateMessageStreamPeek.BeginInvoke(messageOrdinal, callback, this._delegateMessageStreamPeek);
+            _delegateMessageStreamPeek = MessageSreamPeek;
+            return _delegateMessageStreamPeek.BeginInvoke(messageOrdinal, callback, _delegateMessageStreamPeek);
         }
 
-        public System.IO.MemoryStream EndMessageStreamPeek(IAsyncResult result)
+        public MemoryStream EndMessageStreamPeek(IAsyncResult result)
         {
-            return this._delegateMessageStreamPeek.EndInvoke(result);
+            return _delegateMessageStreamPeek.EndInvoke(result);
         }
 
-		public System.IO.MemoryStream UidMessageStreamPeek(int uid)
+		public MemoryStream UidMessageStreamPeek(int uid)
 		{
-			byte[] buf =  this.UidMessagePeek(uid);
-			return new System.IO.MemoryStream(buf,0,buf.Length,false);
+			byte[] buf = UidMessagePeek(uid);
+			return new MemoryStream(buf,0,buf.Length,false);
 		}
 
-        private delegate System.IO.MemoryStream DelegateUidMessageStreamPeek(int uid);
+        private delegate MemoryStream DelegateUidMessageStreamPeek(int uid);
         private DelegateUidMessageStreamPeek _delegateUidMessageStreamPeek;
 
         public IAsyncResult BeginUidMessageStreamPeek(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessageStreamPeek = this.UidMessageStreamPeek;
-            return this._delegateUidMessageStreamPeek.BeginInvoke(uid, callback, this._delegateUidMessageStreamPeek);
+            _delegateUidMessageStreamPeek = UidMessageStreamPeek;
+            return _delegateUidMessageStreamPeek.BeginInvoke(uid, callback, _delegateUidMessageStreamPeek);
         }
 
-        public System.IO.MemoryStream EndUidMessageStreamPeek(IAsyncResult result)
+        public MemoryStream EndUidMessageStreamPeek(IAsyncResult result)
         {
-            return this._delegateUidMessageStreamPeek.EndInvoke(result);
+            return _delegateUidMessageStreamPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1471,7 +1472,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The message's data as a string.</returns>
 		/// <example><see cref="Fetch.MessageString"/></example>
         public string MessageStringPeek(int messageOrdinal) {
-            return Encoding.UTF8.GetString(this.MessagePeek(messageOrdinal));
+            return Encoding.UTF8.GetString(MessagePeek(messageOrdinal));
         }
 
         private delegate string DelegateMessageStringPeek(int messageOrdinal);
@@ -1479,24 +1480,24 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginMessageStringPeek(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateMessageStringPeek = this.MessageStringPeek;
-            return this._delegateMessageStringPeek.BeginInvoke(messageOrdinal, callback, this._delegateMessageStringPeek);
+            _delegateMessageStringPeek = MessageStringPeek;
+            return _delegateMessageStringPeek.BeginInvoke(messageOrdinal, callback, _delegateMessageStringPeek);
         }
 
         public string EndMessageStringPeek(IAsyncResult result)
         {
-            return this._delegateMessageStringPeek.EndInvoke(result);
+            return _delegateMessageStringPeek.EndInvoke(result);
         }
 
         public string UidMessageStringPeek(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-			this.ParentMailbox.SourceClient.OnMessageRetrieving(new ActiveUp.Net.Mail.MessageRetrievingEventArgs(uid));
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(uid));
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[mime]", getFetchOptions());
-            else response = this.ParentMailbox.SourceClient.Command("fetch " + uid.ToString() + " rfc822.peek", getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[mime]", getFetchOptions());
+            else response = ParentMailbox.SourceClient.Command("fetch " + uid.ToString() + " rfc822.peek", getFetchOptions());
 			string message = response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
-			this.ParentMailbox.SourceClient.OnMessageRetrieved(new ActiveUp.Net.Mail.MessageRetrievedEventArgs(System.Text.Encoding.UTF8.GetBytes(message),uid));
+            ParentMailbox.SourceClient.OnMessageRetrieved(new MessageRetrievedEventArgs(Encoding.UTF8.GetBytes(message),uid));
 			return message;
 		}
 
@@ -1505,13 +1506,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidMessageStringPeek(int uid, AsyncCallback callback)
         {
-            this._delegateUidMessageStringPeek = this.UidMessageStringPeek;
-            return this._delegateUidMessageStringPeek.BeginInvoke(uid, callback, this._delegateUidMessageStringPeek);
+            _delegateUidMessageStringPeek = UidMessageStringPeek;
+            return _delegateUidMessageStringPeek.BeginInvoke(uid, callback, _delegateUidMessageStringPeek);
         }
 
         public string EndUidMessageStringPeek(IAsyncResult result)
         {
-            return this._delegateUidMessageStringPeek.EndInvoke(result);
+            return _delegateUidMessageStringPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1554,9 +1555,9 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public int Size(int messageOrdinal)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.size", getFetchOptions());
-			return System.Convert.ToInt32(response.Substring(response.ToLower().IndexOf("rfc822.size")+12).Split(')')[0]);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.size", getFetchOptions());
+			return Convert.ToInt32(response.Substring(response.ToLower().IndexOf("rfc822.size")+12).Split(')')[0]);
 		}
 
         private delegate int DelegateSize(int messageOrdinal);
@@ -1564,20 +1565,20 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginSize(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateSize = this.Size;
-            return this._delegateSize.BeginInvoke(messageOrdinal, callback, this._delegateSize);
+            _delegateSize = Size;
+            return _delegateSize.BeginInvoke(messageOrdinal, callback, _delegateSize);
         }
 
         public int EndSize(IAsyncResult result)
         {
-            return this._delegateSize.EndInvoke(result);
+            return _delegateSize.EndInvoke(result);
         }
 
 		public int UidSize(int uid)
 		{
-			this.ParentMailbox.SourceClient.SelectMailbox(this.ParentMailbox.Name);
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.size", getFetchOptions());
-			return System.Convert.ToInt32(response.Substring(response.ToLower().IndexOf("rfc822.size")+12).Split(')')[0]);
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.size", getFetchOptions());
+			return Convert.ToInt32(response.Substring(response.ToLower().IndexOf("rfc822.size")+12).Split(')')[0]);
 		}
 
         private delegate int DelegateUidSize(int messageOrdinal);
@@ -1585,13 +1586,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidSize(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateUidSize = this.UidSize;
-            return this._delegateUidSize.BeginInvoke(messageOrdinal, callback, this._delegateUidSize);
+            _delegateUidSize = UidSize;
+            return _delegateUidSize.BeginInvoke(messageOrdinal, callback, _delegateUidSize);
         }
 
         public int EndUidSize(IAsyncResult result)
         {
-            return this._delegateUidSize.EndInvoke(result);
+            return _delegateUidSize.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1634,7 +1635,7 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public string Text(int messageOrdinal)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.text", getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " rfc822.text", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
 		}
 
@@ -1643,18 +1644,18 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginText(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateText = this.Text;
-            return this._delegateText.BeginInvoke(messageOrdinal, callback, this._delegateText);
+            _delegateText = Text;
+            return _delegateText.BeginInvoke(messageOrdinal, callback, _delegateText);
         }
 
         public string EndText(IAsyncResult result)
         {
-            return this._delegateText.EndInvoke(result);
+            return _delegateText.EndInvoke(result);
         }
 
 		public string UidText(int uid)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.text", getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " rfc822.text", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
 		}
 
@@ -1663,13 +1664,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidText(int uid, AsyncCallback callback)
         {
-            this._delegateUidText = this.UidText;
-            return this._delegateUidText.BeginInvoke(uid, callback, this._delegateUidText);
+            _delegateUidText = UidText;
+            return _delegateUidText.BeginInvoke(uid, callback, _delegateUidText);
         }
 
         public string EndUidText(IAsyncResult result)
         {
-            return this._delegateUidText.EndInvoke(result);
+            return _delegateUidText.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1681,8 +1682,8 @@ namespace ActiveUp.Net.Mail
 		public string TextPeek(int messageOrdinal)
 		{
             string response = "";
-			if(this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1")!=-1) response = this.ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" body[text]", getFetchOptions());
-			else response = this.ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" rfc822.text.peek", getFetchOptions());
+			if(ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1")!=-1) response = ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" body[text]", getFetchOptions());
+			else response = ParentMailbox.SourceClient.Command("fetch "+messageOrdinal.ToString()+" rfc822.text.peek", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
 		}
 
@@ -1691,20 +1692,20 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginTextPeek(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateTextPeek = this.TextPeek;
-            return this._delegateTextPeek.BeginInvoke(messageOrdinal, callback, this._delegateTextPeek);
+            _delegateTextPeek = TextPeek;
+            return _delegateTextPeek.BeginInvoke(messageOrdinal, callback, _delegateTextPeek);
         }
 
         public string EndTextPeek(IAsyncResult result)
         {
-            return this._delegateTextPeek.EndInvoke(result);
+            return _delegateTextPeek.EndInvoke(result);
         }
 
 		public string UidTextPeek(int uid)
 		{
 			string response = "";
-            if (this.ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = this.ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[text]", getFetchOptions());
-			else response = this.ParentMailbox.SourceClient.Command("uid fetch "+uid.ToString()+" rfc822.text.peek", getFetchOptions());
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1) response = ParentMailbox.SourceClient.Command("uid fetch " + uid.ToString() + " body[text]", getFetchOptions());
+			else response = ParentMailbox.SourceClient.Command("uid fetch "+uid.ToString()+" rfc822.text.peek", getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf(")")-response.IndexOf("}")-3);
 		}
 
@@ -1713,13 +1714,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUidTextPeek(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateUidTextPeek = this.UidTextPeek;
-            return this._delegateUidTextPeek.BeginInvoke(messageOrdinal, callback, this._delegateUidTextPeek);
+            _delegateUidTextPeek = UidTextPeek;
+            return _delegateUidTextPeek.BeginInvoke(messageOrdinal, callback, _delegateUidTextPeek);
         }
 
         public string EndUidTextPeek(IAsyncResult result)
         {
-            return this._delegateUidTextPeek.EndInvoke(result);
+            return _delegateUidTextPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1762,8 +1763,8 @@ namespace ActiveUp.Net.Mail
 		/// </example>
 		public int Uid(int messageOrdinal)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " uid", getFetchOptions());
-			return System.Convert.ToInt32(response.Substring(response.ToLower().IndexOf("uid")+3).Split(')')[0]);
+            string response = ParentMailbox.SourceClient.Command("fetch " + messageOrdinal.ToString() + " uid", getFetchOptions());
+			return Convert.ToInt32(response.Substring(response.ToLower().IndexOf("uid")+3).Split(')')[0]);
 		}
 
         private delegate int DelegateUid(int messageOrdinal);
@@ -1771,13 +1772,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginUid(int messageOrdinal, AsyncCallback callback)
         {
-            this._delegateUid = this.Uid;
-            return this._delegateUid.BeginInvoke(messageOrdinal, callback, this._delegateUid);
+            _delegateUid = Uid;
+            return _delegateUid.BeginInvoke(messageOrdinal, callback, _delegateUid);
         }
 
         public int EndUid(IAsyncResult result)
         {
-            return this._delegateUid.EndInvoke(result);
+            return _delegateUid.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1791,7 +1792,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array.</returns>
 		public byte[] PartialBodySection(int messageOrdinal, int section, int index, int count)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.PartialBodySectionString(messageOrdinal,section,index,count));
+			return Encoding.UTF8.GetBytes(PartialBodySectionString(messageOrdinal,section,index,count));
 		}
 
         private delegate byte[] DelegatePartialBodySection(int messageOrdinal, int section, int index, int count);
@@ -1799,13 +1800,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialBodySection(int messageOrdinal, int section, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialBodySection = this.PartialBodySection;
-            return this._delegatePartialBodySection.BeginInvoke(messageOrdinal, section, index, count, callback, this._delegatePartialBodySection);
+            _delegatePartialBodySection = PartialBodySection;
+            return _delegatePartialBodySection.BeginInvoke(messageOrdinal, section, index, count, callback, _delegatePartialBodySection);
         }
 
         public byte[] EndPartialBodySection(IAsyncResult result)
         {
-            return this._delegatePartialBodySection.EndInvoke(result);
+            return _delegatePartialBodySection.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1818,7 +1819,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array.</returns>
 		public byte[] PartialHeader(int messageOrdinal, int index, int count)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.PartialHeaderString(messageOrdinal,index,count));
+			return Encoding.UTF8.GetBytes(PartialHeaderString(messageOrdinal,index,count));
 		}
 
         private delegate byte[] DelegatePartialHeader(int messageOrdinal, int index, int count);
@@ -1826,13 +1827,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialHeader(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialHeader = this.PartialHeader;
-            return this._delegatePartialHeader.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialHeader);
+            _delegatePartialHeader = PartialHeader;
+            return _delegatePartialHeader.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialHeader);
         }
 
         public byte[] EndPartialHeader(IAsyncResult result)
         {
-            return this._delegatePartialHeader.EndInvoke(result);
+            return _delegatePartialHeader.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1845,7 +1846,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array.</returns>
 		public byte[] PartialMessage(int messageOrdinal, int index, int count)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.PartialMessageString(messageOrdinal,index,count));
+			return Encoding.UTF8.GetBytes(PartialMessageString(messageOrdinal,index,count));
 		}
 
         private delegate byte[] DelegatePartialMessage(int messageOrdinal, int index, int count);
@@ -1853,13 +1854,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialMessage(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialMessage = this.PartialMessage;
-            return this._delegatePartialMessage.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialMessage);
+            _delegatePartialMessage = PartialMessage;
+            return _delegatePartialMessage.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialMessage);
         }
 
         public byte[] EndPartialMessage(IAsyncResult result)
         {
-            return this._delegatePartialMessage.EndInvoke(result);
+            return _delegatePartialMessage.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1873,7 +1874,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array.</returns>
 		public byte[] PartialMessagePeek(int messageOrdinal, int index, int count)
 		{
-            return System.Text.Encoding.UTF8.GetBytes(this.PartialMessageStringPeek(messageOrdinal, index, count));
+            return Encoding.UTF8.GetBytes(PartialMessageStringPeek(messageOrdinal, index, count));
 		}
 
         private delegate byte[] DelegatePartialMessagePeek(int messageOrdinal, int index, int count);
@@ -1881,13 +1882,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialMessagePeek(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialMessagePeek = this.PartialMessagePeek;
-            return this._delegatePartialMessagePeek.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialMessagePeek);
+            _delegatePartialMessagePeek = PartialMessagePeek;
+            return _delegatePartialMessagePeek.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialMessagePeek);
         }
 
         public byte[] EndPartialMessagePeek(IAsyncResult result)
         {
-            return this._delegatePartialMessagePeek.EndInvoke(result);
+            return _delegatePartialMessagePeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1900,7 +1901,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array.</returns>
 		public byte[] PartialText(int messageOrdinal, int index, int count)
 		{
-			return System.Text.Encoding.UTF8.GetBytes(this.PartialTextString(messageOrdinal,index,count));
+			return Encoding.UTF8.GetBytes(PartialTextString(messageOrdinal,index,count));
 		}
 
         private delegate byte[] DelegatePartialText(int messageOrdinal, int index, int count);
@@ -1908,13 +1909,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialText(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialText = this.PartialText;
-            return this._delegatePartialText.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialText);
+            _delegatePartialText = PartialText;
+            return _delegatePartialText.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialText);
         }
 
         public byte[] EndPartialText(IAsyncResult result)
         {
-            return this._delegatePartialText.EndInvoke(result);
+            return _delegatePartialText.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1928,7 +1929,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array.</returns>
 		public byte[] PartialTextPeek(int messageOrdinal, int index, int count)
 		{
-            return System.Text.Encoding.UTF8.GetBytes(this.PartialTextStringPeek(messageOrdinal, index, count));
+            return Encoding.UTF8.GetBytes(PartialTextStringPeek(messageOrdinal, index, count));
 		}
 
         private delegate byte[] DelegatePartialTextPeek(int messageOrdinal, int index, int count);
@@ -1936,13 +1937,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialTextPeek(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialTextPeek = this.PartialTextPeek;
-            return this._delegatePartialTextPeek.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialTextPeek);
+            _delegatePartialTextPeek = PartialTextPeek;
+            return _delegatePartialTextPeek.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialTextPeek);
         }
 
         public byte[] EndPartialTextPeek(IAsyncResult result)
         {
-            return this._delegatePartialTextPeek.EndInvoke(result);
+            return _delegatePartialTextPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1955,7 +1956,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array converted to a string.</returns>
 		public string PartialBodySectionString(int messageOrdinal, int section, int index, int count)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " body[" + section + "] " + index.ToString() + " " + count.ToString(), getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " body[" + section + "] " + index.ToString() + " " + count.ToString(), getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n")-response.IndexOf("}")-3);
 		}
 
@@ -1964,13 +1965,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialBodySectionString(int messageOrdinal, int section, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialBodySectionString = this.PartialBodySectionString;
-            return this._delegatePartialBodySectionString.BeginInvoke(messageOrdinal, section, index, count, callback, this._delegatePartialBodySectionString);
+            _delegatePartialBodySectionString = PartialBodySectionString;
+            return _delegatePartialBodySectionString.BeginInvoke(messageOrdinal, section, index, count, callback, _delegatePartialBodySectionString);
         }
 
         public string EndPartialBodySectionString(IAsyncResult result)
         {
-            return this._delegatePartialBodySectionString.EndInvoke(result);
+            return _delegatePartialBodySectionString.EndInvoke(result);
         }
 
 		/// <summary>
@@ -1983,7 +1984,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array converted to a string.</returns>
 		public string PartialHeaderString(int messageOrdinal, int index, int count)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.Header " + index.ToString() + " " + count.ToString(), getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.Header " + index.ToString() + " " + count.ToString(), getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n")-response.IndexOf("}")-3);
 		}
 
@@ -1992,13 +1993,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialHeaderString(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialHeaderString = this.PartialHeaderString;
-            return this._delegatePartialHeaderString.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialHeaderString);
+            _delegatePartialHeaderString = PartialHeaderString;
+            return _delegatePartialHeaderString.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialHeaderString);
         }
 
         public string EndPartialHeaderString(IAsyncResult result)
         {
-            return this._delegatePartialHeaderString.EndInvoke(result);
+            return _delegatePartialHeaderString.EndInvoke(result);
         }
 
 		/// <summary>
@@ -2011,7 +2012,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array converted to a string.</returns>
 		public string PartialMessageString(int messageOrdinal, int index, int count)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822 " + index.ToString() + " " + count.ToString(), getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822 " + index.ToString() + " " + count.ToString(), getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n")-response.IndexOf("}")-3);
 		}
 
@@ -2020,13 +2021,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialMessageString(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialMessageString = this.PartialMessageString;
-            return this._delegatePartialMessageString.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialMessageString);
+            _delegatePartialMessageString = PartialMessageString;
+            return _delegatePartialMessageString.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialMessageString);
         }
 
         public string EndPartialMessageString(IAsyncResult result)
         {
-            return this._delegatePartialMessageString.EndInvoke(result);
+            return _delegatePartialMessageString.EndInvoke(result);
         }
 
 		/// <summary>
@@ -2040,7 +2041,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array converted to a string.</returns>
 		public string PartialMessageStringPeek(int messageOrdinal, int index, int count)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.peek " + index.ToString() + " " + count.ToString(), getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.peek " + index.ToString() + " " + count.ToString(), getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n")-response.IndexOf("}")-3);
 		}
 
@@ -2049,13 +2050,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialMessageStringPeek(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialMessageStringPeek = this.PartialMessageStringPeek;
-            return this._delegatePartialMessageStringPeek.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialMessageStringPeek);
+            _delegatePartialMessageStringPeek = PartialMessageStringPeek;
+            return _delegatePartialMessageStringPeek.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialMessageStringPeek);
         }
 
         public string EndPartialMessageStringPeek(IAsyncResult result)
         {
-            return this._delegatePartialMessageStringPeek.EndInvoke(result);
+            return _delegatePartialMessageStringPeek.EndInvoke(result);
         }
 
 		/// <summary>
@@ -2068,7 +2069,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array converted to a string.</returns>
 		public string PartialTextString(int messageOrdinal, int index, int count)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.text " + index.ToString() + " " + count.ToString(), getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.text " + index.ToString() + " " + count.ToString(), getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n")-response.IndexOf("}")-3);
 		}
 
@@ -2077,13 +2078,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialTextString(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialTextString = this.PartialTextString;
-            return this._delegatePartialTextString.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialTextString);
+            _delegatePartialTextString = PartialTextString;
+            return _delegatePartialTextString.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialTextString);
         }
 
         public string EndPartialTextString(IAsyncResult result)
         {
-            return this._delegatePartialTextString.EndInvoke(result);
+            return _delegatePartialTextString.EndInvoke(result);
         }
 
 		/// <summary>
@@ -2097,7 +2098,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The requested byte array converted to a string.</returns>
 		public string PartialTextStringPeek(int messageOrdinal, int index, int count)
 		{
-            string response = this.ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.text.peek " + index.ToString() + " " + count.ToString(), getFetchOptions());
+            string response = ParentMailbox.SourceClient.Command("partial " + messageOrdinal.ToString() + " rfc822.text.peek " + index.ToString() + " " + count.ToString(), getFetchOptions());
 			return response.Substring(response.IndexOf("}")+3,response.LastIndexOf("\r\n")-response.IndexOf("}")-3);
         }
 
@@ -2106,13 +2107,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginPartialTextStringPeek(int messageOrdinal, int index, int count, AsyncCallback callback)
         {
-            this._delegatePartialTextStringPeek = this.PartialTextStringPeek;
-            return this._delegatePartialTextStringPeek.BeginInvoke(messageOrdinal, index, count, callback, this._delegatePartialTextStringPeek);
+            _delegatePartialTextStringPeek = PartialTextStringPeek;
+            return _delegatePartialTextStringPeek.BeginInvoke(messageOrdinal, index, count, callback, _delegatePartialTextStringPeek);
         }
 
         public string EndPartialTextStringPeek(IAsyncResult result)
         {
-            return this._delegatePartialTextStringPeek.EndInvoke(result);
+            return _delegatePartialTextStringPeek.EndInvoke(result);
         }
 
         #endregion
@@ -2131,21 +2132,21 @@ namespace ActiveUp.Net.Mail
         /// The complete mail server response (binary)
         /// </summary>
         public byte[] BinaryResponse {
-            get { return this._binaryResponse; }
+            get { return _binaryResponse; }
         }
 
         /// <summary>
 		/// The Fetch's parent mailbox.
 		/// </summary>
-		public ActiveUp.Net.Mail.Mailbox ParentMailbox
+		public Mailbox ParentMailbox
 		{
 			get
 			{
-				return this._parentMailbox;
+				return _parentMailbox;
 			}
 			set
 			{
-				this._parentMailbox = value;
+                _parentMailbox = value;
 			}
 		}
     

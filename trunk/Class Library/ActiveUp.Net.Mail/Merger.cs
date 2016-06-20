@@ -84,7 +84,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The merged text string.</returns>
 		public string MergeText(string text, object dataSource, bool repeat)
 		{
-			ActiveUp.Net.Mail.Logger.AddEntry("Binding text.", 1);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Binding text.", 1);
 
 			string newTemplate = string.Empty;
 
@@ -97,14 +97,14 @@ namespace ActiveUp.Net.Mail
 			// If the IEnumerator items is not null, proceed
 			if (items != null)
 			{
-				ActiveUp.Net.Mail.Logger.AddEntry("Datasource contain valid items for databinding.", 0);
+				ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Datasource contain valid items for databinding.", 0);
 
 				//Trace("items not null");
 
 				// Get the first occurence in the datasource
 				while(items.MoveNext())
 				{
-					ActiveUp.Net.Mail.Logger.AddEntry("Processing item.", 0);
+					ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Processing item.", 0);
 
 					if (repeat)
 					{
@@ -135,18 +135,18 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The merged text string.</returns>
 		public string MergeText(string text, object item)
 		{
-			ActiveUp.Net.Mail.Logger.AddEntry("Binding text with item.", 0);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Binding text with item.", 0);
 			
 			string dataBinderVal = string.Empty, dataBinderKey = string.Empty;
 
 			ArrayList fields = this.GetFields(text);
 
-			ActiveUp.Net.Mail.Logger.AddEntry("Number of fields found in text: " + fields.Count.ToString(), 0);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Number of fields found in text: " + fields.Count.ToString(), 0);
 
 			// For each found propertie, try to find the value in the datasource
 			foreach(string field in fields)
 			{
-				ActiveUp.Net.Mail.Logger.AddEntry("Processing field: " + field, 0);
+				ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Processing field: " + field, 0);
 
 				// Try as standard object with properties
 				try
@@ -156,7 +156,7 @@ namespace ActiveUp.Net.Mail
 					{
 						FieldFormat fieldFormat = this.FieldsFormats[field];
 						
-						ActiveUp.Net.Mail.Logger.AddEntry("StringFormat to apply: " + fieldFormat.Format, 0);
+						ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "StringFormat to apply: " + fieldFormat.Format, 0);
 
 						dataBinderVal = Convert.ToString(DataBinder.GetPropertyValue(item, field, fieldFormat.Format));
 					}
@@ -164,7 +164,7 @@ namespace ActiveUp.Net.Mail
 					{
 						dataBinderVal = Convert.ToString(DataBinder.GetPropertyValue(item, field));
 					}
-					ActiveUp.Net.Mail.Logger.AddEntry("Field value after binding: " + dataBinderVal, 0);
+					ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Field value after binding: " + dataBinderVal, 0);
 					//validate the condition if exists at all
 					this.Conditions.Validate(field, dataBinderVal);
 
@@ -172,19 +172,19 @@ namespace ActiveUp.Net.Mail
 				}
 				catch
 				{
-					ActiveUp.Net.Mail.Logger.AddEntry("DataBinder Eval failed. Probable standard datasource doesn't contain the Field '" + field + "'.", 0);
+					ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "DataBinder Eval failed. Probable standard datasource doesn't contain the Field '" + field + "'.", 0);
 				}
 
 				// Try as a key/pair object type.
 				if (dataBinderVal == string.Empty)
 				{
-					ActiveUp.Net.Mail.Logger.AddEntry("Trying key/pair object type.", 2);
+					ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Trying key/pair object type.", 2);
 
 					try
 					{
 						dataBinderKey = Convert.ToString(DataBinder.Eval(item, "Key"));
 						
-						ActiveUp.Net.Mail.Logger.AddEntry("Field value after binding (key): " + dataBinderVal, 0);
+						ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Field value after binding (key): " + dataBinderVal, 0);
 						
 						if (dataBinderKey.ToUpper() == field.ToUpper())
 						{
@@ -205,7 +205,7 @@ namespace ActiveUp.Net.Mail
 					}
 					catch
 					{
-						ActiveUp.Net.Mail.Logger.AddEntry("DataBinder (Indexed) Eval failed. Probable indexed datasource doesn't contain the Field '" + field + "'.", 0);
+						ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "DataBinder (Indexed) Eval failed. Probable indexed datasource doesn't contain the Field '" + field + "'.", 0);
 					}
 				}
 			}
@@ -645,7 +645,7 @@ namespace ActiveUp.Net.Mail
 		/// <returns>The merged message.</returns>
 		public Message MergeListTemplate(Message message, string name, ListTemplateCollection listTemplates, object dataSource)
 		{
-			ActiveUp.Net.Mail.Logger.AddEntry("Merging Template " + name + ".", 1);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Merging Template " + name + ".", 1);
 
 			foreach(ListTemplate listTemplate in listTemplates)
 			{
@@ -744,7 +744,7 @@ namespace ActiveUp.Net.Mail
 					}
 				}
 
-				ActiveUp.Net.Mail.Logger.AddEntry("Message created successfully.", 2);
+				ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Message created successfully.", 2);
 			}
 
 			return messages;
@@ -810,7 +810,7 @@ namespace ActiveUp.Net.Mail
 		private IEnumerator GetEnumerator(object dataSource)
 		{
 			if (dataSource == null) return null;
-			ActiveUp.Net.Mail.Logger.AddEntry("Getting IEnumerator. DataSource type: " + dataSource, 0);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Getting IEnumerator. DataSource type: " + dataSource, 0);
 
 			// Set the IEnumerator object
 			IEnumerator items = null;
@@ -819,13 +819,13 @@ namespace ActiveUp.Net.Mail
 			if (dataSource is IEnumerable)
 			{
 				items = ((IEnumerable)dataSource).GetEnumerator();
-				ActiveUp.Net.Mail.Logger.AddEntry("DataSource is IEnumerable.", 0);
+				ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "DataSource is IEnumerable.", 0);
 			}
 
 			if (dataSource is IListSource)
 			{
 				items = ((IListSource)dataSource).GetList().GetEnumerator();
-				ActiveUp.Net.Mail.Logger.AddEntry("DataSource is IListSource.", 0);
+				ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "DataSource is IListSource.", 0);
 			} 
 	
 			if (dataSource is System.Data.DataRow)
@@ -844,7 +844,7 @@ namespace ActiveUp.Net.Mail
 				}
 				//sourceList.Add(dataView[0]);
 				items = sourceList.GetEnumerator();
-				ActiveUp.Net.Mail.Logger.AddEntry("DataSource is DataRow.", 0);
+				ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "DataSource is DataRow.", 0);
 			}
 
 			// Return the IEnumerator

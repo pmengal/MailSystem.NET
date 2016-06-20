@@ -32,7 +32,7 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
     [Serializable]
 #endif
-    public class Parser
+    public static class Parser
     {
         private static Encoding defaultEncoding = Encoding.GetEncoding("iso-8859-1");
 
@@ -139,7 +139,7 @@ namespace ActiveUp.Net.Mail
             string parentPartAsciiBody = ToASCII(part.BinaryContent);
             byte[] parentPartBinary = part.BinaryContent;
 
-            Logger.AddEntry("boundary : " + boundary);
+            Logger.AddEntry(typeof(Parser), "boundary : " + boundary);
             string[] arrpart = Regex.Split(parentPartAsciiBody, @"\r?\n?" + Regex.Escape("--" + boundary));
 
             foreach (var strpart in arrpart)

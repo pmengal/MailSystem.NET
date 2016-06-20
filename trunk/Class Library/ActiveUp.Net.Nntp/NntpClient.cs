@@ -164,72 +164,72 @@ namespace ActiveUp.Net.Mail
         internal void OnTcpWriting(ActiveUp.Net.Mail.TcpWritingEventArgs e)
 		{
 			if(TcpWriting!=null) TcpWriting(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Sending "+e.Command+"...",1);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Sending " + e.Command+"...",1);
 		}
 		internal void OnTcpWritten(ActiveUp.Net.Mail.TcpWrittenEventArgs e)
 		{
 			if(TcpWritten!=null) TcpWritten(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Sent "+e.Command+".",1);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Sent " + e.Command+".",1);
 		}
 		internal void OnTcpReading()
 		{
 			if(TcpReading!=null) TcpReading(this);
-			ActiveUp.Net.Mail.Logger.AddEntry("Reading...",1);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Reading...", 1);
 		}
 		internal void OnTcpRead(ActiveUp.Net.Mail.TcpReadEventArgs e)
 		{
 			if(TcpRead!=null) TcpRead(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Read "+e.Response+".",1);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Read " + e.Response+".",1);
 		}
 		internal void OnDisconnecting()
 		{
 			if(Disconnecting!=null) Disconnecting(this);
-			ActiveUp.Net.Mail.Logger.AddEntry("Disconnecting...",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Disconnecting...", 2);
 		}
 		internal void OnDisconnected(ActiveUp.Net.Mail.DisconnectedEventArgs e)
 		{
 			if(Disconnected!=null) Disconnected(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Disconnected.",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Disconnected.", 2);
 		}
 		internal void OnConnecting()
 		{
 			if(Connecting!=null) Connecting(this);
-			ActiveUp.Net.Mail.Logger.AddEntry("Connecting...",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Connecting...", 2);
 		}
 		internal void OnConnected(ActiveUp.Net.Mail.ConnectedEventArgs e)
 		{
 			if(Connected!=null) Connected(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Connected. Server replied : "+e.ServerResponse+"...",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Connected. Server replied : " + e.ServerResponse+"...",2);
 		}
 		internal void OnMessageRetrieving(ActiveUp.Net.Mail.MessageRetrievingEventArgs e)
 		{
 			if(MessageRetrieving!=null) MessageRetrieving(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Retrieving message at index "+e.MessageIndex+" out of "+e.TotalCount+"...",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Retrieving message at index " + e.MessageIndex+" out of "+e.TotalCount+"...",2);
 		}
 		internal void OnMessageRetrieved(ActiveUp.Net.Mail.MessageRetrievedEventArgs e)
 		{
 			if(MessageRetrieved!=null) MessageRetrieved(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Retrieved message at index "+e.MessageIndex+" out of "+e.TotalCount+".",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Retrieved message at index " + e.MessageIndex+" out of "+e.TotalCount+".",2);
 		}
 		internal void OnHeaderRetrieving(ActiveUp.Net.Mail.HeaderRetrievingEventArgs e)
 		{
 			if(HeaderRetrieving!=null) HeaderRetrieving(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Retrieving Header at index "+e.MessageIndex+" out of "+e.TotalCount+"...",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Retrieving Header at index " + e.MessageIndex+" out of "+e.TotalCount+"...",2);
 		}
 		internal void OnHeaderRetrieved(ActiveUp.Net.Mail.HeaderRetrievedEventArgs e)
 		{
 			if(HeaderRetrieved!=null) HeaderRetrieved(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Retrieved Header at index "+e.MessageIndex+" out of "+e.TotalCount+".",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Retrieved Header at index " + e.MessageIndex+" out of "+e.TotalCount+".",2);
 		}
 		internal void OnAuthenticating(ActiveUp.Net.Mail.AuthenticatingEventArgs e)
 		{
 			if(Authenticating!=null) Authenticating(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Authenticating as "+e.Username+" on "+e.Host+"...",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Authenticating as " + e.Username+" on "+e.Host+"...",2);
 		}
 		internal void OnAuthenticated(ActiveUp.Net.Mail.AuthenticatedEventArgs e)
 		{
 			if(Authenticated!=null) Authenticated(this,e);
-			ActiveUp.Net.Mail.Logger.AddEntry("Authenticated as "+e.Username+" on "+e.Host+".",2);
+			ActiveUp.Net.Mail.Logger.AddEntry(GetType(), "Authenticated as " + e.Username+" on "+e.Host+".",2);
         }
         /// <summary>
         /// Gets a value indicating whether this instance is connected.

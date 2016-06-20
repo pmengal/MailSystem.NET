@@ -25,7 +25,7 @@ using ActiveUp.Net.Mail;
 namespace ActiveUp.Net.Security
 {
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class Signature
     {
@@ -35,7 +35,7 @@ namespace ActiveUp.Net.Security
         }
         public Signature(Message signedMessage)
         {
-            this._signedMessage = signedMessage;
+            _signedMessage = signedMessage;
         }
         public static Signature Parse(string input)
         {
@@ -46,7 +46,7 @@ namespace ActiveUp.Net.Security
             Signature signature = signedMessage != null ? new Signature(signedMessage) : new Signature();
 
             MatchCollection matches = Regex.Matches(input, @"[a-zA-Z]+=[^;]+(?=(;|\Z))");
-            ActiveUp.Net.Mail.Logger.AddEntry(matches.Count.ToString());
+            Logger.AddEntry(typeof(Signature), matches.Count.ToString());
             foreach (Match m in matches)
             {
                 string tag = m.Value.Substring(0,m.Value.IndexOf('='));
@@ -167,18 +167,18 @@ namespace ActiveUp.Net.Security
         }*/
         public PublicKeyRecord GetPublicKeyRecord()
         {
-            byte[] data = Validator.GetTxtRecords(this.Selector+"._domainkey."+this.Domain);
+            byte[] data = Validator.GetTxtRecords(Selector + "._domainkey." + Domain);
             return PublicKeyRecord.Parse(Encoding.ASCII.GetString(data,0,data.Length));
         }
         public SendingDomainPolicy GetSendingDomainPolicy()
         {
-            byte[] data = Validator.GetTxtRecords("._domainkey." + this.Domain);
+            byte[] data = Validator.GetTxtRecords("._domainkey." + Domain);
             return SendingDomainPolicy.Parse(Encoding.ASCII.GetString(data,0,data.Length));
         }
         public bool Verify()
         {
-            if (this._signedMessage == null) throw new NotSupportedException("The signature must me associated with a message in order to be verified");
-            return Verify(this._signedMessage.OriginalData, this._signedMessage.Signatures.DomainKeys);
+            if (_signedMessage == null) throw new NotSupportedException("The signature must me associated with a message in order to be verified");
+            return Verify(_signedMessage.OriginalData, _signedMessage.Signatures.DomainKeys);
         }
         private static void FillRSAPublicKeyParameters(byte[] key, ref RSAParameters param)
         {
@@ -304,43 +304,43 @@ namespace ActiveUp.Net.Security
 
         public string Algorithm
         {
-            get { return this._a; }
-            set { this._a = value; }
+            get { return _a; }
+            set { _a = value; }
         }
         public byte[] Data
         {
-            get { return this._b; }
-            set { this._b = value; }
+            get { return _b; }
+            set { _b = value; }
         }
         public string DataBase64
         {
-            get { return this._b64; }
-            set { this._b64 = value; }
+            get { return _b64; }
+            set { _b64 = value; }
         }
         public CanonicalizationAlgorithm CanonicalizationAlgorithm
         {
-            get { return this._c; }
-            set { this._c = value; }
+            get { return _c; }
+            set { _c = value; }
         }
         public QueryMethod QueryMethod
         {
-            get { return this._q; }
-            set { this._q = value; }
+            get { return _q; }
+            set { _q = value; }
         }
         public string[] SignedHeaders
         {
-            get { return this._h; }
-            set { this._h = value; }
+            get { return _h; }
+            set { _h = value; }
         }
         public string Domain
         {
-            get { return this._d; }
-            set { this._d = value; }
+            get { return _d; }
+            set { _d = value; }
         }
         public string Selector
         {
-            get { return this._s; }
-            set { this._s = value; }
+            get { return _s; }
+            set { _s = value; }
         }
     }
 }
