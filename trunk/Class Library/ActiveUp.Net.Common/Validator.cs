@@ -19,8 +19,6 @@
 using System;
 using System.Collections;
 using System.Linq;
-using Microsoft.Win32;
-using ActiveUp.Net.Mail;
 #if !PocketPC
 using System.Net.NetworkInformation;
 #endif
@@ -28,17 +26,16 @@ using System.Net;
 using ActiveUp.Net.Dns;
 using System.Collections.Generic;
 
-namespace ActiveUp.Net.Mail
-{
-	/// <summary>
-	/// 
-	/// </summary>
+namespace ActiveUp.Net.Mail {
+    /// <summary>
+    /// 
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public class Validator
 	{
-		ActiveUp.Net.Mail.ServerCollection _dnsServers = new ActiveUp.Net.Mail.ServerCollection();
+        ServerCollection _dnsServers = new ServerCollection();
 
 	    /// <summary>
 		/// Validates the address' syntax.
@@ -54,20 +51,22 @@ namespace ActiveUp.Net.Mail
 		/// </summary>
 		/// <param name="address">The address to be validated.</param>
 		/// <returns>True if syntax is valid, otherwise false.</returns>
-		public static bool ValidateSyntax(ActiveUp.Net.Mail.Address address)
+		public static bool ValidateSyntax(Address address)
 		{
-			System.Int32.Parse("20",System.Globalization.NumberStyles.HexNumber);
-			return ActiveUp.Net.Mail.Validator.ValidateSyntax(address.Email);
+            int.Parse("20",System.Globalization.NumberStyles.HexNumber);
+			return ValidateSyntax(address.Email);
 		}
 		/// <summary>
 		/// Validates the addresses' syntax.
 		/// </summary>
 		/// <param name="address">The addresses to be validated.</param>
 		/// <returns>True if syntax is valid, otherwise false.</returns>
-		public static ActiveUp.Net.Mail.AddressCollection ValidateSyntax(ActiveUp.Net.Mail.AddressCollection addresses)
+		public static AddressCollection ValidateSyntax(AddressCollection addresses)
 		{
-			ActiveUp.Net.Mail.AddressCollection invalids = new ActiveUp.Net.Mail.AddressCollection();
-			foreach(ActiveUp.Net.Mail.Address address in addresses) if(!ActiveUp.Net.Mail.Validator.ValidateSyntax(address.Email)) invalids.Add(address);
+            AddressCollection invalids = new AddressCollection();
+			foreach(Address address in addresses)
+                if (!ValidateSyntax(address.Email))
+                    invalids.Add(address);
 			return invalids;
 		}
 
@@ -93,7 +92,7 @@ namespace ActiveUp.Net.Mail
 
 			if (nameServers.Count > 0)
 			{
-				ActiveUp.Net.Mail.Logger.AddEntry("Name servers found : " + nameServers.Count.ToString(), 0);
+                Logger.AddEntry(typeof(Validator), "Name servers found : " + nameServers.Count.ToString(), 0);
 
 				foreach(string server in nameServers)
 				{
@@ -101,18 +100,18 @@ namespace ActiveUp.Net.Mail
 					{
 						try
 						{
-							ActiveUp.Net.Mail.Logger.AddEntry("Ask " + server + ":53 for MX records.", 0); 
+                            Logger.AddEntry(typeof(Validator), "Ask " + server + ":53 for MX records.", 0); 
 							return GetMxRecords(address, server, 53, timeout);
 						}
 						catch
 						{
-							ActiveUp.Net.Mail.Logger.AddEntry("Can't connect to " + server + ":53", 0);
+                            Logger.AddEntry(typeof(Validator), "Can't connect to " + server + ":53", 0);
 						}
 					}
 				}
 			}
 
-			ActiveUp.Net.Mail.Logger.AddEntry("Can't connect to any of the specified DNS servers.", 0);
+            Logger.AddEntry(typeof(Validator), "Can't connect to any of the specified DNS servers.", 0);
 
 			return null;
 		}
@@ -138,26 +137,19 @@ namespace ActiveUp.Net.Mail
             ArrayList nameServers = GetListNameServers();
             if (nameServers.Count > 0)
             {
-                ActiveUp.Net.Mail.Logger.AddEntry("Name servers found : " + nameServers.Count.ToString(), 0);
+                Logger.AddEntry(typeof(Validator), "Name servers found : " + nameServers.Count.ToString(), 0);
 
                 foreach (string server in nameServers)
                 {
                     if (server.Length > 3)
                     {
-                        //try
-                        //{
-                            ActiveUp.Net.Mail.Logger.AddEntry("Ask " + server + ":53 for TXT records.", 0);
-                            return GetTxtRecords(address, server, 53);
-                        //}
-                        //catch
-                        //{
-                            ActiveUp.Net.Mail.Logger.AddEntry("Can't connect to " + server + ":53", 0);
-                        //}
+                        Logger.AddEntry(typeof(Validator), "Ask " + server + ":53 for TXT records.", 0);
+                        return GetTxtRecords(address, server, 53);
                     }
                 }
             }
 
-            ActiveUp.Net.Mail.Logger.AddEntry("Can't connect to any of the specified DNS servers.", 0);
+            Logger.AddEntry(typeof(Validator), "Can't connect to any of the specified DNS servers.", 0);
 
             return null;
         }
@@ -169,7 +161,7 @@ namespace ActiveUp.Net.Mail
         /// <param name="dnsServers">Servers to be used for MX records search.</param>
         /// <param name="timeout">The timeout in miliseconds.</param>
         /// <returns>A collection of Mx Records.</returns>
-        public static ActiveUp.Net.Mail.MxRecordCollection GetMxRecords(string address, ActiveUp.Net.Mail.ServerCollection dnsServers)
+        public static MxRecordCollection GetMxRecords(string address, ServerCollection dnsServers)
         {
             return GetMxRecords(address, dnsServers, 5000);
         }
@@ -180,8 +172,7 @@ namespace ActiveUp.Net.Mail
 		/// <param name="address">The domain name.</param>
 		/// <param name="dnsServers">Servers to be used for MX records search.</param>
 		/// <returns>A collection of Mx Records.</returns>
-		public static ActiveUp.Net.Mail.MxRecordCollection GetMxRecords(string address, 
-            ActiveUp.Net.Mail.ServerCollection dnsServers, int timeout)
+		public static MxRecordCollection GetMxRecords(string address, ServerCollection dnsServers, int timeout)
 		{
             if (dnsServers == null)
                 dnsServers = new ServerCollection();
@@ -202,7 +193,7 @@ namespace ActiveUp.Net.Mail
 #endif
             }
 
-			foreach(ActiveUp.Net.Mail.Server server in dnsServers)
+			foreach(Server server in dnsServers)
 			{
 				try
 				{
@@ -210,7 +201,7 @@ namespace ActiveUp.Net.Mail
 				}
 				catch
 				{
-					ActiveUp.Net.Mail.Logger.AddEntry("Can't connect to " + server.Host + ":" + server.Port, 0);
+                    Logger.AddEntry(typeof(Validator), "Can't connect to " + server.Host + ":" + server.Port, 0);
 				}
 			}
 
@@ -226,7 +217,7 @@ namespace ActiveUp.Net.Mail
     /// <param name="host">The host name of the DNS server to use.</param>
     /// <param name="port">The port number of the DNS server to use.</param>
     /// <returns>A collection of Mx Records.</returns>
-    public static ActiveUp.Net.Mail.MxRecordCollection GetMxRecords(string address, string host, int port)
+    public static MxRecordCollection GetMxRecords(string address, string host, int port)
     {
         return GetMxRecords(address, host, port, 5000);
     }
@@ -239,7 +230,7 @@ namespace ActiveUp.Net.Mail
 	/// <param name="port">The port number of the DNS server to use.</param>
     /// <param name="timeout">The timeout in miliseconds.</param>
     /// <returns>A collection of Mx Records.</returns>
-	public static ActiveUp.Net.Mail.MxRecordCollection GetMxRecords(string address, string host, int port, int timeout)
+	public static MxRecordCollection GetMxRecords(string address, string host, int port, int timeout)
 	{
         var mxRecords = new MxRecordCollection();
 
@@ -270,9 +261,9 @@ namespace ActiveUp.Net.Mail
             int pos = 0;
             foreach (string part in addressParts)
             {
-                label[pos++] = System.Convert.ToByte(part.Length);
+                label[pos++] = Convert.ToByte(part.Length);
                 foreach (char character in part)
-                    label[pos++] = System.Convert.ToByte(character);
+                    label[pos++] = Convert.ToByte(character);
                 label[pos] = 0;
             }
             byte[] footer = { 0, 16, 0, 1 };
@@ -286,9 +277,9 @@ namespace ActiveUp.Net.Mail
 
             // Send the query
             //System.Net.IPEndPoint endPoint = new System.Net.IPEndPoint(GetIpAddress(dnsHost), 53);
-            System.Net.IPEndPoint endPoint = new System.Net.IPEndPoint(System.Net.IPAddress.Parse(host), 53);
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(host), 53);
             //System.Net.Sockets.UdpClient udpClient = new System.Net.Sockets.UdpClient();
-            ActiveUp.Net.Mail.TimedUdpClient udpClient = new ActiveUp.Net.Mail.TimedUdpClient();
+            TimedUdpClient udpClient = new TimedUdpClient();
             udpClient.Connect(endPoint);
             udpClient.Send(query, query.Length);
             byte[] response2;
@@ -296,10 +287,10 @@ namespace ActiveUp.Net.Mail
             {
                 response2 = udpClient.Receive(ref endPoint);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 udpClient.Close();
-                throw new System.Exception("Can't connect to DNS server.");
+                throw new Exception("Can't connect to DNS server.");
             }
 
             //System.IO.FileStream fs = new System.IO.FileStream("c:\\Inetpub\\wwwroot\\brol.txt", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write);

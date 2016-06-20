@@ -305,115 +305,115 @@ namespace ActiveUp.Net.Mail {
         {
             if (Authenticating != null)
                 Authenticating(this, e);
-            Logger.AddEntry("Authenticating as <" + e.Username + "> on <" + e.Host + ">...", 2);
+            Logger.AddEntry(GetType(), "Authenticating as <" + e.Username + "> on <" + e.Host + ">...", 2);
         }
         internal void OnAuthenticated(AuthenticatedEventArgs e) 
         {
             if (Authenticated != null)
                 Authenticated(this, e);
-            Logger.AddEntry("Authenticated as <" + e.Username + "> on <" + e.Host + ">.", 2);
+            Logger.AddEntry(GetType(), "Authenticated as <" + e.Username + "> on <" + e.Host + ">.", 2);
         }
         internal void OnNooping() 
         {
             if (Nooping != null)
                 Nooping(this);
-            Logger.AddEntry("Nooping...", 1);
+            Logger.AddEntry(GetType(), "Nooping...", 1);
         }
         internal void OnNooped() 
         {
             if (Nooped != null)
                 Nooped(this);
-            Logger.AddEntry("Nooped.", 1);
+            Logger.AddEntry(GetType(), "Nooped.", 1);
         }
         internal void OnTcpWriting(TcpWritingEventArgs e)
         {
             if (TcpWriting != null)
                 TcpWriting(this, e);
-            Logger.AddEntry("Sending <" + e.Command.Trim() + ">", 1);
+            Logger.AddEntry(GetType(), "Sending <" + e.Command.Trim() + ">", 1);
         }
         internal void OnTcpWritten(TcpWrittenEventArgs e)
         {
             if (TcpWritten != null)
                 TcpWritten(this, e);
-            Logger.AddEntry("Sent <" + e.Command.Trim() + ">", 1);
+            Logger.AddEntry(GetType(), "Sent <" + e.Command.Trim() + ">", 1);
         }
         internal void OnTcpReading()
         {
             if (TcpReading != null)
                 TcpReading(this);
-            Logger.AddEntry("Reading...", 1);
+            Logger.AddEntry(GetType(), "Reading...", 1);
         }
         internal void OnTcpRead(TcpReadEventArgs e)
         {
             if (TcpRead != null)
                 TcpRead(this, e);
-            Logger.AddEntry("Read <" + e.Response.Trim() + ">", 1);
+            Logger.AddEntry(GetType(), "Read <" + e.Response.Trim() + ">", 1);
         }
         internal void OnMessageRetrieving(MessageRetrievingEventArgs e)
         {
             if (MessageRetrieving != null)
                 MessageRetrieving(this, e);
-            Logger.AddEntry("Retrieving message at index <" + e.MessageIndex + ">...", 2);
+            Logger.AddEntry(GetType(), "Retrieving message at index <" + e.MessageIndex + ">...", 2);
         }
         internal void OnMessageRetrieved(MessageRetrievedEventArgs e)
         {
             if (MessageRetrieved != null)
                 MessageRetrieved(this, e);
-            Logger.AddEntry("Retrieved message at index <" + e.MessageIndex + ">.", 2);
+            Logger.AddEntry(GetType(), "Retrieved message at index <" + e.MessageIndex + ">.", 2);
         }
         internal void OnHeaderRetrieving(HeaderRetrievingEventArgs e)
         {
             if (HeaderRetrieving != null)
                 HeaderRetrieving(this, e);
-            Logger.AddEntry("Retrieving Header at index <" + e.MessageIndex + ">...", 2);
+            Logger.AddEntry(GetType(), "Retrieving Header at index <" + e.MessageIndex + ">...", 2);
         }
         internal void OnHeaderRetrieved(HeaderRetrievedEventArgs e)
         {
             if (HeaderRetrieved != null)
                 HeaderRetrieved(this, e);
-            Logger.AddEntry("Retrieved Header at index <" + e.MessageIndex + ">.", 2);
+            Logger.AddEntry(GetType(), "Retrieved Header at index <" + e.MessageIndex + ">.", 2);
         }
         internal void OnDisconnecting()
         {
             if (Disconnecting != null)
                 Disconnecting(this);
-            Logger.AddEntry("Disconnecting...", 2);
+            Logger.AddEntry(GetType(), "Disconnecting...", 2);
         }
         internal void OnDisconnected(DisconnectedEventArgs e)
         {
             if (Disconnected != null)
                 Disconnected(this, e);
-            Logger.AddEntry("Disconnected.", 2);
+            Logger.AddEntry(GetType(), "Disconnected.", 2);
         }
         internal void OnConnecting()
         {
             if (Connecting != null)
                 Connecting(this);
-            Logger.AddEntry("Connecting...", 2);
+            Logger.AddEntry(GetType(), "Connecting...", 2);
         }
         internal void OnConnected(ConnectedEventArgs e)
         {
             if (Connected != null)
                 Connected(this, e);
-            Logger.AddEntry("Connected. Server replied <" + e.ServerResponse.Trim() + ">.", 2);
+            Logger.AddEntry(GetType(), "Connected. Server replied <" + e.ServerResponse.Trim() + ">.", 2);
         }
         internal void OnMessageSending(MessageSendingEventArgs e)
         {
             if (MessageSending != null)
                 MessageSending(this, e);
-            Logger.AddEntry("Sending message with subject: <" + e.Message.Subject + ">...", 2);
+            Logger.AddEntry(GetType(), "Sending message with subject: <" + e.Message.Subject + ">...", 2);
         }
         internal void OnMessageSent(MessageSentEventArgs e)
         {
             if (MessageSent != null)
                 MessageSent(this, e);
-            Logger.AddEntry("Sent message with subject: <" + e.Message.Subject + ">.", 2);
+            Logger.AddEntry(GetType(), "Sent message with subject: <" + e.Message.Subject + ">.", 2);
         }
         internal void OnNewMessageReceived(NewMessageReceivedEventArgs e)
         {
             if (NewMessageReceived != null)
                 NewMessageReceived(this, e);
-            Logger.AddEntry("Received <" + e.MessageCount + "> new message(s).", 2);
+            Logger.AddEntry(GetType(), "Received <" + e.MessageCount + "> new message(s).", 2);
         }
 
         #endregion
@@ -1127,7 +1127,7 @@ namespace ActiveUp.Net.Mail {
                 {
                     if (sr.EndOfStream)
                     {
-                        Logger.AddEntry("read data from stream");
+                        Logger.AddEntry(GetType(), "read data from stream");
                         long streamPos = sr.BaseStream.Position;
                         receiveResponseData(sr.BaseStream);
                         sr.BaseStream.Seek(streamPos, SeekOrigin.Begin);
@@ -1136,10 +1136,10 @@ namespace ActiveUp.Net.Mail {
 
                     if (partResponse == null)
                     {
-                        Logger.AddEntry("part response is null");
+                        Logger.AddEntry(GetType(), "part response is null");
                         partResponse = "";
                     } else
-                        Logger.AddEntry("part response: " + partResponse);
+                        Logger.AddEntry(GetType(), "part response: " + partResponse);
                     buffer.Append(partResponse);
 
                     int pos = partResponse.Trim().LastIndexOf("\r\n");
