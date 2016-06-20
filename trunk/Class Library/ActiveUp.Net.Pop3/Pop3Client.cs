@@ -231,7 +231,7 @@ namespace ActiveUp.Net.Mail
         #endregion
 
         #region Private fields
-
+        private string host;
         int _messageCount;
         int _totalSize;
 #if !PocketPC
@@ -520,497 +520,489 @@ namespace ActiveUp.Net.Mail
 
         #region Connecting, authenticating and disconnecting
 
-            #region Cleartext methods
+        #region Cleartext methods
 
-            /// <summary>
-            /// Connects the object with the remote POP server using the given parameters.
-            /// </summary>
-            /// <param name="host">Remote POP server address.</param>
-            /// <returns>The server's welcome greeting.</returns>
-            /// <example>
-            /// <code>
-            /// C#
-            /// 
-            /// Pop3Client pop = new Pop3Client();
-            /// pop.Connect("mail.myhost.com");
-            /// 
-            /// VB.NET
-            /// 
-            /// Dim pop As New Pop3Client
-            /// pop.Connect("mail.myhost.com")
-            /// 
-            /// JScript.NET
-            /// 
-            /// var pop:Pop3Client = new Pop3Client();
-            /// pop.Connect("mail.myhost.com");
-            /// </code>
-            /// </example>
-            public string Connect(string host)
-            {
-                return this.Connect(host, 110);
-            }
-            public IAsyncResult BeginConnect(string host, AsyncCallback callback)
-            {
-                return this.BeginConnect(host, 110, callback);
-            }
+        /// <summary>
+        /// Connects the object with the remote POP server using the given parameters.
+        /// </summary>
+        /// <param name="host">Remote POP server address.</param>
+        /// <returns>The server's welcome greeting.</returns>
+        /// <example>
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.Connect("mail.myhost.com");
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New Pop3Client
+        /// pop.Connect("mail.myhost.com")
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.Connect("mail.myhost.com");
+        /// </code>
+        /// </example>
+        public string Connect(string host)
+        {
+            return this.Connect(host, 110);
+        }
+        public IAsyncResult BeginConnect(string host, AsyncCallback callback)
+        {
+            return this.BeginConnect(host, 110, callback);
+        }
 
-            /// <summary>
-            /// Connects the object with the remote POP server using the given parameters.
-            /// </summary>
-            /// <param name="host">Remote POP server address.</param>
-            /// <param name="port">The port to be used.</param>
-            /// <returns>The server's welcome greeting.</returns>
-            /// <example>
-            /// <code>
-            /// C#
-            /// 
-            /// Pop3Client pop = new Pop3Client();
-            /// pop.Connect("mail.myhost.com",8503);
-            /// 
-            /// VB.NET
-            /// 
-            /// Dim pop As New Pop3Client
-            /// pop.Connect("mail.myhost.com",8503)
-            /// 
-            /// JScript.NET
-            /// 
-            /// var pop:Pop3Client = new Pop3Client();
-            /// pop.Connect("mail.myhost.com",8503);
-            /// </code>
-            /// </example>
-            public new string Connect(string host, int port)
-            {
-                this.OnConnecting();
-                base.Connect(host, port);
-                string response = "";
-                response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                return response;
-            }
-            public IAsyncResult BeginConnect(string host, int port, AsyncCallback callback)
-            {
-                this._delegateConnect = this.Connect;
-                return this._delegateConnect.BeginInvoke(host, port, callback, this._delegateConnect);
-            }
+        /// <summary>
+        /// Connects the object with the remote POP server using the given parameters.
+        /// </summary>
+        /// <param name="host">Remote POP server address.</param>
+        /// <param name="port">The port to be used.</param>
+        /// <returns>The server's welcome greeting.</returns>
+        /// <example>
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.Connect("mail.myhost.com",8503);
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New Pop3Client
+        /// pop.Connect("mail.myhost.com",8503)
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.Connect("mail.myhost.com",8503);
+        /// </code>
+        /// </example>
+        public new string Connect(string host, int port)
+        {
+            this.OnConnecting();
+            base.Connect(host, port);
+            string response = "";
+            response = this.ReadLine();
+            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            return response;
+        }
+        public IAsyncResult BeginConnect(string host, int port, AsyncCallback callback)
+        {
+            this._delegateConnect = this.Connect;
+            return this._delegateConnect.BeginInvoke(host, port, callback, this._delegateConnect);
+        }
 
-            public new string Connect(System.Net.IPAddress addr, int port)
-            {
-                this.OnConnecting();
-                base.Connect(addr, port);
-                string response = "";
-                response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                return response;
-            }
-            public IAsyncResult BeginConnect(System.Net.IPAddress addr, int port, AsyncCallback callback)
-            {
-                this._delegateConnectIPAddress = this.Connect;
-                return this._delegateConnectIPAddress.BeginInvoke(addr, port, callback, this._delegateConnectIPAddress);
-            }
+        public new string Connect(System.Net.IPAddress addr, int port)
+        {
+            this.OnConnecting();
+            base.Connect(addr, port);
+            string response = "";
+            response = this.ReadLine();
+            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            return response;
+        }
+        public IAsyncResult BeginConnect(System.Net.IPAddress addr, int port, AsyncCallback callback)
+        {
+            this._delegateConnectIPAddress = this.Connect;
+            return this._delegateConnectIPAddress.BeginInvoke(addr, port, callback, this._delegateConnectIPAddress);
+        }
 
 
-            public new string Connect(System.Net.IPAddress[] addresses, int port)
-            {
-                this.OnConnecting();
+        public new string Connect(System.Net.IPAddress[] addresses, int port)
+        {
+            this.OnConnecting();
 #if !PocketPC
-                base.Connect(addresses, port);
+            base.Connect(addresses, port);
 #else
-                if(addresses.Length>0)
-                    base.Connect(addresses[0], port);
-                PPCSleep();
+            if(addresses.Length>0)
+                base.Connect(addresses[0], port);
+            PPCSleep();
 #endif
-                string response = "";
-                response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                return response;
-            }
-            public IAsyncResult BeginConnect(System.Net.IPAddress[] addresses, int port, AsyncCallback callback)
-            {
-                this._delegateConnectIPAddresses = this.Connect;
-                return this._delegateConnectIPAddresses.BeginInvoke(addresses, port, callback, this._delegateConnectIPAddresses);
-            }
+            string response = "";
+            response = this.ReadLine();
+            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            return response;
+        }
+        public IAsyncResult BeginConnect(System.Net.IPAddress[] addresses, int port, AsyncCallback callback)
+        {
+            this._delegateConnectIPAddresses = this.Connect;
+            return this._delegateConnectIPAddresses.BeginInvoke(addresses, port, callback, this._delegateConnectIPAddresses);
+        }
 
-            public string Connect(string host, string username, string password)
-            {
-                return this.Connect(host, 110, username, password);
-            }
-            public IAsyncResult BeginConnect(string host, string username, string password, AsyncCallback callback)
-            {
-                return this.BeginConnect(host, 110, username, password, callback);
-            }
+        public string Connect(string host, string username, string password)
+        {
+            return this.Connect(host, 110, username, password);
+        }
+        public IAsyncResult BeginConnect(string host, string username, string password, AsyncCallback callback)
+        {
+            return this.BeginConnect(host, 110, username, password, callback);
+        }
 
-            public string Connect(string host, int port, string username, string password)
-            {
-                this.OnConnecting();
-                base.Connect(host, port);
-                string response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password, host));
-                response = this.Command("USER " + username);
-                string presponse = this.Command("PASS " + password);
-                this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, host, response));
-                response = this.Command("STAT");
-                this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
-                return presponse;
-            }
-            public IAsyncResult BeginConnect(string host, int port, string username, string password, AsyncCallback callback)
-            {
-                this._delegateConnectAuth = this.Connect;
-                return this._delegateConnectAuth.BeginInvoke(host, port, username, password, callback, this._delegateConnectAuth);
-            }
+        public string Connect(string host, int port, string username, string password)
+        {
+            Connect(host, port);
+            return Login(username, password);
+        }
 
-            public new string EndConnect(IAsyncResult result)
-            {
-                return (string)result.AsyncState.GetType().GetMethod("EndInvoke").Invoke(result.AsyncState, new object[] { result });
-            }
+        public string Login(string username, string password)
+        {
+            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password, this.host));
+            string response = this.Command("USER " + username);
+            string presponse = this.Command("PASS " + password);
+            this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, this.host, response));
+            response = this.Command("STAT");
+            this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
+            this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
+            return presponse;
+        }
 
-            /// <summary>
-            /// Connects the object with the remote POP server using the given parameters and APOP.
-            /// </summary>
-            /// <param name="user">Username on the remote POP server.</param>
-            /// <param name="pass">Password on the remote POP server.</param>
-            /// <param name="host">Remote POP server address.</param>
-            /// <example>
-            /// This will connect to the remote POP server using APOP.<br /><br />
-            /// <code>
-            /// C#
-            /// 
-            /// Pop3Client pop = new Pop3Client();
-            /// pop.APOPConnect("pop.myisp.com","username","password");
-            /// 
-            /// VB.NET
-            /// 
-            /// Dim pop As New Pop3Client()
-            /// pop.APOPConnect("pop.myisp.com","username","password")
-            /// 
-            /// JScript.NET
-            /// 
-            /// var pop:Pop3Client = new Pop3Client();
-            /// pop.APOPConnect("pop.myisp.com","username","password");
-            /// </code>
-            /// </example>
-            public string APOPConnect(string host, string user, string pass)
-            {
-                return this.APOPConnect(host, 110, user, pass);
-            }
-            public IAsyncResult BeginAPOPConnect(string host, string user, string pass, AsyncCallback callback)
-            {
-                return this.BeginAPOPConnect(host, 110, user, pass, callback);
-            }
+        public IAsyncResult BeginConnect(string host, int port, string username, string password, AsyncCallback callback)
+        {
+            this._delegateConnectAuth = this.Connect;
+            return this._delegateConnectAuth.BeginInvoke(host, port, username, password, callback, this._delegateConnectAuth);
+        }
 
-            /// <summary>
-            /// Connects the object with the remote POP server using the given parameters and APOP.
-            /// </summary>
-            /// <param name="user">Username on the remote POP server.</param>
-            /// <param name="pass">Password on the remote POP server.</param>
-            /// <param name="host">Remote POP server address.</param>
-            /// <param name="port">Port to be used.</param>
-            /// <example>
-            /// This will connect to the remote POP server using APOP.<br /><br />
-            /// <code>
-            /// C#
-            /// 
-            /// Pop3Client pop = new Pop3Client();
-            /// pop.APOPConnect("pop.myisp.com","username","password",8503);
-            /// 
-            /// VB.NET
-            /// 
-            /// Dim pop As New Pop3Client()
-            /// pop.APOPConnect("pop.myisp.com","username","password",8503)
-            /// 
-            /// JScript.NET
-            /// 
-            /// var pop:Pop3Client = new Pop3Client();
-            /// pop.APOPConnect("pop.myisp.com","username","password",8503);
-            /// </code>
-            /// </example>
-            public string APOPConnect(string host, int port, string user, string pass)
-            {
-                string response = this.Connect(host, port);
-                string presponse = "";
-                this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(user, pass, host));
-                Match timestamp = Regex.Match(response, @"<.+@.+>");
-                if (timestamp.Success)
-                {
-                    string encrypted = timestamp.Value + pass;
-                    presponse = this.Command("APOP " + user + " " + ActiveUp.Net.Mail.Crypto.MD5Digest(encrypted));
-                    this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(user, pass, host, response));
-                    response = this.Command("STAT");
-                    this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
-                    this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
-                }
-                return presponse;
-            }
-            public IAsyncResult BeginAPOPConnect(string host, int port, string username, string password, AsyncCallback callback)
-            {
-                this._delegateConnectAPOP = this.APOPConnect;
-                return this._delegateConnectAPOP.BeginInvoke(host, port, username, password, callback, this._delegateConnectAPOP);
-            }
+        public new string EndConnect(IAsyncResult result)
+        {
+            return (string)result.AsyncState.GetType().GetMethod("EndInvoke").Invoke(result.AsyncState, new object[] { result });
+        }
 
-            public string EndAPOPConnect(IAsyncResult result)
-            {
-                return (string)result.AsyncState.GetType().GetMethod("EndInvoke").Invoke(result.AsyncState, new object[] { result });
-            }
+        /// <summary>
+        /// Connects the object with the remote POP server using the given parameters and APOP.
+        /// </summary>
+        /// <param name="user">Username on the remote POP server.</param>
+        /// <param name="pass">Password on the remote POP server.</param>
+        /// <param name="host">Remote POP server address.</param>
+        /// <example>
+        /// This will connect to the remote POP server using APOP.<br /><br />
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.APOPConnect("pop.myisp.com","username","password");
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New Pop3Client()
+        /// pop.APOPConnect("pop.myisp.com","username","password")
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.APOPConnect("pop.myisp.com","username","password");
+        /// </code>
+        /// </example>
+        public string APOPConnect(string host, string user, string pass)
+        {
+            return this.APOPConnect(host, 110, user, pass);
+        }
+        public IAsyncResult BeginAPOPConnect(string host, string user, string pass, AsyncCallback callback)
+        {
+            return this.BeginAPOPConnect(host, 110, user, pass, callback);
+        }
 
-            /// <summary>
-            /// Gets a value indicating whether this instance is connected.
-            /// </summary>
-            /// <value>
-            /// 	<c>true</c> if this instance is connected; otherwise, <c>false</c>.
-            /// </value>
-            public bool IsConnected
+        /// <summary>
+        /// Connects the object with the remote POP server using the given parameters and APOP.
+        /// </summary>
+        /// <param name="user">Username on the remote POP server.</param>
+        /// <param name="pass">Password on the remote POP server.</param>
+        /// <param name="host">Remote POP server address.</param>
+        /// <param name="port">Port to be used.</param>
+        /// <example>
+        /// This will connect to the remote POP server using APOP.<br /><br />
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.APOPConnect("pop.myisp.com","username","password",8503);
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New Pop3Client()
+        /// pop.APOPConnect("pop.myisp.com","username","password",8503)
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.APOPConnect("pop.myisp.com","username","password",8503);
+        /// </code>
+        /// </example>
+        public string APOPConnect(string host, int port, string user, string pass)
+        {
+            string response = this.Connect(host, port);
+            string presponse = "";
+            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(user, pass, host));
+            Match timestamp = Regex.Match(response, @"<.+@.+>");
+            if (timestamp.Success)
             {
-                get
-                {
-                    if (this.Client != null)
-                        return this.Client.Connected;
-                    else
-                        return false;
-                }
-            }
-            #endregion
-                    
-            #region SSL methods
-
-#if !PocketPC
-            public string ConnectSsl(string host)
-            {
-                return this.ConnectSsl(host, 995, new ActiveUp.Net.Security.SslHandShake(host));
-            }
-            public IAsyncResult BeginConnectSsl(string host, AsyncCallback callback)
-            {
-                return this.BeginConnectSsl(host, 995, new ActiveUp.Net.Security.SslHandShake(host), callback);
-            }
-
-            public string ConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake)
-            {
-                return this.ConnectSsl(host, 995, sslHandShake);
-            }
-            public IAsyncResult BeginConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
-            {
-                return this.BeginConnectSsl(host, 995, sslHandShake, callback);
-            }
-            public string ConnectSsl(string host, int port)
-            {
-                return this.ConnectSsl(host, port, new ActiveUp.Net.Security.SslHandShake(host));
-            }
-            public IAsyncResult BeginConnectSsl(string host, int port, AsyncCallback callback)
-            {
-                return this.BeginConnectSsl(host, port, new SslHandShake(host), callback);
-            }
-
-            public string ConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
-            {
-                this.OnConnecting();
-                base.Connect(host, port);
-                this.DoSslHandShake(sslHandShake);
-                string response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                return response;
-            }
-            public IAsyncResult BeginConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
-            {
-                this._delegateConnectSsl = this.ConnectSsl;
-                return this._delegateConnectSsl.BeginInvoke(host, port, sslHandShake, callback, this._delegateConnectSsl);
-            }
-
-            public string ConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
-            {
-                this.OnConnecting();
-                base.Connect(addr, port);
-                this.DoSslHandShake(sslHandShake);
-                string response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                return response;
-            }
-            public IAsyncResult BeginConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
-            {
-                this._delegateConnectSslIPAddress = this.ConnectSsl;
-                return this._delegateConnectSslIPAddress.BeginInvoke(addr, port, sslHandShake, callback, this._delegateConnectSslIPAddress);
-            }
-
-            public string ConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
-            {
-                this.OnConnecting();
-                base.Connect(addresses, port);
-                this.DoSslHandShake(sslHandShake);
-                string response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                return response;
-            }
-            public IAsyncResult BeginConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
-            {
-                this._delegateConnectSslIPAddresses = this.ConnectSsl;
-                return this._delegateConnectSslIPAddresses.BeginInvoke(addresses, port, sslHandShake, callback, this._delegateConnectSslIPAddresses);
-            }
-            public string ConnectSsl(string host, string user, string pass)
-            {
-                return this.ConnectSsl(host, 995, user, pass, new SslHandShake(host));
-            }
-            public IAsyncResult BeginConnectSsl(string host, string user, string pass, AsyncCallback callback)
-            {
-                return this.BeginConnectSsl(host, 995, user, pass, new SslHandShake(host), callback);
-            }
-            public string ConnectSsl(string host, string user, string pass, SslHandShake sslHandShake)
-            {
-                return this.ConnectSsl(host, 995, user, pass, sslHandShake);
-            }
-            public IAsyncResult BeginConnectSsl(string host, string user, string pass, SslHandShake sslHandShake, AsyncCallback callback)
-            {
-                return this.BeginConnectSsl(host, 995, user, pass, sslHandShake, callback);
-            }
-            public string ConnectSsl(string host, int port, string user, string pass)
-            {
-                return this.ConnectSsl(host, port, user, pass, new SslHandShake(host));
-            }
-            public IAsyncResult BeginConnectSsl(string host, int port, string user, string pass, AsyncCallback callback)
-            {
-                return this.BeginConnectSsl(host, port, user, pass, new SslHandShake(host), callback);
-            }
-
-            public string ConnectSsl(string host, int port, string user, string pass, SslHandShake sslHandShake)
-            {
-                this.OnConnecting();
-                base.Connect(host, port);
-                this.DoSslHandShake(sslHandShake);
-                string response = this.ReadLine();
-                this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
-                this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(user, pass, host));
-                response = this.Command("USER " + user);
-                string presponse = this.Command("PASS " + pass);
+                string encrypted = timestamp.Value + pass;
+                presponse = this.Command("APOP " + user + " " + ActiveUp.Net.Mail.Crypto.MD5Digest(encrypted));
                 this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(user, pass, host, response));
                 response = this.Command("STAT");
                 this._messageCount = System.Convert.ToInt32(response.Split(' ')[1]);
                 this._totalSize = System.Convert.ToInt32(response.Split(' ')[2]);
-                return presponse;
             }
-            public IAsyncResult BeginConnectSsl(string host, int port, string user, string pass, SslHandShake sslHandShake, AsyncCallback callback)
-            {
-                this._delegateConnectSslAuth = this.ConnectSsl;
-                return this._delegateConnectSslAuth.BeginInvoke(host, port, user, pass, sslHandShake, callback, this._delegateConnectSslAuth);
-            }
+            return presponse;
+        }
+        public IAsyncResult BeginAPOPConnect(string host, int port, string username, string password, AsyncCallback callback)
+        {
+            this._delegateConnectAPOP = this.APOPConnect;
+            return this._delegateConnectAPOP.BeginInvoke(host, port, username, password, callback, this._delegateConnectAPOP);
+        }
 
-            public string EndConnectSsl(IAsyncResult result)
+        public string EndAPOPConnect(IAsyncResult result)
+        {
+            return (string)result.AsyncState.GetType().GetMethod("EndInvoke").Invoke(result.AsyncState, new object[] { result });
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is connected.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is connected; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsConnected
+        {
+            get
             {
-                return (string)result.AsyncState.GetType().GetMethod("EndInvoke").Invoke(result.AsyncState, new object[] { result });
+                if (this.Client != null)
+                    return this.Client.Connected;
+                else
+                    return false;
             }
+        }
+        #endregion
+                    
+        #region SSL methods
+
+#if !PocketPC
+        public string ConnectSsl(string host)
+        {
+            return this.ConnectSsl(host, 995, new ActiveUp.Net.Security.SslHandShake(host));
+        }
+        public IAsyncResult BeginConnectSsl(string host, AsyncCallback callback)
+        {
+            return this.BeginConnectSsl(host, 995, new ActiveUp.Net.Security.SslHandShake(host), callback);
+        }
+
+        public string ConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        {
+            return this.ConnectSsl(host, 995, sslHandShake);
+        }
+        public IAsyncResult BeginConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        {
+            return this.BeginConnectSsl(host, 995, sslHandShake, callback);
+        }
+        public string ConnectSsl(string host, int port)
+        {
+            return this.ConnectSsl(host, port, new ActiveUp.Net.Security.SslHandShake(host));
+        }
+        public IAsyncResult BeginConnectSsl(string host, int port, AsyncCallback callback)
+        {
+            return this.BeginConnectSsl(host, port, new SslHandShake(host), callback);
+        }
+
+        public string ConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        {
+            this.OnConnecting();
+            base.Connect(host, port);
+            this.DoSslHandShake(sslHandShake);
+            string response = this.ReadLine();
+            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            return response;
+        }
+        public IAsyncResult BeginConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        {
+            this._delegateConnectSsl = this.ConnectSsl;
+            return this._delegateConnectSsl.BeginInvoke(host, port, sslHandShake, callback, this._delegateConnectSsl);
+        }
+
+        public string ConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        {
+            this.OnConnecting();
+            base.Connect(addr, port);
+            this.DoSslHandShake(sslHandShake);
+            string response = this.ReadLine();
+            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            return response;
+        }
+        public IAsyncResult BeginConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        {
+            this._delegateConnectSslIPAddress = this.ConnectSsl;
+            return this._delegateConnectSslIPAddress.BeginInvoke(addr, port, sslHandShake, callback, this._delegateConnectSslIPAddress);
+        }
+
+        public string ConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        {
+            this.OnConnecting();
+            base.Connect(addresses, port);
+            this.DoSslHandShake(sslHandShake);
+            string response = this.ReadLine();
+            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            return response;
+        }
+        public IAsyncResult BeginConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        {
+            this._delegateConnectSslIPAddresses = this.ConnectSsl;
+            return this._delegateConnectSslIPAddresses.BeginInvoke(addresses, port, sslHandShake, callback, this._delegateConnectSslIPAddresses);
+        }
+        public string ConnectSsl(string host, string user, string pass)
+        {
+            return this.ConnectSsl(host, 995, user, pass, new SslHandShake(host));
+        }
+        public IAsyncResult BeginConnectSsl(string host, string user, string pass, AsyncCallback callback)
+        {
+            return this.BeginConnectSsl(host, 995, user, pass, new SslHandShake(host), callback);
+        }
+        public string ConnectSsl(string host, string user, string pass, SslHandShake sslHandShake)
+        {
+            return this.ConnectSsl(host, 995, user, pass, sslHandShake);
+        }
+        public IAsyncResult BeginConnectSsl(string host, string user, string pass, SslHandShake sslHandShake, AsyncCallback callback)
+        {
+            return this.BeginConnectSsl(host, 995, user, pass, sslHandShake, callback);
+        }
+        public string ConnectSsl(string host, int port, string user, string pass)
+        {
+            return this.ConnectSsl(host, port, user, pass, new SslHandShake(host));
+        }
+        public IAsyncResult BeginConnectSsl(string host, int port, string user, string pass, AsyncCallback callback)
+        {
+            return this.BeginConnectSsl(host, port, user, pass, new SslHandShake(host), callback);
+        }
+
+        public string ConnectSsl(string host, int port, string user, string pass, SslHandShake sslHandShake)
+        {
+            ConnectSsl(host, port, sslHandShake);
+            return Login(user, pass);
+        }
+        public IAsyncResult BeginConnectSsl(string host, int port, string user, string pass, SslHandShake sslHandShake, AsyncCallback callback)
+        {
+            this._delegateConnectSslAuth = this.ConnectSsl;
+            return this._delegateConnectSslAuth.BeginInvoke(host, port, user, pass, sslHandShake, callback, this._delegateConnectSslAuth);
+        }
+
+        public string EndConnectSsl(IAsyncResult result)
+        {
+            return (string)result.AsyncState.GetType().GetMethod("EndInvoke").Invoke(result.AsyncState, new object[] { result });
+        }
 #endif
-            #endregion
+        #endregion
 
-            #region SASL authentication
+        #region SASL authentication
 
-            /// <summary>
-            /// Authenticates using the given SASL mechanism.
-            /// </summary>
-            /// <param name="username">Username to authenticate as.</param>
-            /// <param name="password">Password.</param>
-            /// <param name="mechanism">SASL mechanism to be used.</param>
-            /// <returns>The server's response.</returns>
-            /// <example>
-            /// <code>
-            /// C#
-            /// 
-            /// Pop3Client pop = new Pop3Client();
-            /// pop.Connect("mail.myhost.com");
-            /// pop.Authenticate("user","pass",SASLMechanism.CramMd5);
-            /// pop.Disconnect();
-            /// 
-            /// VB.NET
-            /// 
-            /// Dim pop As New Pop3Client
-            /// pop.Connect("mail.myhost.com")
-            /// pop.Authenticate("user","pass",SASLMechanism.CramMd5)
-            /// pop.Disconnect()
-            /// 
-            /// JScript.NET
-            /// 
-            /// var pop:Pop3Client = new Pop3Client();
-            /// pop.Connect("mail.myhost.com");
-            /// pop.Authenticate("user","pass",SASLMechanism.CramMd5);
-            /// pop.Disconnect();
-            /// </code>
-            /// </example>
-            public string Authenticate(string username, string password, SaslMechanism mechanism)
+        /// <summary>
+        /// Authenticates using the given SASL mechanism.
+        /// </summary>
+        /// <param name="username">Username to authenticate as.</param>
+        /// <param name="password">Password.</param>
+        /// <param name="mechanism">SASL mechanism to be used.</param>
+        /// <returns>The server's response.</returns>
+        /// <example>
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.Connect("mail.myhost.com");
+        /// pop.Authenticate("user","pass",SASLMechanism.CramMd5);
+        /// pop.Disconnect();
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New Pop3Client
+        /// pop.Connect("mail.myhost.com")
+        /// pop.Authenticate("user","pass",SASLMechanism.CramMd5)
+        /// pop.Disconnect()
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.Connect("mail.myhost.com");
+        /// pop.Authenticate("user","pass",SASLMechanism.CramMd5);
+        /// pop.Disconnect();
+        /// </code>
+        /// </example>
+        public string Authenticate(string username, string password, SaslMechanism mechanism)
+        {
+            switch (mechanism)
             {
-                switch (mechanism)
-                {
-                    case ActiveUp.Net.Mail.SaslMechanism.CramMd5:
-                        return this._CramMd5(username, password);
-                    case ActiveUp.Net.Mail.SaslMechanism.Login:
-                        return this._Login(username, password);
-                }
-                return string.Empty;
+                case ActiveUp.Net.Mail.SaslMechanism.CramMd5:
+                    return this._CramMd5(username, password);
+                case ActiveUp.Net.Mail.SaslMechanism.Login:
+                    return this._Login(username, password);
             }
+            return string.Empty;
+        }
 
-            public IAsyncResult BeginAuthenticate(string username, string password, SaslMechanism mechanism, AsyncCallback callback)
-            {
-                this._delegateAuthenticate = this.Authenticate;
-                return this._delegateAuthenticate.BeginInvoke(username, password, mechanism, callback, null);
-            }
+        public IAsyncResult BeginAuthenticate(string username, string password, SaslMechanism mechanism, AsyncCallback callback)
+        {
+            this._delegateAuthenticate = this.Authenticate;
+            return this._delegateAuthenticate.BeginInvoke(username, password, mechanism, callback, null);
+        }
 
-            public string EndAuthenticate(IAsyncResult result)
-            {
-                return this._delegateAuthenticate.EndInvoke(result);
-            }
+        public string EndAuthenticate(IAsyncResult result)
+        {
+            return this._delegateAuthenticate.EndInvoke(result);
+        }
 
-            #endregion
+        #endregion
 
-            #region Disconnect method
+        #region Disconnect method
 
-            /// <summary>
-            /// Disconnects the client from the remote server.
-            /// </summary>
-            /// <example>
-            /// <code>
-            /// C#
-            /// 
-            /// Pop3Client pop = new Pop3Client();
-            /// pop.Connect("mail.myhost.com","user","pass");
-            /// //Do some work...
-            /// pop.Disconnect();
-            /// 
-            /// VB.NET
-            /// 
-            /// Dim pop As New Pop3Client
-            /// pop.Connect("mail.myhost.com","user","pass")
-            /// 'Do some work...
-            /// pop.Disconnect()
-            /// 
-            /// JScript.NET
-            /// 
-            /// var pop:Pop3Client = new Pop3Client();
-            /// pop.Connect("mail.myhost.com","user","pass");
-            /// //Do some work...
-            /// pop.Disconnect();
-            /// </code>
-            /// </example>
-            public string Disconnect()
-            {
-                this.OnDisconnecting();
-                string response = this.Command("QUIT");
-                this.Close();
-                this.OnDisconnected(new ActiveUp.Net.Mail.DisconnectedEventArgs(response));
-                return response;
-            }
+        /// <summary>
+        /// Disconnects the client from the remote server.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.Connect("mail.myhost.com","user","pass");
+        /// //Do some work...
+        /// pop.Disconnect();
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New Pop3Client
+        /// pop.Connect("mail.myhost.com","user","pass")
+        /// 'Do some work...
+        /// pop.Disconnect()
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.Connect("mail.myhost.com","user","pass");
+        /// //Do some work...
+        /// pop.Disconnect();
+        /// </code>
+        /// </example>
+        public string Disconnect()
+        {
+            this.OnDisconnecting();
+            string response = this.Command("QUIT");
+            this.Close();
+            this.OnDisconnected(new ActiveUp.Net.Mail.DisconnectedEventArgs(response));
+            return response;
+        }
 
-            public IAsyncResult BeginDisconnect(AsyncCallback callback)
-            {
-                this._delegateDisconnect = this.Disconnect;
-                return this._delegateDisconnect.BeginInvoke(callback, null);
-            }
+        public IAsyncResult BeginDisconnect(AsyncCallback callback)
+        {
+            this._delegateDisconnect = this.Disconnect;
+            return this._delegateDisconnect.BeginInvoke(callback, null);
+        }
 
-            public string EndDisconnect(IAsyncResult result)
-            {
-                return this._delegateDisconnect.EndInvoke(result);
-            }
+        public string EndDisconnect(IAsyncResult result)
+        {
+            return this._delegateDisconnect.EndInvoke(result);
+        }
 
-            public void CloseBaseTCPConnection()
-            {
-                base.Close();
-            }
+        public void CloseBaseTCPConnection()
+        {
+            base.Close();
+        }
 
-            #endregion
+        #endregion
 
         #endregion
 
