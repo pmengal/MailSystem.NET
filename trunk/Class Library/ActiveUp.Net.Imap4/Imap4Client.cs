@@ -16,20 +16,18 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using ActiveUp.Net.Mail;
-using ActiveUp.Net.Security;
-using System.Text;
 using System.IO;
+using System.Text;
+using ActiveUp.Net.Security;
 
-namespace ActiveUp.Net.Mail
-{
+namespace ActiveUp.Net.Mail {
     #region Imap4Client Object version 2
 
     /// <summary>
     /// This class allows communication with an IMAP4 or IMAP4rev1 compatible server.
     /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class Imap4Client : System.Net.Sockets.TcpClient
     {
@@ -55,7 +53,7 @@ namespace ActiveUp.Net.Mail
 
         static string[] _badCommandStrings;
 
-        ActiveUp.Net.Mail.MailboxCollection _mailboxes, _allMailboxes = new ActiveUp.Net.Mail.MailboxCollection();
+        MailboxCollection _mailboxes, _allMailboxes = new MailboxCollection();
         private string host, _capabilities;
 #if !PocketPC
         System.Net.Security.SslStream _sslStream;
@@ -99,15 +97,15 @@ namespace ActiveUp.Net.Mail
         /// imap.Disconnect();
         /// </code>
         /// </example>
-        public ActiveUp.Net.Mail.MailboxCollection Mailboxes
+        public MailboxCollection Mailboxes
         {
             get
             {
-                return this._mailboxes;
+                return _mailboxes;
             }
             set
             {
-                this._mailboxes = value;
+                _mailboxes = value;
             }
         }
 
@@ -115,15 +113,15 @@ namespace ActiveUp.Net.Mail
         /// Same as the Mailboxes property, except that all mailboxes on the account are presented at the same level of hierarchy.
         /// In example, a child mailbox of the "INBOX" mailbox could be accessed directly with this collection.
         /// </summary>
-        public ActiveUp.Net.Mail.MailboxCollection AllMailboxes
+        public MailboxCollection AllMailboxes
         {
             get
             {
-                return this._allMailboxes;
+                return _allMailboxes;
             }
             set
             {
-                this._allMailboxes = value;
+                _allMailboxes = value;
             }
         }
 
@@ -134,11 +132,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._capabilities;
+                return _capabilities;
             }
             set
             {
-                this._capabilities = value;
+                _capabilities = value;
             }
         }
 
@@ -225,182 +223,200 @@ namespace ActiveUp.Net.Mail
         /// <summary>
         /// Event fired when authentication starts.
         /// </summary>
-        public event ActiveUp.Net.Mail.AuthenticatingEventHandler Authenticating;
+        public event AuthenticatingEventHandler Authenticating;
         /// <summary>
         /// Event fired when authentication completed.
         /// </summary>
-        public event ActiveUp.Net.Mail.AuthenticatedEventHandler Authenticated;
+        public event AuthenticatedEventHandler Authenticated;
         /// <summary>
         /// Event fired when NOOP command is issued.
         /// </summary>
-        public event ActiveUp.Net.Mail.NoopingEventHandler Nooping;
+        public event NoopingEventHandler Nooping;
         /// <summary>
         /// Event fired when NOOP command completed.
         /// </summary>
-        public event ActiveUp.Net.Mail.NoopedEventHandler Nooped;
+        public event NoopedEventHandler Nooped;
         /// <summary>
         /// Event fired when a command is being written to the server.
         /// </summary>
-        public event ActiveUp.Net.Mail.TcpWritingEventHandler TcpWriting;
+        public event TcpWritingEventHandler TcpWriting;
         /// <summary>
         /// Event fired when a command has been written to the server.
         /// </summary>
-        public event ActiveUp.Net.Mail.TcpWrittenEventHandler TcpWritten;
+        public event TcpWrittenEventHandler TcpWritten;
         /// <summary>
         /// Event fired when a response is being read from the server.
         /// </summary>
-        public event ActiveUp.Net.Mail.TcpReadingEventHandler TcpReading;
+        public event TcpReadingEventHandler TcpReading;
         /// <summary>
         /// Event fired when a response has been read from the server.
         /// </summary>
-        public event ActiveUp.Net.Mail.TcpReadEventHandler TcpRead;
+        public event TcpReadEventHandler TcpRead;
         /// <summary>
         /// Event fired when a message is being requested using the RetrieveMessage() method.
         /// </summary>
-        public event ActiveUp.Net.Mail.MessageRetrievingEventHandler MessageRetrieving;
+        public event MessageRetrievingEventHandler MessageRetrieving;
         /// <summary>
         /// Event fired when a message is being retrieved using the RetrieveMessage() method.
         /// </summary>
-        public event ActiveUp.Net.Mail.MessageRetrievedEventHandler MessageRetrieved;
+        public event MessageRetrievedEventHandler MessageRetrieved;
         /// <summary>
         /// Event fired when a message Header is being requested using the RetrieveHeader() method.
         /// </summary>
-        public event ActiveUp.Net.Mail.HeaderRetrievingEventHandler HeaderRetrieving;
+        public event HeaderRetrievingEventHandler HeaderRetrieving;
         /// <summary>
         /// Event fired when a message Header has been retrieved using the RetrieveHeader() method.
         /// </summary>
-        public event ActiveUp.Net.Mail.HeaderRetrievedEventHandler HeaderRetrieved;
+        public event HeaderRetrievedEventHandler HeaderRetrieved;
         /// <summary>
         /// Event fired when attempting to connect to the remote server using the specified host.
         /// </summary>
-        public event ActiveUp.Net.Mail.ConnectingEventHandler Connecting;
+        public event ConnectingEventHandler Connecting;
         /// <summary>
         /// Event fired when the object is connected to the remote server or when connection failed.
         /// </summary>
-        public new event ActiveUp.Net.Mail.ConnectedEventHandler Connected;
+        public new event ConnectedEventHandler Connected;
         /// <summary>
         /// Event fired when attempting to disconnect from the remote server.
         /// </summary>
-        public event ActiveUp.Net.Mail.DisconnectingEventHandler Disconnecting;
+        public event DisconnectingEventHandler Disconnecting;
         /// <summary>
         /// Event fired when the object disconnected from the remote server.
         /// </summary>
-        public event ActiveUp.Net.Mail.DisconnectedEventHandler Disconnected;
+        public event DisconnectedEventHandler Disconnected;
         /// <summary>
         /// Event fired when a message is being sent.
         /// </summary>
-        public event ActiveUp.Net.Mail.MessageSendingEventHandler MessageSending;
+        public event MessageSendingEventHandler MessageSending;
         /// <summary>
         /// Event fired when a message has been sent.
         /// </summary>
-        public event ActiveUp.Net.Mail.MessageSentEventHandler MessageSent;
+        public event MessageSentEventHandler MessageSent;
         /// <summary>
         /// Event fired when a new message received.
         /// </summary>
-        public event ActiveUp.Net.Mail.NewMessageReceivedEventHandler NewMessageReceived;
+        public event NewMessageReceivedEventHandler NewMessageReceived;
 
         #endregion
 
         #region Event triggers and logging
 
-        internal void OnAuthenticating(ActiveUp.Net.Mail.AuthenticatingEventArgs e)
+        internal void OnAuthenticating(AuthenticatingEventArgs e)
         {
-            if (Authenticating != null) Authenticating(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Authenticating as " + e.Username + " on " + e.Host + "...", 2);
+            if (Authenticating != null)
+                Authenticating(this, e);
+            Logger.AddEntry("Authenticating as <" + e.Username + "> on <" + e.Host + ">...", 2);
         }
-        internal void OnAuthenticated(ActiveUp.Net.Mail.AuthenticatedEventArgs e)
+        internal void OnAuthenticated(AuthenticatedEventArgs e) 
         {
-            if (Authenticated != null) Authenticated(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Authenticated as " + e.Username + " on " + e.Host + ".", 2);
+            if (Authenticated != null)
+                Authenticated(this, e);
+            Logger.AddEntry("Authenticated as <" + e.Username + "> on <" + e.Host + ">.", 2);
         }
-        internal void OnNooping()
+        internal void OnNooping() 
         {
-            if (Nooping != null) Nooping(this);
-            ActiveUp.Net.Mail.Logger.AddEntry("Nooping...", 1);
+            if (Nooping != null)
+                Nooping(this);
+            Logger.AddEntry("Nooping...", 1);
         }
-        internal void OnNooped()
+        internal void OnNooped() 
         {
-            if (Nooped != null) Nooped(this);
-            ActiveUp.Net.Mail.Logger.AddEntry("Nooped.", 1);
+            if (Nooped != null)
+                Nooped(this);
+            Logger.AddEntry("Nooped.", 1);
         }
-        internal void OnTcpWriting(ActiveUp.Net.Mail.TcpWritingEventArgs e)
+        internal void OnTcpWriting(TcpWritingEventArgs e)
         {
-            if (TcpWriting != null) TcpWriting(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Sending " + e.Command + "...", 1);
+            if (TcpWriting != null)
+                TcpWriting(this, e);
+            Logger.AddEntry("Sending <" + e.Command.Trim() + ">", 1);
         }
-        internal void OnTcpWritten(ActiveUp.Net.Mail.TcpWrittenEventArgs e)
+        internal void OnTcpWritten(TcpWrittenEventArgs e)
         {
-            if (TcpWritten != null) TcpWritten(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Sent " + e.Command + ".", 1);
+            if (TcpWritten != null)
+                TcpWritten(this, e);
+            Logger.AddEntry("Sent <" + e.Command.Trim() + ">", 1);
         }
         internal void OnTcpReading()
         {
-            if (TcpReading != null) TcpReading(this);
-            ActiveUp.Net.Mail.Logger.AddEntry("Reading...", 1);
+            if (TcpReading != null)
+                TcpReading(this);
+            Logger.AddEntry("Reading...", 1);
         }
-        internal void OnTcpRead(ActiveUp.Net.Mail.TcpReadEventArgs e)
+        internal void OnTcpRead(TcpReadEventArgs e)
         {
-            if (TcpRead != null) TcpRead(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Read " + e.Response + ".", 1);
+            if (TcpRead != null)
+                TcpRead(this, e);
+            Logger.AddEntry("Read <" + e.Response.Trim() + ">", 1);
         }
-        internal void OnMessageRetrieving(ActiveUp.Net.Mail.MessageRetrievingEventArgs e)
+        internal void OnMessageRetrieving(MessageRetrievingEventArgs e)
         {
-            if (MessageRetrieving != null) MessageRetrieving(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Retrieving message at index " + e.MessageIndex + "...", 2);
+            if (MessageRetrieving != null)
+                MessageRetrieving(this, e);
+            Logger.AddEntry("Retrieving message at index <" + e.MessageIndex + ">...", 2);
         }
-        internal void OnMessageRetrieved(ActiveUp.Net.Mail.MessageRetrievedEventArgs e)
+        internal void OnMessageRetrieved(MessageRetrievedEventArgs e)
         {
-            if (MessageRetrieved != null) MessageRetrieved(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Retrieved message at index " + e.MessageIndex + ".", 2);
+            if (MessageRetrieved != null)
+                MessageRetrieved(this, e);
+            Logger.AddEntry("Retrieved message at index <" + e.MessageIndex + ">.", 2);
         }
-        internal void OnHeaderRetrieving(ActiveUp.Net.Mail.HeaderRetrievingEventArgs e)
+        internal void OnHeaderRetrieving(HeaderRetrievingEventArgs e)
         {
-            if (HeaderRetrieving != null) HeaderRetrieving(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Retrieving Header at index " + e.MessageIndex + "...", 2);
+            if (HeaderRetrieving != null)
+                HeaderRetrieving(this, e);
+            Logger.AddEntry("Retrieving Header at index <" + e.MessageIndex + ">...", 2);
         }
-        internal void OnHeaderRetrieved(ActiveUp.Net.Mail.HeaderRetrievedEventArgs e)
+        internal void OnHeaderRetrieved(HeaderRetrievedEventArgs e)
         {
-            if (HeaderRetrieved != null) HeaderRetrieved(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Retrieved Header at index " + e.MessageIndex + ".", 2);
+            if (HeaderRetrieved != null)
+                HeaderRetrieved(this, e);
+            Logger.AddEntry("Retrieved Header at index <" + e.MessageIndex + ">.", 2);
         }
         internal void OnDisconnecting()
         {
-            if (Disconnecting != null) Disconnecting(this);
-            ActiveUp.Net.Mail.Logger.AddEntry("Disconnecting...", 2);
+            if (Disconnecting != null)
+                Disconnecting(this);
+            Logger.AddEntry("Disconnecting...", 2);
         }
-        internal void OnDisconnected(ActiveUp.Net.Mail.DisconnectedEventArgs e)
+        internal void OnDisconnected(DisconnectedEventArgs e)
         {
-            if (Disconnected != null) Disconnected(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Disconnected.", 2);
+            if (Disconnected != null)
+                Disconnected(this, e);
+            Logger.AddEntry("Disconnected.", 2);
         }
         internal void OnConnecting()
         {
-            if (Connecting != null) Connecting(this);
-            ActiveUp.Net.Mail.Logger.AddEntry("Connecting...", 2);
+            if (Connecting != null)
+                Connecting(this);
+            Logger.AddEntry("Connecting...", 2);
         }
-        internal void OnConnected(ActiveUp.Net.Mail.ConnectedEventArgs e)
+        internal void OnConnected(ConnectedEventArgs e)
         {
-            if (Connected != null) Connected(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Connected. Server replied : " + e.ServerResponse + ".", 2);
+            if (Connected != null)
+                Connected(this, e);
+            Logger.AddEntry("Connected. Server replied <" + e.ServerResponse.Trim() + ">.", 2);
         }
-        internal void OnMessageSending(ActiveUp.Net.Mail.MessageSendingEventArgs e)
+        internal void OnMessageSending(MessageSendingEventArgs e)
         {
-            if (MessageSending != null) MessageSending(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Sending message with subject : " + e.Message.Subject + "...", 2);
+            if (MessageSending != null)
+                MessageSending(this, e);
+            Logger.AddEntry("Sending message with subject: <" + e.Message.Subject + ">...", 2);
         }
-        internal void OnMessageSent(ActiveUp.Net.Mail.MessageSentEventArgs e)
+        internal void OnMessageSent(MessageSentEventArgs e)
         {
-            if (MessageSent != null) MessageSent(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("Sent message with subject : " + e.Message.Subject + "...", 2);
+            if (MessageSent != null)
+                MessageSent(this, e);
+            Logger.AddEntry("Sent message with subject: <" + e.Message.Subject + ">.", 2);
         }
-        internal void OnNewMessageReceived(ActiveUp.Net.Mail.NewMessageReceivedEventArgs e)
+        internal void OnNewMessageReceived(NewMessageReceivedEventArgs e)
         {
-            if (NewMessageReceived != null) NewMessageReceived(this, e);
-            ActiveUp.Net.Mail.Logger.AddEntry("New message received : " + e.MessageCount + "...", 2);
+            if (NewMessageReceived != null)
+                NewMessageReceived(this, e);
+            Logger.AddEntry("Received <" + e.MessageCount + "> new message(s).", 2);
         }
 
         #endregion
-
         #endregion
 
         #region Methods
@@ -409,37 +425,37 @@ namespace ActiveUp.Net.Mail
 
         protected string _CramMd5(string username, string password)
         {
-            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password));
-            string stamp = System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString());
-            byte[] data = System.Convert.FromBase64String(this.Command(stamp + " authenticate cram-md5", stamp).Split(' ')[1].Trim(new char[] { '\r', '\n' }));
-            string digest = System.Text.Encoding.ASCII.GetString(data, 0, data.Length);
-            string response = this.Command(System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(username + " " + ActiveUp.Net.Mail.Crypto.HMACMD5Digest(password, digest))), stamp);
-            this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, response));
-            this.LoadMailboxes();
+            OnAuthenticating(new AuthenticatingEventArgs(username, password));
+            string stamp = DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString());
+            byte[] data = Convert.FromBase64String(Command(stamp + " authenticate cram-md5", stamp).Split(' ')[1].Trim(new char[] { '\r', '\n' }));
+            string digest = Encoding.ASCII.GetString(data, 0, data.Length);
+            string response = Command(Convert.ToBase64String(Encoding.ASCII.GetBytes(username + " " + Crypto.HMACMD5Digest(password, digest))), stamp);
+            OnAuthenticated(new AuthenticatedEventArgs(username, password, response));
+            LoadMailboxes();
             return response;
         }
 
         protected string _Login(string username, string password)
         {
-            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password));
-            string stamp = System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString());
-            this.Command("authenticate login");
-            this.Command(System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(username)), stamp);
-            string response = this.Command(System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(password)), stamp);
-            this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, response));
-            this.LoadMailboxes();
+            OnAuthenticating(new AuthenticatingEventArgs(username, password));
+            string stamp = DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString());
+            Command("authenticate login");
+            Command(Convert.ToBase64String(Encoding.ASCII.GetBytes(username)), stamp);
+            string response = Command(Convert.ToBase64String(Encoding.ASCII.GetBytes(password)), stamp);
+            OnAuthenticated(new AuthenticatedEventArgs(username, password, response));
+            LoadMailboxes();
             return response;
         }
 
         protected string _Plain(string username, string password) 
         {
-            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password));
-            string stamp = System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString());
-            this.Command("authenticate plain", stamp);
-            string response = this.Command(System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes('\0' + username + '\0' + password)), "", stamp);
+            OnAuthenticating(new AuthenticatingEventArgs(username, password));
+            string stamp = DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString());
+            Command("authenticate plain", stamp);
+            string response = Command(Convert.ToBase64String(Encoding.UTF8.GetBytes('\0' + username + '\0' + password)), "", stamp);
             // needs to use UTF8 encoding instead of ASCII at least for password chars. _Login might need to use UTF8 as well
-            this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, response));
-            this.LoadMailboxes();
+            OnAuthenticated(new AuthenticatedEventArgs(username, password, response));
+            LoadMailboxes();
             return response;
         }
 
@@ -451,11 +467,11 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
         private void DoSslHandShake(ActiveUp.Net.Security.SslHandShake sslHandShake)
         {
-            this._sslStream = new System.Net.Security.SslStream(base.GetStream(), false, sslHandShake.ServerCertificateValidationCallback, sslHandShake.ClientCertificateSelectionCallback);
+            _sslStream = new System.Net.Security.SslStream(base.GetStream(), false, sslHandShake.ServerCertificateValidationCallback, sslHandShake.ClientCertificateSelectionCallback);
             bool authenticationFailed = false;
             try
             {
-                this._sslStream.AuthenticateAsClient(sslHandShake.HostName, sslHandShake.ClientCertificates, sslHandShake.SslProtocol, sslHandShake.CheckRevocation);
+                _sslStream.AuthenticateAsClient(sslHandShake.HostName, sslHandShake.ClientCertificates, sslHandShake.SslProtocol, sslHandShake.CheckRevocation);
             }
             catch
             {
@@ -465,17 +481,17 @@ namespace ActiveUp.Net.Mail
             if (authenticationFailed)
             {
                 System.Net.ServicePointManager.CertificatePolicy = new ActiveUp.Net.Security.TrustAllCertificatePolicy();
-                this._sslStream.AuthenticateAsClient(sslHandShake.HostName, sslHandShake.ClientCertificates, sslHandShake.SslProtocol, sslHandShake.CheckRevocation);
+                _sslStream.AuthenticateAsClient(sslHandShake.HostName, sslHandShake.ClientCertificates, sslHandShake.SslProtocol, sslHandShake.CheckRevocation);
             }
 
         }
 #endif
         private string ReadLine()
         {
-            this.OnTcpReading();
-            System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream(), true);
+            OnTcpReading();
+            StreamReader sr = new StreamReader(GetStream(), true);
             string response = sr.ReadLine();
-            this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(response));
+            OnTcpRead(new TcpReadEventArgs(response));
             return response;
         }
 
@@ -486,7 +502,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         private string renderSafeParam(string commandParam)
         {
-            if (this.IsUnsafeParamsAllowed)
+            if (IsUnsafeParamsAllowed)
                 return commandParam;
 
             var sb = new StringBuilder(commandParam);
@@ -498,16 +514,16 @@ namespace ActiveUp.Net.Mail
 
         private void receiveResponseData(Stream stream)
         {
-            byte[] readBuffer = new byte[this.Client.ReceiveBufferSize];
+            byte[] readBuffer = new byte[Client.ReceiveBufferSize];
             int readbytes = 0;
 
-            readbytes = this.GetStream().Read(readBuffer, 0, readBuffer.Length);
+            readbytes = GetStream().Read(readBuffer, 0, readBuffer.Length);
             while (readbytes > 0)
             {
                 stream.Write(readBuffer, 0, readbytes);
                 readbytes = 0;
-                if (this.Available > 0)
-                    readbytes = this.GetStream().Read(readBuffer, 0, readBuffer.Length);
+                if (Available > 0)
+                    readbytes = GetStream().Read(readBuffer, 0, readBuffer.Length);
             }
 
         }
@@ -548,7 +564,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string Connect(string host)
         {
-            return this.Connect(host, 143);
+            return Connect(host, 143);
         }
         /// <summary>
         /// Begins the connect.
@@ -558,8 +574,8 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public IAsyncResult BeginConnect(string host, AsyncCallback callback)
         {
-            this._delegateConnect = this.Connect;
-            return this._delegateConnect.BeginInvoke(host, 143, callback, this._delegateConnect);
+            _delegateConnect = Connect;
+            return _delegateConnect.BeginInvoke(host, 143, callback, _delegateConnect);
         }
 
         /// <summary>
@@ -592,11 +608,11 @@ namespace ActiveUp.Net.Mail
         public new string Connect(string host, int port)
         {
             this.host = host;
-            this.OnConnecting();
+            OnConnecting();
             base.Connect(host, port);
-            string response = this.ReadLine();
-            this.ServerCapabilities = this.Command("capability");
-            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            string response = ReadLine();
+            ServerCapabilities = Command("capability");
+            OnConnected(new ConnectedEventArgs(response));
             return response;
         }
         /// <summary>
@@ -608,8 +624,8 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public IAsyncResult BeginConnect(string host, int port, AsyncCallback callback)
         {
-            this._delegateConnect = this.Connect;
-            return this._delegateConnect.BeginInvoke(host, port, callback, this._delegateConnect);
+            _delegateConnect = Connect;
+            return _delegateConnect.BeginInvoke(host, port, callback, _delegateConnect);
         }
 
         /// <summary>
@@ -620,11 +636,11 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public new string Connect(System.Net.IPAddress addr, int port)
         {
-            this.OnConnecting();
+            OnConnecting();
             base.Connect(addr, port);
-            string response = this.ReadLine();
-            this.ServerCapabilities = this.Command("capability");
-            this.OnConnected(new ConnectedEventArgs(response));
+            string response = ReadLine();
+            ServerCapabilities = Command("capability");
+            OnConnected(new ConnectedEventArgs(response));
             return response;
         }
         /// <summary>
@@ -636,8 +652,8 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public IAsyncResult BeginConnect(System.Net.IPAddress addr, int port, AsyncCallback callback)
         {
-            this._delegateConnectIPAddress = this.Connect;
-            return this._delegateConnectIPAddress.BeginInvoke(addr, port, callback, this._delegateConnectIPAddress);
+            _delegateConnectIPAddress = Connect;
+            return _delegateConnectIPAddress.BeginInvoke(addr, port, callback, _delegateConnectIPAddress);
         }
 
 
@@ -649,27 +665,27 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public new string Connect(System.Net.IPAddress[] addresses, int port)
         {
-            this.OnConnecting();
+            OnConnecting();
 #if !PocketPC
             base.Connect(addresses, port);
 #else
                 if(addresses.Length>0)
                     base.Connect(addresses[0], port);
 #endif
-            string response = this.ReadLine();
-            this.ServerCapabilities = this.Command("capability");
-            this.OnConnected(new ConnectedEventArgs(response));
+            string response = ReadLine();
+            ServerCapabilities = Command("capability");
+            OnConnected(new ConnectedEventArgs(response));
             return response;
         }
         public IAsyncResult BeginConnect(System.Net.IPAddress[] addresses, int port, AsyncCallback callback)
         {
-            this._delegateConnectIPAddresses = this.Connect;
-            return this._delegateConnectIPAddresses.BeginInvoke(addresses, port, callback, this._delegateConnectIPAddresses);
+            _delegateConnectIPAddresses = Connect;
+            return _delegateConnectIPAddresses.BeginInvoke(addresses, port, callback, _delegateConnectIPAddresses);
         }
 
         public string Connect(string host, string username, string password)
         {
-            return this.Connect(host, 143, username, password);
+            return Connect(host, 143, username, password);
         }
         /// <summary>
         /// Begins the connect.
@@ -681,7 +697,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public IAsyncResult BeginConnect(string host, string username, string password, AsyncCallback callback)
         {
-            return this.BeginConnect(host, 143, username, password, callback);
+            return BeginConnect(host, 143, username, password, callback);
         }
 
         /// <summary>
@@ -694,8 +710,8 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public string Connect(string host, int port, string username, string password)
         {
-            this.Connect(host, port);
-            return this.LoginFast(username, password);
+            Connect(host, port);
+            return LoginFast(username, password);
         }
         /// <summary>
         /// Begins the connect.
@@ -708,8 +724,8 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public IAsyncResult BeginConnect(string host, int port, string username, string password, AsyncCallback callback)
         {
-            this._delegateConnectAuth = this.Connect;
-            return this._delegateConnectAuth.BeginInvoke(host, port, username, password, callback, this._delegateConnectAuth);
+            _delegateConnectAuth = Connect;
+            return _delegateConnectAuth.BeginInvoke(host, port, username, password, callback, _delegateConnectAuth);
         }
 
         /// <summary>
@@ -732,8 +748,8 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.Client != null)
-                    return this.Client.Connected;
+                if (Client != null)
+                    return Client.Connected;
                 else
                     return false;
             }
@@ -744,76 +760,76 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
         public string ConnectSsl(string host)
         {
-            return this.ConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host));
+            return ConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host));
         }
         public IAsyncResult BeginConnectSsl(string host, AsyncCallback callback)
         {
-            return this.BeginConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host), callback);
+            return BeginConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host), callback);
         }
         public string ConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake)
         {
-            return this.ConnectSsl(host, 993, sslHandShake);
+            return ConnectSsl(host, 993, sslHandShake);
         }
         public IAsyncResult BeginConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
         {
-            return this.BeginConnectSsl(host, 993, sslHandShake, callback);
+            return BeginConnectSsl(host, 993, sslHandShake, callback);
         }
         public string ConnectSsl(string host, int port)
         {
-            return this.ConnectSsl(host, port, new ActiveUp.Net.Security.SslHandShake(host));
+            return ConnectSsl(host, port, new ActiveUp.Net.Security.SslHandShake(host));
         }
         public IAsyncResult BeginConnectSsl(string host, int port, AsyncCallback callback)
         {
-            return this.BeginConnectSsl(host, port, new SslHandShake(host), callback);
+            return BeginConnectSsl(host, port, new SslHandShake(host), callback);
         }
 #endif
 #if !PocketPC
         public string ConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
         {
-            this.OnConnecting();
+            OnConnecting();
             base.Connect(host, port);
-            this.DoSslHandShake(sslHandShake);
-            string response = this.ReadLine();
-            this.ServerCapabilities = this.Command("capability");
-            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            DoSslHandShake(sslHandShake);
+            string response = ReadLine();
+            ServerCapabilities = Command("capability");
+            OnConnected(new ConnectedEventArgs(response));
             return response;
         }
         public IAsyncResult BeginConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
         {
-            this._delegateConnectSsl = this.ConnectSsl;
-            return this._delegateConnectSsl.BeginInvoke(host, port, sslHandShake, callback, this._delegateConnectSsl);
+            _delegateConnectSsl = ConnectSsl;
+            return _delegateConnectSsl.BeginInvoke(host, port, sslHandShake, callback, _delegateConnectSsl);
         }
 
         public string ConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
         {
-            this.OnConnecting();
+            OnConnecting();
             base.Connect(addr, port);
-            this.DoSslHandShake(sslHandShake);
-            string response = this.ReadLine();
-            this.ServerCapabilities = this.Command("capability");
-            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            DoSslHandShake(sslHandShake);
+            string response = ReadLine();
+            ServerCapabilities = Command("capability");
+            OnConnected(new ConnectedEventArgs(response));
             return response;
         }
         public IAsyncResult BeginConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
         {
-            this._delegateConnectSslIPAddress = this.ConnectSsl;
-            return this._delegateConnectSslIPAddress.BeginInvoke(addr, port, sslHandShake, callback, this._delegateConnectSslIPAddress);
+            _delegateConnectSslIPAddress = ConnectSsl;
+            return _delegateConnectSslIPAddress.BeginInvoke(addr, port, sslHandShake, callback, _delegateConnectSslIPAddress);
         }
 
         public string ConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
         {
-            this.OnConnecting();
+            OnConnecting();
             base.Connect(addresses, port);
-            this.DoSslHandShake(sslHandShake);
-            string response = this.ReadLine();
-            this.ServerCapabilities = this.Command("capability");
-            this.OnConnected(new ActiveUp.Net.Mail.ConnectedEventArgs(response));
+            DoSslHandShake(sslHandShake);
+            string response = ReadLine();
+            ServerCapabilities = Command("capability");
+            OnConnected(new ConnectedEventArgs(response));
             return response;
         }
         public IAsyncResult BeginConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
         {
-            this._delegateConnectSslIPAddresses = this.ConnectSsl;
-            return this._delegateConnectSslIPAddresses.BeginInvoke(addresses, port, sslHandShake, callback, this._delegateConnectSslIPAddresses);
+            _delegateConnectSslIPAddresses = ConnectSsl;
+            return _delegateConnectSslIPAddresses.BeginInvoke(addresses, port, sslHandShake, callback, _delegateConnectSslIPAddresses);
         }
 
         public string EndConnectSsl(IAsyncResult result)
@@ -858,19 +874,19 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string Disconnect()
         {
-            string greeting = this.Command("logout");
+            string greeting = Command("logout");
             base.Close();
             return greeting;
         }
         public IAsyncResult BeginDisconnect(AsyncCallback callback)
         {
-            this._delegateDisconnect = this.Disconnect;
-            return this._delegateDisconnect.BeginInvoke(callback, null);
+            _delegateDisconnect = Disconnect;
+            return _delegateDisconnect.BeginInvoke(callback, null);
         }
 
         public string EndDisconnect(IAsyncResult result)
         {
-            return this._delegateDisconnect.EndInvoke(result);
+            return _delegateDisconnect.EndInvoke(result);
         }
 
         public void CloseBaseTCPConnection()
@@ -917,16 +933,16 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string Login(string username, string password)
         {
-            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password, this.host));
-            string response = this.Command("login " + username + " " + password);
-            this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, this.host, response));
-            this.LoadMailboxes();
+            OnAuthenticating(new AuthenticatingEventArgs(username, password, host));
+            string response = Command("login " + username + " " + password);
+            OnAuthenticated(new AuthenticatedEventArgs(username, password, host, response));
+            LoadMailboxes();
             return response;
         }
         public IAsyncResult BeginLogin(string username, string password, AsyncCallback callback)
         {
-            this._delegateLogin = this.Login;
-            return this._delegateLogin.BeginInvoke(username, password, callback, this._delegateLogin);
+            _delegateLogin = Login;
+            return _delegateLogin.BeginInvoke(username, password, callback, _delegateLogin);
         }
 
 
@@ -938,15 +954,15 @@ namespace ActiveUp.Net.Mail
         /// <returns>The server's response.</returns>
         public string LoginFast(string username, string password)
         {
-            this.OnAuthenticating(new ActiveUp.Net.Mail.AuthenticatingEventArgs(username, password, this.host));
-            string response = this.Command("login " + username + " " + password);
-            this.OnAuthenticated(new ActiveUp.Net.Mail.AuthenticatedEventArgs(username, password, this.host, response));
+            OnAuthenticating(new AuthenticatingEventArgs(username, password, host));
+            string response = Command("login " + username + " " + password);
+            OnAuthenticated(new AuthenticatedEventArgs(username, password, host, response));
             return response;
         }
         public IAsyncResult BeginLoginFast(string username, string password, AsyncCallback callback)
         {
-            this._delegateLogin = this.LoginFast;
-            return this._delegateLogin.BeginInvoke(username, password, callback, this._delegateLogin);
+            _delegateLogin = LoginFast;
+            return _delegateLogin.BeginInvoke(username, password, callback, _delegateLogin);
         }
 
         /// <summary>
@@ -980,28 +996,28 @@ namespace ActiveUp.Net.Mail
         /// imap.Disconnect();
         /// </code>
         /// </example>
-        public string Authenticate(string username, string password, ActiveUp.Net.Mail.SaslMechanism mechanism)
+        public string Authenticate(string username, string password, SaslMechanism mechanism)
         {
             switch (mechanism)
             {
-                case ActiveUp.Net.Mail.SaslMechanism.CramMd5:
-                    return this._CramMd5(username, password);
-                case ActiveUp.Net.Mail.SaslMechanism.Login:
-                    return this._Login(username, password);
-                case ActiveUp.Net.Mail.SaslMechanism.Plain:
-                    return this._Plain(username, password);
+                case SaslMechanism.CramMd5:
+                    return _CramMd5(username, password);
+                case SaslMechanism.Login:
+                    return _Login(username, password);
+                case SaslMechanism.Plain:
+                    return _Plain(username, password);
             }
             return string.Empty;
         }
         public IAsyncResult BeginAuthenticate(string username, string password, SaslMechanism mechanism, AsyncCallback callback)
         {
-            this._delegateAuthenticate = this.Authenticate;
-            return this._delegateAuthenticate.BeginInvoke(username, password, mechanism, callback, null);
+            _delegateAuthenticate = Authenticate;
+            return _delegateAuthenticate.BeginInvoke(username, password, mechanism, callback, null);
         }
 
         public string EndAuthenticate(IAsyncResult result)
         {
-            return this._delegateAuthenticate.EndInvoke(result);
+            return _delegateAuthenticate.EndInvoke(result);
         }
 
         #endregion
@@ -1013,23 +1029,23 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public void StartIdle()
         {
-            this.Command("IDLE");
+            Command("IDLE");
 
-            System.IO.StreamReader sr = new System.IO.StreamReader(this.GetStream(), System.Text.Encoding.ASCII);
-            System.Text.StringBuilder buffer = new System.Text.StringBuilder();
+            StreamReader sr = new StreamReader(GetStream(), Encoding.ASCII);
+            StringBuilder buffer = new StringBuilder();
             string response = string.Empty;
             _idleInProgress = true;
             while (true)
             {
                 if (_idleInProgress)
                 {
-                    this.OnTcpReading();
+                    OnTcpReading();
                     response = sr.ReadLine();
-                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(response));
+                    OnTcpRead(new TcpReadEventArgs(response));
 
                     if (response.ToUpper().IndexOf("RECENT") > 0)
                     {
-                        this.OnNewMessageReceived(new NewMessageReceivedEventArgs(int.Parse(response.Split(' ')[1])));
+                        OnNewMessageReceived(new NewMessageReceivedEventArgs(int.Parse(response.Split(' ')[1])));
                     }
 #if DEBUG
                     Console.WriteLine(response);
@@ -1037,7 +1053,7 @@ namespace ActiveUp.Net.Mail
                 }
                 else
                 {
-                    this.Command("DONE", string.Empty);
+                    Command("DONE", string.Empty);
                     break;
                 }
             }
@@ -1060,18 +1076,18 @@ namespace ActiveUp.Net.Mail
         //Binary result
         public byte[] CommandBinary(string command, CommandOptions options = null)
         {
-            return this.CommandBinary(command, System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString()), options);
+            return CommandBinary(command, DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString()), options);
         }
 
-        public byte[] CommandBinary(string command, string stamp, CommandOptions options = null)
+        public byte[] CommandBinary(string command, string stamp, CommandOptions options = null) 
         {
             if (options == null)
                 options = new CommandOptions();
 
             if (command.Length < 200)
-                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+                OnTcpWriting(new TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
             else
-                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs("long command data"));
+                OnTcpWriting(new TcpWritingEventArgs("long command data"));
             //base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
 
             // Although I have still not read all the relevant code but here it looks that you are
@@ -1087,24 +1103,19 @@ namespace ActiveUp.Net.Mail
             // Complement the Atif changes. Use the flag for !PocketPC config for avoid build errors.
 
 #if !PocketPC
-            if (this._sslStream != null)
-            {
-                this._sslStream.Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-            }
+            if (_sslStream != null)
+                _sslStream.Write(Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
             else
-            {
-                base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
-            }
+                base.GetStream().Write(Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
 #else
             base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
 #endif
-
             if (command.Length < 200)
-                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+                OnTcpWritten(new TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
             else
-                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
-            this.OnTcpReading();
-            System.Text.StringBuilder buffer = new System.Text.StringBuilder();
+                OnTcpWritten(new TcpWrittenEventArgs("long command data"));
+            OnTcpReading();
+            StringBuilder buffer = new StringBuilder();
 
             var commandAsUpper = command.ToUpper();
             string partResponse = "";
@@ -1116,14 +1127,19 @@ namespace ActiveUp.Net.Mail
                 {
                     if (sr.EndOfStream)
                     {
+                        Logger.AddEntry("read data from stream");
                         long streamPos = sr.BaseStream.Position;
                         receiveResponseData(sr.BaseStream);
                         sr.BaseStream.Seek(streamPos, SeekOrigin.Begin);
                     }
                     partResponse = sr.ReadToEnd();
+
                     if (partResponse == null)
+                    {
+                        Logger.AddEntry("part response is null");
                         partResponse = "";
-                    ActiveUp.Net.Mail.Logger.AddEntry("bordel : " + partResponse);
+                    } else
+                        Logger.AddEntry("part response: " + partResponse);
                     buffer.Append(partResponse);
 
                     int pos = partResponse.Trim().LastIndexOf("\r\n");
@@ -1140,6 +1156,11 @@ namespace ActiveUp.Net.Mail
                             lastLine = lastLineOfPartResponse;
                             break;
                         }
+                        else
+                        {
+                            if (CheckResponse(buffer, command, lastLineOfPartResponse, ref lastLine, stamp))
+                                break;
+                        }
                     }
                     else if (commandAsUpper.StartsWith("DONE") == true)
                     {
@@ -1151,23 +1172,29 @@ namespace ActiveUp.Net.Mail
                     {
                         //Had to remove + check - this was failing when the email contained a line with + 
                         //Please add comments as to why here, and reimplement differently
-                        if (lastLineOfPartResponse.StartsWith(stamp) || lastLineOfPartResponse.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || ((lastLineOfPartResponse.StartsWith("+ ") || lastLineOfPartResponse.StartsWith("+\r\n")) && options.IsPlusCmdAllowed))
+                        if (lastLineOfPartResponse.StartsWith(stamp) || lastLineOfPartResponse.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || (lastLineOfPartResponse.StartsWith("+ ") && options.IsPlusCmdAllowed))
                         {
-                            lastLine = lastLineOfPartResponse;
-                            break;
+                            if (lastLineOfPartResponse.IndexOf(stamp + " OK") >= 0)
+                            {
+                                if (lastLineOfPartResponse.EndsWith("\n") || lastLineOfPartResponse.EndsWith("\r"))
+                                {
+                                    lastLine = lastLineOfPartResponse;
+                                    break;
+                                }
+                            }
+                            else if (lastLineOfPartResponse.IndexOf(stamp + " NO") >= 0 || lastLineOfPartResponse.IndexOf(stamp + " BAD") >= 0)
+                            {
+                                if (lastLineOfPartResponse.EndsWith("\n") || lastLineOfPartResponse.EndsWith("\r"))
+                                {
+                                    lastLine = lastLineOfPartResponse.Replace(stamp, "");
+                                    throw new Imap4Exception("Command \"" + command + "\" failed\r\nServer replied:" + lastLine);
+                                }
+                            }
                         }
                         else
                         {
-                            if (buffer.Length > 100)
-                                lastLineOfPartResponse = buffer.ToString().Substring(buffer.Length - 100).Replace("\r\n", "");
-                            else
-                                lastLineOfPartResponse = buffer.ToString().Replace("\r\n", "");
-                            int stampPos = lastLineOfPartResponse.IndexOf(stamp + " OK");
-                            if (stampPos > 0)
-                            {
-                                lastLine = lastLineOfPartResponse.Substring(stampPos);
+                            if (CheckResponse(buffer, command, lastLineOfPartResponse, ref lastLine, stamp))
                                 break;
-                            }
                         }
                     }
                 }
@@ -1184,14 +1211,50 @@ namespace ActiveUp.Net.Mail
                 }
 
                 if (buffer.Length < 200)
-                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(bufferString));
+                    OnTcpRead(new TcpReadEventArgs(bufferString));
                 else
-                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
-                if (lastLine.StartsWith(stamp + " OK") || lastLine.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || lastLine.StartsWith("+ ") || lastLine.StartsWith("+\r\n"))
+                    OnTcpRead(new TcpReadEventArgs("long data"));
+                if (lastLine.StartsWith(stamp + " OK") || lastLine.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || lastLine.StartsWith("+ "))
                     return bufferBytes;
                 else
-                    throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
+                    throw new Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
             }
+        }
+
+        private bool CheckResponse(StringBuilder buffer, string command, string lastLineOfPartResponse, ref string lastLine, string stamp)
+        {
+            if (buffer.Length > 100)
+                lastLineOfPartResponse = buffer.ToString().Substring(buffer.Length - 100).Replace("\r\n", "");
+            else
+                lastLineOfPartResponse = buffer.ToString().Replace("\r\n", "");
+            int stampPos = lastLineOfPartResponse.IndexOf(stamp + " OK");
+            if (stampPos >= 0)
+            {
+                if (buffer.ToString().EndsWith("\n") || buffer.ToString().EndsWith("\r"))
+                {
+                    lastLine = lastLineOfPartResponse.Substring(stampPos);
+                    return true;
+                }
+            }
+            stampPos = lastLineOfPartResponse.IndexOf(stamp + " NO");
+            if (stampPos >= 0)
+            {
+                if (buffer.ToString().EndsWith("\n") || buffer.ToString().EndsWith("\r"))
+                {
+                    lastLine = lastLineOfPartResponse.Replace(stamp, "");
+                    throw new Imap4Exception("Command \"" + command + "\" failed\r\nServer replied:" + lastLine);
+                }
+            }
+            stampPos = lastLineOfPartResponse.IndexOf(stamp + " BAD");
+            if (stampPos >= 0)
+            {
+                if (buffer.ToString().EndsWith("\n") || buffer.ToString().EndsWith("\r"))
+                {
+                    lastLine = lastLineOfPartResponse.Replace(stamp, "");
+                    throw new Imap4Exception("Command \"" + command + "\" failed\r\nServer replied:" + lastLine);
+                }
+            }
+            return false;
         }
 
         public byte[] CommandBinary(string command, string stamp, string checkStamp, CommandOptions options = null)
@@ -1200,17 +1263,17 @@ namespace ActiveUp.Net.Mail
                 options = new CommandOptions();
 
             if (command.Length < 200)
-                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+                OnTcpWriting(new TcpWritingEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
             else
-                this.OnTcpWriting(new ActiveUp.Net.Mail.TcpWritingEventArgs("long command data"));
-            base.GetStream().Write(System.Text.Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
+                OnTcpWriting(new TcpWritingEventArgs("long command data"));
+            base.GetStream().Write(Encoding.ASCII.GetBytes(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"), 0, stamp.Length + ((stamp.Length > 0) ? 1 : 0) + command.Length + 2);
             if (command.Length < 200)
-                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
+                OnTcpWritten(new TcpWrittenEventArgs(stamp + ((stamp.Length > 0) ? " " : "") + command + "\r\n"));
             else
-                this.OnTcpWritten(new ActiveUp.Net.Mail.TcpWrittenEventArgs("long command data"));
-            this.OnTcpReading();
+                OnTcpWritten(new TcpWrittenEventArgs("long command data"));
+            OnTcpReading();
             //System.IO.StreamReader sr = new System.IO.StreamReader(base.GetStream(), true);
-            System.Text.StringBuilder buffer = new System.Text.StringBuilder();
+            StringBuilder buffer = new StringBuilder();
             string temp = "";
             string lastline = "";
             using (StreamReader sr = new StreamReader(new MemoryStream()))
@@ -1220,7 +1283,7 @@ namespace ActiveUp.Net.Mail
                     if (sr.EndOfStream)
                     {
                         long streamPos = sr.BaseStream.Position;
-                        this.receiveResponseData(sr.BaseStream);
+                        receiveResponseData(sr.BaseStream);
                         sr.BaseStream.Seek(streamPos, SeekOrigin.Begin);
                     }
                     temp = sr.ReadLine();
@@ -1243,25 +1306,25 @@ namespace ActiveUp.Net.Mail
                 sr.BaseStream.Read(bufferBytes, 0, bufferBytes.Length);
 
                 if (buffer.Length < 200)
-                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs(buffer.ToString()));
+                    OnTcpRead(new TcpReadEventArgs(buffer.ToString()));
                 else
-                    this.OnTcpRead(new ActiveUp.Net.Mail.TcpReadEventArgs("long data"));
+                    OnTcpRead(new TcpReadEventArgs("long data"));
                 if (lastline.StartsWith(checkStamp + " OK") || temp.ToLower().StartsWith("* " + command.Split(' ')[0].ToLower()) || temp.StartsWith("+ ") || temp.StartsWith("+\r\n"))
                     return bufferBytes;
                 else
-                    throw new ActiveUp.Net.Mail.Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
+                    throw new Imap4Exception("Command \"" + command + "\" failed", bufferBytes);
             }
         }
 
         //With Encoding parameter
         public string Command(string command, string stamp, Encoding encoding, CommandOptions options = null)
         {
-            return encoding.GetString(this.CommandBinary(command, stamp, options));
+            return encoding.GetString(CommandBinary(command, stamp, options));
         }
 
         public string Command(string command, string stamp, string checkStamp, Encoding encoding, CommandOptions options = null)
         {
-            return encoding.GetString(this.CommandBinary(command, stamp, checkStamp, options));
+            return encoding.GetString(CommandBinary(command, stamp, checkStamp, options));
         }
 
         /// <summary>
@@ -1302,32 +1365,32 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string Command(string command, CommandOptions options = null)
         {
-            return this.Command(command, System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString()), options);
+            return Command(command, DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString()), options);
         }
         public IAsyncResult BeginCommand(string command, AsyncCallback callback)
         {
 
-            return this.BeginCommand(command, System.DateTime.Now.ToString("yyMMddhhmmss" + System.DateTime.Now.Millisecond.ToString()), callback);
+            return BeginCommand(command, DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString()), callback);
         }
 
         public string Command(string command, string stamp, CommandOptions options = null)
         {
-            return this.Command(command, stamp, Encoding.UTF8, options);
+            return Command(command, stamp, Encoding.UTF8, options);
         }
         public IAsyncResult BeginCommand(string command, string stamp, AsyncCallback callback, CommandOptions options = null)
         {
-            this._delegateCommand = this.Command;
-            return this._delegateCommand.BeginInvoke(command, stamp, options, callback, this._delegateCommand);
+            _delegateCommand = Command;
+            return _delegateCommand.BeginInvoke(command, stamp, options, callback, _delegateCommand);
         }
 
         public string Command(string command, string stamp, string checkStamp, CommandOptions options = null)
         {
-            return this.Command(command, stamp, checkStamp, Encoding.UTF8, options);
+            return Command(command, stamp, checkStamp, Encoding.UTF8, options);
         }
         public IAsyncResult BeginCommand(string command, string stamp, string checkStamp, AsyncCallback callback, CommandOptions options = null)
         {
-            this._delegateCommandStringStringString = this.Command;
-            return this._delegateCommandStringStringString.BeginInvoke(command, stamp, checkStamp, options, callback, this._delegateCommandStringStringString);
+            _delegateCommandStringStringString = Command;
+            return _delegateCommandStringStringString.BeginInvoke(command, stamp, checkStamp, options, callback, _delegateCommandStringStringString);
         }
 
         public string EndCommand(IAsyncResult result)
@@ -1342,7 +1405,7 @@ namespace ActiveUp.Net.Mail
         public new System.IO.Stream GetStream()
         {
 #if !PocketPC
-            if (this._sslStream != null) return this._sslStream;
+            if (_sslStream != null) return _sslStream;
 #endif
             return base.GetStream();
         }
@@ -1400,20 +1463,20 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string Noop()
         {
-            this.OnNooping();
-            string response = this.Command("noop");
-            this.OnNooped();
+            OnNooping();
+            string response = Command("noop");
+            OnNooped();
             return response;
         }
         public IAsyncResult BeginNoop(AsyncCallback callback)
         {
-            this._delegateNoop = this.Noop;
-            return this._delegateNoop.BeginInvoke(callback, this._delegateNoop);
+            _delegateNoop = Noop;
+            return _delegateNoop.BeginInvoke(callback, _delegateNoop);
         }
 
         public string EndNoop(IAsyncResult result)
         {
-            return this._delegateNoop.EndInvoke(result);
+            return _delegateNoop.EndInvoke(result);
         }
 
         /// <summary>
@@ -1422,17 +1485,17 @@ namespace ActiveUp.Net.Mail
         /// <returns>The server's response.</returns>
         public string Check()
         {
-            return this.Command("check");
+            return Command("check");
         }
         public IAsyncResult BeginCheck(AsyncCallback callback)
         {
-            this._delegateCheck = this.Check;
-            return this._delegateCheck.BeginInvoke(callback, this._delegateCheck);
+            _delegateCheck = Check;
+            return _delegateCheck.BeginInvoke(callback, _delegateCheck);
         }
 
         public string EndCheck(IAsyncResult result)
         {
-            return this._delegateCheck.EndInvoke(result);
+            return _delegateCheck.EndInvoke(result);
         }
 
         /// <summary>
@@ -1477,17 +1540,17 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public new string Close()
         {
-            return this.Command("close");
+            return Command("close");
         }
         public IAsyncResult BeginClose(AsyncCallback callback)
         {
-            this._delegateClose = this.Close;
-            return this._delegateClose.BeginInvoke(callback, this._delegateClose);
+            _delegateClose = Close;
+            return _delegateClose.BeginInvoke(callback, _delegateClose);
         }
 
         public string EndClose(IAsyncResult result)
         {
-            return this._delegateClose.EndInvoke(result);
+            return _delegateClose.EndInvoke(result);
         }
 
         /// <summary>
@@ -1537,17 +1600,17 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void Expunge()
         {
-            this.Command("expunge");
+            Command("expunge");
         }
         public IAsyncResult BeginExpunge(AsyncCallback callback)
         {
-            this._delegateExpunge = this.Expunge;
-            return this._delegateExpunge.BeginInvoke(callback, this._delegateExpunge);
+            _delegateExpunge = Expunge;
+            return _delegateExpunge.BeginInvoke(callback, _delegateExpunge);
         }
 
         public void EndExpunge(IAsyncResult result)
         {
-            this._delegateExpunge.EndInvoke(result);
+            _delegateExpunge.EndInvoke(result);
         }
 
         /// <summary>
@@ -1589,7 +1652,7 @@ namespace ActiveUp.Net.Mail
         public MailboxCollection GetMailboxes(string reference, string mailboxName)
         {
             MailboxCollection mailboxes = new MailboxCollection();
-            string response = this.Command("list \"" + reference + "\" \"" + mailboxName + "\"");
+            string response = Command("list \"" + reference + "\" \"" + mailboxName + "\"");
             string[] t = System.Text.RegularExpressions.Regex.Split(response, "\r\n");
             string box = "";
             for (int i = 0; i < t.Length - 2; i++)
@@ -1600,7 +1663,7 @@ namespace ActiveUp.Net.Mail
                     {
                         box = t[i].Substring(t[i].IndexOf("\" ") + 1).Trim(new char[] { ' ', '\"' });
                         if (box != reference)
-                            mailboxes.Add(this.ExamineMailbox(box));
+                            mailboxes.Add(ExamineMailbox(box));
                     }
                 }
                 catch { continue; }
@@ -1609,13 +1672,13 @@ namespace ActiveUp.Net.Mail
         }
         public IAsyncResult BeginGetMailboxes(string reference, string mailboxName, AsyncCallback callback)
         {
-            this._delegateGetMailboxes = this.GetMailboxes;
-            return this._delegateGetMailboxes.BeginInvoke(reference, mailboxName, callback, this._delegateGetMailboxes);
+            _delegateGetMailboxes = GetMailboxes;
+            return _delegateGetMailboxes.BeginInvoke(reference, mailboxName, callback, _delegateGetMailboxes);
         }
 
         public MailboxCollection EndGetMailboxes(IAsyncResult result)
         {
-            return this._delegateGetMailboxes.EndInvoke(result);
+            return _delegateGetMailboxes.EndInvoke(result);
         }
 
         /// <summary>
@@ -1623,18 +1686,18 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public void LoadMailboxes()
         {
-            this.Mailboxes = this.GetMailboxes("", "%");
-            this.AllMailboxes = this.GetMailboxes("", "*");
+            Mailboxes = GetMailboxes("", "%");
+            AllMailboxes = GetMailboxes("", "*");
         }
         public IAsyncResult BeginLoadMailboxes(AsyncCallback callback)
         {
-            this._delegateLoadMailboxes = this.LoadMailboxes;
-            return this._delegateLoadMailboxes.BeginInvoke(callback, this._delegateLoadMailboxes);
+            _delegateLoadMailboxes = LoadMailboxes;
+            return _delegateLoadMailboxes.BeginInvoke(callback, _delegateLoadMailboxes);
         }
 
         public void EndLoadMailboxes(IAsyncResult result)
         {
-            this._delegateLoadMailboxes.EndInvoke(result);
+            _delegateLoadMailboxes.EndInvoke(result);
         }
 
         /// <summary>
@@ -1674,18 +1737,18 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public Mailbox CreateMailbox(string mailboxName)
         {
-            this.Command("create \"" + mailboxName + "\"");
-            return this.SelectMailbox(mailboxName);
+            Command("create \"" + mailboxName + "\"");
+            return SelectMailbox(mailboxName);
         }
         public IAsyncResult BeginCreateMailbox(string mailboxName, AsyncCallback callback)
         {
-            this._delegateMailboxOperation = this.CreateMailbox;
-            return this._delegateMailboxOperation.BeginInvoke(mailboxName, callback, this._delegateMailboxOperation);
+            _delegateMailboxOperation = CreateMailbox;
+            return _delegateMailboxOperation.BeginInvoke(mailboxName, callback, _delegateMailboxOperation);
         }
 
         public Mailbox EndCreateMailbox(IAsyncResult result)
         {
-            return this._delegateMailboxOperation.EndInvoke(result);
+            return _delegateMailboxOperation.EndInvoke(result);
         }
 
         /// <summary>
@@ -1726,18 +1789,18 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string RenameMailbox(string oldMailboxName, string newMailboxName)
         {
-            string response = this.Command("rename \"" + oldMailboxName + "\" \"" + newMailboxName + "\"");
+            string response = Command("rename \"" + oldMailboxName + "\" \"" + newMailboxName + "\"");
             return response;
         }
         public IAsyncResult BeginRenameMailbox(string oldMailboxName, string newMailboxName, AsyncCallback callback)
         {
-            this._delegateRenameMailbox = this.RenameMailbox;
-            return this._delegateRenameMailbox.BeginInvoke(oldMailboxName, newMailboxName, callback, this._delegateRenameMailbox);
+            _delegateRenameMailbox = RenameMailbox;
+            return _delegateRenameMailbox.BeginInvoke(oldMailboxName, newMailboxName, callback, _delegateRenameMailbox);
         }
 
         public void EndRenameMailbox(IAsyncResult result)
         {
-            this._delegateRenameMailbox.EndInvoke(result);
+            _delegateRenameMailbox.EndInvoke(result);
         }
 
         /// <summary>
@@ -1777,17 +1840,17 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string DeleteMailbox(string mailboxName)
         {
-            return this.Command("delete \"" + mailboxName + "\"");
+            return Command("delete \"" + mailboxName + "\"");
         }
         public IAsyncResult BeginDeleteMailbox(string mailboxName, AsyncCallback callback)
         {
-            this._delegateMailboxOperationReturnsString = this.DeleteMailbox;
-            return this._delegateMailboxOperationReturnsString.BeginInvoke(mailboxName, callback, this._delegateMailboxOperationReturnsString);
+            _delegateMailboxOperationReturnsString = DeleteMailbox;
+            return _delegateMailboxOperationReturnsString.BeginInvoke(mailboxName, callback, _delegateMailboxOperationReturnsString);
         }
 
         public string EndDeleteMailbox(IAsyncResult result)
         {
-            return this._delegateMailboxOperationReturnsString.EndInvoke(result);
+            return _delegateMailboxOperationReturnsString.EndInvoke(result);
         }
 
         /// <summary>
@@ -1797,17 +1860,17 @@ namespace ActiveUp.Net.Mail
         /// <returns>The server's response.</returns>
         public string SubscribeMailbox(string mailboxName)
         {
-            return this.Command("subscribe \"" + mailboxName + "\"");
+            return Command("subscribe \"" + mailboxName + "\"");
         }
         public IAsyncResult BeginSubscribeMailbox(string mailboxName, AsyncCallback callback)
         {
-            this._delegateMailboxOperationReturnsString = this.SubscribeMailbox;
-            return this._delegateMailboxOperationReturnsString.BeginInvoke(mailboxName, callback, this._delegateMailboxOperationReturnsString);
+            _delegateMailboxOperationReturnsString = SubscribeMailbox;
+            return _delegateMailboxOperationReturnsString.BeginInvoke(mailboxName, callback, _delegateMailboxOperationReturnsString);
         }
 
         public void EndSubscribeMailbox(IAsyncResult result)
         {
-            this._delegateMailboxOperationReturnsString.EndInvoke(result);
+            _delegateMailboxOperationReturnsString.EndInvoke(result);
         }
 
         /// <summary>
@@ -1817,17 +1880,17 @@ namespace ActiveUp.Net.Mail
         /// <returns>The server's response.</returns>
         public string UnsubscribeMailbox(string mailboxName)
         {
-            return this.Command("unsubscribe \"" + mailboxName + "\"");
+            return Command("unsubscribe \"" + mailboxName + "\"");
         }
         public IAsyncResult BeginUnsubscribeMailbox(string mailboxName, AsyncCallback callback)
         {
-            this._delegateMailboxOperationReturnsString = this.UnsubscribeMailbox;
-            return this._delegateMailboxOperationReturnsString.BeginInvoke(mailboxName, callback, this._delegateMailboxOperationReturnsString);
+            _delegateMailboxOperationReturnsString = UnsubscribeMailbox;
+            return _delegateMailboxOperationReturnsString.BeginInvoke(mailboxName, callback, _delegateMailboxOperationReturnsString);
         }
 
         public void EndUnsubscribeMailbox(IAsyncResult result)
         {
-            this._delegateMailboxOperationReturnsString.EndInvoke(result);
+            _delegateMailboxOperationReturnsString.EndInvoke(result);
         }
 
         /// <summary>
@@ -1876,31 +1939,31 @@ namespace ActiveUp.Net.Mail
             mailboxName = renderSafeParam(mailboxName);
 
             ActiveUp.Net.Mail.Mailbox mailbox = new ActiveUp.Net.Mail.Mailbox();
-            mailbox.SubMailboxes = this.GetMailboxes(mailboxName, "*");
-            string response = this.Command("select \"" + mailboxName + "\"");
+            mailbox.SubMailboxes = GetMailboxes(mailboxName, "*");
+            string response = Command("select \"" + mailboxName + "\"");
             string[] lines = System.Text.RegularExpressions.Regex.Split(response, "\r\n");
 
             // message count.
             int messageCount = 0;
-            try { messageCount = System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "EXISTS").Split(' ')[1]); }
+            try { messageCount = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "EXISTS").Split(' ')[1]); }
             catch (Exception) { }
             mailbox.MessageCount = messageCount;
 
             // recent.
             int recent = 0;
-            try { recent = System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "RECENT").Split(' ')[1]); }
+            try { recent = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "RECENT").Split(' ')[1]); }
             catch (Exception) { }
             mailbox.Recent = recent;
 
             // unseen.
             int unseen = 0;
-            try { unseen = System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']')); }
+            try { unseen = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']')); }
             catch (Exception) { }
             mailbox.FirstUnseen = (response.ToLower().IndexOf("[unseen") != -1) ? unseen : 0;
 
             // uid validity.
             int uidValidity = 0;
-            try { uidValidity = System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']')); }
+            try { uidValidity = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']')); }
             catch (Exception) { }
             mailbox.UidValidity = uidValidity;
 
@@ -1941,13 +2004,13 @@ namespace ActiveUp.Net.Mail
         }
         public IAsyncResult BeginSelectMailbox(string mailboxName, AsyncCallback callback)
         {
-            this._delegateMailboxOperation = this.SelectMailbox;
-            return this._delegateMailboxOperation.BeginInvoke(mailboxName, callback, this._delegateMailboxOperation);
+            _delegateMailboxOperation = SelectMailbox;
+            return _delegateMailboxOperation.BeginInvoke(mailboxName, callback, _delegateMailboxOperation);
         }
 
         public Mailbox EndSelectMailbox(IAsyncResult result)
         {
-            return this._delegateMailboxOperation.EndInvoke(result);
+            return _delegateMailboxOperation.EndInvoke(result);
         }
 
         /// <summary>
@@ -1994,13 +2057,13 @@ namespace ActiveUp.Net.Mail
         public Mailbox ExamineMailbox(string mailboxName)
         {
             ActiveUp.Net.Mail.Mailbox mailbox = new ActiveUp.Net.Mail.Mailbox();
-            mailbox.SubMailboxes = this.GetMailboxes(mailboxName, "*");
-            string response = this.Command("examine \"" + mailboxName + "\"");
+            mailbox.SubMailboxes = GetMailboxes(mailboxName, "*");
+            string response = Command("examine \"" + mailboxName + "\"");
             string[] lines = System.Text.RegularExpressions.Regex.Split(response, "\r\n");
-            mailbox.MessageCount = System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "EXISTS").Split(' ')[1]);
-            mailbox.Recent = System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "RECENT").Split(' ')[1]);
-            mailbox.FirstUnseen = (response.ToLower().IndexOf("[unseen") != -1) ? System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']')) : 0;
-            mailbox.UidValidity = System.Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']'));
+            mailbox.MessageCount = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "EXISTS").Split(' ')[1]);
+            mailbox.Recent = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "RECENT").Split(' ')[1]);
+            mailbox.FirstUnseen = (response.ToLower().IndexOf("[unseen") != -1) ? Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']')) : 0;
+            mailbox.UidValidity = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']'));
             foreach (string str in ActiveUp.Net.Mail.Imap4Client.FindLine(lines, " FLAGS").Split(' ')) if (str.StartsWith("(\\") || str.StartsWith("\\")) mailbox.ApplicableFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
             if (response.ToLower().IndexOf("[permanentflags") != -1) foreach (string str in ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[PERMANENTFLAGS").Split(' ')) if (str.StartsWith("(\\") || str.StartsWith("\\")) mailbox.PermanentFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
             mailbox.Permission = ActiveUp.Net.Mail.MailboxPermission.ReadOnly;
@@ -2010,13 +2073,13 @@ namespace ActiveUp.Net.Mail
         }
         public IAsyncResult BeginExamineMailbox(string mailboxName, AsyncCallback callback)
         {
-            this._delegateMailboxOperation = this.ExamineMailbox;
-            return this._delegateMailboxOperation.BeginInvoke(mailboxName, callback, this._delegateMailboxOperation);
+            _delegateMailboxOperation = ExamineMailbox;
+            return _delegateMailboxOperation.BeginInvoke(mailboxName, callback, _delegateMailboxOperation);
         }
 
         public Mailbox EndExamineMailbox(IAsyncResult result)
         {
-            return this._delegateMailboxOperation.EndInvoke(result);
+            return _delegateMailboxOperation.EndInvoke(result);
         }
 
         #endregion
