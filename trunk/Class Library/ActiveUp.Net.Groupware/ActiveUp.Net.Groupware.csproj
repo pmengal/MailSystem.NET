@@ -118,7 +118,7 @@
     <Compile Include="vCalendar\DayLightSavings.cs" />
     <Compile Include="vCalendar\DisplayReminder.cs" />
     <Compile Include="vCalendar\Duration.cs" />
-    <Compile Include="vCalendar\Entity.cs" />
+    <Compile Include="vCalendar\AbstractEntity.cs" />
     <Compile Include="vCalendar\EntityCollection.cs" />
     <Compile Include="vCalendar\Expectation.cs" />
     <Compile Include="vCalendar\GeographicalPosition.cs" />
