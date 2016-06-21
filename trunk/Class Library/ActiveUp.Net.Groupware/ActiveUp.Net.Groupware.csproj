@@ -52,7 +52,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Bin\Debug\ActiveUp.Net.PDI.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -108,46 +108,46 @@
     <None Include="New\Values.cs" />
     <None Include="New\vObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="vCalendar.Address.cs" />
-    <Compile Include="vCalendar.Attachment.cs" />
-    <Compile Include="vCalendar.AttachmentCollection.cs" />
-    <Compile Include="vCalendar.Attendee.cs" />
-    <Compile Include="vCalendar.AttendeeCollection.cs" />
-    <Compile Include="vCalendar.AudioReminder.cs" />
-    <Compile Include="vCalendar.Classification.cs" />
-    <Compile Include="vCalendar.DayLightSavings.cs" />
-    <Compile Include="vCalendar.DisplayReminder.cs" />
-    <Compile Include="vCalendar.Duration.cs" />
-    <Compile Include="vCalendar.Entity.cs" />
-    <Compile Include="vCalendar.EntityCollection.cs" />
-    <Compile Include="vCalendar.Expectation.cs" />
-    <Compile Include="vCalendar.GeographicalPosition.cs" />
-    <Compile Include="vCalendar.MailReminder.cs" />
-    <Compile Include="vCalendar.Parser.cs" />
-    <Compile Include="vCalendar.ProcedureReminder.cs" />
-    <Compile Include="vCalendar.Property.cs" />
-    <Compile Include="vCalendar.Reminder.cs" />
-    <Compile Include="vCalendar.Role.cs" />
-    <Compile Include="vCalendar.Status.cs" />
-    <Compile Include="vCalendar.vAlarm.cs" />
-    <Compile Include="vCalendar.ValueType.cs" />
-    <Compile Include="vCalendar.vCalendar.cs" />
-    <Compile Include="vCalendar.vEvent.cs" />
-    <Compile Include="vCalendar.vEventCollection.cs" />
-    <Compile Include="vCalendar.vTodo.cs" />
-    <Compile Include="vCalendar.vTodoCollection.cs" />
-    <Compile Include="vCard.Address.cs" />
-    <Compile Include="vCard.AddressCollection.cs" />
-    <Compile Include="vCard.EmailAddress.cs" />
-    <Compile Include="vCard.EmailAddressCollection.cs" />
-    <Compile Include="vCard.GeographicalPosition.cs" />
-    <Compile Include="vCard.Label.cs" />
-    <Compile Include="vCard.LabelCollection.cs" />
-    <Compile Include="vCard.Name.cs" />
-    <Compile Include="vCard.Parser.cs" />
-    <Compile Include="vCard.TelephoneNumber.cs" />
-    <Compile Include="vCard.TelephoneNumberCollection.cs" />
-    <Compile Include="vCard.vCard.cs" />
+    <Compile Include="vCalendar\Address.cs" />
+    <Compile Include="vCalendar\Attachment.cs" />
+    <Compile Include="vCalendar\AttachmentCollection.cs" />
+    <Compile Include="vCalendar\Attendee.cs" />
+    <Compile Include="vCalendar\AttendeeCollection.cs" />
+    <Compile Include="vCalendar\AudioReminder.cs" />
+    <Compile Include="vCalendar\Classification.cs" />
+    <Compile Include="vCalendar\DayLightSavings.cs" />
+    <Compile Include="vCalendar\DisplayReminder.cs" />
+    <Compile Include="vCalendar\Duration.cs" />
+    <Compile Include="vCalendar\Entity.cs" />
+    <Compile Include="vCalendar\EntityCollection.cs" />
+    <Compile Include="vCalendar\Expectation.cs" />
+    <Compile Include="vCalendar\GeographicalPosition.cs" />
+    <Compile Include="vCalendar\MailReminder.cs" />
+    <Compile Include="vCalendar\Parser.cs" />
+    <Compile Include="vCalendar\ProcedureReminder.cs" />
+    <Compile Include="vCalendar\Property.cs" />
+    <Compile Include="vCalendar\Reminder.cs" />
+    <Compile Include="vCalendar\Role.cs" />
+    <Compile Include="vCalendar\Status.cs" />
+    <Compile Include="vCalendar\vAlarm.cs" />
+    <Compile Include="vCalendar\ValueType.cs" />
+    <Compile Include="vCalendar\vCalendar.cs" />
+    <Compile Include="vCalendar\vEvent.cs" />
+    <Compile Include="vCalendar\vEventCollection.cs" />
+    <Compile Include="vCalendar\vTodo.cs" />
+    <Compile Include="vCalendar\vTodoCollection.cs" />
+    <Compile Include="vCard\Address.cs" />
+    <Compile Include="vCard\AddressCollection.cs" />
+    <Compile Include="vCard\EmailAddress.cs" />
+    <Compile Include="vCard\EmailAddressCollection.cs" />
+    <Compile Include="vCard\GeographicalPosition.cs" />
+    <Compile Include="vCard\Label.cs" />
+    <Compile Include="vCard\LabelCollection.cs" />
+    <Compile Include="vCard\Name.cs" />
+    <Compile Include="vCard\Parser.cs" />
+    <Compile Include="vCard\TelephoneNumber.cs" />
+    <Compile Include="vCard\TelephoneNumberCollection.cs" />
+    <Compile Include="vCard\vCard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ActiveUp.Net.PDI.snk" />
