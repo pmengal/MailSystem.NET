@@ -111,10 +111,10 @@
     <Compile Include="KeyFlag.cs" />
     <Compile Include="KeyServerPreference.cs" />
     <Compile Include="Notation.cs" />
-    <Compile Include="OnePassSignature.cs" />
+    <Compile Include="Packets\OnePassSignature.cs" />
     <Compile Include="Packets\Packet.cs" />
     <Compile Include="Packets\PacketFormat.cs" />
-    <Compile Include="Packets\Packets.PacketType.cs" />
+    <Compile Include="Packets\PacketType.cs" />
     <Compile Include="Packets\PublicKey.cs" />
     <Compile Include="Packets\PublicKeyEncryptedSessionKey.cs" />
     <Compile Include="Packets\PublicSubkey.cs" />
