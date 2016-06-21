@@ -52,7 +52,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Bin\Debug\ActiveUp.Net.OpenPGP.XML</DocumentationFile>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -100,43 +100,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OpenPGP.ASCIIArmoredMessage.cs" />
-    <Compile Include="OpenPGP.ASCIIArmoredMessageType.cs" />
-    <Compile Include="OpenPGP.CompressionAlgorithm.cs" />
-    <Compile Include="OpenPGP.Constants.cs" />
-    <Compile Include="OpenPGP.Converter.cs" />
-    <Compile Include="OpenPGP.Feature.cs" />
-    <Compile Include="OpenPGP.HashAlgorithm.cs" />
-    <Compile Include="OpenPGP.InvalidPacketSyntaxException.cs" />
-    <Compile Include="OpenPGP.KeyFlag.cs" />
-    <Compile Include="OpenPGP.KeyServerPreference.cs" />
-    <Compile Include="OpenPGP.Notation.cs" />
-    <Compile Include="OpenPGP.Packets.OnePassSignature.cs" />
-    <Compile Include="OpenPGP.Packets.Packet.cs" />
-    <Compile Include="OpenPGP.Packets.PacketFormat.cs" />
-    <Compile Include="OpenPGP.Packets.PacketType.cs" />
-    <Compile Include="OpenPGP.Packets.PublicKey.cs" />
-    <Compile Include="OpenPGP.Packets.PublicKeyEncryptedSessionKey.cs" />
-    <Compile Include="OpenPGP.Packets.PublicSubkey.cs" />
-    <Compile Include="OpenPGP.Packets.SecretKey.cs" />
-    <Compile Include="OpenPGP.Packets.Signature.cs" />
-    <Compile Include="OpenPGP.Packets.SymetricallyEncryptedAndIntegrityProtected.cs" />
-    <Compile Include="OpenPGP.Packets.UserID.cs" />
-    <Compile Include="OpenPGP.Parser.cs" />
-    <Compile Include="OpenPGP.PublicKeyAlgorithm.cs" />
-    <Compile Include="OpenPGP.Reason.cs" />
-    <Compile Include="OpenPGP.ReasonForRevocation.cs" />
-    <Compile Include="OpenPGP.RevocationKey.cs" />
-    <Compile Include="OpenPGP.RevocationKeyClass.cs" />
-    <Compile Include="OpenPGP.SecretSubkey.cs" />
-    <Compile Include="OpenPGP.SignatureSubPacket.cs" />
-    <Compile Include="OpenPGP.SignatureSubPacketType.cs" />
-    <Compile Include="OpenPGP.SignatureType.cs" />
-    <Compile Include="OpenPGP.StringToKeySpecifierType.cs" />
-    <Compile Include="OpenPGP.SymmetricKeyAlgorithm.cs" />
-    <Compile Include="OpenPGP.TargetSignatureInfo.cs" />
-    <Compile Include="OpenPGP.Trust.cs" />
-    <Compile Include="OpenPGP.TrustLevel.cs" />
+    <Compile Include="ASCIIArmoredMessage.cs" />
+    <Compile Include="ASCIIArmoredMessageType.cs" />
+    <Compile Include="CompressionAlgorithm.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Converter.cs" />
+    <Compile Include="Feature.cs" />
+    <Compile Include="HashAlgorithm.cs" />
+    <Compile Include="InvalidPacketSyntaxException.cs" />
+    <Compile Include="KeyFlag.cs" />
+    <Compile Include="KeyServerPreference.cs" />
+    <Compile Include="Notation.cs" />
+    <Compile Include="OnePassSignature.cs" />
+    <Compile Include="Packets\Packet.cs" />
+    <Compile Include="Packets\PacketFormat.cs" />
+    <Compile Include="Packets\Packets.PacketType.cs" />
+    <Compile Include="Packets\PublicKey.cs" />
+    <Compile Include="Packets\PublicKeyEncryptedSessionKey.cs" />
+    <Compile Include="Packets\PublicSubkey.cs" />
+    <Compile Include="Packets\SecretKey.cs" />
+    <Compile Include="Packets\Signature.cs" />
+    <Compile Include="Packets\SymetricallyEncryptedAndIntegrityProtected.cs" />
+    <Compile Include="Packets\UserID.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="PublicKeyAlgorithm.cs" />
+    <Compile Include="Reason.cs" />
+    <Compile Include="ReasonForRevocation.cs" />
+    <Compile Include="RevocationKey.cs" />
+    <Compile Include="RevocationKeyClass.cs" />
+    <Compile Include="SecretSubkey.cs" />
+    <Compile Include="SignatureSubPacket.cs" />
+    <Compile Include="SignatureSubPacketType.cs" />
+    <Compile Include="SignatureType.cs" />
+    <Compile Include="StringToKeySpecifierType.cs" />
+    <Compile Include="SymmetricKeyAlgorithm.cs" />
+    <Compile Include="TargetSignatureInfo.cs" />
+    <Compile Include="Trust.cs" />
+    <Compile Include="TrustLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +164,6 @@
     <PreBuildEvent>
     </PreBuildEvent>
     <PostBuildEvent>
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
