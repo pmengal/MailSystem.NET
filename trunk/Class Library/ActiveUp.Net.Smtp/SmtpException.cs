@@ -15,36 +15,33 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-	#region SmtpException
-	/// <summary>
-	/// Represents an SMTP specific error.
-	/// </summary>
+    /// <summary>
+    /// Represents an SMTP specific error.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
-    public class SmtpException : System.Exception
-	{
-		string _message;
-		/// <summary>
-		/// Constructor, sets message to the specified value.
-		/// </summary>
-		/// <param name="message"></param>
-		public SmtpException(string message)
-		{
-			this._message = message;
-		}
-		/// <summary>
-		/// The exception's message.
-		/// </summary>
-		public override string Message
-		{
-			get
-			{
-				return this._message;
-			}
-		}
-	}
-	#endregion
+    public class SmtpException : Exception
+    {
+        string _message;
+        /// <summary>
+        /// Constructor, sets message to the specified value.
+        /// </summary>
+        /// <param name="message"></param>
+        public SmtpException(string message)
+        {
+            _message = message;
+        }
+        /// <summary>
+        /// The exception's message.
+        /// </summary>
+        public override string Message
+        {
+            get { return _message; }
+        }
+    }
 }

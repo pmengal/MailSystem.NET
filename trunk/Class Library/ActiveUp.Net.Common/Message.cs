@@ -15,7 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
 using System.Security.Cryptography.X509Certificates;
 #if !PocketPC
 using System.Security.Cryptography.Pkcs;
@@ -26,7 +25,6 @@ using System;
 using System.IO;
 using ActiveUp.Net.Security;
 
-
 namespace ActiveUp.Net.Mail
 {
     #region Message Object
@@ -36,7 +34,7 @@ namespace ActiveUp.Net.Mail
     /// Represents a parsed e-mail message.
     /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public class Message : Header
     {
@@ -86,8 +84,8 @@ namespace ActiveUp.Net.Mail
         /// pop.Disconnect()
         /// 'Store message attachments.
         /// For Each attach In message.Attachments
-        ///		attach.StoreToFile("C:\mails\attachments\" & attach.Filename)
-        ///	Next
+        ///        attach.StoreToFile("C:\mails\attachments\" & attach.Filename)
+        ///    Next
         /// 
         /// JScript.NET
         /// 
@@ -102,10 +100,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public AttachmentCollection Attachments
         {
-            get
-            {
-                return this._attachments;
-            }
+            get { return _attachments; }
         }
 
         /// <summary>
@@ -113,14 +108,8 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public System.Collections.Hashtable CustomCollection
         {
-            get
-            {
-                return this._CustomCollection;
-            }
-            set
-            {
-                this._CustomCollection = value;
-            }
+            get { return _CustomCollection; }
+            set { _CustomCollection = value; }
         }
 
         /// <summary>
@@ -128,8 +117,8 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public Signatures Signatures
         {
-            get { return this._signatures; }
-            set { this._signatures = value; }
+            get { return _signatures; }
+            set { _signatures = value; }
         }
 
         /// <summary>
@@ -137,14 +126,8 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public bool HasDomainKeySignature
         {
-            get
-            {
-                return this._hasDomainKeySignature;
-            }
-            set
-            {
-                this._hasDomainKeySignature = value;
-            }
+            get { return _hasDomainKeySignature; }
+            set { _hasDomainKeySignature = value; }
         }
 
         /// <summary>
@@ -152,14 +135,8 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public bool HasSmimeSignature
         {
-            get
-            {
-                return this._hasSmimeSignature;
-            }
-            set
-            {
-                this._hasSmimeSignature = value;
-            }
+            get { return _hasSmimeSignature; }
+            set { _hasSmimeSignature = value; }
         }
 
         /// <summary>
@@ -167,14 +144,8 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public bool HasSmimeDetachedSignature
         {
-            get
-            {
-                return this._hasSmimeDetachedSignature;
-            }
-            set
-            {
-                this._hasSmimeDetachedSignature = value;
-            }
+            get { return _hasSmimeDetachedSignature; }
+            set { _hasSmimeDetachedSignature = value; }
         }
 
         /// <summary>
@@ -187,14 +158,8 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public bool IsSmimeEncrypted
         {
-            get
-            {
-                return this._isSmimeEncrypted;
-            }
-            set
-            {
-                this._isSmimeEncrypted = value;
-            }
+            get { return _isSmimeEncrypted; }
+            set { _isSmimeEncrypted = value; }
         }
 
         /// <summary>
@@ -221,8 +186,8 @@ namespace ActiveUp.Net.Mail
         /// pop.Disconnect()
         /// 'Store message's embedded objects.
         /// For Each obj In message.EmbeddedObjects
-        ///		obj.StoreToFile("C:\mails\objects\" & obj.Filename)
-        ///	Next
+        ///        obj.StoreToFile("C:\mails\objects\" & obj.Filename)
+        ///    Next
         /// 
         /// JScript.NET
         /// 
@@ -237,10 +202,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public EmbeddedObjectCollection EmbeddedObjects
         {
-            get
-            {
-                return this._embeddedObjects;
-            }
+            get { return _embeddedObjects; }
         }
 
         /// <summary>
@@ -248,10 +210,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public MessageCollection SubMessages
         {
-            get
-            {
-                return this._subMessages;
-            }
+            get { return _subMessages; }
         }
 
         /// <summary>
@@ -259,10 +218,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public MimePartCollection LeafMimeParts
         {
-            get
-            {
-                return this._allMimeParts;
-            }
+            get { return _allMimeParts; }
         }
 
         /// <summary>
@@ -270,14 +226,8 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public MimePartCollection UnknownDispositionMimeParts
         {
-            get
-            {
-                return this._otherParts;
-            }
-            set
-            {
-                this._otherParts = value;
-            }
+            get { return _otherParts; }
+            set { _otherParts = value; }
         }
 
         /// <summary>
@@ -288,8 +238,8 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public MimePart PartTreeRoot
         {
-            get { return this._partTreeRoot; }
-            set { this._partTreeRoot = value; }
+            get { return _partTreeRoot; }
+            set { _partTreeRoot = value; }
         }
 
         /// <summary>
@@ -333,27 +283,9 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public MimeBody BodyText
         {
-            get
-            {
-                return this._bodyText;
-            }
-            set
-            {
-                this._bodyText = value;
-            }
+            get { return _bodyText; }
+            set { _bodyText = value; }
         }
-
-        /*public byte[] BodyBinary
-        {
-            get
-            {
-                return this._bodyBinary;
-            }
-            set
-            {
-                this._bodyBinary = value;
-            }
-        }*/
 
         /// <summary>
         /// The message's HTML formatted body (if present).
@@ -393,38 +325,20 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public MimeBody BodyHtml
         {
-            get
-            {
-                return this._bodyHtml;
-            }
-            set
-            {
-                this._bodyHtml = value;
-            }
+            get { return _bodyHtml; }
+            set { _bodyHtml = value; }
         }
 
         public string Preamble
         {
-            get
-            {
-                return this._preamble;
-            }
-            set
-            {
-                this._preamble = value;
-            }
+            get { return _preamble; }
+            set { _preamble = value; }
         }
 
         public string Epilogue
         {
-            get
-            {
-                return this._epilogue;
-            }
-            set
-            {
-                this._epilogue = value;
-            }
+            get { return _epilogue; }
+            set { _epilogue = value; }
         }
 
         /// <summary>
@@ -432,10 +346,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public int Size
         {
-            get
-            {
-                return this.OriginalData.Length;
-            }
+            get { return OriginalData.Length; }
         }
 
         /// <summary>
@@ -445,13 +356,13 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                string msg = (this.From.Email != "") ? this.From.Link : this.Sender.Link;
+                string msg = (From.Email != "") ? From.Link : Sender.Link;
                 msg += "<br />";
-                msg += "To : " + this.To.Links + "<br />";
-                if (this.Cc != null) msg += "Cc : " + this.Cc.Links + "<br />";
-                msg += "Subject : " + this.Subject + "<br />";
-                msg += "Received : " + this.DateString + "<br />";
-                msg += "Body : <br />" + this.BodyText.Text;
+                msg += "To : " + To.Links + "<br />";
+                if (Cc != null) msg += "Cc : " + Cc.Links + "<br />";
+                msg += "Subject : " + Subject + "<br />";
+                msg += "Received : " + DateString + "<br />";
+                msg += "Body : <br />" + BodyText.Text;
                 return msg;
             }
         }
@@ -464,31 +375,36 @@ namespace ActiveUp.Net.Mail
 
         private string GetEncodedMimePart(MimePart part)
         {
-            var sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
             try
             {
                 sb.Append(part.ToMimeString());
-                if (part.ContentTransferEncoding == ContentTransferEncoding.Base64) sb.Append("\r\n\r\n" + System.Text.RegularExpressions.Regex.Replace(System.Convert.ToBase64String(part.BinaryContent, 0, part.BinaryContent.Length), "(?<found>[^\n]{100})", "${found}\n"));
-                else if (part.ContentTransferEncoding == ContentTransferEncoding.QuotedPrintable) sb.Append("\r\n\r\n" + Codec.ToQuotedPrintable(System.Text.Encoding.ASCII.GetString(part.BinaryContent, 0, part.BinaryContent.Length), part.Charset));
-                else if (part.ContentTransferEncoding == ContentTransferEncoding.SevenBits) sb.Append("\r\n\r\n" + System.Text.Encoding.UTF7.GetString(part.BinaryContent, 0, part.BinaryContent.Length));
-                else if (part.ContentTransferEncoding == ContentTransferEncoding.EightBits) sb.Append("\r\n\r\n" + System.Text.Encoding.UTF8.GetString(part.BinaryContent, 0, part.BinaryContent.Length));
-                else sb.Append("\r\n\r\n" + System.Text.Encoding.ASCII.GetString(part.BinaryContent,0,part.BinaryContent.Length));
+                if (part.ContentTransferEncoding == ContentTransferEncoding.Base64)
+                    sb.Append("\r\n\r\n" + Regex.Replace(Convert.ToBase64String(part.BinaryContent, 0, part.BinaryContent.Length), "(?<found>[^\n]{100})", "${found}\n"));
+                else if (part.ContentTransferEncoding == ContentTransferEncoding.QuotedPrintable)
+                    sb.Append("\r\n\r\n" + Codec.ToQuotedPrintable(Encoding.ASCII.GetString(part.BinaryContent, 0, part.BinaryContent.Length), part.Charset));
+                else if (part.ContentTransferEncoding == ContentTransferEncoding.SevenBits)
+                    sb.Append("\r\n\r\n" + Encoding.UTF7.GetString(part.BinaryContent, 0, part.BinaryContent.Length));
+                else if (part.ContentTransferEncoding == ContentTransferEncoding.EightBits)
+                    sb.Append("\r\n\r\n" + Encoding.UTF8.GetString(part.BinaryContent, 0, part.BinaryContent.Length));
+                else
+                    sb.Append("\r\n\r\n" + Encoding.ASCII.GetString(part.BinaryContent,0,part.BinaryContent.Length));
             }
-            catch (System.Exception) { }
+            catch (Exception) { }
             return sb.ToString();
         }
 
         private string GetEmbeddedObjects(string boundary)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            foreach (MimePart part in this.EmbeddedObjects) sb.Append(boundary + part.ToMimeString());
+            StringBuilder sb = new StringBuilder();
+            foreach (MimePart part in EmbeddedObjects) sb.Append(boundary + part.ToMimeString());
             return sb.ToString();
         }
 
         private string GetAttachments(string boundary)
         {
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            foreach (MimePart part in this.Attachments) sb.Append(boundary + part.ToMimeString());
+            StringBuilder sb = new StringBuilder();
+            foreach (MimePart part in Attachments) sb.Append(boundary + part.ToMimeString());
             return sb.ToString();
         }
 
@@ -496,8 +412,8 @@ namespace ActiveUp.Net.Mail
         {
             MimePart bodies = new MimePart();
 
-            bool html = (this.BodyHtml.Text.Length > 0);
-            bool plain = (this.BodyText.Text.Length > 0);
+            bool html = (BodyHtml.Text.Length > 0);
+            bool plain = (BodyText.Text.Length > 0);
 
             // If we have both, make a multipart/alternative container.
             if (html && plain)
@@ -508,16 +424,16 @@ namespace ActiveUp.Net.Mail
                 string boundary = "---AU_MimePart_" + unique;
                 bodies.ContentType.Parameters.Add("boundary", boundary);
 
-                bodies.SubParts.Add(this.BodyText.ToMimePart());
-                bodies.SubParts.Add(this.BodyHtml.ToMimePart());
+                bodies.SubParts.Add(BodyText.ToMimePart());
+                bodies.SubParts.Add(BodyHtml.ToMimePart());
             }
             else if (html)
             {
-                bodies = this.BodyHtml.ToMimePart();
+                bodies = BodyHtml.ToMimePart();
             }
             else if (plain)
             {
-                bodies = this.BodyText.ToMimePart();
+                bodies = BodyText.ToMimePart();
             }
 
             return bodies;
@@ -527,7 +443,7 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart();
 
-            if (this.EmbeddedObjects.Count > 0)
+            if (EmbeddedObjects.Count > 0)
             {
                 part.ContentType.MimeType = "multipart/related";
 
@@ -537,12 +453,12 @@ namespace ActiveUp.Net.Mail
 
                 part.ContentType.Parameters.Add("type", "\"multipart/alternative\"");
 
-                part.SubParts.Add(this.GetBodiesPart());
+                part.SubParts.Add(GetBodiesPart());
 
-                foreach (MimePart embeddedObject in this.EmbeddedObjects)
+                foreach (MimePart embeddedObject in EmbeddedObjects)
                     part.SubParts.Add(embeddedObject);
             }
-            else part = this.GetBodiesPart();
+            else part = GetBodiesPart();
 
             return part;
         }
@@ -551,9 +467,9 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart();
 
-            if (this.Attachments.Count > 0
-                || this.UnknownDispositionMimeParts.Count > 0
-                || this.SubMessages.Count > 0)
+            if (Attachments.Count > 0
+                || UnknownDispositionMimeParts.Count > 0
+                || SubMessages.Count > 0)
             {
                 part.ContentType.MimeType = "multipart/mixed";
 
@@ -561,18 +477,18 @@ namespace ActiveUp.Net.Mail
                 string boundary = "---AU_MimePart_" + unique;
                 part.ContentType.Parameters.Add("boundary", boundary);
 
-                part.SubParts.Add(this.GetMultipartRelatedContainer());
+                part.SubParts.Add(GetMultipartRelatedContainer());
 
-                foreach (MimePart attachment in this.Attachments)
+                foreach (MimePart attachment in Attachments)
                     part.SubParts.Add(attachment);
 
-                foreach (MimePart otherpart in this.UnknownDispositionMimeParts)
+                foreach (MimePart otherpart in UnknownDispositionMimeParts)
                     part.SubParts.Add(otherpart);
 
-                foreach (Message message in this.SubMessages)
+                foreach (Message message in SubMessages)
                     part.SubParts.Add(message.ToMimePart());
             }
-            else part = this.GetMultipartRelatedContainer();
+            else part = GetMultipartRelatedContainer();
 
             return part;
         }
@@ -582,24 +498,24 @@ namespace ActiveUp.Net.Mail
         #region Public methods
 
         /*public string GetBodies(string boundary)
-		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			try
-			{
-				if((this.BodyHtml.Text!=null && this.BodyHtml.Text.Length>0) && (this.BodyText.Text!=null && this.BodyText.Text.Length>0))
-				{
-					sb.Append("--"+boundary);
-					boundary = "---AU_MimePart_"+Codec.GetUniqueString();
-					sb.Append("\r\nContent-Type: multipart/alternative;\r\n boundary=\""+boundary+"\"\r\n\r\n--"+boundary+"\r\nContent-Type: text/plain;\r\n charset=\""+this.BodyText.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyText.Text,this.BodyHtml.Charset));
-					sb.Append("\r\n\r\n--"+boundary+"\r\nContent-Type: text/html;\r\n charset=\""+this.BodyHtml.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyHtml.Text,this.BodyHtml.Charset));
-					sb.Append("\r\n\r\n--"+boundary+"--");
-				}
-				else if(this.BodyHtml.Text!=null && this.BodyHtml.Text.Length>0) sb.Append("--"+boundary+"\r\nContent-Type: text/html;\r\n charset=\""+this.BodyHtml.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyHtml.Text.TrimEnd('\n','\r'),this.BodyHtml.Charset));
-				else if(this.BodyText.Text!=null && this.BodyText.Text.Length>0) sb.Append("--"+boundary+"\r\nContent-Type: text/plain;\r\n charset=\""+this.BodyText.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyText.Text.TrimEnd('\n','\r'),this.BodyText.Charset));
-			} 
-			catch(System.Exception) {  }
-			return sb.ToString();
-		}*/
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            try
+            {
+                if((this.BodyHtml.Text!=null && this.BodyHtml.Text.Length>0) && (this.BodyText.Text!=null && this.BodyText.Text.Length>0))
+                {
+                    sb.Append("--"+boundary);
+                    boundary = "---AU_MimePart_"+Codec.GetUniqueString();
+                    sb.Append("\r\nContent-Type: multipart/alternative;\r\n boundary=\""+boundary+"\"\r\n\r\n--"+boundary+"\r\nContent-Type: text/plain;\r\n charset=\""+this.BodyText.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyText.Text,this.BodyHtml.Charset));
+                    sb.Append("\r\n\r\n--"+boundary+"\r\nContent-Type: text/html;\r\n charset=\""+this.BodyHtml.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyHtml.Text,this.BodyHtml.Charset));
+                    sb.Append("\r\n\r\n--"+boundary+"--");
+                }
+                else if(this.BodyHtml.Text!=null && this.BodyHtml.Text.Length>0) sb.Append("--"+boundary+"\r\nContent-Type: text/html;\r\n charset=\""+this.BodyHtml.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyHtml.Text.TrimEnd('\n','\r'),this.BodyHtml.Charset));
+                else if(this.BodyText.Text!=null && this.BodyText.Text.Length>0) sb.Append("--"+boundary+"\r\nContent-Type: text/plain;\r\n charset=\""+this.BodyText.Charset+"\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n"+Codec.ToQuotedPrintable(this.BodyText.Text.TrimEnd('\n','\r'),this.BodyText.Charset));
+            } 
+            catch(System.Exception) {  }
+            return sb.ToString();
+        }*/
 
         /// <summary>
         /// Converts a message to a message/rfc822 type MIME part, with a Content-Disposition set to "attachment".
@@ -609,14 +525,14 @@ namespace ActiveUp.Net.Mail
             MimePart part = new MimePart();
             try
             {
-                part.Charset = this.Charset;
+                part.Charset = Charset;
                 part.ContentTransferEncoding = ContentTransferEncoding.SevenBits;
                 part.ContentDisposition.Disposition = "attachment";
-                part.ContentDisposition.FileName = this.Subject.Trim(' ').Replace(" ", "_") + ".eml";
+                part.ContentDisposition.FileName = Subject.Trim(' ').Replace(" ", "_") + ".eml";
                 part.ContentType.MimeType = "message/rfc822";
-                part.TextContent = this.ToMimeString();
+                part.TextContent = ToMimeString();
             }
-            catch (System.Exception) { }
+            catch (Exception) { }
             return part;
         }
 
@@ -641,14 +557,14 @@ namespace ActiveUp.Net.Mail
             CheckBuiltMimePartTree();
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(string.Concat(((Header)this).ToHeaderString(removeBlindCopies, forceBase64Encoding).TrimEnd('\r', '\n'), Tokenizer.NewLine));
+            sb.Append(string.Concat(ToHeaderString(removeBlindCopies, forceBase64Encoding).TrimEnd('\r', '\n'), Tokenizer.NewLine));
             sb.Append(Tokenizer.NewLine);
-            string messageAsPart = this.PartTreeRoot.ToMimeString(forceBase64Encoding);
+            string messageAsPart = PartTreeRoot.ToMimeString(forceBase64Encoding);
             int bodyStart = Regex.Match(messageAsPart, @"(?<=\r?\n\r?\n).").Index;
             sb.Append(messageAsPart.Substring(bodyStart).TrimStart('\r', '\n'));
 
             string toReturn = sb.ToString();
-            if (this.ContentType.Type.Equals("multipart")) toReturn = sb.ToString().TrimEnd('\r', '\n');
+            if (ContentType.Type.Equals("multipart")) toReturn = sb.ToString().TrimEnd('\r', '\n');
             
             return toReturn;
         }
@@ -669,9 +585,9 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public void BuildMimePartTree()
         {
-            this.PartTreeRoot = this.GetMultipartMixedContainer();
+            PartTreeRoot = GetMultipartMixedContainer();
 
-            this.ContentType = this.PartTreeRoot.ContentType;
+            ContentType = PartTreeRoot.ContentType;
 
             _builtMimePartTree = true;
         }
@@ -840,7 +756,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public string GetMidReference()
         {
-            return "mid:" + System.Web.HttpUtility.UrlEncode(this.MessageId.Trim('<', '>'));
+            return "mid:" + System.Web.HttpUtility.UrlEncode(MessageId.Trim('<', '>'));
         }
 
 #endif
@@ -909,7 +825,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void Append(IMailbox imapMailbox)
         {
-            imapMailbox.Append(this.ToString());
+            imapMailbox.Append(ToString());
         }
 
         private delegate void DelegateAppend(IMailbox imapMailbox);
@@ -917,13 +833,13 @@ namespace ActiveUp.Net.Mail
 
         public IAsyncResult BeginAppend(IMailbox imapMailbox, AsyncCallback callback)
         {
-            this._delegateAppend = this.Append;
-            return this._delegateAppend.BeginInvoke(imapMailbox, callback, this._delegateAppend);
+            _delegateAppend = Append;
+            return _delegateAppend.BeginInvoke(imapMailbox, callback, _delegateAppend);
         }
 
         public void EndAppend(IAsyncResult result)
         {
-            this._delegateAppend.EndInvoke(result);
+            _delegateAppend.EndInvoke(result);
         }
 
         /// <summary>
@@ -969,9 +885,12 @@ namespace ActiveUp.Net.Mail
         public string StoreToFile(string fileName, bool useTemp)
         {
             string tempPath = "";
-            tempPath = useTemp ? System.IO.Path.GetTempFileName() : fileName;
-            System.IO.StreamWriter sw = System.IO.File.CreateText(tempPath);
-            sw.Write(this.ToMimeString());
+            if (useTemp)
+                tempPath = System.IO.Path.GetTempFileName();
+            else
+                tempPath = fileName;
+            StreamWriter sw = File.CreateText(tempPath);
+            sw.Write(ToMimeString());
             sw.Close();
            
             if (useTemp)
@@ -985,25 +904,20 @@ namespace ActiveUp.Net.Mail
                     if (string.IsNullOrEmpty(System.IO.Path.GetFileName(fileName)))
                     {
                         string savePath = System.IO.Path.Combine(fileName, System.IO.Path.GetFileNameWithoutExtension(tempPath) + ".eml");
-                        System.IO.File.Move(tempPath, savePath);
-                        System.IO.File.Delete(tempPath);
+                        File.Move(tempPath, savePath);
+                        File.Delete(tempPath);
                         return savePath;
                     }
                     else
-                    {                       
-                        System.IO.File.Move(tempPath, fileName);
-                        System.IO.File.Delete(tempPath);                                       
+                    {
+                        File.Move(tempPath, fileName);
+                        File.Delete(tempPath);
                     }
-                        
                     return fileName;
                 }
-
                 return tempPath;
             }
-
             return tempPath;
-            
-            
         }
 
         /// <summary>
@@ -1048,7 +962,6 @@ namespace ActiveUp.Net.Mail
         /// </example> 
         public override string StoreToFile(string path)
         {
-
             return StoreToFile(path, false);
         }
 
@@ -1071,8 +984,8 @@ namespace ActiveUp.Net.Mail
         /// 
         /// &lt;?xml version='1.0'?&gt;
         /// &lt;signatures&gt;
-        ///		&lt;signature from=&quot;postmaster&quot; subject=&quot;Undeliverable Mail&quot; body=&quot;Unknown user&quot; search=&quot;&quot; />
-        ///		...
+        ///        &lt;signature from=&quot;postmaster&quot; subject=&quot;Undeliverable Mail&quot; body=&quot;Unknown user&quot; search=&quot;&quot; />
+        ///        ...
         /// &lt;/signatures&gt;
         /// </remarks>
         /// <returns>A BounceStatus object containing the level of revelance and if 100% identified, the erroneous email address.</returns>
@@ -1080,7 +993,10 @@ namespace ActiveUp.Net.Mail
         {
             string ressource = string.Empty;
             
-            ressource = string.IsNullOrEmpty(signaturesFilePath) ? Header.GetResource("ActiveUp.Net.Common.bouncedSignatures.xml") : System.IO.File.OpenText(signaturesFilePath).ReadToEnd();
+            if (string.IsNullOrEmpty(signaturesFilePath))
+                ressource = GetResource("ActiveUp.Net.Common.bouncedSignatures.xml");
+            else
+                ressource = File.OpenText(signaturesFilePath).ReadToEnd();
 
             System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
             doc.LoadXml(ressource);
@@ -1092,15 +1008,15 @@ namespace ActiveUp.Net.Mail
                 result.Level = 0;
 
                 if (el.GetAttribute("from").Trim() != "")
-                    if (this.From.Merged.IndexOf(el.GetAttribute("from")) != -1)
+                    if (From.Merged.IndexOf(el.GetAttribute("from")) != -1)
                         result.Level++;
 
-                if (this.Subject != null && el.GetAttribute("subject").Trim() != "")
-                    if (this.Subject.IndexOf(el.GetAttribute("subject")) != -1)
+                if (Subject != null && el.GetAttribute("subject").Trim() != "")
+                    if (Subject.IndexOf(el.GetAttribute("subject")) != -1)
                         result.Level++;
 
                 if (el.GetAttribute("body").Trim() != "")
-                    if (this.BodyText.Text.IndexOf(el.GetAttribute("body")) != -1)
+                    if (BodyText.Text.IndexOf(el.GetAttribute("body")) != -1)
                         result.Level++;
 
                 if (result.Level < bestResult)
@@ -1109,7 +1025,7 @@ namespace ActiveUp.Net.Mail
                 if (result.Level > 0)
                 {
                     int start = 0;
-                    string body = this.BodyText.Text;
+                    string body = BodyText.Text;
 
                     if (el.GetAttribute("body") != string.Empty)
                         start = body.IndexOf(el.GetAttribute("body"));
@@ -1118,11 +1034,11 @@ namespace ActiveUp.Net.Mail
                         start = 0;
 
                     string emailExpression = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-                    System.Text.RegularExpressions.Regex regExp = new System.Text.RegularExpressions.Regex(emailExpression);
+                    Regex regExp = new Regex(emailExpression);
 
                     if (regExp.IsMatch(body, start))
                     {
-                        System.Text.RegularExpressions.Match match = regExp.Match(body, start);
+                        Match match = regExp.Match(body, start);
                         result.Email = match.Value;
                     }
 
@@ -1141,12 +1057,12 @@ namespace ActiveUp.Net.Mail
         public Message Clone()
         {
             System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            MemoryStream stream = new MemoryStream();
             binFormatter.Serialize(stream, this);
             stream.Position = 0;
 
             Message ret = (Message)binFormatter.Deserialize(stream);
-            ret.Signatures = this.Signatures;
+            ret.Signatures = Signatures;
 
             return ret;
         }
@@ -1187,7 +1103,7 @@ namespace ActiveUp.Net.Mail
         #if !PocketPC
         public Message SmimeDevelopeAndDecrypt()
         {
-            return this.SmimeDevelopeAndDecrypt(new X509Certificate2Collection());
+            return SmimeDevelopeAndDecrypt(new X509Certificate2Collection());
         }
         #endif
         /// <summary>
@@ -1212,11 +1128,11 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
         public Message SmimeDevelopeAndDecrypt(X509Certificate2Collection extraStore)
         {
-            if (!this.IsSmimeEncrypted) throw new InvalidOperationException("This message doesn't seem to be encrypted, or the encryption method is unknown.");
+            if (!IsSmimeEncrypted) throw new InvalidOperationException("This message doesn't seem to be encrypted, or the encryption method is unknown.");
             else
             {
                 EnvelopedCms cms = new EnvelopedCms();
-                cms.Decode(this.PartTreeRoot.BinaryContent);
+                cms.Decode(PartTreeRoot.BinaryContent);
                 cms.Decrypt(extraStore);
 
                 Message sub = Parser.ParseMessage(cms.ContentInfo.Content);
@@ -1250,11 +1166,11 @@ namespace ActiveUp.Net.Mail
         #if !PocketPC
         public Message SmimeDevelopeAndExposeSignature()
         {
-            if (!this.HasSmimeSignature) throw new InvalidOperationException("This message doesn't seem to be signed, or the signing method is unknown.");
+            if (!HasSmimeSignature) throw new InvalidOperationException("This message doesn't seem to be signed, or the signing method is unknown.");
             else
             {
                 SignedCms cms = new SignedCms();
-                cms.Decode(this.PartTreeRoot.BinaryContent);
+                cms.Decode(PartTreeRoot.BinaryContent);
 
                 Message sub = Parser.ParseMessage(cms.ContentInfo.Content);
 
@@ -1282,7 +1198,7 @@ namespace ActiveUp.Net.Mail
 #if !PocketPC
         public void SmimeEnvelopeAndEncryptFor(CmsRecipient recipient)
         {
-            this.SmimeEnvelopeAndEncryptFor(new CmsRecipientCollection(recipient));
+            SmimeEnvelopeAndEncryptFor(new CmsRecipientCollection(recipient));
         }
         /// <summary>
         /// Encrypts the message and envelopes it for multiple recipients.
@@ -1302,7 +1218,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void SmimeEnvelopeAndEncryptFor(CmsRecipientCollection recipients)
         {
-            string mimeString = this.ToMimeString();
+            string mimeString = ToMimeString();
             byte[] toencrypt = Encoding.ASCII.GetBytes(mimeString);
             EnvelopedCms cms = new EnvelopedCms(new ContentInfo(toencrypt));
             cms.Encrypt(recipients);
@@ -1318,11 +1234,11 @@ namespace ActiveUp.Net.Mail
 
             envelope.BinaryContent = cms.Encode();
 
-            this.PartTreeRoot = envelope;
+            PartTreeRoot = envelope;
 
-            this.ContentType = this.PartTreeRoot.ContentType;
-            this.ContentDisposition = this.PartTreeRoot.ContentDisposition;
-            this.ContentTransferEncoding = this.PartTreeRoot.ContentTransferEncoding;
+            ContentType = PartTreeRoot.ContentType;
+            ContentDisposition = PartTreeRoot.ContentDisposition;
+            ContentTransferEncoding = PartTreeRoot.ContentTransferEncoding;
         }
 
         /// <summary>
@@ -1343,7 +1259,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void SmimeEnvelopeAndSignBy(CmsSigner signer)
         {
-            string mimeString = this.ToMimeString();
+            string mimeString = ToMimeString();
             byte[] tosign = Encoding.ASCII.GetBytes(mimeString);
             SignedCms cms = new SignedCms(new ContentInfo(tosign));
             cms.ComputeSignature(signer);
@@ -1359,11 +1275,11 @@ namespace ActiveUp.Net.Mail
 
             envelope.BinaryContent = cms.Encode();
 
-            this.PartTreeRoot = envelope;
+            PartTreeRoot = envelope;
 
-            this.ContentType = this.PartTreeRoot.ContentType;
-            this.ContentDisposition = this.PartTreeRoot.ContentDisposition;
-            this.ContentTransferEncoding = this.PartTreeRoot.ContentTransferEncoding;
+            ContentType = PartTreeRoot.ContentType;
+            ContentDisposition = PartTreeRoot.ContentDisposition;
+            ContentTransferEncoding = PartTreeRoot.ContentTransferEncoding;
         }
 
         /// <summary>
@@ -1385,7 +1301,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void SmimeAttachSignatureBy(CmsSigner signer)
         {
-            string body = this.PartTreeRoot.ToMimeString();
+            string body = PartTreeRoot.ToMimeString();
             byte[] tosign = Encoding.ASCII.GetBytes(body.TrimEnd('\r', '\n') + "\r\n");
 
             SignedCms cms = new SignedCms(new ContentInfo(tosign), true);
@@ -1393,7 +1309,7 @@ namespace ActiveUp.Net.Mail
 
             MimePart envelope = new MimePart();
 
-            this.Signatures.Smime = cms;
+            Signatures.Smime = cms;
             envelope.ContentType.MimeType = "multipart/signed";
             envelope.ContentType.Parameters.Add("protocol", "\"application/x-pkcs7-signature\"");
             envelope.ContentType.Parameters.Add("micalg", cms.SignerInfos[0].DigestAlgorithm.FriendlyName);
@@ -1401,14 +1317,14 @@ namespace ActiveUp.Net.Mail
             string boundary = "---AU_MimePart_" + unique;
             envelope.ContentType.Parameters.Add("boundary", boundary);
 
-            envelope.SubParts.Add(this.PartTreeRoot);
+            envelope.SubParts.Add(PartTreeRoot);
             envelope.SubParts.Add(MimePart.GetSignaturePart(cms));
 
-            this.PartTreeRoot = envelope;
+            PartTreeRoot = envelope;
 
-            this.ContentType = this.PartTreeRoot.ContentType;
-            this.ContentDisposition = this.PartTreeRoot.ContentDisposition;
-            this.ContentTransferEncoding = this.PartTreeRoot.ContentTransferEncoding;
+            ContentType = PartTreeRoot.ContentType;
+            ContentDisposition = PartTreeRoot.ContentDisposition;
+            ContentTransferEncoding = PartTreeRoot.ContentTransferEncoding;
         }
 
         /// <summary>
@@ -1420,19 +1336,19 @@ namespace ActiveUp.Net.Mail
             Message message = new Message();
 
             // Inverse the recipient and sender
-            message.To.Add(this.ConfirmRead);
-            message.From = this.To[0];
+            message.To.Add(ConfirmRead);
+            message.From = To[0];
 
             // Create the subject
-            message.Subject = "Read: " + this.Subject;
+            message.Subject = "Read: " + Subject;
 
             // Adds the original message ID
             
-            message.AddHeaderField("In-Reply-To", this.MessageId);
+            message.AddHeaderField("In-Reply-To", MessageId);
 
             // Prepare the bodies
 
-            DateTime dateReceived = this.Date;
+            DateTime dateReceived = Date;
             DateTime dateRead = DateTime.Now;
 
             message.BodyText.Text = string.Format(@"Your message
@@ -1441,7 +1357,7 @@ namespace ActiveUp.Net.Mail
     Subject:  {1}
     Sent:  {2} {3}
 
-was read on {4} {5}.", this.To[0].Email, this.Subject, dateReceived.ToShortDateString(), dateReceived.ToShortTimeString(),
+was read on {4} {5}.", To[0].Email, Subject, dateReceived.ToShortDateString(), dateReceived.ToShortTimeString(),
                  dateRead.ToShortDateString(), dateRead.ToShortTimeString());
 
             message.BodyHtml.Text = string.Format(@"<P><FONT SIZE=3D2>Your message<BR>
@@ -1451,7 +1367,7 @@ was read on {4} {5}.", this.To[0].Email, this.Subject, dateReceived.ToShortDateS
 &nbsp;&nbsp;&nbsp; Sent:&nbsp; {2} {3}<BR>
 <BR>
 was read on {4} {5}.</FONT>
-</P>", this.To[0].Email, this.Subject, dateReceived.ToShortDateString(), dateReceived.ToShortTimeString(),
+</P>", To[0].Email, Subject, dateReceived.ToShortDateString(), dateReceived.ToShortTimeString(),
                  dateRead.ToShortDateString(), dateRead.ToShortTimeString());
 
             // Create the repot mime part
@@ -1462,7 +1378,7 @@ was read on {4} {5}.</FONT>
             notificationPart.TextContent = string.Format(@"Reporting-UA: {0}; ActiveUp.MailSystem
 Final-Recipient: rfc822;{1}
 Original-Message-ID: <{2}>
-Disposition: manual-action/MDN-sent-manually; displayed", "domain", this.To[0].Email, this.MessageId);
+Disposition: manual-action/MDN-sent-manually; displayed", "domain", To[0].Email, MessageId);
 
             message.UnknownDispositionMimeParts.Add(notificationPart);
 

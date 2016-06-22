@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     /// <summary>
@@ -46,7 +42,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Version:{0} Size:{1} Horz Precision:{2} Veret Precision:{3} Lattitude:{4} Longitude:{5} Altitude:{6}",
+            return string.Format("Version:{0} Size:{1} Horz Precision:{2} Veret Precision:{3} Lattitude:{4} Longitude:{5} Altitude:{6}",
                 version, size, horzPrecision, vertPrecision, lattitude, longitude, altitude);
         }
 

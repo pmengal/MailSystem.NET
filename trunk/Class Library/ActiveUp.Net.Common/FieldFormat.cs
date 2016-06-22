@@ -19,135 +19,135 @@ using System;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Represents the formatting options of a message template field.
-	/// </summary>
+    /// <summary>
+    /// Represents the formatting options of a message template field.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-	public class FieldFormat
-	{
-		private string _name, _format;
-		private PaddingDirection _paddingDir;
-		private char _paddingChar;
-		private int _totalWidth;
+    public class FieldFormat
+    {
+        private string _name, _format;
+        private PaddingDirection _paddingDir;
+        private char _paddingChar;
+        private int _totalWidth;
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public FieldFormat()
-		{
-			this.Name = string.Empty;
-			this.Format = string.Empty;
-			this.PaddingDir = PaddingDirection.Left;
-			this.TotalWidth = 0;
-			this.PaddingChar = ' ';
-		}
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public FieldFormat()
+        {
+            Name = string.Empty;
+            Format = string.Empty;
+            PaddingDir = PaddingDirection.Left;
+            TotalWidth = 0;
+            PaddingChar = ' ';
+        }
 
-		/// <summary>
-		/// Creates the field format based on it's name and format string.
-		/// </summary>
-		/// <param name="name">The name of the field.</param>
-		/// <param name="format">The format string of the field format.</param>
-		public FieldFormat(string name, string format)
-		{
-			this.Name = name;
-			this.Format = format;
-			this.PaddingDir = PaddingDirection.Left;
-			this.TotalWidth = 0;
-			this.PaddingChar = ' ';
-		}
+        /// <summary>
+        /// Creates the field format based on it's name and format string.
+        /// </summary>
+        /// <param name="name">The name of the field.</param>
+        /// <param name="format">The format string of the field format.</param>
+        public FieldFormat(string name, string format)
+        {
+            Name = name;
+            Format = format;
+            PaddingDir = PaddingDirection.Left;
+            TotalWidth = 0;
+            PaddingChar = ' ';
+        }
 
-		/// <summary>
-		/// Creates the field format based on the field name, format string, padding direction, total width and padding char.
-		/// </summary>
-		/// <param name="name">The name of the field.</param>
-		/// <param name="format">The format string.</param>
-		/// <param name="paddingDir">The padding direction.</param>
-		/// <param name="totalWidth">The total width.</param>
-		/// <param name="paddingChar">The padding char.</param>
-		public FieldFormat(string name, string format, PaddingDirection paddingDir, int totalWidth, char paddingChar)
-		{
-			this.Name = name;
-			this.Format = format;
-			this.PaddingDir = paddingDir;
-			this.TotalWidth = totalWidth;
-			this.PaddingChar = paddingChar;
-		}
+        /// <summary>
+        /// Creates the field format based on the field name, format string, padding direction, total width and padding char.
+        /// </summary>
+        /// <param name="name">The name of the field.</param>
+        /// <param name="format">The format string.</param>
+        /// <param name="paddingDir">The padding direction.</param>
+        /// <param name="totalWidth">The total width.</param>
+        /// <param name="paddingChar">The padding char.</param>
+        public FieldFormat(string name, string format, PaddingDirection paddingDir, int totalWidth, char paddingChar)
+        {
+            Name = name;
+            Format = format;
+            PaddingDir = paddingDir;
+            TotalWidth = totalWidth;
+            PaddingChar = paddingChar;
+        }
 
-		/// <summary>
-		/// The padding char.
-		/// </summary>
-		public char PaddingChar
-		{
-			get
-			{
-				return _paddingChar;
-			}
-			set
-			{
-				_paddingChar = value;
-			}
-		}
+        /// <summary>
+        /// The padding char.
+        /// </summary>
+        public char PaddingChar
+        {
+            get
+            {
+                return _paddingChar;
+            }
+            set
+            {
+                _paddingChar = value;
+            }
+        }
 
-		/// <summary>
-		/// The total width.
-		/// </summary>
-		public int TotalWidth
-		{
-			get
-			{
-				return _totalWidth;
-			}
-			set
-			{
-				_totalWidth = value;
-			}
-		}
+        /// <summary>
+        /// The total width.
+        /// </summary>
+        public int TotalWidth
+        {
+            get
+            {
+                return _totalWidth;
+            }
+            set
+            {
+                _totalWidth = value;
+            }
+        }
 
-		/// <summary>
-		/// The padding direction.
-		/// </summary>
-		public PaddingDirection PaddingDir
-		{
-			get
-			{
-				return _paddingDir;
-			}
-			set
-			{
-				_paddingDir = value;
-			}
-		}
+        /// <summary>
+        /// The padding direction.
+        /// </summary>
+        public PaddingDirection PaddingDir
+        {
+            get
+            {
+                return _paddingDir;
+            }
+            set
+            {
+                _paddingDir = value;
+            }
+        }
 
-		/// <summary>
-		/// The field name.
-		/// </summary>
-		public string Name
-		{
-			get
-			{
-				return _name;
-			}
-			set
-			{
-				_name = value;
-			}
-		}
+        /// <summary>
+        /// The field name.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
 
-		/// <summary>
-		/// The format string.
-		/// </summary>
-		public string Format
-		{
-			get
-			{
-				return _format;
-			}
-			set
-			{
-				_format = value;
-			}
-		}
-	}
+        /// <summary>
+        /// The format string.
+        /// </summary>
+        public string Format
+        {
+            get
+            {
+                return _format;
+            }
+            set
+            {
+                _format = value;
+            }
+        }
+    }
 }

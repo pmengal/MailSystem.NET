@@ -15,9 +15,7 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ActiveUp.Net.Dns
 {
@@ -76,7 +74,7 @@ namespace ActiveUp.Net.Dns
         {
             get 
             {
-                string res = String.Empty;                
+                string res = string.Empty;                
                 foreach (string s in text)
                     res += s + "\n"; 
                 return res;

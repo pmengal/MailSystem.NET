@@ -15,64 +15,54 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+using System.Collections;
+
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Contains Smtp Exceptions.
-	/// </summary>
+    /// <summary>
+    /// Contains Smtp Exceptions.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-    public class SmtpExceptionCollection : System.Collections.CollectionBase
-	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public SmtpExceptionCollection()
-		{
-			//
-		}
+    public class SmtpExceptionCollection : CollectionBase
+    {
+        /// <summary>
+        /// Add a SmtpException object in the collection.
+        /// </summary>
+        /// <param name="exception">Exception to add.</param>
+        public void Add(SmtpException exception)
+        {
+            List.Add(exception);
+        }
 
-		/// <summary>
-		/// Add a SmtpException object in the collection.
-		/// </summary>
-		/// <param name="exception">Exception to add.</param>
-		public void Add(ActiveUp.Net.Mail.SmtpException exception)
-		{
-			this.List.Add(exception);
-		}
+        /// <summary>
+        /// Add a SmtpException in the collection specifing it's exchange name and preference level.
+        /// </summary>
+        /// <param name="message">Message of the exception to add.</param>
+        public void Add(string message)
+        {
+            List.Add(new SmtpException(message));
+        }
 
-		/// <summary>
-		/// Add a SmtpException in the collection specifing it's exchange name and preference level.
-		/// </summary>
-		/// <param name="message">Message of the exception to add.</param>
-		public void Add(string message)
-		{
-			this.List.Add(new ActiveUp.Net.Mail.SmtpException(message));
-		}
+        /// <summary>
+        /// Remove the SmtpException at the specified index position.
+        /// </summary>
+        /// <param name="index">The index position.</param>
+        public void Remove(int index)
+        {
+            // Check to see if there is a SmtpException at the supplied index.
+            if (index < Count || index >= 0)
+                List.RemoveAt(index); 
+        }
 
-		/// <summary>
-		/// Remove the SmtpException at the specified index position.
-		/// </summary>
-		/// <param name="index">The index position.</param>
-		public void Remove(int index)
-		{
-			// Check to see if there is a SmtpException at the supplied index.
-			if (index < Count || index >= 0)
-			{
-				this.List.RemoveAt(index); 
-			}
-		}
-
-		/// <summary>
-		/// Returns the SmtpException at the specified index position.
-		/// </summary>
-		public ActiveUp.Net.Mail.SmtpException this[int index]
-		{
-			get
-			{
-				return (ActiveUp.Net.Mail.SmtpException)this.List[index];
-			}
-		}
-	}
+        /// <summary>
+        /// Returns the SmtpException at the specified index position.
+        /// </summary>
+        public SmtpException this[int index]
+        {
+            get { return (SmtpException)List[index]; }
+        }
+    }
 }

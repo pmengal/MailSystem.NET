@@ -19,51 +19,42 @@ using System;
 
 namespace ActiveUp.Net.WhoIs
 {
-	#region class WhoisException
+    /// <summary>
+    /// Represents a WhoIs specific error.
+    /// </summary>
+    public class WhoisException : Exception
+    {
+        #region Variables
+        /// <summary>
+        /// Message contains the error message.
+        /// </summary>
+        private string _message;
 
-	/// <summary>
-	/// Represents a WhoIs specific error.
-	/// </summary>
-	public class WhoisException : Exception
-	{
+        #endregion
 
-		#region Variables
+        #region Constructor
 
-		/// <summary>
-		/// Message contains the error message.
-		/// </summary>
-		private string _message;
+        /// <summary>
+        /// Constructor, sets message to the specified value.
+        /// </summary>
+        /// <param name="message">Message contains the error.</param>
+        public WhoisException(string message)
+        {
+            _message = message;
+        }
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Properties
 
-		/// <summary>
-		/// Constructor, sets message to the specified value.
-		/// </summary>
-		/// <param name="message">Message contains the error.</param>
-		public WhoisException(string message)
-		{
-			_message = message;
-		}
+        /// <summary>
+        /// Gets the exception's message.
+        /// </summary>
+        public override string Message
+        {
+            get { return _message; }
+        }
 
-		#endregion
-
-		#region Properties
-
-		/// <summary>
-		/// Gets the exception's message.
-		/// </summary>
-		public override string Message
-		{
-			get
-			{
-				return _message;
-			}
-		}
-
-		#endregion
-	}
-
-	#endregion
+        #endregion
+    }
 }

@@ -19,44 +19,34 @@ using System;
 using System.IO;
 using System.Text;
 using ActiveUp.Net.Security;
+using System.Net.Sockets;
+using System.Net.Security;
 
-namespace ActiveUp.Net.Mail {
-    #region Imap4Client Object version 2
-
+namespace ActiveUp.Net.Mail
+{
     /// <summary>
     /// This class allows communication with an IMAP4 or IMAP4rev1 compatible server.
     /// </summary>
 #if !PocketPC
     [Serializable]
 #endif
-    public class Imap4Client : System.Net.Sockets.TcpClient
+    public class Imap4Client : TcpClient
     {
-
-        #region Constructors
-
-        public Imap4Client()
-        {
-
-        }
-
         static Imap4Client()
         {
             _badCommandStrings = new[] {
                 "\\", //Important this comes first
-                "\""              
+                "\""
             };
         }
-
-        #endregion
 
         #region Private fields
 
         static string[] _badCommandStrings;
 
-        MailboxCollection _mailboxes, _allMailboxes = new MailboxCollection();
-        private string host, _capabilities;
+        private string host;
 #if !PocketPC
-        System.Net.Security.SslStream _sslStream;
+        SslStream _sslStream;
 #endif
         private bool _idleInProgress = false;
 
@@ -97,48 +87,18 @@ namespace ActiveUp.Net.Mail {
         /// imap.Disconnect();
         /// </code>
         /// </example>
-        public MailboxCollection Mailboxes
-        {
-            get
-            {
-                return _mailboxes;
-            }
-            set
-            {
-                _mailboxes = value;
-            }
-        }
+        public MailboxCollection Mailboxes { get; set; } = new MailboxCollection();
 
         /// <summary>
         /// Same as the Mailboxes property, except that all mailboxes on the account are presented at the same level of hierarchy.
         /// In example, a child mailbox of the "INBOX" mailbox could be accessed directly with this collection.
         /// </summary>
-        public MailboxCollection AllMailboxes
-        {
-            get
-            {
-                return _allMailboxes;
-            }
-            set
-            {
-                _allMailboxes = value;
-            }
-        }
+        public MailboxCollection AllMailboxes { get; set; } = new MailboxCollection();
 
         /// <summary>
         /// Server capabilities.
         /// </summary>
-        public string ServerCapabilities
-        {
-            get
-            {
-                return _capabilities;
-            }
-            set
-            {
-                _capabilities = value;
-            }
-        }
+        public string ServerCapabilities { get; set; }
 
         /// <summary>
         /// Turn this on to not make any parameters safe.  Injection attacks more likely.  Turn this on only if you are already doing checking or if performance is absolutely critical.  
@@ -162,13 +122,13 @@ namespace ActiveUp.Net.Mail {
         private DelegateConnectIPAddresses _delegateConnectIPAddresses;
 
 #if !PocketPC
-        private delegate string DelegateConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake);
+        private delegate string DelegateConnectSsl(string host, int port, SslHandShake sslHandShake);
         private DelegateConnectSsl _delegateConnectSsl;
 
-        private delegate string DelegateConnectSslIPAddress(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake);
+        private delegate string DelegateConnectSslIPAddress(System.Net.IPAddress addr, int port, SslHandShake sslHandShake);
         private DelegateConnectSslIPAddress _delegateConnectSslIPAddress;
 
-        private delegate string DelegateConnectSslIPAddresses(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake);
+        private delegate string DelegateConnectSslIPAddresses(System.Net.IPAddress[] addresses, int port, SslHandShake sslHandShake);
         private DelegateConnectSslIPAddresses _delegateConnectSslIPAddresses;
 #endif
 
@@ -307,19 +267,19 @@ namespace ActiveUp.Net.Mail {
                 Authenticating(this, e);
             Logger.AddEntry(GetType(), "Authenticating as <" + e.Username + "> on <" + e.Host + ">...", 2);
         }
-        internal void OnAuthenticated(AuthenticatedEventArgs e) 
+        internal void OnAuthenticated(AuthenticatedEventArgs e)
         {
             if (Authenticated != null)
                 Authenticated(this, e);
             Logger.AddEntry(GetType(), "Authenticated as <" + e.Username + "> on <" + e.Host + ">.", 2);
         }
-        internal void OnNooping() 
+        internal void OnNooping()
         {
             if (Nooping != null)
                 Nooping(this);
             Logger.AddEntry(GetType(), "Nooping...", 1);
         }
-        internal void OnNooped() 
+        internal void OnNooped()
         {
             if (Nooped != null)
                 Nooped(this);
@@ -423,7 +383,7 @@ namespace ActiveUp.Net.Mail {
 
         #region Private utility methods
 
-        protected string _CramMd5(string username, string password)
+        private string _CramMd5(string username, string password)
         {
             OnAuthenticating(new AuthenticatingEventArgs(username, password));
             string stamp = DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString());
@@ -435,8 +395,8 @@ namespace ActiveUp.Net.Mail {
             return response;
         }
 
-        protected string _Login(string username, string password)
-        {
+        private string _Login(string username, string password)
+            {
             OnAuthenticating(new AuthenticatingEventArgs(username, password));
             string stamp = DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString());
             Command("authenticate login");
@@ -447,7 +407,7 @@ namespace ActiveUp.Net.Mail {
             return response;
         }
 
-        protected string _Plain(string username, string password) 
+        private string _Plain(string username, string password)
         {
             OnAuthenticating(new AuthenticatingEventArgs(username, password));
             string stamp = DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString());
@@ -460,27 +420,29 @@ namespace ActiveUp.Net.Mail {
         }
 
         private static string FindLine(string[] input, string pattern)
-        {
-            foreach (string str in input) if (str.IndexOf(pattern) != -1) return str;
+            {
+            foreach (string str in input)
+                if (str.IndexOf(pattern) != -1)
+                    return str;
             return "";
         }
 #if !PocketPC
-        private void DoSslHandShake(ActiveUp.Net.Security.SslHandShake sslHandShake)
+        private void DoSslHandShake(SslHandShake sslHandShake)
         {
-            _sslStream = new System.Net.Security.SslStream(base.GetStream(), false, sslHandShake.ServerCertificateValidationCallback, sslHandShake.ClientCertificateSelectionCallback);
+            _sslStream = new SslStream(base.GetStream(), false, sslHandShake.ServerCertificateValidationCallback, sslHandShake.ClientCertificateSelectionCallback);
             bool authenticationFailed = false;
             try
             {
                 _sslStream.AuthenticateAsClient(sslHandShake.HostName, sslHandShake.ClientCertificates, sslHandShake.SslProtocol, sslHandShake.CheckRevocation);
             }
-            catch
+            catch (Exception ex)
             {
                 authenticationFailed = true;
             }
 
             if (authenticationFailed)
             {
-                System.Net.ServicePointManager.CertificatePolicy = new ActiveUp.Net.Security.TrustAllCertificatePolicy();
+                System.Net.ServicePointManager.CertificatePolicy = new TrustAllCertificatePolicy();
                 _sslStream.AuthenticateAsClient(sslHandShake.HostName, sslHandShake.ClientCertificates, sslHandShake.SslProtocol, sslHandShake.CheckRevocation);
             }
 
@@ -520,14 +482,14 @@ namespace ActiveUp.Net.Mail {
             readbytes = GetStream().Read(readBuffer, 0, readBuffer.Length);
             while (readbytes > 0)
             {
+                Logger.AddEntry(GetType(), readbytes + " bytes received");
                 stream.Write(readBuffer, 0, readbytes);
                 readbytes = 0;
                 if (Available > 0)
                     readbytes = GetStream().Read(readBuffer, 0, readBuffer.Length);
             }
-
+            Logger.AddEntry(GetType(), "no more data incoming");
         }
-
         #endregion
 
         #region Public methods
@@ -742,7 +704,7 @@ namespace ActiveUp.Net.Mail {
         /// Gets a value indicating whether this instance is connected.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is connected; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is connected; otherwise, <c>false</c>.
         /// </value>
         public bool IsConnected
         {
@@ -760,23 +722,23 @@ namespace ActiveUp.Net.Mail {
 #if !PocketPC
         public string ConnectSsl(string host)
         {
-            return ConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host));
+            return ConnectSsl(host, 993, new SslHandShake(host));
         }
         public IAsyncResult BeginConnectSsl(string host, AsyncCallback callback)
         {
-            return BeginConnectSsl(host, 993, new ActiveUp.Net.Security.SslHandShake(host), callback);
+            return BeginConnectSsl(host, 993, new SslHandShake(host), callback);
         }
-        public string ConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        public string ConnectSsl(string host, SslHandShake sslHandShake)
         {
             return ConnectSsl(host, 993, sslHandShake);
         }
-        public IAsyncResult BeginConnectSsl(string host, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        public IAsyncResult BeginConnectSsl(string host, SslHandShake sslHandShake, AsyncCallback callback)
         {
             return BeginConnectSsl(host, 993, sslHandShake, callback);
         }
         public string ConnectSsl(string host, int port)
         {
-            return ConnectSsl(host, port, new ActiveUp.Net.Security.SslHandShake(host));
+            return ConnectSsl(host, port, new SslHandShake(host));
         }
         public IAsyncResult BeginConnectSsl(string host, int port, AsyncCallback callback)
         {
@@ -784,8 +746,9 @@ namespace ActiveUp.Net.Mail {
         }
 #endif
 #if !PocketPC
-        public string ConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        public string ConnectSsl(string host, int port, SslHandShake sslHandShake)
         {
+            this.host = host;
             OnConnecting();
             base.Connect(host, port);
             DoSslHandShake(sslHandShake);
@@ -794,13 +757,13 @@ namespace ActiveUp.Net.Mail {
             OnConnected(new ConnectedEventArgs(response));
             return response;
         }
-        public IAsyncResult BeginConnectSsl(string host, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        public IAsyncResult BeginConnectSsl(string host, int port, SslHandShake sslHandShake, AsyncCallback callback)
         {
             _delegateConnectSsl = ConnectSsl;
             return _delegateConnectSsl.BeginInvoke(host, port, sslHandShake, callback, _delegateConnectSsl);
         }
 
-        public string ConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        public string ConnectSsl(System.Net.IPAddress addr, int port, SslHandShake sslHandShake)
         {
             OnConnecting();
             base.Connect(addr, port);
@@ -810,13 +773,13 @@ namespace ActiveUp.Net.Mail {
             OnConnected(new ConnectedEventArgs(response));
             return response;
         }
-        public IAsyncResult BeginConnectSsl(System.Net.IPAddress addr, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        public IAsyncResult BeginConnectSsl(System.Net.IPAddress addr, int port, SslHandShake sslHandShake, AsyncCallback callback)
         {
             _delegateConnectSslIPAddress = ConnectSsl;
             return _delegateConnectSslIPAddress.BeginInvoke(addr, port, sslHandShake, callback, _delegateConnectSslIPAddress);
         }
 
-        public string ConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake)
+        public string ConnectSsl(System.Net.IPAddress[] addresses, int port, SslHandShake sslHandShake)
         {
             OnConnecting();
             base.Connect(addresses, port);
@@ -826,7 +789,7 @@ namespace ActiveUp.Net.Mail {
             OnConnected(new ConnectedEventArgs(response));
             return response;
         }
-        public IAsyncResult BeginConnectSsl(System.Net.IPAddress[] addresses, int port, ActiveUp.Net.Security.SslHandShake sslHandShake, AsyncCallback callback)
+        public IAsyncResult BeginConnectSsl(System.Net.IPAddress[] addresses, int port, SslHandShake sslHandShake, AsyncCallback callback)
         {
             _delegateConnectSslIPAddresses = ConnectSsl;
             return _delegateConnectSslIPAddresses.BeginInvoke(addresses, port, sslHandShake, callback, _delegateConnectSslIPAddresses);
@@ -1044,9 +1007,7 @@ namespace ActiveUp.Net.Mail {
                     OnTcpRead(new TcpReadEventArgs(response));
 
                     if (response.ToUpper().IndexOf("RECENT") > 0)
-                    {
                         OnNewMessageReceived(new NewMessageReceivedEventArgs(int.Parse(response.Split(' ')[1])));
-                    }
 #if DEBUG
                     Console.WriteLine(response);
 #endif
@@ -1079,7 +1040,7 @@ namespace ActiveUp.Net.Mail {
             return CommandBinary(command, DateTime.Now.ToString("yyMMddhhmmss" + DateTime.Now.Millisecond.ToString()), options);
         }
 
-        public byte[] CommandBinary(string command, string stamp, CommandOptions options = null) 
+        public byte[] CommandBinary(string command, string stamp, CommandOptions options = null)
         {
             if (options == null)
                 options = new CommandOptions();
@@ -1205,7 +1166,7 @@ namespace ActiveUp.Net.Mail {
                 sr.BaseStream.Read(bufferBytes, 0, bufferBytes.Length);
 
                 if (!sr.CurrentEncoding.Equals(Encoding.UTF8))
-                {
+                    {
                     var utf8Bytes = Encoding.Convert(sr.CurrentEncoding, Encoding.UTF8, sr.CurrentEncoding.GetBytes(bufferString));
                     bufferString = Encoding.UTF8.GetString(utf8Bytes);
                 }
@@ -1399,13 +1360,28 @@ namespace ActiveUp.Net.Mail {
         }
 
         /// <summary>
-        /// Gets the communacation stream of this object.
+        /// Gets the communication stream of this object.
         /// </summary>
         /// <returns>A Stream object, either of type NetworkStream or SslStream if the channel is secured.</returns>
-        public new System.IO.Stream GetStream()
+        public Stream Stream {
+            get {
+#if !PocketPC
+                if (_sslStream != null)
+                    return _sslStream;
+#endif
+                return base.GetStream();
+            }
+        }
+        /// <summary>
+        /// Gets the communication stream of this object.
+        /// </summary>
+        /// <returns>A Stream object, either of type NetworkStream or SslStream if the channel is secured.</returns>
+        /// [Obsolete("use Stream")]
+        public new Stream GetStream()
         {
 #if !PocketPC
-            if (_sslStream != null) return _sslStream;
+            if (_sslStream != null)
+                return _sslStream;
 #endif
             return base.GetStream();
         }
@@ -1427,38 +1403,38 @@ namespace ActiveUp.Net.Mail {
         /// imap.Connect("mail.myhost.com");
         /// try
         /// {
-        ///		imap.Noop();
-        ///		imap.Disconnect();
-        ///	}
-        ///	catch
-        ///	{
-        ///		throw new Exception("Connection lost.");
-        ///	}
-        ///	 
+        ///        imap.Noop();
+        ///        imap.Disconnect();
+        ///    }
+        ///    catch
+        ///    {
+        ///        throw new Exception("Connection lost.");
+        ///    }
+        ///     
         /// VB.NET
         ///  
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// Try
-        /// 	imap.Noop()
-        ///		imap.Disconnect()
-        ///	Catch
-        ///		Throw New Exception("Connection lost.");
-        ///	End Try
-        ///	
+        ///     imap.Noop()
+        ///        imap.Disconnect()
+        ///    Catch
+        ///        Throw New Exception("Connection lost.");
+        ///    End Try
+        ///    
         /// JScript.NET
         ///  
         /// var imap:Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// try
         /// {
-        ///		imap.Noop();
-        ///		imap.Disconnect();
-        ///	}
-        ///	catch
-        ///	{
-        ///		throw new Exception("Connection lost.");
-        ///	}
+        ///        imap.Noop();
+        ///        imap.Disconnect();
+        ///    }
+        ///    catch
+        ///    {
+        ///        throw new Exception("Connection lost.");
+        ///    }
         /// </code>
         /// </example>
         public string Noop()
@@ -1666,10 +1642,14 @@ namespace ActiveUp.Net.Mail {
                             mailboxes.Add(ExamineMailbox(box));
                     }
                 }
-                catch { continue; }
+                catch
+                {
+                    continue;
+                }
             }
             return mailboxes;
         }
+
         public IAsyncResult BeginGetMailboxes(string reference, string mailboxName, AsyncCallback callback)
         {
             _delegateGetMailboxes = GetMailboxes;
@@ -1938,65 +1918,65 @@ namespace ActiveUp.Net.Mail {
         {
             mailboxName = renderSafeParam(mailboxName);
 
-            ActiveUp.Net.Mail.Mailbox mailbox = new ActiveUp.Net.Mail.Mailbox();
+            Mailbox mailbox = new Mailbox();
             mailbox.SubMailboxes = GetMailboxes(mailboxName, "*");
             string response = Command("select \"" + mailboxName + "\"");
             string[] lines = System.Text.RegularExpressions.Regex.Split(response, "\r\n");
 
             // message count.
             int messageCount = 0;
-            try { messageCount = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "EXISTS").Split(' ')[1]); }
+            try
+            {
+                messageCount = Convert.ToInt32(FindLine(lines, "EXISTS").Split(' ')[1]);
+            }
             catch (Exception) { }
             mailbox.MessageCount = messageCount;
 
             // recent.
             int recent = 0;
-            try { recent = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "RECENT").Split(' ')[1]); }
+            try
+            {
+                recent = Convert.ToInt32(FindLine(lines, "RECENT").Split(' ')[1]);
+            }
             catch (Exception) { }
             mailbox.Recent = recent;
 
             // unseen.
             int unseen = 0;
-            try { unseen = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']')); }
+            try
+            {
+                unseen = Convert.ToInt32(FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']'));
+            }
             catch (Exception) { }
             mailbox.FirstUnseen = (response.ToLower().IndexOf("[unseen") != -1) ? unseen : 0;
 
             // uid validity.
             int uidValidity = 0;
-            try { uidValidity = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']')); }
+            try
+            {
+                uidValidity = Convert.ToInt32(FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']'));
+            }
             catch (Exception) { }
             mailbox.UidValidity = uidValidity;
 
             // flags.
-            foreach (string str in ActiveUp.Net.Mail.Imap4Client.FindLine(lines, " FLAGS").Split(' '))
-            {
-                if (str.StartsWith("(\\") || str.StartsWith("\\"))
-                {
+            foreach (string str in FindLine(lines, " FLAGS").Split(' ')) {
+                if (str.StartsWith("(\\") || str.StartsWith("\\")) {
                     mailbox.ApplicableFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
                 }
             }
 
             // permanent flags.
             if (response.ToLower().IndexOf("[permanentflags") != -1)
-            {
-                foreach (string str in ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[PERMANENTFLAGS").Split(' '))
-                {
+                foreach (string str in FindLine(lines, "[PERMANENTFLAGS").Split(' '))
                     if (str.StartsWith("(\\") || str.StartsWith("\\"))
-                    {
                         mailbox.PermanentFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
-                    }
-                }
-            }
 
             // read-write and read-only.
             if (response.ToLower().IndexOf("[read-write]") != -1)
-            {
-                mailbox.Permission = ActiveUp.Net.Mail.MailboxPermission.ReadWrite;
-            }
+                mailbox.Permission = MailboxPermission.ReadWrite;
             else if (response.ToLower().IndexOf("[read-only]") != -1)
-            {
-                mailbox.Permission = ActiveUp.Net.Mail.MailboxPermission.ReadOnly;
-            }
+                mailbox.Permission = MailboxPermission.ReadOnly;
 
             mailbox.Name = mailboxName;
             mailbox.SourceClient = this;
@@ -2056,17 +2036,22 @@ namespace ActiveUp.Net.Mail {
         /// </example>
         public Mailbox ExamineMailbox(string mailboxName)
         {
-            ActiveUp.Net.Mail.Mailbox mailbox = new ActiveUp.Net.Mail.Mailbox();
+            Mailbox mailbox = new Mailbox();
             mailbox.SubMailboxes = GetMailboxes(mailboxName, "*");
             string response = Command("examine \"" + mailboxName + "\"");
             string[] lines = System.Text.RegularExpressions.Regex.Split(response, "\r\n");
-            mailbox.MessageCount = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "EXISTS").Split(' ')[1]);
-            mailbox.Recent = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "RECENT").Split(' ')[1]);
-            mailbox.FirstUnseen = (response.ToLower().IndexOf("[unseen") != -1) ? Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']')) : 0;
-            mailbox.UidValidity = Convert.ToInt32(ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']'));
-            foreach (string str in ActiveUp.Net.Mail.Imap4Client.FindLine(lines, " FLAGS").Split(' ')) if (str.StartsWith("(\\") || str.StartsWith("\\")) mailbox.ApplicableFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
-            if (response.ToLower().IndexOf("[permanentflags") != -1) foreach (string str in ActiveUp.Net.Mail.Imap4Client.FindLine(lines, "[PERMANENTFLAGS").Split(' ')) if (str.StartsWith("(\\") || str.StartsWith("\\")) mailbox.PermanentFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
-            mailbox.Permission = ActiveUp.Net.Mail.MailboxPermission.ReadOnly;
+            mailbox.MessageCount = Convert.ToInt32(FindLine(lines, "EXISTS").Split(' ')[1]);
+            mailbox.Recent = Convert.ToInt32(FindLine(lines, "RECENT").Split(' ')[1]);
+            mailbox.FirstUnseen = (response.ToLower().IndexOf("[unseen") != -1) ? Convert.ToInt32(FindLine(lines, "[UNSEEN ").Split(' ')[3].TrimEnd(']')) : 0;
+            mailbox.UidValidity = Convert.ToInt32(FindLine(lines, "[UIDVALIDITY ").Split(' ')[3].TrimEnd(']'));
+            foreach (string str in FindLine(lines, " FLAGS").Split(' '))
+                if (str.StartsWith("(\\") || str.StartsWith("\\"))
+                    mailbox.ApplicableFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
+            if (response.ToLower().IndexOf("[permanentflags") != -1)
+                foreach (string str in FindLine(lines, "[PERMANENTFLAGS").Split(' '))
+                    if (str.StartsWith("(\\") || str.StartsWith("\\"))
+                        mailbox.PermanentFlags.Add(str.Trim(new char[] { ' ', '\\', ')', '(' }));
+            mailbox.Permission = MailboxPermission.ReadOnly;
             mailbox.Name = mailboxName;
             mailbox.SourceClient = this;
             return mailbox;
@@ -2090,6 +2075,4 @@ namespace ActiveUp.Net.Mail {
 
 
     }
-
-    #endregion
 }

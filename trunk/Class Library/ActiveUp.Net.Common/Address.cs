@@ -15,146 +15,124 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
+using System;
 
 namespace ActiveUp.Net.Mail
 {
-	#region Address Object
-
-	/// <summary>
-	/// Represent an Internet Email address with the owner's fullname.
-	/// </summary>
+    /// <summary>
+    /// Represent an Internet Email address with the owner's fullname.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-	public class Address
-	{
-		string _email, _name;
-		/// <summary>
-		/// The default constructor. Set all properties to string.Empty.
-		/// </summary>
-		public Address()
-		{
-			this.Email = string.Empty;
-			this.Name = string.Empty;
-		}
+    public class Address
+    {
+        string _email, _name;
+        /// <summary>
+        /// The default constructor. Set all properties to string.Empty.
+        /// </summary>
+        public Address()
+        {
+            Email = string.Empty;
+            Name = string.Empty;
+        }
 
-		/// <summary>
-		/// Creates the Address using the specified Internet email (RFC 2822 addr-spec).
-		/// </summary>
-		/// <param name="email">The email address to use.</param>
-		public Address(string email)
-		{
-			/*this.Email = 
-			this.Name = string.Empty;*/
-			Address addr = Parser.ParseAddress(email);
-			this.Email = addr.Email;
-			this.Name = addr.Name;
-		}
+        /// <summary>
+        /// Creates the Address using the specified Internet email (RFC 2822 addr-spec).
+        /// </summary>
+        /// <param name="email">The email address to use.</param>
+        public Address(string email)
+        {
+            Address addr = Parser.ParseAddress(email);
+            Email = addr.Email;
+            Name = addr.Name;
+        }
 
-		/// <summary>
-		/// Creates the Address using the specified Internet email (RFC 2822 addr-spec) and fullname.
-		/// </summary>
-		/// <param name="email">The email address to use.</param>
-		/// <param name="name">The owner's name.</param>
-		public Address(string email, string name)
-		{
-			this.Email = email;
-			this.Name = name;
-		}
+        /// <summary>
+        /// Creates the Address using the specified Internet email (RFC 2822 addr-spec) and fullname.
+        /// </summary>
+        /// <param name="email">The email address to use.</param>
+        /// <param name="name">The owner's name.</param>
+        public Address(string email, string name)
+        {
+            Email = email;
+            Name = name;
+        }
 
-		/// <summary>
-		/// The Internet email address (RFC 2822 addr-spec).
-		/// </summary>
-		public string Email
-		{
-			get
-			{
-				return _email;
-			}
-			set
-			{
-				_email = value.Trim();
-			}
-		}
+        /// <summary>
+        /// The Internet email address (RFC 2822 addr-spec).
+        /// </summary>
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value.Trim(); }
+        }
 
-		/// <summary>
-		/// The Address owner's fullname.
-		/// </summary>
-		public string Name
-		{
-			get
-			{
-//#if TRIAL
-//                return ProductHelper.GetTrialString(this._name, TrialStringType.LongText);
-//#else
-				return _name;
-//#endif
-			}
-			set
-			{
-				_name = value.Trim();
-			}
-		}
+        /// <summary>
+        /// The Address owner's fullname.
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value.Trim(); }
+        }
 
-		/// <summary>
-		/// Gets a string compliant with RFC2822 address specification that represents the Address with the owner's fullname.
-		/// </summary>
-		public string Merged
-		{
-			get
-			{
-				string getString = string.Empty;
+        /// <summary>
+        /// Gets a string compliant with RFC2822 address specification that represents the Address with the owner's fullname.
+        /// </summary>
+        public string Merged
+        {
+            get
+            {
+                string getString = string.Empty;
 
-				if (this.Name.Length > 0)
-				{
-					getString += "\"" + this.Name + "\" ";
-					getString += "<" + this.Email + ">";
-				}
-				else
-				{
-					getString += this.Email;
-				}
+                if (Name.Length > 0)
+                {
+                    getString += "\"" + Name + "\" ";
+                    getString += "<" + Email + ">";
+                }
+                else
+                {
+                    getString += Email;
+                }
 
-				return getString;
-			}
-		}
+                return getString;
+            }
+        }
 
-		/// <summary>
-		/// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-		/// </returns>
-		public override string ToString()
-		{
-			return this.Merged;
-		}
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
+        public override string ToString()
+        {
+            return Merged;
+        }
 
-		///<summary>
-		/// Gets an HTML formatted link to the address (mailto: form).
-		/// </summary>
-		public string Link
-		{
-			get
-			{
-				string getString = string.Empty;
+        ///<summary>
+        /// Gets an HTML formatted link to the address (mailto: form).
+        /// </summary>
+        public string Link
+        {
+            get
+            {
+                string getString = string.Empty;
 
-				if (this.Name.Length > 0)
-				{
-					getString += "<a href=\"mailto:" + this.Email + "\">";
-					getString += this.Name + "</a>";
-				}
-				else
-				{
-					getString += "<a href=\"mailto:" + this.Email + "\">";
-					getString += this.Email + "</a>";
-				}
+                if (Name.Length > 0)
+                {
+                    getString += "<a href=\"mailto:" + Email + "\">";
+                    getString += Name + "</a>";
+                }
+                else
+                {
+                    getString += "<a href=\"mailto:" + Email + "\">";
+                    getString += Email + "</a>";
+                }
 
-				return getString;
-			}
-		}
-
-	}
-	#endregion
+                return getString;
+            }
+        }
+    }
 }

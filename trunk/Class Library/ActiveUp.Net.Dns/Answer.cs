@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     /// <summary>
@@ -26,6 +22,6 @@ namespace ActiveUp.Net.Dns
     /// </summary>
     public class Answer : DnsEntry
     {
-        public Answer(DataBuffer buffer) : base(buffer)     {}
+        public Answer(DataBuffer buffer) : base(buffer) {}
     }
 }

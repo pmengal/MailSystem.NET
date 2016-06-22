@@ -15,99 +15,98 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
-using ActiveUp.Net.Mail;
+using System;
 
-namespace ActiveUp.Net.Mail 
+namespace ActiveUp.Net.Mail
 {
-#region MimePartCollection Object
-	/// <summary>
-	/// Represents a collection of MimePart objects.
-	/// </summary>
+    #region MimePartCollection Object
+    /// <summary>
+    /// Represents a collection of MimePart objects.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class MimePartCollection : System.Collections.CollectionBase
-	{
-		/// <summary>
-		/// Adds the MimePart object to the collection.
-		/// </summary>
-		/// <param name="part">The MimePart to be added.</param>
-		public void Add(MimePart part)
-		{
-			this.List.Add(part);
-		}
-		public void Add(string path, bool generateContentId)
-		{
-			this.List.Add(new MimePart(path,generateContentId));
-		}
-		public void Add(string path, bool generateContentId, string charset)
-		{
-			this.List.Add(new MimePart(path,generateContentId,charset));
-		}
-		/// <summary>
-		/// Indexer.
-		/// </summary>
-		public MimePart this[int index]
-		{
-			get
-			{
-				return (MimePart)this.List[index];
-			}
-		}
+    {
+        /// <summary>
+        /// Adds the MimePart object to the collection.
+        /// </summary>
+        /// <param name="part">The MimePart to be added.</param>
+        public void Add(MimePart part)
+        {
+            List.Add(part);
+        }
+        public void Add(string path, bool generateContentId)
+        {
+            List.Add(new MimePart(path,generateContentId));
+        }
+        public void Add(string path, bool generateContentId, string charset)
+        {
+            List.Add(new MimePart(path,generateContentId,charset));
+        }
+        /// <summary>
+        /// Indexer.
+        /// </summary>
+        public MimePart this[int index]
+        {
+            get
+            {
+                return (MimePart)List[index];
+            }
+        }
 
-		/// <summary>
-		/// Indexer. Returns the first object containing the specified filename.
-		/// </summary>
-		public MimePart this[string filename]
-		{
-			get
-			{
-				foreach(MimePart part in this.List)
-					if (part.ContentDisposition.FileName == filename)
-						return part;
-				return null;
-			}
-		}
-		internal MimePartCollection ConcatMessagesAsPart(MessageCollection input)
-		{
-			MimePartCollection output = new MimePartCollection();
-			foreach(MimePart part in this) output.Add(part);
-			foreach(Message message in input) output.Add(message.ToMimePart());
-            return output;			
-		}
-		/// <summary>
-		/// Allows the developer to add a collection of MimePart objects in another one.
-		/// </summary>
-		/// <param name="first">The first collection.</param>
-		/// <param name="second">The second collection.</param>
-		/// <returns>The concatened collection.</returns>
-		public static MimePartCollection operator +(MimePartCollection first, MimePartCollection second) 
-		{
-			MimePartCollection newParts = first;
-			foreach(MimePart part in second)
-				newParts.Add(part);
+        /// <summary>
+        /// Indexer. Returns the first object containing the specified filename.
+        /// </summary>
+        public MimePart this[string filename]
+        {
+            get
+            {
+                foreach(MimePart part in List)
+                    if (part.ContentDisposition.FileName == filename)
+                        return part;
+                return null;
+            }
+        }
+        internal MimePartCollection ConcatMessagesAsPart(MessageCollection input)
+        {
+            MimePartCollection output = new MimePartCollection();
+            foreach(MimePart part in this) output.Add(part);
+            foreach(Message message in input) output.Add(message.ToMimePart());
+            return output;            
+        }
+        /// <summary>
+        /// Allows the developer to add a collection of MimePart objects in another one.
+        /// </summary>
+        /// <param name="first">The first collection.</param>
+        /// <param name="second">The second collection.</param>
+        /// <returns>The concatened collection.</returns>
+        public static MimePartCollection operator +(MimePartCollection first, MimePartCollection second) 
+        {
+            MimePartCollection newParts = first;
+            foreach(MimePart part in second)
+                newParts.Add(part);
 
-			return newParts;
-		}
+            return newParts;
+        }
 
-		/// <summary>
-		/// Check if the collection contain the specified filename.
-		/// </summary>
-		/// <param name="filename">The filename</param>
-		/// <returns>True if the collection contains the file; False otherwise.</returns>
-		public bool Contains(string filename)
-		{
-			filename = System.IO.Path.GetFileName(filename);
+        /// <summary>
+        /// Check if the collection contain the specified filename.
+        /// </summary>
+        /// <param name="filename">The filename</param>
+        /// <returns>True if the collection contains the file; False otherwise.</returns>
+        public bool Contains(string filename)
+        {
+            filename = System.IO.Path.GetFileName(filename);
 
-			foreach(MimePart part in this.List)
-			{
-				if (part.ContentDisposition.FileName == filename)
-					return true;
-			}
+            foreach(MimePart part in List)
+            {
+                if (part.ContentDisposition.FileName == filename)
+                    return true;
+            }
 
-			return false;
-		}
-	}
-	#endregion
+            return false;
+        }
+    }
+    #endregion
 }

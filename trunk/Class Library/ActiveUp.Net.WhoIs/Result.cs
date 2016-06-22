@@ -19,105 +19,64 @@ using System;
 
 namespace ActiveUp.Net.WhoIs
 {
-	#region class Result
+    /// <summary>
+    /// Base class for the results in case of global query.
+    /// </summary>
+    public class Result
+    {
+        #region Constructor
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public Result()
+        {
+            Init(new Server(),null);
+        }
 
-	/// <summary>
-	/// Base class for the results in case of global query.
-	/// </summary>
-	public class Result
-	{
-		#region Variables
+        /// <summary>
+        /// Creates a Result object from Server object.
+        /// </summary>
+        /// <param name="server">Whois server used.</param>
+        public Result(Server server)
+        {
+            Init(server,null);
+        }
 
-		/// <summary>
-		/// Whois server used.
-		/// </summary>
-		private Server _server;
+        /// <summary>
+        /// Creates a Restult object from Server object and Exception object.
+        /// </summary>
+        /// <param name="server">Whois server used.</param>
+        /// <param name="exception">Exception if an error occurs.</param>
+        public Result(Server server, Exception exception)
+        {
+            Init(server,exception);
+        }
 
-		/// <summary>
-		/// Exception if an error occurs, otherwise null.
-		/// </summary>
-		private Exception _exception;
+        /// <summary>
+        /// Creates a Result object from Server object and Exception object.
+        /// </summary>
+        /// <param name="server">Whois server used.</param>
+        /// <param name="exception">Exception if an error occurs.</param>
+        private void Init(Server server, Exception exception)
+        {
+            ServerUsed = server;
+            Error = exception;
+        }
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Properties
+        
+        /// <summary>
+        /// Gets / sets the whois server used.
+        /// </summary>
+        public Server ServerUsed { get; set; }
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public Result()
-		{
-			_Init(new Server(),null);
-		}
+        /// <summary>
+        /// Gets / sets the exceptions if an error occurs, otherwise null.
+        /// </summary>
+        public Exception Error { get; set; }
 
-		/// <summary>
-		/// Creates a Result object from Server object.
-		/// </summary>
-		/// <param name="server">Whois server used.</param>
-		public Result(Server server)
-		{
-			_Init(server,null);
-		}
-
-		/// <summary>
-		/// Creates a Restult object from Server object and Exception object.
-		/// </summary>
-		/// <param name="server">Whois server used.</param>
-		/// <param name="exception">Exception if an error occurs.</param>
-		public Result(Server server, Exception exception)
-		{
-			_Init(server,exception);
-		}
-
-		/// <summary>
-		/// Creates a Result object from Server object and Exception object.
-		/// </summary>
-		/// <param name="server">Whois server used.</param>
-		/// <param name="exception">Exception if an error occurs.</param>
-		private void _Init(Server server, Exception exception)
-		{
-			_server = server;
-			_exception = exception;
-		}
-
-		#endregion
-
-		#region Properties
-		
-		/// <summary>
-		/// Gets / sets the whois server used.
-		/// </summary>
-		public Server ServerUsed
-		{
-			get
-			{
-				return _server;
-			}
-
-			set
-			{
-				_server = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets / sets the exceptions if an error occurs, otherwise null.
-		/// </summary>
-		public Exception Error
-		{
-			get
-			{
-				return _exception;
-			}
-
-			set
-			{
-				_exception = value;
-			}
-		}
-
-		#endregion
-	}
-
-	#endregion
+        #endregion
+    }
 }

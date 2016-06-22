@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class TKeyRecord : IRecordData
@@ -45,7 +41,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Algorithm:{0} Inception:{1} Expiration:{2} Mode:{3} Error:{4} \nKey Data:{5} \nOther Data:{6} ",
+            return string.Format("Algorithm:{0} Inception:{1} Expiration:{2} Mode:{3} Error:{4} \nKey Data:{5} \nOther Data:{6} ",
                 algorithm, inception, expiration, mode, error, keyData, otherData);
         }
 

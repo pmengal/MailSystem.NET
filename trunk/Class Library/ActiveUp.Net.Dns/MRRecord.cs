@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class MRRecord : DomainNameOnly
@@ -27,11 +23,16 @@ namespace ActiveUp.Net.Dns
         /// <summary>
         /// returnb Forwarding Address for Domain
         /// </summary>
-        public string ForwardingAddress { get { return this.Domain; } }
+        public string ForwardingAddress {
+            get { return Domain; }
+        }
         /// <summary>
         /// Converts this data record to a string
         /// </summary>
         /// <returns></returns>
-        public override string ToString() { return base.ToString(); }
+        public override string ToString() 
+        {
+            return base.ToString();
+        }
     }
 }

@@ -17,10 +17,12 @@
 
 using System;
 using System.IO;
-using System.Net;
+using System.Text;
 using System.Xml;
+using System.Net;
 
-namespace ActiveUp.Net.Mail {
+namespace ActiveUp.Net.Mail
+{
     /// <summary>
     /// Templater class to create a mail with it's settings using a single XML file.
     /// </summary>
@@ -29,7 +31,6 @@ namespace ActiveUp.Net.Mail {
 #endif
     public class Templater
     {
-        private Logger _logger;
         private Message _message;
         private FieldFormatCollection _fieldsFormats;
         private ConditionalCollection _conditions;
@@ -40,25 +41,10 @@ namespace ActiveUp.Net.Mail {
         /// <summary>
         /// Gets or sets the logging settings.
         /// </summary>
-        public Logger Logger
-        {
-            get { return _logger ?? (_logger = new Logger()); }
-            set
-            {
-                _logger = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the logging settings.
-        /// </summary>
         public Message Message
         {
             get { return _message ?? (_message = new Message()); }
-            set
-            {
-                _message = value;
-            }
+            set { _message = value; }
         }
 
         /// <summary>
@@ -66,7 +52,6 @@ namespace ActiveUp.Net.Mail {
         /// </summary>
         public Templater()
         {
-
         }
 
         /// <summary>
@@ -87,6 +72,7 @@ namespace ActiveUp.Net.Mail {
             Logger.AddEntry(GetType(), "Loading template " + filename + ".", 2);
             string fileContent = LoadFileContent(filename);
             Logger.AddEntry(GetType(), "Template length: " + fileContent.Length.ToString() + " bytes.", 1);
+
             if (fileContent.Length > 0)
                 ProcessXmlTemplate(fileContent);
             else
@@ -260,7 +246,6 @@ namespace ActiveUp.Net.Mail {
                     case XmlNodeType.Element:
                         element = reader.Name;
                         Logger.AddEntry(GetType(), "New element found: " + element + ".", 0);
-
                         switch (element.ToUpper())
                         {
                             case "MESSAGE":
@@ -287,22 +272,22 @@ namespace ActiveUp.Net.Mail {
                                     if (reader.GetAttribute("FORMAT") != null && reader.GetAttribute("FORMAT") != string.Empty)
                                     {
                                         fieldFormat.Format = reader.GetAttribute("FORMAT");
-                                            Logger.AddEntry(GetType(), "Attribute FORMAT: " + fieldFormat.Format, 0);
+                                        Logger.AddEntry(GetType(), "Attribute FORMAT: " + fieldFormat.Format, 0);
                                     }
                                     else if (reader.GetAttribute("format") != null && reader.GetAttribute("format") != string.Empty)
                                     {
                                         fieldFormat.Format = reader.GetAttribute("format");
-                                            Logger.AddEntry(GetType(), "Attribute format: " + fieldFormat.Format, 0);
+                                        Logger.AddEntry(GetType(), "Attribute format: " + fieldFormat.Format, 0);
                                     }
                                     if (reader.GetAttribute("PADDINGDIR") != null && reader.GetAttribute("PADDINGDIR") != string.Empty)
                                     {
                                         fieldFormat.PaddingDir = reader.GetAttribute("PADDINGDIR").ToUpper() == "LEFT" ? PaddingDirection.Left : PaddingDirection.Right;
-                                            Logger.AddEntry(GetType(), "Attribute PADDINGDIR: " + reader.GetAttribute("PADDINGDIR"), 0);
+                                        Logger.AddEntry(GetType(), "Attribute PADDINGDIR: " + reader.GetAttribute("PADDINGDIR"), 0);
                                     }
                                     else if (reader.GetAttribute("paddingdir") != null && reader.GetAttribute("paddingdir") != string.Empty)
                                     {
                                         fieldFormat.PaddingDir = reader.GetAttribute("paddingdir").ToUpper() == "left" ? PaddingDirection.Left : PaddingDirection.Right;
-                                            Logger.AddEntry(GetType(), "Attribute paddingdir: " + reader.GetAttribute("paddingdir"), 0);
+                                        Logger.AddEntry(GetType(), "Attribute paddingdir: " + reader.GetAttribute("paddingdir"), 0);
                                     }
                                     if (reader.GetAttribute("TOTALWIDTH") != null && reader.GetAttribute("TOTALWIDTH") != string.Empty)
                                     {
@@ -326,17 +311,17 @@ namespace ActiveUp.Net.Mail {
                                         {
                                             throw new Exception("Specified Total Width is not a valid number.");
                                         }
-                                            Logger.AddEntry(GetType(), "Attribute totalwidth: " + fieldFormat.TotalWidth.ToString(), 0);
+                                        Logger.AddEntry(GetType(), "Attribute totalwidth: " + fieldFormat.TotalWidth.ToString(), 0);
                                     }
                                     if (reader.GetAttribute("PADDINGCHAR") != null && reader.GetAttribute("PADDINGCHAR") != string.Empty)
                                     {
                                         fieldFormat.PaddingChar = Convert.ToChar(reader.GetAttribute("PADDINGCHAR").Substring(0, 1));
-                                            Logger.AddEntry(GetType(), "Attribute PADDINGCHAR: '" + fieldFormat.PaddingChar + "'", 0);
+                                        Logger.AddEntry(GetType(), "Attribute PADDINGCHAR: '" + fieldFormat.PaddingChar + "'", 0);
                                     }
                                     else if (reader.GetAttribute("paddingchar") != null && reader.GetAttribute("paddingchar") != string.Empty)
                                     {
                                         fieldFormat.PaddingChar = Convert.ToChar(reader.GetAttribute("paddingchar").Substring(0, 1));
-                                            Logger.AddEntry(GetType(), "Attribute paddingchar: '" + fieldFormat.PaddingChar + "'", 0);
+                                        Logger.AddEntry(GetType(), "Attribute paddingchar: '" + fieldFormat.PaddingChar + "'", 0);
                                     }
                                     FieldsFormats.Add(fieldFormat);
                                 }
@@ -378,7 +363,6 @@ namespace ActiveUp.Net.Mail {
                                             InitReplyTo();
                                             Message.ReplyTo.Email = reader.GetAttribute("replyemail");
                                         }
-
                                         if (reader.GetAttribute("RECEIPTEMAIL") != null && reader.GetAttribute("RECEIPTEMAIL") != string.Empty)
                                         {
                                             Message.ReturnReceipt.Email = reader.GetAttribute("RECEIPTEMAIL");
@@ -438,7 +422,7 @@ namespace ActiveUp.Net.Mail {
                                     server.Port = int.Parse(reader.GetAttribute("PORT"));
                                 else if (reader.GetAttribute("port") != null && reader.GetAttribute("port") != string.Empty)
                                     server.Port = int.Parse(reader.GetAttribute("port"));
-    
+
                                 if (reader.GetAttribute("USERNAME") != null && reader.GetAttribute("USERNAME") != string.Empty)
                                     server.Username = reader.GetAttribute("USERNAME");
                                 else if (reader.GetAttribute("username") != null && reader.GetAttribute("username") != string.Empty)
@@ -448,11 +432,11 @@ namespace ActiveUp.Net.Mail {
                                     server.Password = reader.GetAttribute("PASSWORD");
                                 else if (reader.GetAttribute("password") != null && reader.GetAttribute("password") != string.Empty)
                                     server.Password = reader.GetAttribute("password");    
-
                                 SmtpServers.Add(server);
                                 break;
                             case "CONDITION":
                                 Condition condition = new Condition(); 
+
                                 if (reader.GetAttribute("REGIONID") != null && reader.GetAttribute("REGIONID") != string.Empty)
                                     condition.RegionID = reader.GetAttribute("REGIONID");
                                 else if (reader.GetAttribute("regionid") != null && reader.GetAttribute("regionid") != string.Empty)
@@ -476,7 +460,7 @@ namespace ActiveUp.Net.Mail {
                                 if (reader.GetAttribute("VALUE") != null && reader.GetAttribute("VALUE") != string.Empty)
                                     condition.Value = reader.GetAttribute("VALUE");
                                 else if (reader.GetAttribute("value") != null && reader.GetAttribute("value") != string.Empty)
-                                    condition.Value = reader.GetAttribute("value");    
+                                    condition.Value = reader.GetAttribute("value");
 
                                 if (reader.GetAttribute("CASESENSITIVE") != null && reader.GetAttribute("CASESENSITIVE") != string.Empty)
                                     condition.CaseSensitive = bool.Parse(reader.GetAttribute("CASESENSITIVE"));
@@ -501,7 +485,6 @@ namespace ActiveUp.Net.Mail {
                                     region.URL = reader.GetAttribute("URL");
                                 else if (reader.GetAttribute("url") != null && reader.GetAttribute("url") != string.Empty)
                                     region.URL = reader.GetAttribute("url");
-
                                 Regions.Add(region);
                                 break;
                         }
@@ -523,10 +506,9 @@ namespace ActiveUp.Net.Mail {
                     case XmlNodeType.EndElement:
                         element = string.Empty;
                         break;
-                }       
+                }
             }
         }
-
         /*/// <summary>
         /// Extract the value part of the specified text template line.
         /// </summary>
@@ -564,7 +546,7 @@ namespace ActiveUp.Net.Mail {
 
                 if (File.Exists(filename))
                 {
-                    TextReader textFileReader = TextReader.Synchronized(new StreamReader(filename, System.Text.Encoding.ASCII));
+                    TextReader textFileReader = TextReader.Synchronized(new StreamReader(filename, Encoding.ASCII));
                     content = textFileReader.ReadToEnd();
                     textFileReader.Close();
                 }
@@ -583,10 +565,7 @@ namespace ActiveUp.Net.Mail {
         public RegionCollection Regions
         {
             get { return _regions ?? (_regions = new RegionCollection()); }
-            set
-            {
-                _regions = value;
-            }
+            set { _regions = value; }
         }
 
         /// <summary>
@@ -595,10 +574,7 @@ namespace ActiveUp.Net.Mail {
         public ConditionalCollection Conditions
         {
             get { return _conditions ?? (_conditions = new ConditionalCollection()); }
-            set
-            {
-                _conditions = value;
-            }
+            set { _conditions = value; }
         }
 
         /// <summary>
@@ -607,10 +583,7 @@ namespace ActiveUp.Net.Mail {
         public FieldFormatCollection FieldsFormats
         {
             get { return _fieldsFormats ?? (_fieldsFormats = new FieldFormatCollection()); }
-            set
-            {
-                _fieldsFormats = value;
-            }
+            set { _fieldsFormats = value; }
         }
 
         /*/// <summary>
@@ -636,10 +609,7 @@ namespace ActiveUp.Net.Mail {
         public ServerCollection SmtpServers
         {
             get { return _smtpServers ?? (_smtpServers = new ServerCollection()); }
-            set
-            {
-                _smtpServers = value;
-            }
+            set { _smtpServers = value; }
         }
 
         /// <summary>
@@ -648,10 +618,7 @@ namespace ActiveUp.Net.Mail {
         public ListTemplateCollection ListTemplates
         {
             get { return _listTemplates ?? (_listTemplates = new ListTemplateCollection()); }
-            set
-            {
-                _listTemplates = value;
-            }
+            set { _listTemplates = value; }
         }
 
         public void InitReplyTo()

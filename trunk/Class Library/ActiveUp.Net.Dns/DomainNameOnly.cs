@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class DomainNameOnly : IRecordData
@@ -32,7 +28,9 @@ namespace ActiveUp.Net.Dns
             domain = buffer.ReadDomainName();
         }
         private string domain;
-        protected string Domain        {            get { return domain; }          }
+        protected string Domain {
+            get { return domain; }
+        }
         /// <summary>
         /// Return string representing record
         /// </summary>

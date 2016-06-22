@@ -17,24 +17,22 @@
 
 namespace ActiveUp.Net.Mail
 {
-#region FlagCollection object
-	/// <summary>
-	/// Represents a collection of Flags.
-	/// </summary>
+    /// <summary>
+    /// Represents a collection of Flags.
+    /// </summary>
     public interface IFlagCollection
-	{
-		/// <summary>
-		/// Adds the provided flag to the collection.
-		/// </summary>
-		/// <param name="flag"></param>
-        void Add(ActiveUp.Net.Mail.IFlag flag);
+    {
+        /// <summary>
+        /// Adds the provided flag to the collection.
+        /// </summary>
+        /// <param name="flag"></param>
+        void Add(IFlag flag);
 
         /// <summary>
-		/// Adds a new flag to the collection with the specified name.
-		/// </summary>
-		/// <param name="flagName"></param>
-		void Add(string flagName);
-		
-	}
-	#endregion
+        /// Adds a new flag to the collection with the specified name.
+        /// </summary>
+        /// <param name="flagName"></param>
+        void Add(string flagName);
+        
+    }
 }

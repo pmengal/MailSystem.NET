@@ -19,46 +19,45 @@ using System;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// The field format padding directions.
-	/// </summary>
+    /// <summary>
+    /// The field format padding directions.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public enum OperatorType
-	{
-		/// <summary>
-		/// Field value is greater than the value.
-		/// </summary>
-		GreaterThan,
-		/// <summary>
-		/// Field value is greater than or equal to the value.
-		/// </summary>
-		GreaterThanEqual,
-		/// <summary>
-		/// Field value is less than the value.
-		/// </summary>
-		LessThan,
-		/// <summary>
-		/// Field value is less than or equal to the value.
-		/// </summary>
-		LessThanEqual,
-		/// <summary>
-		/// Field value is equal to the value.
-		/// </summary>
-		Equal,
-		/// <summary>
-		/// Field value is not equal to the value.
-		/// </summary>
-		NotEqual,
-		/// <summary>
-		/// Field exists.
-		/// </summary>
-		Exists,
-		/// <summary>
-		/// Field does not exist.
-		/// </summary>
-		NotExists
-
-	}
+    {
+        /// <summary>
+        /// Field value is greater than the value.
+        /// </summary>
+        GreaterThan,
+        /// <summary>
+        /// Field value is greater than or equal to the value.
+        /// </summary>
+        GreaterThanEqual,
+        /// <summary>
+        /// Field value is less than the value.
+        /// </summary>
+        LessThan,
+        /// <summary>
+        /// Field value is less than or equal to the value.
+        /// </summary>
+        LessThanEqual,
+        /// <summary>
+        /// Field value is equal to the value.
+        /// </summary>
+        Equal,
+        /// <summary>
+        /// Field value is not equal to the value.
+        /// </summary>
+        NotEqual,
+        /// <summary>
+        /// Field exists.
+        /// </summary>
+        Exists,
+        /// <summary>
+        /// Field does not exist.
+        /// </summary>
+        NotExists
+    }
 }

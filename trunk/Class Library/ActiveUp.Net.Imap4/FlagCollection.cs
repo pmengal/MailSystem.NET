@@ -15,67 +15,67 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+using System.Collections;
+
 namespace ActiveUp.Net.Mail
 {
-#region FlagCollection object
-	/// <summary>
-	/// Represents a collection of Flags.
-	/// </summary>
+    /// <summary>
+    /// Represents a collection of Flags.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-    public class FlagCollection : System.Collections.CollectionBase, IFlagCollection
-	{
-		/// <summary>
-		/// Adds the provided flag to the collection.
-		/// </summary>
-		/// <param name="flag"></param>
-		public void Add(ActiveUp.Net.Mail.IFlag flag)
-		{
-			this.List.Add(flag);
-		}
-		/// <summary>
-		/// Adds a new flag to the collection with the specified name.
-		/// </summary>
-		/// <param name="flagName"></param>
-		public void Add(string flagName)
-		{
-			this.List.Add(new Flag(flagName));
-		}
-		/// <summary>
-		/// Retrieves the flag at index [index] in the collection.
-		/// </summary>
-		public ActiveUp.Net.Mail.Flag this[int index]
-		{
-			get
-			{
-				return (ActiveUp.Net.Mail.Flag)this.List[index];
-			}
-		}
-		/// <summary>
-		/// Retrieves the flag with the specified name in the collection.
-		/// </summary>
-		public ActiveUp.Net.Mail.Flag this[string flagName]
-		{
-			get
-			{
-				for(int i=0;i<this.List.Count;i++) 
-                    if(((ActiveUp.Net.Mail.Flag)this.List[i]).Name.Equals(flagName, System.StringComparison.InvariantCultureIgnoreCase)) return this[i];
-				return null;
-			}
-		}
-		/// <summary>
-		/// A string representing the collection (in IMAP4rev1 compatible format).
-		/// </summary>
-		public string Merged
-		{
-			get
-			{
-				string ret = "";
-				foreach(ActiveUp.Net.Mail.Flag flag in this) ret += "\\"+flag.Name+" ";
-				return "("+ret.Trim(' ')+")";
-			}
-		}
-	}
-	#endregion
+    public class FlagCollection : CollectionBase, IFlagCollection
+    {
+        /// <summary>
+        /// Adds the provided flag to the collection.
+        /// </summary>
+        /// <param name="flag"></param>
+        public void Add(IFlag flag)
+        {
+            List.Add(flag);
+        }
+        /// <summary>
+        /// Adds a new flag to the collection with the specified name.
+        /// </summary>
+        /// <param name="flagName"></param>
+        public void Add(string flagName)
+        {
+            List.Add(new Flag(flagName));
+        }
+        /// <summary>
+        /// Retrieves the flag at index [index] in the collection.
+        /// </summary>
+        public Flag this[int index]
+        {
+            get { return (Flag)List[index]; }
+        }
+        /// <summary>
+        /// Retrieves the flag with the specified name in the collection.
+        /// </summary>
+        public Flag this[string flagName]
+        {
+            get
+            {
+                for(int i=0;i< List.Count;i++) 
+                    if(((Flag)List[i]).Name.Equals(flagName, StringComparison.InvariantCultureIgnoreCase))
+                        return this[i];
+                return null;
+            }
+        }
+        /// <summary>
+        /// A string representing the collection (in IMAP4rev1 compatible format).
+        /// </summary>
+        public string Merged
+        {
+            get
+            {
+                string ret = "";
+                foreach(Flag flag in this)
+                    ret += "\\"+flag.Name+" ";
+                return "("+ret.Trim(' ')+")";
+            }
+        }
+    }
 }

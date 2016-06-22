@@ -15,33 +15,28 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-#region Pop3Exception Object
-	/// <summary>
-	/// Custom exception.
-	/// </summary>
+    /// <summary>
+    /// Custom exception.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
-    public class Pop3Exception : System.Exception
-	{
-		internal Pop3Exception(string servermessage)
-		{
-			this.Pop3Error = servermessage;
-		}
-		internal string Pop3Error = "Unhandled exception occured";
-		/// <summary>
-		/// Message returned by the server or error description.
-		/// </summary>
-		public override string Message
-		{
-			get
-			{
-				return this.Pop3Error;
-			}
-		}
-
-	}
-	#endregion
+    public class Pop3Exception : Exception {
+        internal Pop3Exception(string servermessage)
+        {
+            Pop3Error = servermessage;
+        }
+        internal string Pop3Error = "Unhandled exception occured";
+        /// <summary>
+        /// Message returned by the server or error description.
+        /// </summary>
+        public override string Message
+        {
+            get { return Pop3Error; }
+        }
+    }
 }

@@ -17,77 +17,77 @@
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Contains Mx Records.
-	/// </summary>
+    /// <summary>
+    /// Contains Mx Records.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [System.Serializable]
 #endif
     //[Obsolete("Please use ActiveUp.Net.Dns.MXRecord instead")]
-	public class MxRecordCollection : System.Collections.CollectionBase
-	{
-	    /// <summary>
-		/// Add a MxRecord object in the collection.
-		/// </summary>
-		/// <param name="mxRecord">The MxRecord object.</param>
-		public void Add(ActiveUp.Net.Mail.MxRecord mxRecord)
-		{
-			List.Add(mxRecord);
-		}
+    public class MxRecordCollection : System.Collections.CollectionBase
+    {
+        /// <summary>
+        /// Add a MxRecord object in the collection.
+        /// </summary>
+        /// <param name="mxRecord">The MxRecord object.</param>
+        public void Add(MxRecord mxRecord)
+        {
+            List.Add(mxRecord);
+        }
 
-		/// <summary>
-		/// Add a MxRecord in the collection specifing it's exchange name and preference level.
-		/// </summary>
-		/// <param name="exchange">The exchange name.</param>
-		/// <param name="preference">The preference level.</param>
-		public void Add(string exchange, int preference)
-		{
-			List.Add(new MxRecord(exchange, preference));
-		}
+        /// <summary>
+        /// Add a MxRecord in the collection specifing it's exchange name and preference level.
+        /// </summary>
+        /// <param name="exchange">The exchange name.</param>
+        /// <param name="preference">The preference level.</param>
+        public void Add(string exchange, int preference)
+        {
+            List.Add(new MxRecord(exchange, preference));
+        }
 
-		/// <summary>
-		/// Remove the Mx Record at the specified index position.
-		/// </summary>
-		/// <param name="index">The index position.</param>
-		public void Remove(int index)
-		{
-			// Check to see if there is a MxRecord at the supplied index.
-			if (index < Count || index >= 0)
-			{
-				List.RemoveAt(index); 
-			}
-		}
+        /// <summary>
+        /// Remove the Mx Record at the specified index position.
+        /// </summary>
+        /// <param name="index">The index position.</param>
+        public void Remove(int index)
+        {
+            // Check to see if there is a MxRecord at the supplied index.
+            if (index < Count || index >= 0)
+            {
+                List.RemoveAt(index); 
+            }
+        }
 
-		/// <summary>
-		/// Returns the MxRecord at the specified index position.
-		/// </summary>
-		public MxRecord this[int index]
-		{
-			get
-			{
-				return (MxRecord) List[index];
-			}
-		}
+        /// <summary>
+        /// Returns the MxRecord at the specified index position.
+        /// </summary>
+        public MxRecord this[int index]
+        {
+            get
+            {
+                return (MxRecord) List[index];
+            }
+        }
 
-		/// <summary>
-		/// Returns the prefered MX record in the list.
-		/// </summary>
-		/// <returns>The prefered MX record.</returns>
-		public MxRecord GetPrefered()
-		{
-			int index, minIndex = 0;
+        /// <summary>
+        /// Returns the prefered MX record in the list.
+        /// </summary>
+        /// <returns>The prefered MX record.</returns>
+        public MxRecord GetPrefered()
+        {
+            int index, minIndex = 0;
 
-			for(index=0;index<List.Count;index++)
-			{
-				if (minIndex == -1 || minIndex > this[index].Preference)
-					minIndex = index;
-			}
+            for(index=0;index<List.Count;index++)
+            {
+                if (minIndex == -1 || minIndex > this[index].Preference)
+                    minIndex = index;
+            }
 
-			if (minIndex < this.Count && minIndex != -1)
-				return this[minIndex];
-			else
-				return null;
-		}
+            if (minIndex < Count && minIndex != -1)
+                return this[minIndex];
+            else
+                return null;
+        }
 
-	}
+    }
 }

@@ -19,21 +19,21 @@ using System;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Available message body formats.
-	/// </summary>
+    /// <summary>
+    /// Available message body formats.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public enum BodyFormat
-	{
-		/// <summary>
-		/// A plain text message body.
-		/// </summary>
-		Text,
-		/// <summary>
-		/// A HTML based message body.
-		/// </summary>
-		Html
-	}
+    {
+        /// <summary>
+        /// A plain text message body.
+        /// </summary>
+        Text,
+        /// <summary>
+        /// A HTML based message body.
+        /// </summary>
+        Html
+    }
 }

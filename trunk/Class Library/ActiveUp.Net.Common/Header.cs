@@ -15,25 +15,23 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System.Linq;
-using ActiveUp.Net.Mail;
-using ActiveUp.Net.Mail;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 
 namespace ActiveUp.Net.Mail
 {
     #region Header Object version 2
-	
+
     /// <summary>
-	/// Represents the Header of a RFC 2822 message.
-	/// </summary>
+    /// Represents the Header of a RFC 2822 message.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public class Header
     {
@@ -41,19 +39,19 @@ namespace ActiveUp.Net.Mail
         #region Private fields
 
         int _indexOnServer,_id = -1;
-		AddressCollection _to = new AddressCollection();
-		AddressCollection _cc = new AddressCollection();
-		AddressCollection _bcc = new AddressCollection();
+        AddressCollection _to = new AddressCollection();
+        AddressCollection _cc = new AddressCollection();
+        AddressCollection _bcc = new AddressCollection();
         AddressCollection _recipients = new AddressCollection();
-		Address _from = new Address();
-		List<TraceInfo> _trace = new List<TraceInfo>();
-		Address _sender = new Address();
-		Address _replyto = new Address();
+        Address _from = new Address();
+        List<TraceInfo> _trace = new List<TraceInfo>();
+        Address _sender = new Address();
+        Address _replyto = new Address();
         ContentType _contentType = new ContentType();
         ContentDisposition _contentDisposition = new ContentDisposition();
         NameValueCollection _fieldNames = new NameValueCollection();
         NameValueCollection _fields = new NameValueCollection();
-		byte[] _data;
+        byte[] _data;
 
         #endregion
 
@@ -65,11 +63,15 @@ namespace ActiveUp.Net.Mail
         {
             string key = name.ToLower();
 
-            if (this.HeaderFields[key] == null || key.Equals("received")) this.HeaderFields.Add(key, value);
-            else this.HeaderFields[key] = value;
+            if (HeaderFields[key] == null || key.Equals("received"))
+                HeaderFields.Add(key, value);
+            else
+                HeaderFields[key] = value;
 
-            if (this.HeaderFieldNames[key] == null || key.Equals("received")) this.HeaderFieldNames.Add(key, name);
-            else this.HeaderFieldNames[key] = name;
+            if (HeaderFieldNames[key] == null || key.Equals("received"))
+                HeaderFieldNames.Add(key, name);
+            else
+                HeaderFieldNames[key] = name;
         }
 
         #endregion
@@ -90,24 +92,24 @@ namespace ActiveUp.Net.Mail
         /// 
         /// &lt;?xml version='1.0'?&gt;
         /// &lt;signatures&gt;
-        ///		&lt;signature from=&quot;postmaster&quot; subject=&quot;Undeliverable Mail&quot; body=&quot;Unknown user&quot; search=&quot;&quot; />
-        ///		...
+        ///        &lt;signature from=&quot;postmaster&quot; subject=&quot;Undeliverable Mail&quot; body=&quot;Unknown user&quot; search=&quot;&quot; />
+        ///        ...
         /// &lt;/signatures&gt;
         /// </remarks>
         /// <returns>A BounceStatus object containing the level of revelance and if 100% identified, the erroneous email address.</returns>
         public BounceResult GetBounceStatus(string signaturesFilePath)
         {
-            string ressource = string.IsNullOrEmpty(signaturesFilePath) ? Header.GetResource("ActiveUp.Net.Common.bouncedSignatures.xml") : System.IO.File.OpenText(signaturesFilePath).ReadToEnd();
+            string ressource = string.IsNullOrEmpty(signaturesFilePath) ? GetResource("ActiveUp.Net.Common.bouncedSignatures.xml") : File.OpenText(signaturesFilePath).ReadToEnd();
             var doc = new System.Xml.XmlDocument();
             doc.LoadXml(ressource);
             var result = new BounceResult();
 
             foreach (System.Xml.XmlElement el in doc.GetElementsByTagName("signature"))
             {
-                if (this.From.Merged.IndexOf(el.GetElementsByTagName("from")[0].InnerText) != -1)
+                if (From.Merged.IndexOf(el.GetElementsByTagName("from")[0].InnerText) != -1)
                     result.Level++;
 
-                if (this.Subject != null && this.Subject.IndexOf(el.GetElementsByTagName("subject")[0].InnerText) != -1)
+                if (Subject != null && Subject.IndexOf(el.GetElementsByTagName("subject")[0].InnerText) != -1)
                     result.Level++;
             }
 
@@ -116,8 +118,8 @@ namespace ActiveUp.Net.Mail
 
         public static string GetResource(string resource)
         {
-            System.IO.Stream stm = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
-            var reader = new System.IO.StreamReader(stm);
+            Stream stm = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
+            var reader = new StreamReader(stm);
             string str = reader.ReadToEnd();
             reader.Close();
             stm.Close();
@@ -150,58 +152,56 @@ namespace ActiveUp.Net.Mail
             if (this.Bcc.Count > 0) sb.AppendLine("Bcc: " + this.Bcc.Merged);
             if (!this.ReplyTo.Email.Equals(string.Empty)) sb.AppendLine("Reply-to: " + this.ReplyTo.Merged);*/
 
-            foreach (TraceInfo trace in this.Trace) this.AddHeaderField("Received",trace.ToString());
-            if (!this.From.Email.Equals(string.Empty)) this.AddHeaderField("From",this.From.Merged);
-            if (!this.Sender.Email.Equals(string.Empty)) this.AddHeaderField("Sender",this.Sender.Merged);
-            if (this.To.Count > 0) this.AddHeaderField("To", this.To.Merged);
-            if (this.Cc.Count > 0) this.AddHeaderField("Cc", this.Cc.Merged);
-            if (this.Bcc.Count > 0 && !removeBlindCopies) this.AddHeaderField("Bcc", this.Bcc.Merged);
-            if (!this.ReplyTo.Email.Equals(string.Empty)) this.AddHeaderField("Reply-To", this.ReplyTo.Merged);
+            foreach (TraceInfo trace in Trace)
+                AddHeaderField("Received",trace.ToString());
+            if (!From.Email.Equals(string.Empty))
+                AddHeaderField("From", From.Merged);
+            if (!Sender.Email.Equals(string.Empty))
+                AddHeaderField("Sender", Sender.Merged);
+            if (To.Count > 0)
+                AddHeaderField("To", To.Merged);
+            if (Cc.Count > 0)
+                AddHeaderField("Cc", Cc.Merged);
+            if (Bcc.Count > 0 && !removeBlindCopies)
+                AddHeaderField("Bcc", Bcc.Merged);
+            if (!ReplyTo.Email.Equals(string.Empty))
+                AddHeaderField("Reply-To", ReplyTo.Merged);
 
-            if (this.Date.Equals(DateTime.MinValue)) this.Date = DateTime.Now;
-            
-            if (string.IsNullOrEmpty(this.MessageId))
-                this.MessageId = "<AU" + Codec.GetUniqueString() + "@" + System.Net.Dns.GetHostName() + ">";
+            if (Date.Equals(DateTime.MinValue))
+                Date = DateTime.Now;
 
-            if (this.ContentType.MimeType.Length > 0)
+            if (string.IsNullOrEmpty(MessageId))
+                MessageId = "<AU" + Codec.GetUniqueString() + "@" + System.Net.Dns.GetHostName() + ">";
+
+            if (ContentType.MimeType.Length > 0)
             {
-                string contentType = this.ContentType.ToString();
+                string contentType = ContentType.ToString();
                 contentType = contentType.Substring(contentType.IndexOf(":") + 1).TrimStart(' ');
-                this.AddHeaderField("Content-Type", contentType);
+                AddHeaderField("Content-Type", contentType);
             }
 
-            if (this.ContentDisposition.Disposition.Length > 0)
+            if (ContentDisposition.Disposition.Length > 0)
             {
-                string contentDisposition = this.ContentDisposition.ToString();
+                string contentDisposition = ContentDisposition.ToString();
                 contentDisposition = contentDisposition.Substring(contentDisposition.IndexOf(":") + 1).TrimStart(' ');
-                this.AddHeaderField("Content-Disposition", contentDisposition);
+                AddHeaderField("Content-Disposition", contentDisposition);
             }
-            
+
             if (forceBase64Encoding)
                 AddHeaderField("Content-Transfer-Encoding", "base64");
             else if (ContentType.Type.Equals("text"))
                 AddHeaderField("Content-Transfer-Encoding", "quoted-printable");
 
             System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Version v = asm.GetName().Version;
+            Version v = asm.GetName().Version;
 
-            this.AddHeaderField("X-Mailer", "ActiveUp.MailSystem " + v.Major + "." + v.Minor + "." + v.Build + " www.activeup.com");
-            
-            foreach (string key in this.HeaderFields.AllKeys)
+            AddHeaderField("X-Mailer", "ActiveUp.MailSystem " + v.Major + "." + v.Minor + "." + v.Build + " www.activeup.com");
+
+            foreach (string key in HeaderFields.AllKeys)
             {
-                for (int i = 0; i < this.HeaderFields.GetValues(key).Length ; i++)
-                    sb.Append(this.HeaderFieldNames.GetValues(key)[i] + ": " + this.HeaderFields.GetValues(key)[i] + "\r\n");                
+                for (int i = 0; i < HeaderFields.GetValues(key).Length; i++)
+                    sb.Append(HeaderFieldNames.GetValues(key)[i] + ": " + HeaderFields.GetValues(key)[i] + "\r\n");
             }
-
-            /*string header = sb.ToString().TrimEnd('\r', '\n');
-            string foldedHeader = string.Empty;
-
-            StringReader sr = new StringReader(header);
-            while(sr.Peek() != -1)
-            {
-                foldedHeader += Parser.Fold(sr.ReadLine()) + "\r\n";
-            }*/
-
             return sb.ToString().TrimEnd('\r', '\n');
         }
 
@@ -217,19 +217,19 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public byte[] OriginalData
         {
-            get { return this._data; }
-            set { this._data = value; }
+            get { return _data; }
+            set { _data = value; }
         }
 
         public List<TraceInfo> Trace
         {
             get
             {
-                return this._trace;
+                return _trace;
             }
             set
             {
-                this._trace = value;
+                _trace = value;
             }
         }
 
@@ -239,9 +239,9 @@ namespace ActiveUp.Net.Mail
             {
                 const string pattern = @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b";
 
-                if (this.Trace.Count > 0 && Regex.IsMatch(this.Trace[0].From, pattern))
+                if (Trace.Count > 0 && Regex.IsMatch(Trace[0].From, pattern))
                 {
-                    string extractedIP = Regex.Match(this.Trace[0].From, pattern).Value;
+                    string extractedIP = Regex.Match(Trace[0].From, pattern).Value;
                     return IPAddress.Parse(extractedIP);
                 }
                 else
@@ -253,11 +253,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._to;
+                return _to;
             }
             set
             {
-                this._to = value;
+                _to = value;
             }
         }
 
@@ -269,11 +269,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._fieldNames;
+                return _fieldNames;
             }
             set
             {
-                this._fieldNames = value;
+                _fieldNames = value;
             }
         }
 
@@ -289,11 +289,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._fields;
+                return _fields;
             }
             set
             {
-                this._fields = value;
+                _fields = value;
             }
         }
 
@@ -304,11 +304,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._cc;
+                return _cc;
             }
             set
             {
-                this._cc = value;
+                _cc = value;
             }
         }
 
@@ -319,11 +319,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._bcc;
+                return _bcc;
             }
             set
             {
-                this._bcc = value;
+                _bcc = value;
             }
         }
 
@@ -334,11 +334,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._recipients;
+                return _recipients;
             }
             set
             {
-                this._recipients = value;
+                _recipients = value;
             }
         }
 
@@ -352,11 +352,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._sender;
+                return _sender;
             }
             set
             {
-                this._sender = value;
+                _sender = value;
             }
         }
 
@@ -386,11 +386,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._replyto;                
+                return _replyto;                
             }
             set
             {
-                this._replyto = value;
+                _replyto = value;
             }
         }
 
@@ -402,8 +402,7 @@ namespace ActiveUp.Net.Mail
             get
             {
                 string subject = string.Empty;
-                subject = this.HeaderFields["subject"] != null ? Codec.RFC2047Decode(this.HeaderFields.GetValues("subject")[0]) : null;
-
+                subject = HeaderFields["subject"] != null ? Codec.RFC2047Decode(HeaderFields.GetValues("subject")[0]) : null;
 #if TRIAL
                 return ProductHelper.GetTrialString(subject, TrialStringType.ShortText);
 #else
@@ -415,7 +414,7 @@ namespace ActiveUp.Net.Mail
 #if TRIAL
                 this.AddHeaderField("Subject", ProductHelper.GetTrialString(value, TrialStringType.ShortText));
 #else
-                this.AddHeaderField("Subject", value);
+                AddHeaderField("Subject", value);
 #endif
                 //this.AddHeaderField("Subject", value);
             }
@@ -428,12 +427,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["in-reply-to"] != null) return Parser.Clean(Parser.RemoveWhiteSpaces(this.HeaderFields.GetValues("in-reply-to")[0]));
+                if (HeaderFields["in-reply-to"] != null) return Parser.Clean(Parser.RemoveWhiteSpaces(HeaderFields.GetValues("in-reply-to")[0]));
                 else return null;
             }
             set
             {
-                this.AddHeaderField("In-Reply-To", value);
+                AddHeaderField("In-Reply-To", value);
             }
         }
 
@@ -444,12 +443,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["references"] != null) return this.HeaderFields.GetValues("references")[0];
+                if (HeaderFields["references"] != null) return HeaderFields.GetValues("references")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("References", value);
+                AddHeaderField("References", value);
             }
         }
 
@@ -460,12 +459,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["comments"] != null) return this.HeaderFields.GetValues("comments")[0];
+                if (HeaderFields["comments"] != null) return HeaderFields.GetValues("comments")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Comments", value);
+                AddHeaderField("Comments", value);
             }
         }
 
@@ -476,12 +475,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["keywords"] != null) return this.HeaderFields.GetValues("keywords")[0];
+                if (HeaderFields["keywords"] != null) return HeaderFields.GetValues("keywords")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Keywords", value);
+                AddHeaderField("Keywords", value);
             }
         }
 
@@ -492,12 +491,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["message-id"] != null) return Parser.Clean(Parser.RemoveWhiteSpaces(this.HeaderFields.GetValues("message-id")[0])).Trim(new char[] { '<', '>', ' ' });
+                if (HeaderFields["message-id"] != null) return Parser.Clean(Parser.RemoveWhiteSpaces(HeaderFields.GetValues("message-id")[0])).Trim(new char[] { '<', '>', ' ' });
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Message-ID", value);
+                AddHeaderField("Message-ID", value);
             }
         }
 
@@ -508,13 +507,15 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.ContentType.Parameters["charset"] != null) return this.ContentType.Parameters["charset"];
+                if (ContentType.Parameters["charset"] != null) return ContentType.Parameters["charset"];
                 else return null;
             }
             set
             {
-                if (this.ContentType.Parameters["charset"] != null) this.ContentType.Parameters["charset"] = value;
-                else this.ContentType.Parameters.Add("charset", value);
+                if (ContentType.Parameters["charset"] != null)
+                    ContentType.Parameters["charset"] = value;
+                else
+                    ContentType.Parameters.Add("charset", value);
             }
         }
 
@@ -522,14 +523,14 @@ namespace ActiveUp.Net.Mail
         /// Gets the received date by the mail server.
         /// </summary>
         /// <value>The received date.</value>
-        public System.DateTime ReceivedDate
+        public DateTime ReceivedDate
         {
             get
             {
-                if (this.Trace.Count > 0 && this.Trace[0].Date != null)
-                    return this.Trace[0].Date;
+                if (Trace.Count > 0 && Trace[0].Date != null)
+                    return Trace[0].Date;
                 else
-                    return this.Date;
+                    return Date;
             }
         }
 
@@ -538,19 +539,19 @@ namespace ActiveUp.Net.Mail
         /// System.DateTime.MinValue if no received date could be parsed into a DateTime object.
         /// <seealso cref="DateString"/>
         /// </summary>
-        public System.DateTime Date
+        public DateTime Date
         {
             get
             {
                 try
                 {
-                    return Parser.ParseAsUniversalDateTime(this.HeaderFields["date"]);
+                    return Parser.ParseAsUniversalDateTime(HeaderFields["date"]);
                 }
-                catch { return System.DateTime.MinValue; }
+                catch { return DateTime.MinValue; }
             }
             set
             {
-                this.AddHeaderField("Date", value.ToString("r"));
+                AddHeaderField("Date", value.ToString("r"));
             }
         }
 
@@ -562,28 +563,28 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["return-receipt-to"] != null) return Parser.ParseAddresses(this.HeaderFields.GetValues("return-receipt-to")[0])[0];
+                if (HeaderFields["return-receipt-to"] != null) return Parser.ParseAddresses(HeaderFields.GetValues("return-receipt-to")[0])[0];
                 else return null;
             }
             set
             {
                 if (value != null)
                 {
-                    this.AddHeaderField("return-receipt-to", value.Merged);
+                    AddHeaderField("return-receipt-to", value.Merged);
                 }
             }
         }
 
         /// <summary>
-        /// 	<para>Gets or sets the email address where a read confirmation should be sent.
+        ///     <para>Gets or sets the email address where a read confirmation should be sent.
         ///     Please note that use recipient may ignore this receipt. In that case, you won't
         ///     receive anything.</para>
-        /// 	<para>Please note that if you are receiving the message, the property will return
+        ///     <para>Please note that if you are receiving the message, the property will return
         ///     null if the sender doesn't request a read receipt, otherwise, an Address object
         ///     will be available.</para>
         /// </summary>
         /// <example>
-        /// 	<code lang="CS" title="C# sample">
+        ///     <code lang="CS" title="C# sample">
         /// ActiveUp.Net.Mail.Message msg = new ActiveUp.Net.Mail.Message();
         /// msg.From.Name = "User1";
         /// msg.From.Email = "user1@example.com";
@@ -597,7 +598,7 @@ namespace ActiveUp.Net.Mail
         /// // But you can specify it yourself
         /// msg.ConfirmRead = new Address("user4", "user4@example.com");
         ///     </code>
-        /// 	<code lang="VB" title="VB.NET sample">
+        ///     <code lang="VB" title="VB.NET sample">
         /// Dim msg As ActiveUp.Net.Mail.Message = New ActiveUp.Net.Mail.Message()
         /// msg.From.Name = "User1"
         /// msg.From.Email = "user1@example.com"
@@ -616,12 +617,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["disposition-notification-to"] != null) return Parser.ParseAddresses(this.HeaderFields.GetValues("disposition-notification-to")[0])[0];
+                if (HeaderFields["disposition-notification-to"] != null) return Parser.ParseAddresses(HeaderFields.GetValues("disposition-notification-to")[0])[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Disposition-Notification-To", value.Merged);
+                AddHeaderField("Disposition-Notification-To", value.Merged);
             }
         }
 
@@ -632,12 +633,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["x-message-flag"] != null) return this.HeaderFields.GetValues("x-message-flag")[0];
+                if (HeaderFields["x-message-flag"] != null) return HeaderFields.GetValues("x-message-flag")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("X-Message-Flag", value);
+                AddHeaderField("X-Message-Flag", value);
             }
         }
 
@@ -648,92 +649,119 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["date"] != null) return this.HeaderFields.GetValues("date")[0];
+                if (HeaderFields["date"] != null) return HeaderFields.GetValues("date")[0];
                 else return null;
             }
         }
 
-		/// <summary>
-		/// Stores the message Header to the specified path.
-		/// </summary>
-		/// <param name="path">Path to store the message Header at.</param>
-		/// <returns>The path the message Header has been stored at.</returns>
-		/// <example>
-		/// This retrieves the first message's Header from the remote POP server and stores it on the disk.<br />
+        /// <summary>
+        /// Stores the message Header to the specified path.
+        /// </summary>
+        /// <param name="path">Path to store the message Header at.</param>
+        /// <returns>The path the message Header has been stored at.</returns>
+        /// <example>
+        /// This retrieves the first message's Header from the remote POP server and stores it on the disk.<br />
         /// You can read it back using the ParserHeader() method in the Parser class.
-		/// <code>
-		/// C#
-		/// 
-		/// Pop3Client pop = new Pop3Client();
-		/// pop.Connect("pop.myisp.com","username","password");
-		/// Parser.ParseHeader(pop.RetrieveHeader(1)).StoreToFile("C:\\My Mails\\my_header.hdr");
-		/// pop.Disconnect();
-		/// this.Response.Write("Header stored.");
-		/// 
-		/// VB.NET
-		/// 
-		/// Dim pop As New ActiveUp.MailPop3Pop3Client()
-		/// pop.Connect("pop.myisp.com","username","password")
-		/// Parser.ParseHeader(pop.RetrieveHeader(1)).StoreToFile("C:\\My Mails\\my_header.hdr");
-		/// pop.Disconnect()
-		/// Me.Response.Write("Header stored")
-		/// 
-		/// JScript.NET
-		/// 
-		/// var pop:Pop3Client = new Pop3Client();
-		/// pop.Connect("pop.myisp.com","username","password");
-		/// Parser.ParseHeader(pop.RetrieveHeader(1)).StoreToFile("C:\\My Mails\\my_header.hdr");
-		/// pop.Disconnect();
-		/// this.Response.Write("Header stored.");
-		/// </code>
-		/// </example> 
-		public virtual string StoreToFile(string path)
-		{
-			System.IO.FileStream fs = System.IO.File.Create(path);
-			fs.Write(this._data,0,this._data.Length);
-			fs.Close();
-			return path;
-		}
+        /// <code>
+        /// C#
+        /// 
+        /// Pop3Client pop = new Pop3Client();
+        /// pop.Connect("pop.myisp.com","username","password");
+        /// Parser.ParseHeader(pop.RetrieveHeader(1)).StoreToFile("C:\\My Mails\\my_header.hdr");
+        /// pop.Disconnect();
+        /// this.Response.Write("Header stored.");
+        /// 
+        /// VB.NET
+        /// 
+        /// Dim pop As New ActiveUp.MailPop3Pop3Client()
+        /// pop.Connect("pop.myisp.com","username","password")
+        /// Parser.ParseHeader(pop.RetrieveHeader(1)).StoreToFile("C:\\My Mails\\my_header.hdr");
+        /// pop.Disconnect()
+        /// Me.Response.Write("Header stored")
+        /// 
+        /// JScript.NET
+        /// 
+        /// var pop:Pop3Client = new Pop3Client();
+        /// pop.Connect("pop.myisp.com","username","password");
+        /// Parser.ParseHeader(pop.RetrieveHeader(1)).StoreToFile("C:\\My Mails\\my_header.hdr");
+        /// pop.Disconnect();
+        /// this.Response.Write("Header stored.");
+        /// </code>
+        /// </example> 
+        public virtual string StoreToFile(string path)
+        {
+            FileStream fs = File.Create(path);
+            fs.Write(_data, 0, _data.Length);
+            fs.Close();
+            return path;
+        }
 
         public MessagePriority Priority
         {
             get
             {
-                if (this.HeaderFields["x-priority"] != null)
+                if (HeaderFields["x-priority"] != null)
                 {
-                    if (this.HeaderFields.GetValues("x-priority")[0].IndexOf("1") != -1 || this.HeaderFields.GetValues("x-priority")[0].IndexOf("High") != -1) return MessagePriority.High;
-                    else if (this.HeaderFields.GetValues("x-priority")[0].IndexOf("3") != -1 || this.HeaderFields.GetValues("x-priority")[0].IndexOf("Normal") != -1) return MessagePriority.Normal;
-                    else if (this.HeaderFields.GetValues("x-priority")[0].IndexOf("4") != -1 || this.HeaderFields.GetValues("x-priority")[0].IndexOf("Low") != -1) return MessagePriority.Low;
-                    else if (this.HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("1") != -1 || this.HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("High") != -1) return MessagePriority.High;
-                    else if (this.HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("3") != -1 || this.HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("Normal") != -1) return MessagePriority.Normal;
-                    else if (this.HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("4") != -1 || this.HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("Low") != -1) return MessagePriority.Low;
-                    else if (this.HeaderFields.GetValues("importance")[0].IndexOf("1") != -1 || this.HeaderFields.GetValues("importance")[0].IndexOf("High") != -1) return MessagePriority.High;
-                    else if (this.HeaderFields.GetValues("importance")[0].IndexOf("3") != -1 || this.HeaderFields.GetValues("importance")[0].IndexOf("Normal") != -1) return MessagePriority.Normal;
-                    else if (this.HeaderFields.GetValues("importance")[0].IndexOf("4") != -1 || this.HeaderFields.GetValues("importance")[0].IndexOf("Low") != -1) return MessagePriority.Low;
+                    if (HeaderFields.GetValues("x-priority")[0].IndexOf("1") != -1 || HeaderFields.GetValues("x-priority")[0].IndexOf("High") != -1)
+                        return MessagePriority.High;
+                    else if (HeaderFields.GetValues("x-priority")[0].IndexOf("3") != -1 || HeaderFields.GetValues("x-priority")[0].IndexOf("Normal") != -1)
+                        return MessagePriority.Normal;
+                    else if (HeaderFields.GetValues("x-priority")[0].IndexOf("4") != -1 || HeaderFields.GetValues("x-priority")[0].IndexOf("Low") != -1)
+                        return MessagePriority.Low;
+                    else if (HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("1") != -1 || HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("High") != -1)
+                        return MessagePriority.High;
+                    else if (HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("3") != -1 || HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("Normal") != -1)
+                        return MessagePriority.Normal;
+                    else if (HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("4") != -1 || HeaderFields.GetValues("x-msmail-priority")[0].IndexOf("Low") != -1)
+                        return MessagePriority.Low;
+                    else if (HeaderFields.GetValues("importance")[0].IndexOf("1") != -1 || HeaderFields.GetValues("importance")[0].IndexOf("High") != -1)
+                        return MessagePriority.High;
+                    else if (HeaderFields.GetValues("importance")[0].IndexOf("3") != -1 || HeaderFields.GetValues("importance")[0].IndexOf("Normal") != -1)
+                        return MessagePriority.Normal;
+                    else if (HeaderFields.GetValues("importance")[0].IndexOf("4") != -1 || HeaderFields.GetValues("importance")[0].IndexOf("Low") != -1)
+                        return MessagePriority.Low;
                     else return MessagePriority.Unknown;
                 }
                 else return MessagePriority.Unknown;
             }
             set
             {
-                if (this.HeaderFields["x-priority"] != null) this.HeaderFields["x-priority"] = value.ToString();
-                else this.AddHeaderField("x-priority", value.ToString());
-                if (this.HeaderFields["x-priority"] != null) this.HeaderFields["x-priority"] = value.ToString();
-                else this.AddHeaderField("x-priority", value.ToString());
-                if (this.HeaderFields["x-priority"] != null) this.HeaderFields["x-priority"] = value.ToString();
-                else this.AddHeaderField("x-priority", value.ToString());
-                if (this.HeaderFields["x-msmail-priority"] != null) this.HeaderFields["x-msmail-priority"] = value.ToString();
-                else this.AddHeaderField("x-msmail-priority", value.ToString());
-                if (this.HeaderFields["x-msmail-priority"] != null) this.HeaderFields["x-msmail-priority"] = value.ToString();
-                else this.AddHeaderField("x-msmail-priority", value.ToString());
-                if (this.HeaderFields["x-msmail-priority"] != null) this.HeaderFields["x-msmail-priority"] = value.ToString();
-                else this.AddHeaderField("x-msmail-priority", value.ToString());
-                if (this.HeaderFields["importance"] != null) this.HeaderFields["importance"] = value.ToString();
-                else this.AddHeaderField("importance", value.ToString());
-                if (this.HeaderFields["importance"] != null) this.HeaderFields["importance"] = value.ToString();
-                else this.AddHeaderField("importance", value.ToString());
-                if (this.HeaderFields["importance"] != null) this.HeaderFields["importance"] = value.ToString();
-                else this.AddHeaderField("importance", value.ToString());
+                if (HeaderFields["x-priority"] != null)
+                    HeaderFields["x-priority"] = value.ToString();
+                else
+                    AddHeaderField("x-priority", value.ToString());
+                if (HeaderFields["x-priority"] != null)
+                    HeaderFields["x-priority"] = value.ToString();
+                else
+                    AddHeaderField("x-priority", value.ToString());
+                if (HeaderFields["x-priority"] != null)
+                    HeaderFields["x-priority"] = value.ToString();
+                else
+                    AddHeaderField("x-priority", value.ToString());
+                if (HeaderFields["x-msmail-priority"] != null)
+                    HeaderFields["x-msmail-priority"] = value.ToString();
+                else
+                    AddHeaderField("x-msmail-priority", value.ToString());
+                if (HeaderFields["x-msmail-priority"] != null)
+                    HeaderFields["x-msmail-priority"] = value.ToString();
+                else
+                    AddHeaderField("x-msmail-priority", value.ToString());
+                if (HeaderFields["x-msmail-priority"] != null)
+                    HeaderFields["x-msmail-priority"] = value.ToString();
+                else
+                    AddHeaderField("x-msmail-priority", value.ToString());
+                if (HeaderFields["importance"] != null)
+                    HeaderFields["importance"] = value.ToString();
+                else
+                    AddHeaderField("importance", value.ToString());
+                if (HeaderFields["importance"] != null)
+                    HeaderFields["importance"] = value.ToString();
+                else
+                    AddHeaderField("importance", value.ToString());
+                if (HeaderFields["importance"] != null)
+                    HeaderFields["importance"] = value.ToString();
+                else
+                    AddHeaderField("importance", value.ToString());
             }
         }
 
@@ -744,13 +772,18 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["content-transfer-encoding"] != null)
+                if (HeaderFields["content-transfer-encoding"] != null)
                 {
-                    if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("quoted-printable") != -1) return ContentTransferEncoding.QuotedPrintable;
-                    else if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("base64") != -1) return ContentTransferEncoding.Base64;
-                    else if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("8bit") != -1) return ContentTransferEncoding.EightBits;
-                    else if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("7bit") != -1) return ContentTransferEncoding.SevenBits;
-                    else if (this.HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("binary") != -1) return ContentTransferEncoding.Binary;
+                    if (HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("quoted-printable") != -1)
+                        return ContentTransferEncoding.QuotedPrintable;
+                    else if (HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("base64") != -1)
+                        return ContentTransferEncoding.Base64;
+                    else if (HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("8bit") != -1)
+                        return ContentTransferEncoding.EightBits;
+                    else if (HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("7bit") != -1)
+                        return ContentTransferEncoding.SevenBits;
+                    else if (HeaderFields.GetValues("content-transfer-encoding")[0].ToLower().IndexOf("binary") != -1)
+                        return ContentTransferEncoding.Binary;
                     else return ContentTransferEncoding.Unknown;
                 }
                 else return ContentTransferEncoding.None;
@@ -758,25 +791,15 @@ namespace ActiveUp.Net.Mail
             set
             {
                 if (value == ContentTransferEncoding.EightBits)
-                {
-                    this.AddHeaderField("Content-Transfer-Encoding", "8bit");
-                }
+                    AddHeaderField("Content-Transfer-Encoding", "8bit");
                 else if (value == ContentTransferEncoding.SevenBits)
-                {
-                    this.AddHeaderField("Content-Transfer-Encoding", "7bit");
-                }
+                    AddHeaderField("Content-Transfer-Encoding", "7bit");
                 else if (value == ContentTransferEncoding.QuotedPrintable)
-                {
-                    this.AddHeaderField("Content-Transfer-Encoding", "quoted-printable");
-                }
+                    AddHeaderField("Content-Transfer-Encoding", "quoted-printable");
                 else if (value == ContentTransferEncoding.Binary)
-                {
-                    this.AddHeaderField("Content-Transfer-Encoding", "binary");
-                }
+                    AddHeaderField("Content-Transfer-Encoding", "binary");
                 else if (value == ContentTransferEncoding.Base64)
-                {
-                    this.AddHeaderField("Content-Transfer-Encoding", "base64");
-                }
+                    AddHeaderField("Content-Transfer-Encoding", "base64");
             }
         }
 
@@ -787,11 +810,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._contentType;
+                return _contentType;
             }
             set
             {
-                this._contentType = value;
+                _contentType = value;
             }
         }
 
@@ -799,11 +822,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._contentDisposition;
+                return _contentDisposition;
             }
             set
             {
-                this._contentDisposition = value;
+                _contentDisposition = value;
             }
         }
 
@@ -814,11 +837,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._indexOnServer;
+                return _indexOnServer;
             }
             set
             {
-                this._indexOnServer = value;
+                _indexOnServer = value;
             }
         }
 
@@ -830,11 +853,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._id;
+                return _id;
             }
             set
             {
-                this._id = value;
+                _id = value;
             }
         }
 
@@ -844,12 +867,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["newsgroups"] != null) return this.HeaderFields.GetValues("newsgroups")[0];
+                if (HeaderFields["newsgroups"] != null) return HeaderFields.GetValues("newsgroups")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Newsgroups", value);
+                AddHeaderField("Newsgroups", value);
             }
         }
 
@@ -860,12 +883,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["path"] != null) return this.HeaderFields.GetValues("path")[0];
+                if (HeaderFields["path"] != null) return HeaderFields.GetValues("path")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Path", value);
+                AddHeaderField("Path", value);
             }
         }
 
@@ -876,12 +899,14 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["followup-to"] != null) return this.HeaderFields.GetValues("followup-to")[0];
-                else return null;
+                if (HeaderFields["followup-to"] != null)
+                    return HeaderFields.GetValues("followup-to")[0];
+                else
+                    return null;
             }
             set
             {
-                this.AddHeaderField("Followup-To", value);
+                AddHeaderField("Followup-To", value);
             }
         }
 
@@ -890,20 +915,22 @@ namespace ActiveUp.Net.Mail
         /// System.DateTime.MinValue if no expiration date could be parsed into a DateTime.
         /// <seealso cref="DateString"/>
         /// </summary>
-        public System.DateTime Expires
+        public DateTime Expires
         {
             get
             {
                 try
                 {
-                    return Parser.ParseAsUniversalDateTime(this.HeaderFields["expires"]);
+                    return Parser.ParseAsUniversalDateTime(HeaderFields["expires"]);
                 }
-                catch { return System.DateTime.MinValue; }
+                catch { return DateTime.MinValue; }
             }
             set
             {
-                if (this.HeaderFields["expires"] != null) this.HeaderFields["expires"] = value.ToString("r");
-                else this.AddHeaderField("expires", value.ToString("r"));
+                if (HeaderFields["expires"] != null)
+                    HeaderFields["expires"] = value.ToString("r");
+                else
+                    AddHeaderField("expires", value.ToString("r"));
             }
         }
 
@@ -914,12 +941,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["expires"] != null) return this.HeaderFields.GetValues("expires")[0];
+                if (HeaderFields["expires"] != null) return HeaderFields.GetValues("expires")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Expires", value);
+                AddHeaderField("Expires", value);
             }
         }
 
@@ -930,12 +957,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["control"] != null) return this.HeaderFields.GetValues("control")[0];
+                if (HeaderFields["control"] != null) return HeaderFields.GetValues("control")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Control", value);
+                AddHeaderField("Control", value);
             }
         }
 
@@ -946,12 +973,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["distribution"] != null) return this.HeaderFields.GetValues("distribution")[0];
+                if (HeaderFields["distribution"] != null) return HeaderFields.GetValues("distribution")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Distribution", value);
+                AddHeaderField("Distribution", value);
             }
         }
 
@@ -962,12 +989,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["organization"] != null) return this.HeaderFields.GetValues("organization")[0];
+                if (HeaderFields["organization"] != null) return HeaderFields.GetValues("organization")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Organization", value);
+                AddHeaderField("Organization", value);
             }
         }
 
@@ -978,12 +1005,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["summary"] != null) return this.HeaderFields.GetValues("summary")[0];
+                if (HeaderFields["summary"] != null) return HeaderFields.GetValues("summary")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Summary", value);
+                AddHeaderField("Summary", value);
             }
         }
 
@@ -994,12 +1021,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["approved"] != null) return this.HeaderFields.GetValues("approved")[0];
+                if (HeaderFields["approved"] != null) return HeaderFields.GetValues("approved")[0];
                 else return null;
             }
             set
             {
-                this.AddHeaderField("Approved", value);
+                AddHeaderField("Approved", value);
             }
         }
 
@@ -1010,12 +1037,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.HeaderFields["lines"] != null) return Convert.ToInt32(this.HeaderFields.GetValues("lines")[0]);
+                if (HeaderFields["lines"] != null) return Convert.ToInt32(HeaderFields.GetValues("lines")[0]);
                 return -1;
             }
             set
             {
-                this.AddHeaderField("Lines", value.ToString());
+                AddHeaderField("Lines", value.ToString());
             }
         }
 
@@ -1026,25 +1053,22 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                UsenetXrefList xref = new UsenetXrefList
-                                          {
-                                              Host = this.HeaderFields["xref"].Split(' ')[0]
-                                          };
-                string[] splitted = this.HeaderFields["xref"].Split(' ');
-                for (int i = 1; i < splitted.Length; i++) if (splitted[i].IndexOf(":") != -1) xref.Groups.Add(splitted[i].Split(':')[0], splitted[i].Split(':')[1]);
+                UsenetXrefList xref = new UsenetXrefList();
+                xref.Host = HeaderFields["xref"].Split(' ')[0];
+                string[] splitted = HeaderFields["xref"].Split(' ');
+                for (int i = 1; i < splitted.Length; i++)
+                    if (splitted[i].IndexOf(":") != -1)
+                        xref.Groups.Add(splitted[i].Split(':')[0], splitted[i].Split(':')[1]);
                 return xref;
             }
             set
             {
                 string temp = value.Groups.AllKeys.Aggregate("", (current, str) => current + (" " + str + ":" + value.Groups[str]));
-                this.HeaderFields["xref"] = value.Host + temp;
+                HeaderFields["xref"] = value.Host + temp;
             }
         }
-
         #endregion
-
         #endregion
-
     }
-	#endregion
+    #endregion
 }

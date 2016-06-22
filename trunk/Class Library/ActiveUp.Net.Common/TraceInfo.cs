@@ -15,169 +15,102 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
-using ActiveUp.Net.Mail;
+using System;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Contains informations about one trace information (one Received header).
-	/// </summary>
+    /// <summary>
+    /// Contains informations about one trace information (one Received header).
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class TraceInfo
-	{
+    {
         public TraceInfo()
         {
 
         }
-		public TraceInfo(string from, System.DateTime date, string by, string via, string with, string ffor, string id)
+        public TraceInfo(string from, DateTime date, string by, string via, string with, string ffor, string id)
         {
-            this.Initialize(from, date, by, via, with, ffor, id);
+            Initialize(from, date, by, via, with, ffor, id);
         }
-        public TraceInfo(string from, System.DateTime date, string by, string via, string with, string ffor)
+        public TraceInfo(string from, DateTime date, string by, string via, string with, string ffor)
         {
-            this.Initialize(from, date, by, via, with, ffor, string.Empty);
+            Initialize(from, date, by, via, with, ffor, string.Empty);
         }
-        public TraceInfo(string from, System.DateTime date, string by, string via, string with)
+        public TraceInfo(string from, DateTime date, string by, string via, string with)
         {
-            this.Initialize(from, date, by, via, with, string.Empty, string.Empty);
+            Initialize(from, date, by, via, with, string.Empty, string.Empty);
         }
-        public TraceInfo(string from, System.DateTime date, string by, string via)
+        public TraceInfo(string from, DateTime date, string by, string via)
         {
-            this.Initialize(from, date, by, via, string.Empty, string.Empty, string.Empty);
+            Initialize(from, date, by, via, string.Empty, string.Empty, string.Empty);
         }
-        public TraceInfo(string from, System.DateTime date, string by)
+        public TraceInfo(string from, DateTime date, string by)
         {
-            this.Initialize(from, date, by, string.Empty, string.Empty, string.Empty, string.Empty
-                );
+            Initialize(from, date, by, string.Empty, string.Empty, string.Empty, string.Empty);
         }
-        private void Initialize(string from, System.DateTime date, string by, string via, string with, string ffor, string id)
+        private void Initialize(string from, DateTime date, string by, string via, string with, string ffor, string id)
         {
-            this._from = from;
-            this._by = by;
-            this._via = via;
-            this._with = with;
-            this._for = ffor;
-            this._id = id;
-            this._date = date;
+            From = from;
+            By = by;
+            Via = via;
+            With = with;
+            For = ffor;
+            Id = id;
+            Date = date;
         }
-		string _from = string.Empty,_by = string.Empty,_via = string.Empty,_with = string.Empty,_for = string.Empty,_id = string.Empty,_source = string.Empty;
-		System.DateTime _date;
 
-		/// <summary>
-		/// Contains both (1) the name of the source host as presented in the EHLO command to the SMTP server and (2) an address literal containing the IP address of the source, determined from the TCP connection with the SMTP server.
-		/// </summary>
-		public string From
-		{
-			get
-			{
-				return this._from;
-			}
-			set
-			{
-				this._from = value;
-			}
-		}
-		/// <summary>
-		/// Contains the name of the SMTP host who received and processed the message.
-		/// </summary>
-		public string By
-		{
-			get
-			{
-				return this._by;
-			}
-			set
-			{
-				this._by = value;
-			}
-		}
-		/// <summary>
-		/// Contains a mean of communication that was used for the transaction between the SMTP server and the FROM user.
-		/// </summary>
-		/// <example>"TCP"</example>
-		public string Via
-		{
-			get
-			{
-				return this._via;
-			}
-			set
-			{
-				this._via = value;
-			}
-		}
-		/// <summary>
-		/// The protocol used for the transaction by the SMTP server and the FROM user.
-		/// </summary>
-		public string With
-		{
-			get
-			{
-				return this._with;
-			}
-			set
-			{
-				this._with = value;
-			}
-		}
-		/// <summary>
-		/// An identification string for the transaction.
-		/// </summary>
-		public string Id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				this._id = value;
-			}
-		}
-		/// <summary>
-		/// The destination mailbox for which the transaction was executed.
-		/// </summary>
-		public string For
-		{
-			get
-			{
-				return this._for;
-			}
-			set
-			{
-				this._for = value;
-			}
-		}
-		public override string ToString()
-		{
-			string source = string.Empty;
-            if (!this.From.Equals(string.Empty)) source += " from " + this.From + "\r\n ";
-            if (!this.By.Equals(string.Empty)) source += " by " + this.By + "\r\n ";
-            if (!this.With.Equals(string.Empty)) source += " with " + this.With + "\r\n ";
-            if (!this.For.Equals(string.Empty)) source += " for " + this.For + "\r\n ";
-            if (!this.Via.Equals(string.Empty)) source += " via " + this.Via + "\r\n ";
-            if (!this.Id.Equals(string.Empty)) source += " id " + this.Id + "\r\n ";
+        /// <summary>
+        /// Contains both (1) the name of the source host as presented in the EHLO command to the SMTP server and (2) an address literal containing the IP address of the source, determined from the TCP connection with the SMTP server.
+        /// </summary>
+        public string From { get; set; }
+        /// <summary>
+        /// Contains the name of the SMTP host who received and processed the message.
+        /// </summary>
+        public string By { get; set; }
+        /// <summary>
+        /// Contains a mean of communication that was used for the transaction between the SMTP server and the FROM user.
+        /// </summary>
+        /// <example>"TCP"</example>
+        public string Via { get; set; }
+        /// <summary>
+        /// The protocol used for the transaction by the SMTP server and the FROM user.
+        /// </summary>
+        public string With { get; set; }
+        /// <summary>
+        /// An identification string for the transaction.
+        /// </summary>
+        public string Id { get; set; }
+        /// <summary>
+        /// The destination mailbox for which the transaction was executed.
+        /// </summary>
+        public string For { get; set; }
+        /// <summary>
+        /// The date and time of the transaction.
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        public override string ToString()
+        {
+            string source = string.Empty;
+            if (!From.Equals(string.Empty))
+                source += " from " + From + "\r\n ";
+            if (!By.Equals(string.Empty))
+                source += " by " + By + "\r\n ";
+            if (!With.Equals(string.Empty))
+                source += " with " + With + "\r\n ";
+            if (!For.Equals(string.Empty))
+                source += " for " + For + "\r\n ";
+            if (!Via.Equals(string.Empty))
+                source += " via " + Via + "\r\n ";
+            if (!Id.Equals(string.Empty))
+                source += " id " + Id + "\r\n ";
 
             if (string.IsNullOrEmpty(source))
                 return "";
-            return source.Remove(0,source.Length - 3) + ";" + this.Date.ToString("r");
-		}
-		/// <summary>
-		/// The date and time of the transaction.
-		/// </summary>
-		public System.DateTime Date
-		{
-			get
-			{
-				return this._date;
-			}
-			set
-			{
-				this._date = value;
-			}
-		}
-	}
+            return source.Remove(0,source.Length - 3) + ";" + Date.ToString("r");
+        }
+    }
 }

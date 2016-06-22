@@ -19,64 +19,56 @@ using System;
 
 namespace ActiveUp.Net.WhoIs
 {
-	#region class TrialException
+    /// <summary>
+    /// Represents a trial specific error.
+    /// </summary>
+    public class TrialException : Exception
+    {
+        #region Variables
 
-	/// <summary>
-	/// Represents a trial specific error.
-	/// </summary>
-	public class TrialException : Exception
-	{
+        /// <summary>
+        /// Message contains the error message.
+        /// </summary>
+        private string _message;
 
-		#region Variables
+        /// <summary>
+        /// Default exception message.
+        /// </summary>
+        private readonly string _defaultMessage = "Only .org domain extention are available in the trial version. To use others domains extentions use the full version available at www.activeup.com";
 
-		/// <summary>
-		/// Message contains the error message.
-		/// </summary>
-		private string _message;
+        #endregion
 
-		/// <summary>
-		/// Default exception message.
-		/// </summary>
-		private readonly string _defaultMessage = "Only .org domain extention are available in the trial version. To use others domains extentions use the full version available at www.activeup.com";
+        #region Constructor
 
-		#endregion
+        /// <summary>
+        /// Constructor whith the default trial error.
+        /// </summary>
+        public TrialException()
+        {
+            _message = _defaultMessage;
+        }
 
-		#region Constructor
+        /// <summary>
+        /// Constructor, sets message to the specified value.
+        /// </summary>
+        /// <param name="message">Message contains the error.</param>
+        public TrialException(string message)
+        {
+            _message = message;
+        }
 
-		/// <summary>
-		/// Constructor whith the default trial error.
-		/// </summary>
-		public TrialException()
-		{
-			_message = _defaultMessage;
-		}
+        #endregion
 
-		/// <summary>
-		/// Constructor, sets message to the specified value.
-		/// </summary>
-		/// <param name="message">Message contains the error.</param>
-		public TrialException(string message)
-		{
-			_message = message;
-		}
+        #region Properties
 
-		#endregion
+        /// <summary>
+        /// Gets the exception's message.
+        /// </summary>
+        public override string Message
+        {
+            get { return _message; }
+        }
 
-		#region Properties
-
-		/// <summary>
-		/// Gets the exception's message.
-		/// </summary>
-		public override string Message
-		{
-			get
-			{
-				return _message;
-			}
-		}
-
-		#endregion
-	}
-
-	#endregion
+        #endregion
+    }
 }

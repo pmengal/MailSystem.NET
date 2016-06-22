@@ -17,12 +17,10 @@
 
 namespace ActiveUp.Net.Mail
 {
-#region Flag
-	/// <summary>
-	/// Represents a flag.
-	/// </summary>
+    /// <summary>
+    /// Represents a flag.
+    /// </summary>
     public interface IFlag
-	{
-	}
-#endregion
+    {
+    }
 }

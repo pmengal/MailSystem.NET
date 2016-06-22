@@ -15,19 +15,18 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-#region Imap4Exception
-	/// <summary>
-	/// Represents an IMAP4 specific error.
-	/// </summary>
+    /// <summary>
+    /// Represents an IMAP4 specific error.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-    public class Imap4Exception : System.Exception
-	{
-        private byte[] _response;
-
+    public class Imap4Exception : Exception
+    {
         /// <summary>
         /// Generic error
         /// </summary>
@@ -39,11 +38,11 @@ namespace ActiveUp.Net.Mail
         /// <param name="response">The server response</param>
         public Imap4Exception(byte[] response) : this("An unspecified IMAP error occurred.", response) { }
         
-		/// <summary>
-		/// Constructor, sets message to the specified value.
-		/// </summary>
-		/// <param name="message"></param>
-		public Imap4Exception(string message) : base(message) { }
+        /// <summary>
+        /// Constructor, sets message to the specified value.
+        /// </summary>
+        /// <param name="message"></param>
+        public Imap4Exception(string message) : base(message) { }
 
         /// <summary>
         /// Constructor, sets message to the specified value
@@ -51,12 +50,9 @@ namespace ActiveUp.Net.Mail
         /// <param name="message"></param>
         /// <param name="response">The server response</param>
         public Imap4Exception(string message, byte[] response) : base(message) {
-            this._response = response;
+            Response = response;
         }
 
-        public byte[] Response {
-            get { return this._response; }
-        }
-	}
-	#endregion
+        public byte[] Response { get; private set; }
+    }
 }

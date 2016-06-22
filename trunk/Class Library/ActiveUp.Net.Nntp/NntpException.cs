@@ -15,32 +15,29 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-#region NntpException Object
-	/// <summary>
-	/// Custom exception.
-	/// </summary>
+    /// <summary>
+    /// Custom exception.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-    public class NntpException : System.Exception
-	{
-		internal NntpException(string servermessage)
-		{
-			this.NntpError = servermessage;
-		}
-		internal string NntpError = "Unhandled exception occured";
-		/// <summary>
-		/// Message returned by the server or error description.
-		/// </summary>
-		public override string Message
-		{
-			get
-			{
-				return this.NntpError;
-			}
-		}
-	}
-	#endregion
+    public class NntpException : Exception
+    {
+        internal NntpException(string servermessage)
+        {
+            NntpError = servermessage;
+        }
+        internal string NntpError = "Unhandled exception occured";
+        /// <summary>
+        /// Message returned by the server or error description.
+        /// </summary>
+        public override string Message
+        {
+            get { return NntpError; }
+        }
+    }
 }

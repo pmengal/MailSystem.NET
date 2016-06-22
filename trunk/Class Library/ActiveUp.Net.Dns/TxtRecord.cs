@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class TxtRecord : TextOnly
@@ -29,11 +25,16 @@ namespace ActiveUp.Net.Dns
         /// <param name="buffer"></param>
         /// <param name="length"></param>
         public TxtRecord(DataBuffer buffer, int length) : base(buffer, length){}
-        public new string Text { get { return base.Text; } }
+        public new string Text {
+            get { return base.Text; }
+        }
         /// <summary>
         /// Converts this data record to a string
         /// </summary>
         /// <returns></returns>
-        public override string ToString() { return base.ToString(); }
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

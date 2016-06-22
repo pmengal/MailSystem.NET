@@ -15,7 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
 using System.Text.RegularExpressions;
 using ActiveUp.Net.Mail;
 
@@ -51,18 +50,18 @@ namespace ActiveUp.Net.Security
 
         public string Notes
         {
-            get { return this._n; }
-            set { this._n = value; }
+            get { return _n; }
+            set { _n = value; }
         }
         public OutboundSigningPolicy OutboundSigningPolicy
         {
-            get { return this._o; }
-            set { this._o = value; }
+            get { return _o; }
+            set { _o = value; }
         }
         public Address ReportTo
         {
-            get { return this._r; }
-            set { this._r = value; }
+            get { return _r; }
+            set { _r = value; }
         }
     }
 }

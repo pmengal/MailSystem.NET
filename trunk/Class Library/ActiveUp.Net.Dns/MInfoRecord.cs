@@ -15,15 +15,11 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class MInfoRecord : IRecordData
     {
-         public MInfoRecord(DataBuffer buffer)
+        public MInfoRecord(DataBuffer buffer)
         {
             responsibleMailbox = buffer.ReadDomainName();
             errorMailbox = buffer.ReadDomainName();
@@ -34,18 +30,22 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Responsible Mailbox:{0} Error Mailbox:{1}", responsibleMailbox, errorMailbox);
+            return string.Format("Responsible Mailbox:{0} Error Mailbox:{1}", responsibleMailbox, errorMailbox);
         }
 
         private string responsibleMailbox;
         /// <summary>
         /// rfeturn Responsible Person Mail Box
         /// </summary>
-        public string ResponsibleMailbox    {   get { return responsibleMailbox; }  }
+        public string ResponsibleMailbox {
+            get { return responsibleMailbox; }
+        }
         private string errorMailbox;
         /// <summary>
         /// return Error Reporting Mail box
         /// </summary>
-        public string ErrorMailbox          {   get { return errorMailbox; }        }
+        public string ErrorMailbox {
+            get { return errorMailbox; }
+        }
     }
 }

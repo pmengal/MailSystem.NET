@@ -147,7 +147,7 @@ namespace ActiveUp.Net.Mail
                 if (string.IsNullOrWhiteSpace(strpart))
                     continue;
 
-                int bounaryByteLen = GetASCIIByteCountOfPart(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));
+                int bounaryByteLen = GetASCIIByteCountOfPart(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));                
                 int binaryPartLen = bounaryByteLen + GetASCIIByteCountOfPart(strpart);
                 parentPartAsciiBody = null;
 
@@ -162,6 +162,7 @@ namespace ActiveUp.Net.Mail
                 //Remove Subpart from ParentPart
                 byte[] tmp = new byte[parentPartBinary.Length - binaryPart.Length];
                 Array.Copy(parentPartBinary, binaryPart.Length, tmp, 0, (parentPartBinary.Length - binaryPart.Length));
+
                 parentPartBinary = null;
                 binaryPart = null;
                 GC.Collect(GC.MaxGeneration);
@@ -177,7 +178,7 @@ namespace ActiveUp.Net.Mail
                     newpart.Container = part;
                     part.SubParts.Add(newpart);
                 }
-
+                
                 binaryBody = null;
                 GC.Collect(GC.MaxGeneration);
                 GC.WaitForPendingFinalizers();
@@ -267,19 +268,13 @@ namespace ActiveUp.Net.Mail
                         }
                     }
                     else if (part.ContentType.SubType.ToLower().Equals("xml") && !added)
-                    {
-                        //Recupera anexos que nao estejam marcados com 'Content-Disposition' e 'attachment'. Alguns anexos com mimetype xml podem ter essa caracteristica.
-                        //Recovers attachments that are not marked with 'Content-Disposition' 'attachment'. Some attachments with xml mime-type may have this feature.
                         message.Attachments.Add(part);
-                    }
                 }
-
                 // Parse message/rfc822 parts as Message objects and place them in the appropriate collection.
-                if (part.ContentType.MimeType.Equals("message/rfc822"))
+                if (part.ContentType.MimeType.ToLower().Equals("message/rfc822"))
                     message.SubMessages.Add(ParseMessage(part.BinaryContent));
 
-                if (part.ContentType.MimeType.Equals("application/pkcs7-signature")
-                    || part.ContentType.MimeType.Equals("application/x-pkcs7-signature"))
+                if (part.ContentType.MimeType.ToLower().Equals("application/pkcs7-signature") || part.ContentType.MimeType.ToLower().Equals("application/x-pkcs7-signature"))
                 {
                     string toDigest = part.Container.TextContent;
                     toDigest = Regex.Split(toDigest, "\r\n--" + part.Container.ContentType.Parameters["boundary"])[1];
@@ -347,7 +342,6 @@ namespace ActiveUp.Net.Mail
             part.TextContent = text;
             part.BinaryContent = binary;
         }
-
 
         /// <summary>
         /// Replaces the time zone.
@@ -455,7 +449,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public static event OnBodyParsedEvent BodyParsed;
 
-        private static string ToASCII(byte[] data) 
+        private static string ToASCII(byte[] data)
         {
             const int BUFFER_SIZE = 2048;
             StringBuilder sb = new StringBuilder();
@@ -465,22 +459,22 @@ namespace ActiveUp.Net.Mail
             return sb.ToString();
         }
 
-        private static string ConvertByteBlock(byte[] data, int start, int length) 
+        private static string ConvertByteBlock(byte[] data, int start, int length)
         {
             return Encoding.ASCII.GetString(data, start, length);
         }
 
-        private static void ParseHeaderFields(MimePart part, int headerEnd) 
+        private static void ParseHeaderFields(MimePart part, int headerEnd)
         {
             string header = Unfold(part.OriginalContent.Substring(0, headerEnd));
             Match m = Regex.Match(header, @"(?<=((\r?\n)|\n)|\A)\S+:(.|(\r?\n[\t ]))+(?=((\r?\n)\S)|\Z)");
-            while (m.Success) 
+            while (m.Success)
             {
                 if (m.Value.ToLower().StartsWith("content-type:"))
                     part.ContentType = GetContentType(m.Value);
                 else if (m.Value.ToLower().StartsWith("content-disposition:"))
                     part.ContentDisposition = GetContentDisposition(m.Value);
-
+                
                 part.HeaderFields.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(m.Value.IndexOf(':') + 1).Trim(' ', '\r', '\n')));
                 part.HeaderFieldNames.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(0, m.Value.IndexOf(':')).Trim(' ', '\r', '\n')));
                 m = m.NextMatch();
@@ -496,7 +490,6 @@ namespace ActiveUp.Net.Mail
             }
         }
 
-
         /// <summary>
         /// Parses the MIME part.
         /// </summary>
@@ -504,7 +497,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static MimePart ParseMimePart(byte[] binaryData, Message message)
         {
-            MimePart part = new MimePart();
+            MimePart part = new MimePart();            
             part.ParentMessage = message;
             part.OriginalContent = ToASCII(binaryData); //ASCII content for header parsing            
 
@@ -519,9 +512,7 @@ namespace ActiveUp.Net.Mail
                 {
                     int indexBody = part.OriginalContent.IndexOf("\r\n\r\n");
                     if (indexBody > 0)
-                    {
                         bodyStart = indexBody;
-                    }
                 }
                 if (part.OriginalContent.Length >= headerEnd)
                 {
@@ -548,7 +539,6 @@ namespace ActiveUp.Net.Mail
             {
                 throw new ParsingException(ex.Message);
             }
-
             return part;
         }
 
@@ -963,6 +953,7 @@ namespace ActiveUp.Net.Mail
         public static Message ParseMessageFromFile(string filePath)
         {
             byte[] data = null;
+
             using (FileStream fs = File.OpenRead(filePath))
             {
                 data = new byte[fs.Length];
@@ -975,7 +966,8 @@ namespace ActiveUp.Net.Mail
         {
             int offset = 0;
             int remaining = data.Length;
-            while (remaining > 0) {
+            while (remaining > 0)
+            {
                 int read = stream.Read(data, offset, remaining);
                 if (read <= 0)
                     throw new EndOfStreamException(string.Format("End of stream reached with {0} bytes left to read", remaining));
@@ -983,6 +975,7 @@ namespace ActiveUp.Net.Mail
                 offset += read;
             }
         }
+
         #endregion
 
         #region Address parsing
@@ -1174,11 +1167,11 @@ namespace ActiveUp.Net.Mail
                     if (itemlow.IndexOf(" with ") != -1)
                         traceinfo.With = item.Substring(itemlow.IndexOf(" with ") + 6, item.IndexOf(" ", itemlow.IndexOf(" with ") + 6) - (itemlow.IndexOf(" with ") + 6)).TrimEnd(';');
                     traceinfo.Date = ParseAsUniversalDateTime(item.Split(';')[item.Split(';').Length - 1].Trim(' '));
-
                     traceinfos.Add(traceinfo);
                 }
             }
             catch { }
+
             return traceinfos;
         }
 

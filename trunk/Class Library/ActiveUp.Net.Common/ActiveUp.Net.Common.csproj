@@ -106,7 +106,6 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="AddressCollection.cs" />
-    <Compile Include="Attachment.cs" />
     <Compile Include="AttachmentCollection.cs" />
     <Compile Include="BayesianFilter.cs" />
     <Compile Include="BodyFormat.cs" />

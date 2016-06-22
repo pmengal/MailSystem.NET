@@ -16,14 +16,11 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections.Specialized;
 
 namespace ActiveUp.Net.Mail
 {
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class ContentType : StructuredHeaderField
     {
@@ -33,45 +30,47 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._mimeType.Split('/')[0];
+                return _mimeType.Split('/')[0];
             }
             set
             {
-                this._mimeType = value + "/" + this.SubType;
+                _mimeType = value + "/" + SubType;
             }
         }
         public string SubType
         {
             get
             {
-                return this._mimeType.Split('/')[1];
+                return _mimeType.Split('/')[1];
             }
             set
             {
-                this._mimeType = this.Type + "/" + value;
+                _mimeType = Type + "/" + value;
             }
         }
         public string MimeType
         {
             get
             {
-                return this._mimeType;
+                return _mimeType;
             }
             set
             {
-                this._mimeType = value;
+                _mimeType = value;
             }
         }
         public override string ToString()
         {
             string str = string.Empty;
-            str += "Content-Type: " + this.MimeType;
-            foreach (string key in this.Parameters.AllKeys)
+            str += "Content-Type: " + MimeType;
+            foreach (string key in Parameters.AllKeys)
             {
                 string value = string.Empty;
                 
-                if (key.Equals("boundary")) value = "\"" + this.Parameters[key] + "\"";
-                else value = this.Parameters[key];
+                if (key.Equals("boundary"))
+                    value = "\"" + Parameters[key] + "\"";
+                else
+                    value = Parameters[key];
 
                 str += ";\r\n\t" + key + "=" + value;
             }

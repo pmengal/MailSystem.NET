@@ -15,9 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
 namespace ActiveUp.Net.Dns
@@ -33,7 +30,7 @@ namespace ActiveUp.Net.Dns
         {
              ipAddress = buffer.ReadIPAddress();
              protocol = buffer.ReadByte();
-             services = new Byte[length - 5];
+             services = new byte[length - 5];
              for(int i = 0; i < (length - 5); i++)
                  services[i] = buffer.ReadByte();
         }
@@ -43,23 +40,29 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("IP Address:{0} Protocol:{1} Services:{2}", ipAddress, protocol, services);
+            return string.Format("IP Address:{0} Protocol:{1} Services:{2}", ipAddress, protocol, services);
         }
 
         IPAddress ipAddress;
         /// <summary>
         /// IP Address of record
         /// </summary>
-        public IPAddress IpAddress      {   get { return ipAddress; }   }
+        public IPAddress IpAddress {
+            get { return ipAddress; }
+        }
         byte protocol;
         /// <summary>
         /// return Protocol of record
         /// </summary>
-        public byte Protocol            {   get { return protocol; }    }
+        public byte Protocol {
+            get { return protocol; }
+        }
         byte[] services;
         /// <summary>
         /// return Services of record
         /// </summary>
-        public byte[] Services          {   get { return services; }    }
+        public byte[] Services {
+            get { return services; }
+        }
     }
 }

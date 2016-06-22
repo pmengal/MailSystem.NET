@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class NaptrRecord : IRecordData
@@ -27,7 +23,7 @@ namespace ActiveUp.Net.Dns
         /// Implementation Reference RFC 3403
         /// </summary>
         /// <param name="buffer"></param>
-         public NaptrRecord(DataBuffer buffer)
+        public NaptrRecord(DataBuffer buffer)
         {
             order = buffer.ReadShortUInt();
             priority = buffer.ReadShortUInt();
@@ -42,7 +38,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Order:{0}, Priority:{1} Flags:{2} Services:{3} RegExp:{4} Replacement:{5}",
+            return string.Format("Order:{0}, Priority:{1} Flags:{2} Services:{3} RegExp:{4} Replacement:{5}",
                 order, priority, flags, services, regexp, replacement);
         }
 

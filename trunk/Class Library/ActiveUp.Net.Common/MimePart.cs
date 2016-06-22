@@ -15,39 +15,39 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Text;
-using System.Collections.Specialized;
+using System.Linq;
+using System.Collections.Generic;
 using ActiveUp.Net.Common.Rfc2047;
 #if !PocketPC
 using System.Security.Cryptography.Pkcs;
 #endif
 using System;
-using System.Linq;
 
-namespace ActiveUp.Net.Mail 
+namespace ActiveUp.Net.Mail
 {
     /// <summary>
-	/// The base class used by the Attachment and EmbeddedObject classes.
-	/// </summary>
+    /// The base class used by the Attachment and EmbeddedObject classes.
+    /// </summary>
 #if !PocketPC
-	[Serializable]
+    [Serializable]
 #endif
     public class MimePart
     {
         public MimePart()
-		{
+        {
             ContentDisposition = new ContentDisposition();
             ContentType = new ContentType();
             BinaryContent = new byte[0];
             HeaderFields = new NameValueCollection();
             HeaderFieldNames = new NameValueCollection();
             SubParts = new MimePartCollection();
-		}
+        }
 
         public MimePart(byte[] attachment, string fileExtension)
-            : this(attachment, MimeTypesHelper.GetMimeqType(fileExtension), fileExtension)
+            : this(attachment, MimeTypesHelper.GetMimeType(fileExtension), fileExtension)
         {
         }
 
@@ -58,7 +58,7 @@ namespace ActiveUp.Net.Mail
         /// <param name="generateContentId">If true, a Content-ID Header field will be added to allow referencing of this part in the message.</param>
         /// <param name="charset">If the file contains text, the charset of the text can be provided to ensure better handling.</param>
         public MimePart(string path, bool generateContentId, string charset = null)
-            : this(File.ReadAllBytes(path), MimeTypesHelper.GetMimeqType(Path.GetExtension(path)), Path.GetFileName(path), charset)
+            : this(File.ReadAllBytes(path), MimeTypesHelper.GetMimeType(Path.GetExtension(path)), Path.GetFileName(path), charset)
         {
             if (generateContentId)
                 SetContentId();
@@ -71,7 +71,7 @@ namespace ActiveUp.Net.Mail
         /// <param name="contentId">The Content-ID Header field will be used for the part.</param>
         /// <param name="charset">If the file contains text, the charset of the text can be provided to ensure better handling.</param>
         public MimePart(string path, string contentId, string charset = null)
-            : this(File.ReadAllBytes(path), MimeTypesHelper.GetMimeqType(Path.GetExtension(path)), Path.GetFileName(path), charset)
+            : this(File.ReadAllBytes(path), MimeTypesHelper.GetMimeType(Path.GetExtension(path)), Path.GetFileName(path), charset)
         {
             ContentId = contentId;
         }
@@ -96,26 +96,26 @@ namespace ActiveUp.Net.Mail
                 TextContent = Encoding.GetEncoding(charset ?? Encoding.UTF8.BodyName).GetString(BinaryContent, 0, BinaryContent.Length);
                 return;
             }
-            
+
             ContentTransferEncoding = ContentTransferEncoding.Base64;
             TextContent = Convert.ToBase64String(BinaryContent);
         }
 
         /// <summary>
-		/// Generates a new Content-ID for the part.
-		/// </summary>
-		public void SetContentId()
-		{
-			ContentId = "AMLv2" + Codec.GetUniqueString() + "@" + System.Net.Dns.GetHostName();
-		}
+        /// Generates a new Content-ID for the part.
+        /// </summary>
+        public void SetContentId()
+        {
+            ContentId = "AMLv2" + Codec.GetUniqueString() + "@" + System.Net.Dns.GetHostName();
+        }
 
-		/// <summary>
-		/// Set a new Content-ID for the part.
-		/// </summary>
-		public void SetContentId(string contentID)
-		{
-			ContentId = contentID;
-		}
+        /// <summary>
+        /// Set a new Content-ID for the part.
+        /// </summary>
+        public void SetContentId(string contentID)
+        {
+            ContentId = contentID;
+        }
 
         public string GetCidReference()
         {
@@ -140,7 +140,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public string ToMimeString(bool forceBase64Encoding = false)
         {
-            var content = string.Empty;
+            string content = string.Empty;
             if (ContentType.Type != "multipart")
             {
                 content = forceBase64Encoding ? Base64EncodeAndWrap() : TextContentTransferEncoded;
@@ -158,7 +158,6 @@ namespace ActiveUp.Net.Mail
             }
 
             content += "\r\n\r\n" + "--" + boundary + "--" + Codec.CrLf;
-
             return content;
         }
 
@@ -203,7 +202,7 @@ namespace ActiveUp.Net.Mail
 
             var headersToAppend = HeaderFields.AllKeys.Except(new[] { "content-type", "content-disposition", "content-transfer-encoding" });
             AppendGivenHeaderFields(builder, headersToAppend);
-            
+
             return builder.ToString().Trim('\r', '\n') + Codec.CrLf;
         }
 
@@ -219,15 +218,14 @@ namespace ActiveUp.Net.Mail
                 builder.AppendFormat("{0}: {1}\r\n", Codec.GetFieldName(headerName), HeaderFields[headerName]);
         }
 
-
         public MimePartCollection SubParts { get; set; }
 
         public Message ParentMessage { get; set; }
 
         /// <summary>
-		/// All Header fields names.
-		/// Key is the Header name in lower case and value is the Header name as it was it the original message.
-		/// </summary>
+        /// All Header fields names.
+        /// Key is the Header name in lower case and value is the Header name as it was it the original message.
+        /// </summary>
         public NameValueCollection HeaderFieldNames { get; set; }
 
         /// <summary>
@@ -239,12 +237,12 @@ namespace ActiveUp.Net.Mail
         /// message.HeaderFields["x-mailer"]
         /// </example>
         public NameValueCollection HeaderFields { get; set; }
-        
-		/// <summary>
-		/// The ContentName.
-		/// </summary>
-		public string ContentName
-		{
+
+        /// <summary>
+        /// The ContentName.
+        /// </summary>
+        public string ContentName
+        {
             get
             {
                 if (HeaderFields["content-name"] != null)
@@ -257,24 +255,24 @@ namespace ActiveUp.Net.Mail
             {
                 HeaderFields["content-name"] = value;
             }
-		}
+        }
 
-		/// <summary>
-		/// The ContentId.
-		/// </summary>
-		public string ContentId
-		{
-			get
-			{
+        /// <summary>
+        /// The ContentId.
+        /// </summary>
+        public string ContentId
+        {
+            get
+            {
                 if (HeaderFields["content-id"] != null)
                     return "<" + HeaderFields.GetValues("content-id")[0].Trim('<', '>') + ">";
-				return null;
-			}
-			set
-			{
+                return null;
+            }
+            set
+            {
                 HeaderFields["content-id"] = "<" + value.Trim('<', '>') + ">";
-			}
-		}
+            }
+        }
 
         public string EmbeddedObjectLink
         {
@@ -296,26 +294,26 @@ namespace ActiveUp.Net.Mail
             }
         }
 
-		/// <summary>
-		/// The Content-Description.
-		/// </summary>
-		public string ContentDescription
-		{
-			get
-			{
-				if(HeaderFields["content-description"] != null)
+        /// <summary>
+        /// The Content-Description.
+        /// </summary>
+        public string ContentDescription
+        {
+            get
+            {
+                if (HeaderFields["content-description"] != null)
                     return HeaderFields.GetValues("content-description")[0];
-				return null;
-			}
-			set
-			{
+                return null;
+            }
+            set
+            {
                 HeaderFields["content-description"] = value;
-			}
-		}
+            }
+        }
 
-		/// <summary>
-		/// The text content of a MIME Part.
-		/// </summary>
+        /// <summary>
+        /// The text content of a MIME Part.
+        /// </summary>
         public string TextContent { get; set; }
 
         /// <summary>
@@ -323,7 +321,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public string TextContentTransferEncoded
         {
-           get
+            get
             {
                 if (ContentTransferEncoding == ContentTransferEncoding.SevenBits)
                     return TextContent;
@@ -333,10 +331,10 @@ namespace ActiveUp.Net.Mail
 
                 if (IsText)
                     return Codec.ToQuotedPrintable(TextContent, Charset ?? "us-ascii");
-                
+
                 if (MimeType.Contains("message/") || MimeType.Contains("image/") || MimeType.Contains("application/"))
                     return TextContent;
-                
+
                 return Codec.Wrap(Convert.ToBase64String(BinaryContent), 77);
             }
         }
@@ -357,10 +355,10 @@ namespace ActiveUp.Net.Mail
         /// The original content of a parsed MIME Part.
         /// </summary>
         public string OriginalContent { get; set; }
-		
+
         /// <summary>
-		/// The Content-Type of the MimePart.
-		/// </summary>
+        /// The Content-Type of the MimePart.
+        /// </summary>
         public ContentType ContentType { get; set; }
 
         public string MimeType
@@ -373,14 +371,15 @@ namespace ActiveUp.Net.Mail
             get { return MimeType.Contains("text/"); }
         }
 
-		/// <summary>
-		/// The Charset of the MimePart.
-		/// </summary>
-		public string Charset
-		{
-			get
-			{
-                var result = ContentType.Parameters["charset"];
+        /// <summary>
+        /// The Charset of the MimePart.
+        /// </summary>
+        public string Charset
+        {
+            get
+            {
+                string result = ContentType.Parameters["charset"];
+
                 //PocketPC may or may not support iso-8859 depending on their region. Hence we take codePage 1252 as standard which is
                 //superset of iso-8859
 #if PocketPC
@@ -391,27 +390,27 @@ namespace ActiveUp.Net.Mail
 #endif
                 return result;
             }
-			set
-			{
+            set
+            {
                 ContentType.Parameters["charset"] = value;
-			}
-		}
-		
-		/// <summary>
-		/// The Content-Disposition of the MimePart.
-		/// </summary>
-        public ContentDisposition ContentDisposition { get; set; }
-		
+            }
+        }
+        
         /// <summary>
-		/// The Content-Transfer-Encoding of the MimePart.
-		/// </summary>
-		public ContentTransferEncoding ContentTransferEncoding
-		{
-			get
-			{
-			    switch ((HeaderFields["content-transfer-encoding"] ?? "").ToLower())
-			    {
-			        case "quoted-printable":
+        /// The Content-Disposition of the MimePart.
+        /// </summary>
+        public ContentDisposition ContentDisposition { get; set; }
+        
+        /// <summary>
+        /// The Content-Transfer-Encoding of the MimePart.
+        /// </summary>
+        public ContentTransferEncoding ContentTransferEncoding
+        {
+            get
+            {
+                switch ((HeaderFields["content-transfer-encoding"] ?? "").ToLower())
+                {
+                    case "quoted-printable":
                         return ContentTransferEncoding.QuotedPrintable;
                     case "base64":
                         return ContentTransferEncoding.Base64;
@@ -423,45 +422,45 @@ namespace ActiveUp.Net.Mail
                         return ContentTransferEncoding.Binary;
                     default:
                         return ContentTransferEncoding.Unknown;
-			    }
-			}
-			set
-			{
-			    switch (value)
-			    {
-			        case ContentTransferEncoding.Binary:
-			            HeaderFields["content-transfer-encoding"] = "binary";
-			            break;
-			        case ContentTransferEncoding.QuotedPrintable:
+                }
+            }
+            set
+            {
+                switch (value)
+                {
+                    case ContentTransferEncoding.Binary:
+                        HeaderFields["content-transfer-encoding"] = "binary";
+                        break;
+                    case ContentTransferEncoding.QuotedPrintable:
                         HeaderFields["content-transfer-encoding"] = "quoted-printable";
-			            break;
-			        case ContentTransferEncoding.SevenBits:
+                        break;
+                    case ContentTransferEncoding.SevenBits:
                         HeaderFields["content-transfer-encoding"] = "7bit";
-			            break;
-			        case ContentTransferEncoding.EightBits:
+                        break;
+                    case ContentTransferEncoding.EightBits:
                         HeaderFields["content-transfer-encoding"] = "8bit";
-			            break;
-			        default:
+                        break;
+                    default:
                         HeaderFields["content-transfer-encoding"] = "base64";
-			            break;
-			    }
-			}
-		}
+                        break;
+                }
+            }
+        }
 
-		/// <summary>
-		/// The binary data of the part.
-		/// </summary>
+        /// <summary>
+        /// The binary data of the part.
+        /// </summary>
         public byte[] BinaryContent { get; set; }
 
         public bool IsBinary { get { return BinaryContent.Length > 0; } }
 
-		/// <summary>
-		/// The Content-Location.
-		/// </summary>
-		public string ContentLocation
-		{
-			get { return HeaderFields["content-location"]; }
-		    set { HeaderFields["content-location"] = value; }
+        /// <summary>
+        /// The Content-Location.
+        /// </summary>
+        public string ContentLocation
+        {
+            get { return HeaderFields["content-location"]; }
+            set { HeaderFields["content-location"] = value; }
         }
 
         /// <summary>
@@ -469,7 +468,7 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public int Size
         {
-            get  { return IsBinary ? BinaryContent.Length : TextContent.Length; }
+            get { return IsBinary ? BinaryContent.Length : TextContent.Length; }
         }
 
         /// <summary>
@@ -480,7 +479,7 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                var filename = string.Empty;
+                string filename = string.Empty;
 
                 if (HeaderFields["filename"] != null)
                     filename = HeaderFields.GetValues("filename")[0];
@@ -503,7 +502,8 @@ namespace ActiveUp.Net.Mail
             {
                 if (HeaderFields["filename"] != null)
                     HeaderFields["filename"] = value;
-                else AddHeaderField("filename", value);
+                else
+                    AddHeaderField("filename", value);
 
                 ContentDisposition.FileName = value;
             }
@@ -516,7 +516,8 @@ namespace ActiveUp.Net.Mail
         /// <param name="value">The value.</param>
         private void AddHeaderField(string name, string value)
         {
-            var key = name.ToLower();
+            string key = name.ToLower();
+
             HeaderFields[key] = value;
             HeaderFieldNames[key] = name;
         }

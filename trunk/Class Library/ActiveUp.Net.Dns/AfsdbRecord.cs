@@ -15,12 +15,7 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ActiveUp.Net.Dns
-{
+namespace ActiveUp.Net.Dns {
     /// <summary>
     /// Implementation Reference RFC 1183
     /// </summary>
@@ -30,7 +25,7 @@ namespace ActiveUp.Net.Dns
         /// Create data record for AFSDB type from data buffer
         /// </summary>
         /// <param name="buffer"></param>
-         public AfsdbRecord(DataBuffer buffer)
+        public AfsdbRecord(DataBuffer buffer)
         {
             subType = buffer.ReadShortInt();
             domain = buffer.ReadDomainName();
@@ -41,18 +36,22 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("SubType:{0} Domain:{1}", subType, domain);
+            return string.Format("SubType:{0} Domain:{1}", subType, domain);
         }
 
         private short subType;
         /// <summary>
         /// Return record subtype
         /// </summary>
-        public short SubType        {            get { return subType; }        }
+        public short SubType {
+            get { return subType; }
+        }
         private string domain;
         /// <summary>
         /// return domain name of record
         /// </summary>
-        public string Domain        {            get { return domain; }        }
+        public string Domain {
+            get { return domain; }
+        }
     }
 }

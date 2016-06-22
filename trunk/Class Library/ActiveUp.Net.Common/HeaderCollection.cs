@@ -15,75 +15,83 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-#region HeaderCollection Object
-	/// <summary>
-	/// Represents a collection of Header objects.
-	/// </summary>
+    /// <summary>
+    /// Represents a collection of Header objects.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class HeaderCollection : System.Collections.CollectionBase
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="header">The Header to be added in the collection.</param>
-		public void Add(ActiveUp.Net.Mail.Header header)
-		{
-			this.List.Add(header);
-		}
-		/// <summary>
-		/// Indexer.
-		/// </summary>
-		public ActiveUp.Net.Mail.Header this[int index]
-		{
-			get
-			{
-				return (ActiveUp.Net.Mail.Header)this.List[index];
-			}
-		}
-		public System.Data.DataTable GetBindableTable(string args)
-		{
-			System.Data.DataTable dt = new System.Data.DataTable("BindableTable");
-			if(args.IndexOf("from")!=-1) dt.Columns.Add("From");
-			if(args.IndexOf("subject")!=-1)	dt.Columns.Add("Subject");
-			if(args.IndexOf("sender")!=-1) dt.Columns.Add("Sender");
-			if(args.IndexOf("replyto")!=-1)	dt.Columns.Add("ReplyTo");
-			if(args.IndexOf("torecipient")!=-1)	dt.Columns.Add("To");
-			if(args.IndexOf("ccrecipient")!=-1)	dt.Columns.Add("Cc");
-			if(args.IndexOf("date")!=-1) dt.Columns.Add("Date");
-			if(args.IndexOf("priority")!=-1) dt.Columns.Add("Priority");
-			foreach(Header header in this)
-			{
-				string[] item = new string[dt.Columns.Count];
-				for(int i=0;i<dt.Columns.Count;i++)
-				{
-					switch(dt.Columns[i].Caption)
-					{
-						case "From" : item[i] = header.From.Merged;
-							break;
-						case "Subject" : item[i] = header.Subject;
-							break;
-						case "Sender" : item[i] = (header.Sender.Email!="Undefined") ? header.Sender.Merged : header.From.Merged;
-							break;
-						case "ReplyTo" : item[i] = header.ReplyTo.Merged;
-							break;
-						case "To" : item[i] = header.To.Merged;
-							break;
-						case "Cc" : if(header.Cc!=null) item[i] = header.Cc.Merged;
-							break;
-						case "Date" : item[i] = (header.Date!=System.DateTime.MinValue) ? header.Date.ToString() : header.DateString;
-							break;
-						case "Priority" : item[i] = header.Priority.ToString();
-							break;
-					}
-				}
-				dt.Rows.Add(item);
-			}
-			return dt;
-		}
-	}
-	#endregion
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="header">The Header to be added in the collection.</param>
+        public void Add(Header header)
+        {
+            List.Add(header);
+        }
+        /// <summary>
+        /// Indexer.
+        /// </summary>
+        public Header this[int index]
+        {
+            get
+            {
+                return (Header)List[index];
+            }
+        }
+        public System.Data.DataTable GetBindableTable(string args)
+        {
+            System.Data.DataTable dt = new System.Data.DataTable("BindableTable");
+            if(args.IndexOf("from")!=-1)
+                dt.Columns.Add("From");
+            if(args.IndexOf("subject")!=-1)
+                dt.Columns.Add("Subject");
+            if(args.IndexOf("sender")!=-1)
+                dt.Columns.Add("Sender");
+            if(args.IndexOf("replyto")!=-1)
+                dt.Columns.Add("ReplyTo");
+            if(args.IndexOf("torecipient")!=-1)
+                dt.Columns.Add("To");
+            if(args.IndexOf("ccrecipient")!=-1)
+                dt.Columns.Add("Cc");
+            if(args.IndexOf("date")!=-1)
+                dt.Columns.Add("Date");
+            if(args.IndexOf("priority")!=-1)
+                dt.Columns.Add("Priority");
+            foreach(Header header in this)
+            {
+                string[] item = new string[dt.Columns.Count];
+                for(int i=0;i<dt.Columns.Count;i++)
+                {
+                    switch(dt.Columns[i].Caption)
+                    {
+                        case "From" : item[i] = header.From.Merged;
+                            break;
+                        case "Subject" : item[i] = header.Subject;
+                            break;
+                        case "Sender" : item[i] = (header.Sender.Email!="Undefined") ? header.Sender.Merged : header.From.Merged;
+                            break;
+                        case "ReplyTo" : item[i] = header.ReplyTo.Merged;
+                            break;
+                        case "To" : item[i] = header.To.Merged;
+                            break;
+                        case "Cc" : if(header.Cc!=null) item[i] = header.Cc.Merged;
+                            break;
+                        case "Date" : item[i] = (header.Date!= DateTime.MinValue) ? header.Date.ToString() : header.DateString;
+                            break;
+                        case "Priority" : item[i] = header.Priority.ToString();
+                            break;
+                    }
+                }
+                dt.Rows.Add(item);
+            }
+            return dt;
+        }
+    }
 }

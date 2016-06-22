@@ -15,48 +15,45 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
-using ActiveUp.Net.Mail;
+using System;
 
 namespace ActiveUp.Net.Mail 
 {
-#region ContentTransferEncoding Enumeration
-	/// <summary>
-	/// Available transfer encodings.
-	/// </summary>
+    /// <summary>
+    /// Available transfer encodings.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public enum ContentTransferEncoding
-	{
-		/// <summary>
-		/// Do not encode.
-		/// </summary>
-		None,
-		/// <summary>
-		/// Unknown encoding.
-		/// </summary>
-		Unknown,
-		/// <summary>
-		/// Base64 encoding defined in RFC2045.
-		/// </summary>
-		Base64,
-		/// <summary>
-		/// Quoted-Printable encoding defined in RFC2045.
-		/// </summary>
-		QuotedPrintable,
-		/// <summary>
-		/// 7Bit encoding.
-		/// </summary>
-		SevenBits,
-		/// <summary>
-		/// 8Bit encoding.
-		/// </summary>
-		EightBits,
-		/// <summary>
-		/// Binary encoding.
-		/// </summary>
-		Binary
-	}
-	#endregion
+    {
+        /// <summary>
+        /// Do not encode.
+        /// </summary>
+        None,
+        /// <summary>
+        /// Unknown encoding.
+        /// </summary>
+        Unknown,
+        /// <summary>
+        /// Base64 encoding defined in RFC2045.
+        /// </summary>
+        Base64,
+        /// <summary>
+        /// Quoted-Printable encoding defined in RFC2045.
+        /// </summary>
+        QuotedPrintable,
+        /// <summary>
+        /// 7Bit encoding.
+        /// </summary>
+        SevenBits,
+        /// <summary>
+        /// 8Bit encoding.
+        /// </summary>
+        EightBits,
+        /// <summary>
+        /// Binary encoding.
+        /// </summary>
+        Binary
+    }
 }

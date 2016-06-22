@@ -15,46 +15,34 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-#region Flag
-	/// <summary>
-	/// Represents a flag.
-	/// </summary>
+    /// <summary>
+    /// Represents a flag.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public class Flag : IFlag
-	{
+    {
         public Flag(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
-		string _name;
-		
-		/// <summary>
-		/// The flags's name.
-		/// </summary>
-		public string Name
-		{
-			get
-			{
-				return this._name;
-			}
-			set
-			{
-				this._name = value;
-			}
-		}
-		/// <summary>
-		/// The name of the flag.
-		/// </summary>
-		/// <returns>The name of the flag.</returns>
-		public override string ToString()
-		{
-			return this.Name;
-		}
-	}
-	#endregion
+        /// <summary>
+        /// The flags's name.
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// The name of the flag.
+        /// </summary>
+        /// <returns>The name of the flag.</returns>
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
 }

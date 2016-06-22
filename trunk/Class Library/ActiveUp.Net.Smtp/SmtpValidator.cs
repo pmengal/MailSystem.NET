@@ -17,15 +17,7 @@
 
 //using System.Management;
 using System;
-using System.Collections;
-using Microsoft.Win32;
-using ActiveUp.Net.Mail;
-#if !PocketPC
-using System.Net.NetworkInformation;
-#endif
-using System.Net;
-using ActiveUp.Net.Dns;
-using System.Collections.Generic;
+using System.Web;
 
 namespace ActiveUp.Net.Mail
 {
@@ -33,7 +25,7 @@ namespace ActiveUp.Net.Mail
     /// 
     /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class SmtpValidator : Validator
     {
@@ -44,28 +36,31 @@ namespace ActiveUp.Net.Mail
         /// <returns>True if the address is valid, otherwise false.</returns>
         public static bool Validate(string address)
         {
-            if (!ActiveUp.Net.Mail.Validator.ValidateSyntax(address)) return false;
+            if (!ValidateSyntax(address))
+                return false;
             else
             {
                 try
                 {
                     string domain = address.Split('@')[1];
                     bool result;
-                    ActiveUp.Net.Mail.SmtpClient smtp = new ActiveUp.Net.Mail.SmtpClient();
+                    SmtpClient smtp = new SmtpClient();
                     smtp.SendTimeout = 0;
                     smtp.ReceiveTimeout = 0;
                     MxRecordCollection mxRecords = new MxRecordCollection();
                     try
                     {
-                        mxRecords = ActiveUp.Net.Mail.Validator.GetMxRecords(domain);
+                        mxRecords = GetMxRecords(domain);
                     }
                     catch
                     {
-                        new System.Exception("Can't connect to DNS server.");
+                        new Exception("Can't connect to DNS server.");
                     }
                     //Console.WriteLine(mxRecords.GetPrefered().Exchange);
-                    if (mxRecords.Count > 0) smtp.Connect(mxRecords.GetPrefered().Exchange);
-                    else return false;
+                    if (mxRecords.Count > 0)
+                        smtp.Connect(mxRecords.GetPrefered().Exchange);
+                    else
+                        return false;
                     try
                     {
                         smtp.Ehlo(System.Net.Dns.GetHostName());
@@ -74,7 +69,8 @@ namespace ActiveUp.Net.Mail
                     {
                         smtp.Helo(System.Net.Dns.GetHostName());
                     }
-                    if (smtp.Verify(address)) result = true;
+                    if (smtp.Verify(address))
+                        result = true;
                     else
                     {
                         try
@@ -87,9 +83,11 @@ namespace ActiveUp.Net.Mail
                         }
                         catch (Exception ex)
                         {
-                            System.Console.WriteLine(ex.ToString());
+#if (DEBUG)
+                            Console.WriteLine(ex.ToString());
+#endif
 #if !PocketPC
-                            System.Web.HttpContext.Current.Trace.Write("ActiveMail", ex.ToString());
+                            HttpContext.Current.Trace.Write("ActiveMail", ex.ToString());
 #endif
                             result = false;
                         }
@@ -109,8 +107,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginValidate(string address, AsyncCallback callback)
         {
-            SmtpValidator._delegateValidate = SmtpValidator.Validate;
-            return SmtpValidator._delegateValidate.BeginInvoke(address, callback, SmtpValidator._delegateValidate);
+            _delegateValidate = Validate;
+            return _delegateValidate.BeginInvoke(address, callback, _delegateValidate);
         }
 
 
@@ -122,9 +120,9 @@ namespace ActiveUp.Net.Mail
         /// <returns>True if the address is valid, otherwise false.</returns>
         public static bool Validate(string address, string dnsServerHost)
         {
-            ActiveUp.Net.Mail.ServerCollection servers = new ActiveUp.Net.Mail.ServerCollection();
+            ServerCollection servers = new ServerCollection();
             servers.Add(dnsServerHost, 53);
-            return ActiveUp.Net.Mail.SmtpValidator.Validate(address, servers);
+            return Validate(address, servers);
         }
 
         private delegate bool DelegateValidateString(string address, string dnsServerHost);
@@ -132,8 +130,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginValidate(string address, string dnsServerHost, AsyncCallback callback)
         {
-            SmtpValidator._delegateValidateString = SmtpValidator.Validate;
-            return SmtpValidator._delegateValidateString.BeginInvoke(address, dnsServerHost, callback, SmtpValidator._delegateValidateString);
+            _delegateValidateString = Validate;
+            return _delegateValidateString.BeginInvoke(address, dnsServerHost, callback, _delegateValidateString);
         }
 
         /// <summary>
@@ -144,12 +142,13 @@ namespace ActiveUp.Net.Mail
         /// <returns>True if the address is valid, otherwise false.</returns>
         public static bool Validate(string address, ServerCollection dnsServers)
         {
-            if (!ActiveUp.Net.Mail.Validator.ValidateSyntax(address)) return false;
+            if (!ValidateSyntax(address))
+                return false;
             else
             {
                 string domain = address.Split('@')[1];
                 bool result;
-                ActiveUp.Net.Mail.SmtpClient smtp = new ActiveUp.Net.Mail.SmtpClient();
+                SmtpClient smtp = new SmtpClient();
                 smtp.SendTimeout = 15;
                 smtp.ReceiveTimeout = 15;
 
@@ -157,14 +156,14 @@ namespace ActiveUp.Net.Mail
                 try
                 {
 #if !PocketPC
-                    mxRecords = ActiveUp.Net.Mail.Validator.GetMxRecords(domain, dnsServers);
+                    mxRecords = GetMxRecords(domain, dnsServers);
 #else
                     mxRecords = ActiveUp.Net.Mail.Validator.GetMxRecords(domain);
 #endif
                 }
                 catch
                 {
-                    new System.Exception("Can't connect to DNS server.");
+                    new Exception("Can't connect to DNS server.");
                 }
                 smtp.Connect(mxRecords.GetPrefered().Exchange);
                 try
@@ -201,8 +200,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginValidate(string address, ServerCollection servers, AsyncCallback callback)
         {
-            SmtpValidator._delegateValidateStringServers = SmtpValidator.Validate;
-            return SmtpValidator._delegateValidateStringServers.BeginInvoke(address, servers, callback, SmtpValidator._delegateValidateStringServers);
+            _delegateValidateStringServers = Validate;
+            return _delegateValidateStringServers.BeginInvoke(address, servers, callback, _delegateValidateStringServers);
         }
 
         /// <summary>
@@ -212,7 +211,7 @@ namespace ActiveUp.Net.Mail
         /// <returns>True if the address is valid, otherwise false.</returns>
         public static bool Validate(Address address)
         {
-            return SmtpValidator.Validate(address.Email);
+            return Validate(address.Email);
         }
 
         private delegate bool DelegateValidateAddress(Address address);
@@ -220,8 +219,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginValidate(Address address, AsyncCallback callback)
         {
-            SmtpValidator._delegateValidateAddress = SmtpValidator.Validate;
-            return SmtpValidator._delegateValidateAddress.BeginInvoke(address, callback, SmtpValidator._delegateValidateAddress);
+            _delegateValidateAddress = Validate;
+            return _delegateValidateAddress.BeginInvoke(address, callback, _delegateValidateAddress);
         }
 
         /// <summary>
@@ -232,7 +231,7 @@ namespace ActiveUp.Net.Mail
         /// <returns>True if the address is valid, otherwise false.</returns>
         public static bool Validate(Address address, ServerCollection dnsServers)
         {
-            return SmtpValidator.Validate(address.Email, dnsServers);
+            return Validate(address.Email, dnsServers);
         }
 
         private delegate bool DelegateValidateAddressServers(Address address, ServerCollection dnsServers);
@@ -240,8 +239,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginValidate(Address address, ServerCollection dnsServers, AsyncCallback callback)
         {
-            SmtpValidator._delegateValidateAddressServers = SmtpValidator.Validate;
-            return SmtpValidator._delegateValidateAddressServers.BeginInvoke(address, dnsServers, callback, SmtpValidator._delegateValidateAddressServers);
+            _delegateValidateAddressServers = Validate;
+            return _delegateValidateAddressServers.BeginInvoke(address, dnsServers, callback, _delegateValidateAddressServers);
         }
 
         /// <summary>
@@ -252,9 +251,9 @@ namespace ActiveUp.Net.Mail
         /// <returns>True if the address is valid, otherwise false.</returns>
         public static bool Validate(Address address, string dnsServerHost)
         {
-            ActiveUp.Net.Mail.ServerCollection servers = new ActiveUp.Net.Mail.ServerCollection();
+            ServerCollection servers = new ServerCollection();
             servers.Add(dnsServerHost, 53);
-            return ActiveUp.Net.Mail.SmtpValidator.Validate(address.Email, servers);
+            return Validate(address.Email, servers);
         }
 
         private delegate bool DelegateValidateAddressString(Address address, string dnsServerHost);
@@ -262,8 +261,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginValidate(Address address, string dnsServerHost, AsyncCallback callback)
         {
-            SmtpValidator._delegateValidateAddressString = SmtpValidator.Validate;
-            return SmtpValidator._delegateValidateAddressString.BeginInvoke(address, dnsServerHost, callback, SmtpValidator._delegateValidateAddressString);
+            _delegateValidateAddressString = Validate;
+            return _delegateValidateAddressString.BeginInvoke(address, dnsServerHost, callback, _delegateValidateAddressString);
         }
 
         public bool EndValidate(IAsyncResult result)
@@ -278,15 +277,17 @@ namespace ActiveUp.Net.Mail
         /// <returns>A collection containing the invalid addresses.</returns>
         public static AddressCollection GetInvalidAddresses(AddressCollection addresses)
         {
-            ActiveUp.Net.Mail.AddressCollection invalids = new ActiveUp.Net.Mail.AddressCollection();
-            ActiveUp.Net.Mail.AddressCollection valids = new ActiveUp.Net.Mail.AddressCollection();
+            AddressCollection invalids = new AddressCollection();
+            AddressCollection valids = new AddressCollection();
             System.Collections.Specialized.HybridDictionary ads = new System.Collections.Specialized.HybridDictionary();
             for (int i = 0; i < addresses.Count; i++)
-                if (!ActiveUp.Net.Mail.Validator.ValidateSyntax(addresses[i].Email)) invalids.Add(addresses[i]);
-                else valids.Add(addresses[i]);
+                if (!ValidateSyntax(addresses[i].Email))
+                    invalids.Add(addresses[i]);
+                else
+                    valids.Add(addresses[i]);
 #if !PocketPC
-            System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
-            System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count }, new int[] { 0 });
+            Array domains = Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
+            Array adds = Array.CreateInstance(typeof(Address), new int[] { valids.Count }, new int[] { 0 });
 #else
             System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count });
             System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count });
@@ -297,14 +298,14 @@ namespace ActiveUp.Net.Mail
                 domains.SetValue(valids[i].Email.Split('@')[1], i);
                 adds.SetValue(valids[i], i);
             }
-            System.Array.Sort(domains, adds, null);
+            Array.Sort(domains, adds, null);
             string currentDomain = "";
             string address = "";
-            ActiveUp.Net.Mail.SmtpClient smtp = new ActiveUp.Net.Mail.SmtpClient();
+            SmtpClient smtp = new SmtpClient();
             bool isConnected = false;
             for (int i = 0; i < adds.Length; i++)
             {
-                address = ((ActiveUp.Net.Mail.Address)adds.GetValue(i)).Email;
+                address = ((Address)adds.GetValue(i)).Email;
                 if (((string)domains.GetValue(i)) == currentDomain)
                 {
                     if (!smtp.Verify(address))
@@ -316,7 +317,7 @@ namespace ActiveUp.Net.Mail
                         }
                         catch
                         {
-                            invalids.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                            invalids.Add((Address)adds.GetValue(i));
                         }
                     }
                 }
@@ -329,10 +330,10 @@ namespace ActiveUp.Net.Mail
                         {
                             isConnected = false;
                             smtp.Disconnect();
-                            smtp = new ActiveUp.Net.Mail.SmtpClient();
+                            smtp = new SmtpClient();
                         }
 
-                        smtp.Connect(ActiveUp.Net.Mail.Validator.GetMxRecords(currentDomain).GetPrefered().Exchange);
+                        smtp.Connect(GetMxRecords(currentDomain).GetPrefered().Exchange);
                         isConnected = true;
                         try
                         {
@@ -353,13 +354,13 @@ namespace ActiveUp.Net.Mail
                             }
                             catch
                             {
-                                invalids.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                                invalids.Add((Address)adds.GetValue(i));
                             }
                         }
                     }
                     catch
                     {
-                        invalids.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                        invalids.Add((Address)adds.GetValue(i));
                     }
                 }
             }
@@ -373,8 +374,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginGetInvalidAddresses(AddressCollection addresses, AsyncCallback callback)
         {
-            SmtpValidator._delegateGetInvalidAddresses = SmtpValidator.GetInvalidAddresses;
-            return SmtpValidator._delegateGetInvalidAddresses.BeginInvoke(addresses, callback, SmtpValidator._delegateGetInvalidAddresses);
+            _delegateGetInvalidAddresses = GetInvalidAddresses;
+            return _delegateGetInvalidAddresses.BeginInvoke(addresses, callback, _delegateGetInvalidAddresses);
         }
 
         /// <summary>
@@ -384,14 +385,15 @@ namespace ActiveUp.Net.Mail
         /// <returns>A collection containing the valid addresses.</returns>
         public static AddressCollection Filter(AddressCollection addresses)
         {
-            ActiveUp.Net.Mail.AddressCollection valids = new ActiveUp.Net.Mail.AddressCollection();
-            ActiveUp.Net.Mail.AddressCollection valids1 = new ActiveUp.Net.Mail.AddressCollection();
+            AddressCollection valids = new AddressCollection();
+            AddressCollection valids1 = new AddressCollection();
             System.Collections.Specialized.HybridDictionary ads = new System.Collections.Specialized.HybridDictionary();
             for (int i = 0; i < addresses.Count; i++)
-                if (ActiveUp.Net.Mail.Validator.ValidateSyntax(addresses[i].Email)) valids.Add(addresses[i]);
+                if (ValidateSyntax(addresses[i].Email))
+                    valids.Add(addresses[i]);
 #if !PocketPC
-            System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
-            System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count }, new int[] { 0 });
+            Array domains = Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
+            Array adds = Array.CreateInstance(typeof(Address), new int[] { valids.Count }, new int[] { 0 });
 #else
             System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count });
             System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count });
@@ -401,14 +403,14 @@ namespace ActiveUp.Net.Mail
                 domains.SetValue(valids[i].Email.Split('@')[1], i);
                 adds.SetValue(valids[i], i);
             }
-            System.Array.Sort(domains, adds, null);
+            Array.Sort(domains, adds, null);
             string currentDomain = "";
             string address = "";
-            ActiveUp.Net.Mail.SmtpClient smtp = new ActiveUp.Net.Mail.SmtpClient();
+            SmtpClient smtp = new SmtpClient();
             bool isConnected = false;
             for (int i = 0; i < adds.Length; i++)
             {
-                address = ((ActiveUp.Net.Mail.Address)adds.GetValue(i)).Email;
+                address = ((Address)adds.GetValue(i)).Email;
                 if (((string)domains.GetValue(i)) == currentDomain)
                 {
                     if (!smtp.Verify(address))
@@ -418,14 +420,14 @@ namespace ActiveUp.Net.Mail
                             //smtp.MailFrom("postmaster@"+System.Net.Dns.GetHostName());
                             //smtp.MailFrom("postmaster@"+currentDomain);
                             smtp.RcptTo(address);
-                            valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                            valids1.Add((Address)adds.GetValue(i));
                         }
                         catch
                         {
 
                         }
                     }
-                    else valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                    else valids1.Add((Address)adds.GetValue(i));
                 }
                 else
                 {
@@ -436,10 +438,10 @@ namespace ActiveUp.Net.Mail
                         {
                             isConnected = false;
                             smtp.Disconnect();
-                            smtp = new ActiveUp.Net.Mail.SmtpClient();
+                            smtp = new SmtpClient();
                         }
 
-                        smtp.Connect(ActiveUp.Net.Mail.Validator.GetMxRecords(currentDomain).GetPrefered().Exchange);
+                        smtp.Connect(GetMxRecords(currentDomain).GetPrefered().Exchange);
                         isConnected = true;
                         try
                         {
@@ -458,14 +460,14 @@ namespace ActiveUp.Net.Mail
                                 //smtp.MailFrom("postmaster@evolution-internet.com");
                                 smtp.MailFrom("postmaster@" + currentDomain);
                                 smtp.RcptTo(address);
-                                valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                                valids1.Add((Address)adds.GetValue(i));
                             }
                             catch
                             {
 
                             }
                         }
-                        else valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                        else valids1.Add((Address)adds.GetValue(i));
                     }
                     catch
                     {
@@ -483,8 +485,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginFilter(AddressCollection addresses, AsyncCallback callback)
         {
-            SmtpValidator._delegateFilter = SmtpValidator.Filter;
-            return SmtpValidator._delegateFilter.BeginInvoke(addresses, callback, SmtpValidator._delegateFilter);
+            _delegateFilter = Filter;
+            return _delegateFilter.BeginInvoke(addresses, callback, _delegateFilter);
         }
 
         /// <summary>
@@ -495,15 +497,17 @@ namespace ActiveUp.Net.Mail
         /// <returns>A collection containing the invalid addresses.</returns>
         public static AddressCollection GetInvalidAddresses(AddressCollection addresses, ServerCollection dnsServers)
         {
-            ActiveUp.Net.Mail.AddressCollection invalids = new ActiveUp.Net.Mail.AddressCollection();
-            ActiveUp.Net.Mail.AddressCollection valids = new ActiveUp.Net.Mail.AddressCollection();
+            AddressCollection invalids = new AddressCollection();
+            AddressCollection valids = new AddressCollection();
             System.Collections.Specialized.HybridDictionary ads = new System.Collections.Specialized.HybridDictionary();
             for (int i = 0; i < addresses.Count; i++)
-                if (!ActiveUp.Net.Mail.Validator.ValidateSyntax(addresses[i].Email)) invalids.Add(addresses[i]);
-                else valids.Add(addresses[i]);
+                if (!ValidateSyntax(addresses[i].Email))
+                    invalids.Add(addresses[i]);
+                else
+                    valids.Add(addresses[i]);
 #if !PocketPC
-            System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
-            System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count }, new int[] { 0 });
+            Array domains = Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
+            Array adds = Array.CreateInstance(typeof(Address), new int[] { valids.Count }, new int[] { 0 });
 #else
             System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count });
             System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count });
@@ -513,14 +517,14 @@ namespace ActiveUp.Net.Mail
                 domains.SetValue(valids[i].Email.Split('@')[1], i);
                 adds.SetValue(valids[i], i);
             }
-            System.Array.Sort(domains, adds, null);
+            Array.Sort(domains, adds, null);
             string currentDomain = "";
             string address = "";
-            ActiveUp.Net.Mail.SmtpClient smtp = new ActiveUp.Net.Mail.SmtpClient();
+            SmtpClient smtp = new SmtpClient();
             bool isConnected = false;
             for (int i = 0; i < adds.Length; i++)
             {
-                address = ((ActiveUp.Net.Mail.Address)adds.GetValue(i)).Email;
+                address = ((Address)adds.GetValue(i)).Email;
                 if (((string)domains.GetValue(i)) == currentDomain)
                 {
                     if (!smtp.Verify(address))
@@ -533,7 +537,7 @@ namespace ActiveUp.Net.Mail
                         }
                         catch
                         {
-                            invalids.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                            invalids.Add((Address)adds.GetValue(i));
                         }
                     }
                 }
@@ -546,10 +550,10 @@ namespace ActiveUp.Net.Mail
                         {
                             isConnected = false;
                             smtp.Disconnect();
-                            smtp = new ActiveUp.Net.Mail.SmtpClient();
+                            smtp = new SmtpClient();
                         }
 
-                        smtp.Connect(ActiveUp.Net.Mail.Validator.GetMxRecords(currentDomain, dnsServers).GetPrefered().Exchange);
+                        smtp.Connect(GetMxRecords(currentDomain, dnsServers).GetPrefered().Exchange);
                         isConnected = true;
                         try
                         {
@@ -570,13 +574,13 @@ namespace ActiveUp.Net.Mail
                             }
                             catch
                             {
-                                invalids.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                                invalids.Add((Address)adds.GetValue(i));
                             }
                         }
                     }
                     catch
                     {
-                        invalids.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                        invalids.Add((Address)adds.GetValue(i));
                     }
                 }
             }
@@ -590,8 +594,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginGetInvalidAddresses(AddressCollection addresses, ServerCollection dnsServers, AsyncCallback callback)
         {
-            SmtpValidator._delegateGetInvalidAddressesServers = SmtpValidator.GetInvalidAddresses;
-            return SmtpValidator._delegateGetInvalidAddressesServers.BeginInvoke(addresses, dnsServers, callback, SmtpValidator._delegateGetInvalidAddressesServers);
+            _delegateGetInvalidAddressesServers = GetInvalidAddresses;
+            return _delegateGetInvalidAddressesServers.BeginInvoke(addresses, dnsServers, callback, _delegateGetInvalidAddressesServers);
         }
 
         public AddressCollection EndGetInvalidAddresses(IAsyncResult result)
@@ -607,14 +611,14 @@ namespace ActiveUp.Net.Mail
         /// <returns>A collection containing the valid addresses.</returns>
         public static AddressCollection Filter(AddressCollection addresses, ServerCollection dnsServers)
         {
-            ActiveUp.Net.Mail.AddressCollection valids = new ActiveUp.Net.Mail.AddressCollection();
-            ActiveUp.Net.Mail.AddressCollection valids1 = new ActiveUp.Net.Mail.AddressCollection();
+            AddressCollection valids = new AddressCollection();
+            AddressCollection valids1 = new AddressCollection();
             System.Collections.Specialized.HybridDictionary ads = new System.Collections.Specialized.HybridDictionary();
             for (int i = 0; i < addresses.Count; i++)
-                if (ActiveUp.Net.Mail.Validator.ValidateSyntax(addresses[i].Email)) valids.Add(addresses[i]);
+                if (ValidateSyntax(addresses[i].Email)) valids.Add(addresses[i]);
 #if !PocketPC
-            System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
-            System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count }, new int[] { 0 });
+            Array domains = Array.CreateInstance(typeof(string), new int[] { valids.Count }, new int[] { 0 });
+            Array adds = Array.CreateInstance(typeof(Address), new int[] { valids.Count }, new int[] { 0 });
 #else
             System.Array domains = System.Array.CreateInstance(typeof(string), new int[] { valids.Count });
             System.Array adds = System.Array.CreateInstance(typeof(ActiveUp.Net.Mail.Address), new int[] { valids.Count });
@@ -624,14 +628,14 @@ namespace ActiveUp.Net.Mail
                 domains.SetValue(valids[i].Email.Split('@')[1], i);
                 adds.SetValue(valids[i], i);
             }
-            System.Array.Sort(domains, adds, null);
+            Array.Sort(domains, adds, null);
             string currentDomain = "";
             string address = "";
-            ActiveUp.Net.Mail.SmtpClient smtp = new ActiveUp.Net.Mail.SmtpClient();
+            SmtpClient smtp = new SmtpClient();
             bool isConnected = false;
             for (int i = 0; i < adds.Length; i++)
             {
-                address = ((ActiveUp.Net.Mail.Address)adds.GetValue(i)).Email;
+                address = ((Address)adds.GetValue(i)).Email;
                 if (((string)domains.GetValue(i)) == currentDomain)
                 {
                     if (!smtp.Verify(address))
@@ -641,14 +645,14 @@ namespace ActiveUp.Net.Mail
                             //smtp.MailFrom("postmaster@"+System.Net.Dns.GetHostName());
                             //smtp.MailFrom("postmaster@"+currentDomain);
                             smtp.RcptTo(address);
-                            valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                            valids1.Add((Address)adds.GetValue(i));
                         }
                         catch
                         {
 
                         }
                     }
-                    else valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                    else valids1.Add((Address)adds.GetValue(i));
                 }
                 else
                 {
@@ -659,10 +663,10 @@ namespace ActiveUp.Net.Mail
                         {
                             isConnected = false;
                             smtp.Disconnect();
-                            smtp = new ActiveUp.Net.Mail.SmtpClient();
+                            smtp = new SmtpClient();
                         }
 
-                        smtp.Connect(ActiveUp.Net.Mail.Validator.GetMxRecords(currentDomain, dnsServers).GetPrefered().Exchange);
+                        smtp.Connect(GetMxRecords(currentDomain, dnsServers).GetPrefered().Exchange);
                         isConnected = true;
                         try
                         {
@@ -680,14 +684,14 @@ namespace ActiveUp.Net.Mail
                                 //smtp.MailFrom("postmaster@evolution-internet.com");
                                 smtp.MailFrom("postmaster@" + currentDomain);
                                 smtp.RcptTo(address);
-                                valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                                valids1.Add((Address)adds.GetValue(i));
                             }
                             catch
                             {
 
                             }
                         }
-                        else valids1.Add((ActiveUp.Net.Mail.Address)adds.GetValue(i));
+                        else valids1.Add((Address)adds.GetValue(i));
                     }
                     catch
                     {
@@ -705,8 +709,8 @@ namespace ActiveUp.Net.Mail
 
         public static IAsyncResult BeginFilter(AddressCollection addresses, ServerCollection dnsServers, AsyncCallback callback)
         {
-            SmtpValidator._delegateFilterServers = SmtpValidator.Filter;
-            return SmtpValidator._delegateFilterServers.BeginInvoke(addresses, dnsServers, callback, SmtpValidator._delegateFilterServers);
+            _delegateFilterServers = Filter;
+            return _delegateFilterServers.BeginInvoke(addresses, dnsServers, callback, _delegateFilterServers);
 
         }
 
@@ -714,6 +718,5 @@ namespace ActiveUp.Net.Mail
         {
             return (AddressCollection)result.AsyncState.GetType().GetMethod("EndInvoke").Invoke(result.AsyncState, new object[] { result });
         }
-
     }
 }

@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class SrvRecord : IRecordData
@@ -40,7 +36,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Priority:{0} Weight:{1}  Port:{2} Domain:{3}", priority, weight, port, domain);
+            return string.Format("Priority:{0} Weight:{1}  Port:{2} Domain:{3}", priority, weight, port, domain);
         }
 
         private int priority;

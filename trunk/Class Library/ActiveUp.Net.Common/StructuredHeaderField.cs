@@ -21,13 +21,13 @@ using System.Collections.Specialized;
 namespace ActiveUp.Net.Mail
 {
 #if !PocketPC
-	[System.Serializable]
+	[Serializable]
 #endif
     public class StructuredHeaderField
     {
         public StructuredHeaderField(NameValueCollection parameters)
         {
-            this.Initialize(parameters);
+            Initialize(parameters);
         }
         public StructuredHeaderField()
         {
@@ -35,7 +35,7 @@ namespace ActiveUp.Net.Mail
         }
         private void Initialize(NameValueCollection parameters)
         {
-            this._params = parameters;
+            _params = parameters;
         }
         
         NameValueCollection _params = new NameValueCollection();
@@ -45,11 +45,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._params;
+                return _params;
             }
             set
             {
-                this._params = value;
+                _params = value;
             }
         }
     }

@@ -16,28 +16,24 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ActiveUp.Net.Mail;
-using System.Collections.Specialized;
 
 namespace ActiveUp.Net.Mail
 {
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public class ContentDisposition : StructuredHeaderField
     {
    
         /// <summary>
-		/// A bodypart should have an Inline ContentDisposition if it is intended to be displayed automatically upon display of the message.
-		/// </summary>
-		public const int Inline = 1;
-		/// <summary>
-		/// Bodyparts can have Attachment ContentDisposition to indicate that they are separate from the main body of the mail message, and that their display should not be automatic, but contingent upon some further action of the user.
-		/// </summary>
-		public const int Attachment = 2;
+        /// A bodypart should have an Inline ContentDisposition if it is intended to be displayed automatically upon display of the message.
+        /// </summary>
+        public const int Inline = 1;
+        /// <summary>
+        /// Bodyparts can have Attachment ContentDisposition to indicate that they are separate from the main body of the mail message, and that their display should not be automatic, but contingent upon some further action of the user.
+        /// </summary>
+        public const int Attachment = 2;
 
         private string _disposition = string.Empty;
 
@@ -49,14 +45,16 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (this.Parameters["filename"] != null) return "\"" + this.Parameters["filename"].Trim('"') + "\"";
-                else if (this.Parameters["\tfilename"] != null) return this.Parameters["\tfilename"].Trim('"').Trim('\t');
+                if (Parameters["filename"] != null) return "\"" + Parameters["filename"].Trim('"') + "\"";
+                else if (Parameters["\tfilename"] != null) return Parameters["\tfilename"].Trim('"').Trim('\t');
                 else return null;
             }
             set
             {
-                if (this.Parameters["filename"] != null) this.Parameters["filename"] = "\"" + value.Trim('"') + "\"";
-                else this.Parameters.Add("filename", "\"" + value.Trim('"') + "\"");
+                if (Parameters["filename"] != null)
+                    Parameters["filename"] = "\"" + value.Trim('"') + "\"";
+                else
+                    Parameters.Add("filename", "\"" + value.Trim('"') + "\"");
             }
         }
         /// <summary>
@@ -67,11 +65,11 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._disposition;
+                return _disposition;
             }
             set
             {
-                this._disposition = value;
+                _disposition = value;
             }
         }
         /// <summary>
@@ -83,8 +81,8 @@ namespace ActiveUp.Net.Mail
         public override string ToString()
         {
             string str = string.Empty;
-            str += "Content-Disposition: " + this.Disposition;
-            return this.Parameters.AllKeys.Aggregate(str, (current, key) => current + (";\r\n\t" + key + "=" + this.Parameters[key]));
+            str += "Content-Disposition: " + Disposition;
+            return Parameters.AllKeys.Aggregate(str, (current, key) => current + (";\r\n\t" + key + "=" + Parameters[key]));
         }
 
         public static bool operator ==(ContentDisposition t1, int t2)
@@ -106,72 +104,72 @@ namespace ActiveUp.Net.Mail
         }
 
         /*/// <summary>
-		/// The suggested Filename of the MimePart.
-		/// </summary>
-		public string Filename
-		{
-			get
-			{
-				return this._filename;
-			}
-			set
-			{
-				this._filename = value;
-			}
-		}
-		/// <summary>
-		/// The date the MimePart's content was created.
-		/// </summary>
-		public System.DateTime CreationDate
-		{
-			get
-			{
-				return this._creation;
-			}
-			set
-			{
-				this._creation = value;
-			}
-		}
-		/// <summary>
-		/// The date the MimePart's content was last modified.
-		/// </summary>
-		public System.DateTime LastModificationDate
-		{
-			get
-			{
-				return this._modification;
-			}
-			set
-			{
-				this._modification = value;
-			}
-		}
-		/// <summary>
-		/// The date the MimePart's content was last read.
-		/// </summary>
-		public System.DateTime LastReadDate
-		{
-			get
-			{
-				return this._read;
-			}
-			set
-			{
-				this._read = value;
-			}
-		}
-		/// <summary>
-		/// Approximate size of the file in octets.
-		/// </summary>
-		public int Size
-		{
-			get
-			{
-				if(this.BinaryContent.Length>0) return this.BinaryContent.Length;
-				else return this.TextContent.Length;
-				//return this._intsize;
-			}
-		}*/
+        /// The suggested Filename of the MimePart.
+        /// </summary>
+        public string Filename
+        {
+            get
+            {
+                return this._filename;
+            }
+            set
+            {
+                this._filename = value;
+            }
+        }
+        /// <summary>
+        /// The date the MimePart's content was created.
+        /// </summary>
+        public System.DateTime CreationDate
+        {
+            get
+            {
+                return this._creation;
+            }
+            set
+            {
+                this._creation = value;
+            }
+        }
+        /// <summary>
+        /// The date the MimePart's content was last modified.
+        /// </summary>
+        public System.DateTime LastModificationDate
+        {
+            get
+            {
+                return this._modification;
+            }
+            set
+            {
+                this._modification = value;
+            }
+        }
+        /// <summary>
+        /// The date the MimePart's content was last read.
+        /// </summary>
+        public System.DateTime LastReadDate
+        {
+            get
+            {
+                return this._read;
+            }
+            set
+            {
+                this._read = value;
+            }
+        }
+        /// <summary>
+        /// Approximate size of the file in octets.
+        /// </summary>
+        public int Size
+        {
+            get
+            {
+                if(this.BinaryContent.Length>0) return this.BinaryContent.Length;
+                else return this.TextContent.Length;
+                //return this._intsize;
+            }
+        }*/
     }
 }

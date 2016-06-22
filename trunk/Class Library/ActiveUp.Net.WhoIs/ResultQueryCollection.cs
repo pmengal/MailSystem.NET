@@ -20,86 +20,69 @@ using System.Collections;
 
 namespace ActiveUp.Net.WhoIs
 {
-	#region class ResultQueryCollection
-	
-	/// <summary>
-	/// Collection of ResultQuery object.
-	/// </summary>
-	public class ResultQueryCollection : CollectionBase
-	{
-		#region Constructors
+    
+    /// <summary>
+    /// Collection of ResultQuery object.
+    /// </summary>
+    public class ResultQueryCollection : CollectionBase
+    {
+        #region Properties
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public ResultQueryCollection()
-		{
-		}
+        /// <summary>
+        /// Gets the ResultQuery object at the specified index position.
+        /// </summary>
+        public ResultQuery this[int index]
+        {
+            get { return (ResultQuery)List[index]; }
+        }
+    
+        #endregion
 
-		#endregion
+        #region Functions
 
-		#region Properties
+        /// <summary>
+        /// Add a ResultQuery object in the collection specifying the ResultQuery object.
+        /// </summary>
+        /// <param name="resultQuery">ResultQuery object to add.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(ResultQuery resultQuery)
+        {
+            return List.Add(resultQuery);
+        }
 
-		/// <summary>
-		/// Gets the ResultQuery object at the specified index position.
-		/// </summary>
-		public ResultQuery this[int index]
-		{
-			get
-			{
-				return (ResultQuery) this.List[index];
-			}
-		}
-	
-		#endregion
+        /// <summary>
+        /// Add a ResultQuery object in the collection specifying result string.
+        /// </summary>
+        /// <param name="result">Result string of the whois server.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(string result)
+        {
+            return List.Add(new ResultQuery(result));
+        }
 
-		#region Functions
+        /// <summary>
+        /// Add a ResultQuery object in the collection specifying result string and the whois server used.
+        /// </summary>
+        /// <param name="result">Result string of the whois server.</param>
+        /// <param name="serverUsed">Whois server used.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(string result, Server serverUsed)
+        {
+            return List.Add(new ResultQuery(result, serverUsed));
+        }
 
-		/// <summary>
-		/// Add a ResultQuery object in the collection specifying the ResultQuery object.
-		/// </summary>
-		/// <param name="resultQuery">ResultQuery object to add.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(ResultQuery resultQuery)
-		{
-			return this.List.Add(resultQuery);
-		}
+        /// <summary>
+        /// Add a ResultQuery object in the collection specifying result string, the whois server used and the exception.
+        /// </summary>
+        /// <param name="result">Result string of the whois server.</param>
+        /// <param name="serverUsed">Whois server used.</param>
+        /// <param name="exception">Exception if an error occurs.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(string result, Server serverUsed, Exception exception)
+        {
+            return List.Add(new ResultQuery(result, serverUsed, exception));
+        }
 
-		/// <summary>
-		/// Add a ResultQuery object in the collection specifying result string.
-		/// </summary>
-		/// <param name="result">Result string of the whois server.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(string result)
-		{
-			return this.List.Add(new ResultQuery(result));
-		}
-
-		/// <summary>
-		/// Add a ResultQuery object in the collection specifying result string and the whois server used.
-		/// </summary>
-		/// <param name="result">Result string of the whois server.</param>
-		/// <param name="serverUsed">Whois server used.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(string result, Server serverUsed)
-		{
-			return this.List.Add(new ResultQuery(result, serverUsed));
-		}
-
-		/// <summary>
-		/// Add a ResultQuery object in the collection specifying result string, the whois server used and the exception.
-		/// </summary>
-		/// <param name="result">Result string of the whois server.</param>
-		/// <param name="serverUsed">Whois server used.</param>
-		/// <param name="exception">Exception if an error occurs.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(string result, Server serverUsed, Exception exception)
-		{
-			return this.List.Add(new ResultQuery(result, serverUsed, exception));
-		}
-
-		#endregion
-	}
-
-	#endregion
+        #endregion
+    }
 }

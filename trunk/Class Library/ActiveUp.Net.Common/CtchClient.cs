@@ -16,11 +16,10 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using System.Net.Sockets;
 using System.IO;
+using System.Net.Sockets;
+using System.Text;
 
 namespace ActiveUp.Net.Mail
 {
@@ -91,7 +90,7 @@ namespace ActiveUp.Net.Mail
                 TcpClient client = new TcpClient();
                 client.Connect(host, port);
 
-                Byte[] data = System.Text.Encoding.ASCII.GetBytes(request);
+            byte[] data = Encoding.ASCII.GetBytes(request);
 
                 //  Stream stream = client.GetStream();
                 NetworkStream stream = client.GetStream();
@@ -107,14 +106,14 @@ namespace ActiveUp.Net.Mail
                 // Receive the TcpServer.response.
 
                 // Buffer to store the response bytes.
-                data = new Byte[256];
+                data = new byte[256];
 
-                // String to store the response ASCII representation.
-                String responseData = String.Empty;
+            // String to store the response ASCII representation.
+            string responseData = string.Empty;
 
-                // Read the first batch of the TcpServer response bytes.
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+            // Read the first batch of the TcpServer response bytes.
+            int bytes = stream.Read(data, 0, data.Length);
+                responseData = Encoding.ASCII.GetString(data, 0, bytes);
 
 #if DEBUG
                 Console.WriteLine("<responseReceived>");
@@ -142,7 +141,6 @@ namespace ActiveUp.Net.Mail
 
             return ctchResponse;
         }
-
     }
 
     public class CtchResponse
@@ -297,7 +295,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static CtchResponse ParseFromString(string response)
         {
-            CtchResponse ctchResponse = new CtchResponse {FullResponse = response};
+            CtchResponse ctchResponse = new CtchResponse() { FullResponse = response };
 
             try
             {
@@ -305,7 +303,7 @@ namespace ActiveUp.Net.Mail
                 // The using statement also closes the StreamReader.
                 using (StringReader sr = new StringReader(response))
                 {
-                    String line;
+                    string line;
                     // Read and display lines from the file until the end of 
                     // the file is reached.
                     while ((line = sr.ReadLine()) != null)
@@ -350,29 +348,29 @@ namespace ActiveUp.Net.Mail
         {
             StringBuilder builder = new StringBuilder();
             builder.Append("X-CTCH-Pver: ");
-            builder.Append(this.Version);
+            builder.Append(Version);
             builder.Append("\r\n");
             builder.Append("X-CTCH-Spam: ");
-            builder.Append(this.SpamClassification.ToString());
+            builder.Append(SpamClassification.ToString());
             builder.Append("\r\n");
             builder.Append("X-CTCH-VOD: ");
-            builder.Append(this.VodClassification.ToString());
+            builder.Append(VodClassification.ToString());
             builder.Append("\r\n");
             builder.Append("X-CTCH-Flags: ");
-            builder.Append(this.CtchFlag);
+            builder.Append(CtchFlag);
             builder.Append("\r\n");
             builder.Append("X-CTCH-RefID: ");
 
-            builder.Append(this.RefID);
+            builder.Append(RefID);
             builder.Append("\r\n");
             
-            foreach (string key in this.Headers.AllKeys)
+            foreach (string key in Headers.AllKeys)
             {
                 if (key.Trim() != string.Empty)
                 {
                     builder.Append(key);
                     builder.Append(": ");
-                    builder.Append(this.Headers[key]);
+                    builder.Append(Headers[key]);
                     builder.Append("\r\n");
             
                 }

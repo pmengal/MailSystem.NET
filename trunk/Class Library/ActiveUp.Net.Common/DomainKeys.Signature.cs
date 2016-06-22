@@ -16,10 +16,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Security.Cryptography;
 using ActiveUp.Net.Mail;
 
 namespace ActiveUp.Net.Security
@@ -53,21 +52,13 @@ namespace ActiveUp.Net.Security
                 //TODO: This is an insane bug fix. Please try to parse 200711050949465352.tmp with the line commented
                 //string value = m.Value.Substring(m.Value.IndexOf('=')+1);
                 string value = m.Value.Substring(m.Value.IndexOf('=')+1).Split(',')[0];
-                if (tag.Equals("a")) signature._a = value;
+                if (tag.Equals("a"))
+                    signature._a = value;
                 else if (tag.Equals("b"))
                 {
                     value = value.Trim('\r', '\n').Replace(" ", "");
-                    //while ((value.Length % 4) != 0) value += "=";
                     signature._b64 = value.Replace(" ", "").Replace("\t", "").Replace("\r\n", "");
-                        signature._b = Convert.FromBase64String(signature._b64);
-
-                    //if (signature._b64[signature._b64.Length - 2] == '=' &&
-                    //    signature._b64[signature._b64.Length - 1] == '=')
-                    //{
-                    //    signature._b64 = signature._b64.Substring(0, signature._b64.Length - 1);
-                    //}
-
-                    
+                    signature._b = Convert.FromBase64String(signature._b64);
                 }
                 else if (tag.Equals("c"))
                 {
@@ -75,13 +66,14 @@ namespace ActiveUp.Net.Security
                     else if (value.Equals("simple")) signature._c = CanonicalizationAlgorithm.Simple;
                     else signature._c = CanonicalizationAlgorithm.Other;
                 }
-                else if (tag.Equals("d")) signature._d = value;
-                else if (tag.Equals("s")) signature._s = value;
+                else if (tag.Equals("d"))
+                    signature._d = value;
+                else if (tag.Equals("s"))
+                    signature._s = value;
                 else if (tag.Equals("q"))
-                {
                     signature._q = value.Equals("dns") ? QueryMethod.Dns : QueryMethod.Other;
-                }
-                else if (tag.Equals("h")) signature._h = value.Split(':');
+                else if (tag.Equals("h"))
+                    signature._h = value.Split(':');
             }
             return signature;
         }
@@ -290,7 +282,7 @@ namespace ActiveUp.Net.Security
                 length--;
             }
 
-            destination = new Byte[length];
+            destination = new byte[length];
             Array.Copy(source, startIndex, destination, 0, length);
             startIndex += length;
         }

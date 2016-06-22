@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     /// <summary>
@@ -39,29 +35,36 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Flags:{0} Protocol:{1} Algorithm:{2} Public Key:{3}", flags, protocol, algorithm, publicKey);
+            return string.Format("Flags:{0} Protocol:{1} Algorithm:{2} Public Key:{3}", flags, protocol, algorithm, publicKey);
         }
-
 
         private short flags;
         /// <summary>
         /// Return flags of record
         /// </summary>
-        public short Flags          {            get { return flags; }          }
+        public short Flags {
+            get { return flags; }
+        }
         private byte protocol;
         /// <summary>
         /// Return protocol of record
         /// </summary>
-        public byte Protocol        {            get { return protocol; }       }
+        public byte Protocol {
+            get { return protocol; }
+        }
         private byte algorithm;
         /// <summary>
         /// return Algorithm of record
         /// </summary>
-        public byte Algorithm       {            get { return algorithm; }      }
+        public byte Algorithm {
+            get { return algorithm; }
+        }
         private byte[] publicKey;
         /// <summary>
         /// return Public Key of record
         /// </summary>
-        public byte[] PublicKey     {            get { return publicKey; }      }
+        public byte[] PublicKey {
+            get { return publicKey; }
+        }
     }
 }

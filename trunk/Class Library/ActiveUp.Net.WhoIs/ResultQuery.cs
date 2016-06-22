@@ -19,84 +19,58 @@ using System;
 
 namespace ActiveUp.Net.WhoIs
 {
-	#region class ResultQuery
+    /// <summary>
+    /// Result of a query from whois server.
+    /// </summary>
+    public class ResultQuery : Result
+    {
+        #region Constructors
 
-	/// <summary>
-	/// Result of a query from whois server.
-	/// </summary>
-	public class ResultQuery : Result
-	{
-		#region Variables
-		
-		/// <summary>
-		/// Result of the whois server.
-		/// </summary>
-		private string _result;
-		
-		#endregion
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public ResultQuery() : base()
+        {
+            Result = "";
+        }
 
-		#region Constructors
+        /// <summary>
+        /// Creates a ResultQuery object from result.
+        /// </summary>
+        /// <param name="result">The result string of the whois server.</param>
+        public ResultQuery(string result) : base()
+        {
+            Result = result;
+        }
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public ResultQuery() : base()
-		{
-			_result = "";
-		}
+        /// <summary>
+        /// Creates a RestultQuery object from result and Server object.
+        /// </summary>
+        /// <param name="result">Result string of the whois server.</param>
+        /// <param name="server">Whois server used.</param>
+        public ResultQuery(string result, Server server) : base(server)
+        {
+            Result = result;
+        }
 
-		/// <summary>
-		/// Creates a ResultQuery object from result.
-		/// </summary>
-		/// <param name="result">The result string of the whois server.</param>
-		public ResultQuery(string result) : base()
-		{
-			_result = result;
-		}
+        /// <summary>
+        /// Creates a RestultQuery object from result, Server object and Exception object.
+        /// </summary>
+        /// <param name="result">Result string of the whois server.</param>
+        /// <param name="server">Whois server used.</param>
+        /// <param name="exception">Exception if an error occurs.</param>
+        public ResultQuery(string result, Server server, Exception exception) : base(server,exception)
+        {
+            Result = result;
+        }
 
-		/// <summary>
-		/// Creates a RestultQuery object from result and Server object.
-		/// </summary>
-		/// <param name="result">Result string of the whois server.</param>
-		/// <param name="server">Whois server used.</param>
-		public ResultQuery(string result, Server server) : base(server)
-		{
-			_result = result;
-		}
+        #endregion
 
-		/// <summary>
-		/// Creates a RestultQuery object from result, Server object and Exception object.
-		/// </summary>
-		/// <param name="result">Result string of the whois server.</param>
-		/// <param name="server">Whois server used.</param>
-		/// <param name="exception">Exception if an error occurs.</param>
-		public ResultQuery(string result, Server server, Exception exception) : base(server,exception)
-		{
-			_result = result;
-		}
-
-		#endregion
-
-		#region Properties
-
-		/// <summary>
-		/// Gets / sets the result string of the whois server.
-		/// </summary>
-		public string Result
-		{
-			get
-			{
-				return _result;
-			}
-
-			set
-			{
-				_result = value;
-			}
-		}
-
-		#endregion
-	}
-
-	#endregion
+        #region Properties
+        /// <summary>
+        /// Gets / sets the result string of the whois server.
+        /// </summary>
+        public string Result { get; set; }
+        #endregion
+    }
 }

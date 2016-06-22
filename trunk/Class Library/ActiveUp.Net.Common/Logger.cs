@@ -16,52 +16,20 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections;
-#if !PocketPC
-using System.Windows.Forms;
-using Microsoft.Win32;
-#endif
 using System.Text;
 using System.IO;
 using System.Collections.Generic;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Provides all logging facilities for any applications.
-	/// </summary>
+    /// <summary>
+    /// Provides all logging facilities for any applications.
+    /// </summary>
 #if !PocketPC
-	[Serializable]
+    [Serializable]
 #endif
-    public class Logger
-	{
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public Logger()
-		{
-			//_logFile = string.Empty;
-			//_logInMemory = true;
-            //_logLevel = 0;
-
-//#if TRIAL
-//            if (DateTime.Now > new DateTime(2007, 6, 30))
-//                throw new Exception("Trial Version Expired. Please register.");
-//#endif
-		}
-
-        /*/// <summary>
-		/// Creates an instance of the logger.
-		/// </summary>
-		/// <param name="logFile">The log file.</param>
-		/// <param name="traceContext">The trace context to use.</param>
-		public static Logger(string logFile, System.Web.TraceContext traceContext)
-		{
-			_logFile = logFile;
-			_logInMemory = true;
-			_logLevel = 0;
-		}*/
-
+    public static class Logger
+    {
         /// <summary>
         /// Gets or sets the log entries that are stored in the memory.
         /// </summary>
@@ -91,20 +59,19 @@ namespace ActiveUp.Net.Mail
         /// Specify whether if the logger needs to append the Trace Console.
         /// </summary>
         public static bool UseTraceConsole { get; set; } = false;
-        
+
         /// <summary>
         /// Specify whether if the logging functions are disabled.
         /// </summary>
         public static bool Disabled { get; set; } = false;
 
         /// <summary>
-		/// Gets the number of log entries.
-		/// </summary>
-		public static int Count {
+        /// Gets the number of log entries.
+        /// </summary>
+        public static int Count {
             get {
                 if (LogEntries != null)
                     return LogEntries.Count;
-
                 return 0;
             }
         }
@@ -116,10 +83,11 @@ namespace ActiveUp.Net.Mail
         /// <param name="line">The entry to add.</param>
         /// <param name="level">The log entry level.</param>
         public static void AddEntry(Type loggerType, string line, int level)
-		{
-			if (level >= LogLevel)
-				AddEntry(loggerType, line);
-		}
+        {
+            if (!Disabled)
+                if (level >= LogLevel)
+                    AddEntry(loggerType, line);
+        }
 
         /// <summary>
         /// Add a log entry in all logging objects availables.
@@ -127,11 +95,11 @@ namespace ActiveUp.Net.Mail
         /// <param name="loggerType">The Source of the log entry</param>
         /// <param name="line">The entry to add.</param>
         public static void AddEntry(Type loggerType, string line)
-		{
+        {
             if (string.IsNullOrEmpty(LogFile) && !UseTraceContext && !UseTraceConsole)
                 return;
             if (!Disabled)
-			{
+            {
                 string logger = loggerType.ToString();
                 DateTime now = DateTime.Now;
                 StringBuilder logString = new StringBuilder();
@@ -171,110 +139,109 @@ namespace ActiveUp.Net.Mail
 
                 OnEntryAdded(EventArgs.Empty);
             }
-		}
+        }
 
-		/// <summary>
-		/// Append the logging text file.
-		/// </summary>
-		/// <param name="line">The entry to add.</param>
-		private static void AddEntryToFile(string line)
-		{
-			if (!Disabled)
-			{
-                StreamWriter fileWriter = new StreamWriter(LogFile, true, Encoding.Default);
-				fileWriter.WriteLine(line);
-				fileWriter.Close();
-			}
-		}
+        /// <summary>
+        /// Append the logging text file.
+        /// </summary>
+        /// <param name="line">The entry to add.</param>
+        private static void AddEntryToFile(string line)
+        {
+            if (!Disabled)
+            {
+                StreamWriter _fileWriter = new StreamWriter(LogFile, true, Encoding.Default);
+                _fileWriter.WriteLine(line);
+                _fileWriter.Close();
+            }
+        }
 
-		private static void AddEntryToConsole(string line)
-		{
-			if (!Disabled)
-			{
-				Console.WriteLine("ActiveMail:{0}",line);
-			}
+        private static void AddEntryToConsole(string line)
+        {
+            if (!Disabled)
+                Console.WriteLine("ActiveMail:{0}",line);
         }
 
 #if !PocketPC
-		/// <summary>
-		/// Append the trace context.
-		/// </summary>
-		/// <param name="line">The entry to add.</param>
-		protected static void AddEntryToTrace(string line)
-		{
-			if (!Disabled)
-			{
-				if (System.Web.HttpContext.Current != null)
-					System.Web.HttpContext.Current.Trace.Write("ActiveMail", line);
-			}
-		}
+        /// <summary>
+        /// Append the trace context.
+        /// </summary>
+        /// <param name="line">The entry to add.</param>
+        private static void AddEntryToTrace(string line)
+        {
+            if (!Disabled)
+            {
+                if (System.Web.HttpContext.Current != null)
+                    System.Web.HttpContext.Current.Trace.Write("ActiveMail", line);
+            }
+        }
 #endif
 
         /// <summary>
-		/// Gets an ArrayList containing the specified number of last entries.
-		/// </summary>
-		/// <param name="lines">The max lines to retrieve.</param>
-		/// <returns>An ArrayList containing the maximum log entries.</returns>
-		public static List<string> LastEntries(int lines)
-		{
+        /// Gets an ArrayList containing the specified number of last entries.
+        /// </summary>
+        /// <param name="lines">The max lines to retrieve.</param>
+        /// <returns>An ArrayList containing the maximum log entries.</returns>
+        public static List<string> LastEntries(int lines)
+        {
             List<string> entries = new List<string>();
 
-			if (Count > 0)
-			{
-				for (int i = Count - lines; i <= Count; i++)
-				{
-					if (i >= 0)
-					{
-						if (LogEntries != null)
-							entries.Add(LogEntries[i]);
-					}
-				}
-			}
+            if (Count > 0)
+                {
+                for (int i = Count - lines; i <= Count; i++)
+                    {
+                    if (i >= 0)
+                        {
+                        if (LogEntries != null)
+                            entries.Add(LogEntries[i]);
+                    }
+                }
+            }
+            return entries;
+        }
 
-			return entries;
-		}
 
-		/// <summary>
-		/// Gets a string containing a maximum of 30 log entries.
-		/// </summary>
-		/// <returns>A maximum of 30 entries separeted by a carriage return.</returns>
-		public static string LastEntries()
-		{
-			List<string> entries = LastEntries(30);
+        /// <summary>
+        /// Gets a string containing a maximum of 30 log entries.
+        /// </summary>
+        /// <returns>A maximum of 30 entries separeted by a carriage return.</returns>
+        public static string LastEntries()
+        {
+            List<string> entries = LastEntries(30);
 
-			StringBuilder stringEntries = new StringBuilder();
+            StringBuilder stringEntries = new StringBuilder();
 
-			foreach(string entry in entries)
-				stringEntries.Append(entry + "\n");
+            foreach (string entry in entries)
+                stringEntries.Append(entry + "\n");
 
-			return stringEntries.ToString();
-		}
+            return stringEntries.ToString();
+        }
 
-		/// <summary>
-		/// Gets the last entry of the log.
-		/// </summary>
-		/// <returns>A string containing the last entry.</returns>
-		public static string LastEntry()
-		{
-			if (LogEntries != null)
-				return LogEntries[LogEntries.Count - 1];
-			return string.Empty;
-		}
+        /// <summary>
+        /// Gets the last entry of the log.
+        /// </summary>
+        /// <returns>A string containing the last entry.</returns>
+        public static string LastEntry()
+        {
+            if (LogEntries != null)
+                return LogEntries[LogEntries.Count - 1];
 
-		/// <summary>
-		/// The EntryAdded event handler.
-		/// </summary>
-		public static event EventHandler EntryAdded;
+            return string.Empty;
+        }
 
-		/// <summary>
-		/// OnEntryAdded event.
-		/// </summary>
-		/// <param name="e">The event arguments.</param>
-		protected static void OnEntryAdded(EventArgs e) 
-		{
-			if (EntryAdded != null)
-				EntryAdded(null,e);
-		}
+        /// <summary>
+        /// The EntryAdded event handler.
+        /// </summary>
+        public static event EventHandler EntryAdded;
 
-	}
+        /// <summary>
+        /// OnEntryAdded event.
+        /// </summary>
+        /// <param name="e">The event arguments.</param>
+        private static void OnEntryAdded(EventArgs e) 
+        {
+            if (EntryAdded != null)
+                EntryAdded(null,e);
+        }
+
+    }
 }

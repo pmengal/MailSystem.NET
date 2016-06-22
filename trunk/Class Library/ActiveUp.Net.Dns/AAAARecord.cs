@@ -15,9 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
 namespace ActiveUp.Net.Dns
@@ -28,7 +25,10 @@ namespace ActiveUp.Net.Dns
         /// Implementation Reference RFC 3596
         /// </summary>
         /// <param name="buffer"></param>
-         public AAAARecord(DataBuffer buffer)   {   ipAddress = buffer.ReadIPv6Address();   }
+        public AAAARecord(DataBuffer buffer)
+        {
+            ipAddress = buffer.ReadIPv6Address();
+        }
 
         IPAddress ipAddress;
         /// <summary>
@@ -36,9 +36,8 @@ namespace ActiveUp.Net.Dns
         /// </summary>
         public IPAddress IpAddress
         {   
-            get {
-                return ipAddress;
-            }   }
+            get { return ipAddress; }
+        }
         /// <summary>
         /// Converts this data record to a string 
         /// </summary>

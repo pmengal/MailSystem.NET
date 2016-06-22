@@ -15,27 +15,15 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
-using System.Security.Cryptography.X509Certificates;
-#if !PocketPC
-using System.Security.Cryptography.Pkcs;
-#endif
-using System.Text;
-using System.Text.RegularExpressions;
 using System;
-using System.IO;
-using ActiveUp.Net.Security;
 
-namespace ActiveUp.Net.Mail
-{
-    #region SmtpMessage Object
-
+namespace ActiveUp.Net.Mail {
     /// <summary>
     /// Message Object.
     /// Represents a parsed e-mail message.
     /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class SmtpMessage : Message
     {
@@ -388,7 +376,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string DirectSend()
         {
-            return DirectSend(new ActiveUp.Net.Mail.ServerCollection());
+            return DirectSend(new ServerCollection());
         }
 
         public IAsyncResult BeginDirectSend(AsyncCallback callback)
@@ -441,7 +429,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public string DirectSend(string dnsHost, int dnsPort)
         {
-            ActiveUp.Net.Mail.ServerCollection servers = new ActiveUp.Net.Mail.ServerCollection();
+            ServerCollection servers = new ServerCollection();
             servers.Add(dnsHost, dnsPort);
             return DirectSend(servers);
         }
@@ -578,8 +566,5 @@ namespace ActiveUp.Net.Mail
         }
 
         #endregion
-
     }
-
-    #endregion
 }
