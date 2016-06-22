@@ -22,158 +22,123 @@ using System.Text.RegularExpressions;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Represents the dynamic region portion of the message.
-	/// </summary>
-	#if !PocketPC
-    [System.Serializable]
+    /// <summary>
+    /// Represents the dynamic region portion of the message.
+    /// </summary>
+    #if !PocketPC
+    [Serializable]
     #endif
-	public class Region
-	{
-		private string _regionID, _url, _content, _nulltext;
-		private bool _Loaded;
+    public class Region
+    {
+        private bool loaded;
+        private string content;
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public Region()
-		{
-			this.RegionID = string.Empty;
-			this.URL = string.Empty;
-			this.NullText = string.Empty;
-		}
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public Region()
+        {
+            RegionID = string.Empty;
+            URL = string.Empty;
+            NullText = string.Empty;
+        }
 
-		/// <summary>
-		/// Creates the condition based on it's region id, field equal to value set with case-sensitive on.
-		/// </summary>
-		/// <param name="regionid">The ID of the region.</param>
-		/// <param name="url">The url to retrieve.</param>
-		public Region(string regionid, string url)
-		{
-			this.RegionID = regionid;
-			this.URL = url;
-			this.NullText = string.Empty;
-		}
+        /// <summary>
+        /// Creates the condition based on it's region id, field equal to value set with case-sensitive on.
+        /// </summary>
+        /// <param name="regionid">The ID of the region.</param>
+        /// <param name="url">The url to retrieve.</param>
+        public Region(string regionid, string url)
+        {
+            RegionID = regionid;
+            URL = url;
+            NullText = string.Empty;
+        }
 
-		public string NullText
-		{
-			get
-			{
-				return _nulltext;
-			}
-			set
-			{
-				_nulltext = value;
-			}
-		}
-		/// <summary>
-		/// The content to retrieve.
-		/// </summary>
-		public string Content
-		{
-			get
-			{
-				if (!_Loaded) 
-				{
-					if (_url.Length>0)
-					{
-						_content = LoadFileContent(_url);
-						if (_content.Length==0)
-						{
-							_content = _nulltext;
-						}
-						_Loaded = true;
-					}
-					else
-					{
-						_content = _nulltext;
-					}
-				}
-				return _content;
-			}
-		}
+        public string NullText { get; set; }
+        /// <summary>
+        /// The content to retrieve.
+        /// </summary>
+        public string Content
+        {
+            get
+            {
+                if (!loaded) 
+                {
+                    if (URL.Length>0)
+                    {
+                        content = LoadFileContent(URL);
+                        if (content.Length==0)
+                            content = NullText;
+                        loaded = true;
+                    }
+                    else
+                        content = NullText;
+                }
+                return content;
+            }
+        }
 
-		/// <summary>
-		/// The ID of the region.
-		/// </summary>
-		public string RegionID
-		{
-			get
-			{
-				return _regionID;
-			}
-			set
-			{
-				_regionID = value;
-			}
-		}
+        /// <summary>
+        /// The ID of the region.
+        /// </summary>
+        public string RegionID { get; set; }
 
-		/// <summary>
-		/// The name of the field.
-		/// </summary>
-		public string URL
-		{
-			get
-			{
-				return _url;
-			}
-			set
-			{
-				_url = value;
-			}
-		}
-		
-		/// <summary>
-		/// Load the content of the specified file.
-		/// </summary>
-		/// <param name="filename">The full path to the file</param>
-		/// <returns>The content of the file</returns>
-		public string LoadFileContent(string filename)
-		{
-			string content = string.Empty;
-			
-				if (filename.ToUpper().StartsWith("HTTP://") || filename.ToUpper().StartsWith("HTTPS://"))
-				{
-					System.IO.Stream stream;
-				    System.Net.WebResponse webResponse;
+        /// <summary>
+        /// The name of the field.
+        /// </summary>
+        public string URL { get; set; }
 
-					WebRequest webRequest = System.Net.WebRequest.Create(filename);
-					try 
-					{
-						webResponse = webRequest.GetResponse();
-						stream = webResponse.GetResponseStream();
-						content = new StreamReader(stream).ReadToEnd();
-						var rx = new System.Text.RegularExpressions.Regex(@"<body.*?>(.*?)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline);
-					    MatchCollection mc = rx.Matches(content);
-						if (mc.Count > 0)
-							{
-								foreach (System.Text.RegularExpressions.Match m in mc)
-								{
-									content = m.Groups[1].Captures[0].Value;
-								}
-							}
-						} 
-						catch {
-							content = "";
-						}
-						}
-						else
-						{
-							if (filename.ToUpper().StartsWith("FILE://"))
-								filename = filename.Substring(7);
+        /// <summary>
+        /// Load the content of the specified file.
+        /// </summary>
+        /// <param name="filename">The full path to the file</param>
+        /// <returns>The content of the file</returns>
+        public string LoadFileContent(string filename)
+        {
+            string content = string.Empty;
+            if (filename.ToUpper().StartsWith("HTTP://") || filename.ToUpper().StartsWith("HTTPS://"))
+            {
+                Stream stream;
+                WebResponse webResponse;
 
-							if (System.IO.File.Exists(filename))
-							{
-								TextReader textFileReader = TextReader.Synchronized(new StreamReader(filename, System.Text.UTF7Encoding.Default));
-								content = textFileReader.ReadToEnd();
-								textFileReader.Close();
-							}
-						else
-						{
-							content = "";
-						}
-					}
-					return content;
-				}
-		}
-	}
+                var webRequest = WebRequest.Create(filename);
+                try 
+                {
+                    webResponse = webRequest.GetResponse();
+                    stream = webResponse.GetResponseStream();
+                    content = new StreamReader(stream).ReadToEnd();
+                    var rx = new Regex(@"<body.*?>(.*?)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline);
+                    MatchCollection mc = rx.Matches(content);
+                    if (mc.Count > 0)
+                    {
+                        foreach (Match m in mc)
+                        {
+                            content = m.Groups[1].Captures[0].Value;
+                        }
+                    }
+                }
+                catch {
+                    content = "";
+                }
+            }
+            else
+            {
+                if (filename.ToUpper().StartsWith("FILE://"))
+                    filename = filename.Substring(7);
+
+                if (File.Exists(filename))
+                {
+                    TextReader textFileReader = TextReader.Synchronized(new StreamReader(filename, System.Text.Encoding.Default));
+                    content = textFileReader.ReadToEnd();
+                    textFileReader.Close();
+                }
+                else
+                {
+                    content = "";
+                }
+            }
+            return content;
+        }
+    }
+}

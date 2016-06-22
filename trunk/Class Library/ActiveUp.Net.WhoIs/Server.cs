@@ -15,206 +15,131 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
 using System.Xml.Serialization;
 
 namespace ActiveUp.Net.WhoIs
 {
+    /// <summary>
+    /// Represents a whois server.
+    /// </summary>
+    public class Server
+    {
+        #region Constructor
 
-	#region class Server
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public Server()
+        {
+            Init("",43,"","");
+        }
 
-	/// <summary>
-	/// Represents a whois server.
-	/// </summary>
-	public class Server
-	{
-		#region Variables
+        /// <summary>
+        /// Creates a whois Server object from the host or IP address.
+        /// </summary>
+        /// <param name="host">The host or IP address.</param>
+        public Server(string host)
+        {
+            Init(host,43,"","");
+        }
 
-		/// <summary>
-		/// The host or IP address of the server.
-		/// </summary>
-		private string _host;
+        /// <summary>
+        /// Creates a whois Server object from the host or IP address and port number.
+        /// </summary>
+        /// <param name="host">The host or IP address.</param>
+        /// <param name="port">The port number to use for the connection.</param>
+        public Server(string host, int port)
+        {
+            Init(host,port,"","");
+        }
 
-		/// <summary>
-		/// The port number to use for the connection.
-		/// </summary>
-		private int _port;
+        /// <summary>
+        /// Creates a whois Server object from the host and the domain extention.
+        /// </summary>
+        /// <param name="host">The host or IP address.</param>
+        /// <param name="domain">The domain extention.</param>
+        public Server(string host, string domain)
+        {
+            Init(host,43,domain,"");
+        }
 
-		/// <summary>
-		/// The domain extention of the server.
-		/// </summary>
-		private string _domain;
+        /// <summary>
+        /// Creates a whois Server object from the host or IP address, port number and the domain extention.
+        /// </summary>
+        /// <param name="host">The host or IP address.</param>
+        /// <param name="port">The port number to use for the connection.</param>
+        /// <param name="domain">The domain extention.</param>
+        public Server(string host, int port, string domain)
+        {
+            Init(host,port,domain,"");
+        }
 
-		/// <summary>
-		/// String indicates the domain is not found.
-		/// </summary>
-		private string _noMatch;
+        /// <summary>
+        /// Creates a whois Server object from the host or IP address, the domain extention and the string indicates the domain is not found.
+        /// </summary>
+        /// <param name="host">The host or IP address.</param>
+        /// <param name="domain">The domain extention.</param>
+        /// <param name="noMatch">String indicates the domain is not found.</param>
+        public Server(string host, string domain, string noMatch)
+        {
+            Init(host,43,domain,noMatch);
+        }
 
-		#endregion
+        /// <summary>
+        /// Creates a whois Server object from the host or IP address, port number and the string indicates the domain is not found.
+        /// </summary>
+        /// <param name="host">The host or IP address.</param>
+        /// <param name="port">The port number to use for the connection.</param>
+        /// <param name="domain">The domain extention of the server.</param>
+        /// <param name="noMatch">String indicates the domain is not found.</param>
+        public Server(string host, int port, string domain, string noMatch)
+        {
+            Init(host,port,domain,noMatch);
+        }
 
-		#region Constructor
+        /// <summary>
+        /// Init the contructor.
+        /// </summary>
+        /// <param name="host">The host or IP address.</param>
+        /// <param name="port">The port number to use for the connection.</param>
+        /// <param name="domain">The domain extention of the server.</param>
+        /// <param name="noMatch">String indicates the domain is not found.</param>
+        private void Init(string host, int port, string domain, string noMatch)
+        {
+            Host = host;
+            Port = port;
+            Domain = domain;
+            NoMatch = noMatch;
+        }
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public Server()
-		{
-			_Init("",43,"","");
-		}
+        #endregion
 
-		/// <summary>
-		/// Creates a whois Server object from the host or IP address.
-		/// </summary>
-		/// <param name="host">The host or IP address.</param>
-		public Server(string host)
-		{
-			_Init(host,43,"","");
-		}
+        #region Properties
 
-		/// <summary>
-		/// Creates a whois Server object from the host or IP address and port number.
-		/// </summary>
-		/// <param name="host">The host or IP address.</param>
-		/// <param name="port">The port number to use for the connection.</param>
-		public Server(string host, int port)
-		{
-			_Init(host,port,"","");
-		}
+        /// <summary>
+        /// Gets / sets the host or IP address.
+        /// </summary>
+        [XmlElement("host",DataType="string")]
+        public string Host { get; set; }
 
-		/// <summary>
-		/// Creates a whois Server object from the host and the domain extention.
-		/// </summary>
-		/// <param name="host">The host or IP address.</param>
-		/// <param name="domain">The domain extention.</param>
-		public Server(string host, string domain)
-		{
-			_Init(host,43,domain,"");
-		}
+        /// <summary>
+        /// Gets / sets the port used for the connection.
+        /// </summary>
+        [XmlElement("port",DataType="int")]
+        public int Port { get; set; }
 
-		/// <summary>
-		/// Creates a whois Server object from the host or IP address, port number and the domain extention.
-		/// </summary>
-		/// <param name="host">The host or IP address.</param>
-		/// <param name="port">The port number to use for the connection.</param>
-		/// <param name="domain">The domain extention.</param>
-		public Server(string host, int port, string domain)
-		{
-			_Init(host,port,domain,"");
-		}
+        /// <summary>
+        /// Gets / sets the domain extention.
+        /// </summary>
+        [XmlElement("domain",DataType="string")]
+        public string Domain { get; set; }
 
-		/// <summary>
-		/// Creates a whois Server object from the host or IP address, the domain extention and the string indicates the domain is not found.
-		/// </summary>
-		/// <param name="host">The host or IP address.</param>
-		/// <param name="domain">The domain extention.</param>
-		/// <param name="noMatch">String indicates the domain is not found.</param>
-		public Server(string host, string domain, string noMatch)
-		{
-			_Init(host,43,domain,noMatch);
-		}
+        /// <summary>
+        /// Gets / sets the string indicates the domain is not found.
+        /// </summary>
+        [XmlElement("nomatch",DataType="string")]
+        public string NoMatch { get; set; }
 
-		/// <summary>
-		/// Creates a whois Server object from the host or IP address, port number and the string indicates the domain is not found.
-		/// </summary>
-		/// <param name="host">The host or IP address.</param>
-		/// <param name="port">The port number to use for the connection.</param>
-		/// <param name="domain">The domain extention of the server.</param>
-		/// <param name="noMatch">String indicates the domain is not found.</param>
-		public Server(string host, int port, string domain, string noMatch)
-		{
-			_Init(host,port,domain,noMatch);
-		}
-
-		/// <summary>
-		/// Init the contructor.
-		/// </summary>
-		/// <param name="host">The host or IP address.</param>
-		/// <param name="port">The port number to use for the connection.</param>
-		/// <param name="domain">The domain extention of the server.</param>
-		/// <param name="noMatch">String indicates the domain is not found.</param>
-		private void _Init(string host, int port, string domain, string noMatch)
-		{
-			_host = host;
-			_port = port;
-			_domain = domain;
-			_noMatch = noMatch;
-		}
-
-		#endregion
-
-		#region Properties
-
-		/// <summary>
-		/// Gets / sets the host or IP address.
-		/// </summary>
-		[XmlElement("host",DataType="string")]
-		public string Host
-		{
-			get
-			{
-				return _host;
-			}
-
-			set
-			{
-				_host = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets / sets the port used for the connection.
-		/// </summary>
-		[XmlElement("port",DataType="int")]
-		public int Port
-		{
-			get
-			{
-				return _port;
-			}
-
-			set
-			{
-				_port = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets / sets the domain extention.
-		/// </summary>
-		[XmlElement("domain",DataType="string")]
-		public string Domain
-		{
-			get
-			{
-				return _domain;
-			}
-
-			set
-			{
-				_domain = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets / sets the string indicates the domain is not found.
-		/// </summary>
-		[XmlElement("nomatch",DataType="string")]
-		public string NoMatch
-		{
-			get
-			{
-				return _noMatch;
-			}
-
-			set
-			{
-				_noMatch =value;
-			}
-		}
-
-		#endregion
-
-	}
-
-	#endregion
+        #endregion
+    }
 }

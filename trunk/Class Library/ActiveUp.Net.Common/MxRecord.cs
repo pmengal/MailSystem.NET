@@ -16,68 +16,69 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
+
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Represents a MX dns record.
-	/// </summary>
+    /// <summary>
+    /// Represents a MX dns record.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     //[Obsolete("Please use ActiveUp.Net.Dns.MXRecord instead")]
-	public class MxRecord
-	{
-		private string _exchange;
-		private int _preference;
+    public class MxRecord
+    {
+        private string _exchange;
+        private int _preference;
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public MxRecord()
-		{
-			_exchange = string.Empty;
-			_preference = 10;
-		}
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public MxRecord()
+        {
+            _exchange = string.Empty;
+            _preference = 10;
+        }
 
-		/// <summary>
-		/// Creates a MX record based on the exchange name and preference level.
-		/// </summary>
-		/// <param name="exchange"></param>
-		/// <param name="preference"></param>
-		public MxRecord(string exchange, int preference)
-		{
-			_exchange = exchange;
-			_preference = preference;
-		}
+        /// <summary>
+        /// Creates a MX record based on the exchange name and preference level.
+        /// </summary>
+        /// <param name="exchange"></param>
+        /// <param name="preference"></param>
+        public MxRecord(string exchange, int preference)
+        {
+            _exchange = exchange;
+            _preference = preference;
+        }
 
-		/// <summary>
-		/// The exchange (host).
-		/// </summary>
-		public string Exchange
-		{
-			get
-			{
-				return _exchange;
-			}
-			set
-			{
-				_exchange = value;
-			}
-		}
+        /// <summary>
+        /// The exchange (host).
+        /// </summary>
+        public string Exchange
+        {
+            get
+            {
+                return _exchange;
+            }
+            set
+            {
+                _exchange = value;
+            }
+        }
 
-		/// <summary>
-		/// The preference level.
-		/// </summary>
-		public int Preference
-		{
-			get
-			{
-				return _preference;
-			}
-			set
-			{
-				_preference = value;
-			}
-		}
-	}
+        /// <summary>
+        /// The preference level.
+        /// </summary>
+        public int Preference
+        {
+            get
+            {
+                return _preference;
+            }
+            set
+            {
+                _preference = value;
+            }
+        }
+    }
 }

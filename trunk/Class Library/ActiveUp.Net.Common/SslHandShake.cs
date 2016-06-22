@@ -15,26 +15,22 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ActiveUp.Net.Security
 {
-    #region SslHandshake Object version 1
-    #if !PocketPC
+#if !PocketPC
     public class SslHandShake
     {
         #region Constructors
 
         public SslHandShake(string hostName, System.Security.Authentication.SslProtocols sslProtocol, System.Net.Security.RemoteCertificateValidationCallback serverCallback, System.Net.Security.LocalCertificateSelectionCallback clientCallback, System.Security.Cryptography.X509Certificates.X509CertificateCollection clientCertificates, bool checkRevocation)
         {
-            this._hostName = hostName;
-            this._sslProtocol = sslProtocol;
-            this._serverCallback = serverCallback;
-            this._clientCallback = clientCallback;
-            this._clientCertificates = clientCertificates;
-            this._checkRevocation = checkRevocation;
+            _hostName = hostName;
+            _sslProtocol = sslProtocol;
+            _serverCallback = serverCallback;
+            _clientCallback = clientCallback;
+            _clientCertificates = clientCertificates;
+            _checkRevocation = checkRevocation;
         }
         public SslHandShake(string hostName, System.Security.Authentication.SslProtocols sslProtocol, System.Net.Security.RemoteCertificateValidationCallback serverCallback, System.Net.Security.LocalCertificateSelectionCallback clientCallback, System.Security.Cryptography.X509Certificates.X509CertificateCollection clientCertificates) : this(hostName, sslProtocol, serverCallback, clientCallback, clientCertificates, false)
         {
@@ -67,7 +63,7 @@ namespace ActiveUp.Net.Security
         private System.Net.Security.LocalCertificateSelectionCallback _clientCallback;
         private System.Net.Security.RemoteCertificateValidationCallback _serverCallback;
         private System.Security.Cryptography.X509Certificates.X509CertificateCollection _clientCertificates;
-        private bool _checkRevocation;
+        private bool _checkRevocation = false;
 
         #endregion
 
@@ -77,11 +73,11 @@ namespace ActiveUp.Net.Security
         {
             get
             {
-                return this._hostName;
+                return _hostName;
             }
             set
             {
-                this._hostName = value;
+                _hostName = value;
             }
         }
 
@@ -89,11 +85,11 @@ namespace ActiveUp.Net.Security
         {
             get
             {
-                return this._sslProtocol;
+                return _sslProtocol;
             }
             set
             {
-                this._sslProtocol = value;
+                _sslProtocol = value;
             }
         }
 
@@ -101,33 +97,33 @@ namespace ActiveUp.Net.Security
         {
             get
             {
-                return this._clientCallback;
+                return _clientCallback;
             }
             set
             {
-                this._clientCallback = value;
+                _clientCallback = value;
             }
         }
         public System.Net.Security.RemoteCertificateValidationCallback ServerCertificateValidationCallback
         {
             get
             {
-                return this._serverCallback;
+                return _serverCallback;
             }
             set
             {
-                this._serverCallback = value;
+                _serverCallback = value;
             }
         }
         public System.Security.Cryptography.X509Certificates.X509CertificateCollection ClientCertificates
         {
             get
             {
-                return this._clientCertificates;
+                return _clientCertificates;
             }
             set
             {
-                this._clientCertificates = value;
+                _clientCertificates = value;
             }
         }
 
@@ -135,17 +131,15 @@ namespace ActiveUp.Net.Security
         {
             get
             {
-                return this._checkRevocation;
+                return _checkRevocation;
             }
             set
             {
-                this._checkRevocation = value;
+                _checkRevocation = value;
             }
         }
 
         #endregion
     }
 #endif
-
-    #endregion
 }

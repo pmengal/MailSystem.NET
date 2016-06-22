@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     public class PrefAndDomain : IRecordData
@@ -55,7 +51,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Preference:{0} Domain:{1}", preference, domain);
+            return string.Format("Preference:{0} Domain:{1}", preference, domain);
         }
     }
     

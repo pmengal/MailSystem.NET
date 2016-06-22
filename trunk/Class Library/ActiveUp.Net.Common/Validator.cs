@@ -18,15 +18,16 @@
 //using System.Management;
 using System;
 using System.Collections;
-using System.Linq;
 #if !PocketPC
 using System.Net.NetworkInformation;
 #endif
 using System.Net;
 using ActiveUp.Net.Dns;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace ActiveUp.Net.Mail {
+namespace ActiveUp.Net.Mail
+{
     /// <summary>
     /// 
     /// </summary>
@@ -34,47 +35,46 @@ namespace ActiveUp.Net.Mail {
     [Serializable]
 #endif
     public class Validator
-	{
+    {
         ServerCollection _dnsServers = new ServerCollection();
-
-	    /// <summary>
-		/// Validates the address' syntax.
-		/// </summary>
-		/// <param name="address">The address to be validated.</param>
-		/// <returns>True if syntax is valid, otherwise false.</returns>
-		public static bool ValidateSyntax(string address)
-		{
-			return System.Text.RegularExpressions.Regex.IsMatch(address,"\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
-		}
-		/// <summary>
-		/// Validates the address' syntax.
-		/// </summary>
-		/// <param name="address">The address to be validated.</param>
-		/// <returns>True if syntax is valid, otherwise false.</returns>
-		public static bool ValidateSyntax(Address address)
-		{
-            int.Parse("20",System.Globalization.NumberStyles.HexNumber);
-			return ValidateSyntax(address.Email);
-		}
-		/// <summary>
-		/// Validates the addresses' syntax.
-		/// </summary>
-		/// <param name="address">The addresses to be validated.</param>
-		/// <returns>True if syntax is valid, otherwise false.</returns>
-		public static AddressCollection ValidateSyntax(AddressCollection addresses)
-		{
+        
+        /// <summary>
+        /// Validates the address' syntax.
+        /// </summary>
+        /// <param name="address">The address to be validated.</param>
+        /// <returns>True if syntax is valid, otherwise false.</returns>
+        public static bool ValidateSyntax(string address)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(address,"\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+        }
+        /// <summary>
+        /// Validates the address' syntax.
+        /// </summary>
+        /// <param name="address">The address to be validated.</param>
+        /// <returns>True if syntax is valid, otherwise false.</returns>
+        public static bool ValidateSyntax(Address address)
+        {
+            return ValidateSyntax(address.Email);
+        }
+        /// <summary>
+        /// Validates the addresses' syntax.
+        /// </summary>
+        /// <param name="address">The addresses to be validated.</param>
+        /// <returns>True if syntax is valid, otherwise false.</returns>
+        public static AddressCollection ValidateSyntax(AddressCollection addresses)
+        {
             AddressCollection invalids = new AddressCollection();
-			foreach(Address address in addresses)
+            foreach(Address address in addresses)
                 if (!ValidateSyntax(address.Email))
                     invalids.Add(address);
-			return invalids;
-		}
+            return invalids;
+        }
 
-		/// <summary>
-		/// Get the MX records for the specified domain name using the system configuration.
-		/// </summary>
-		/// <param name="address">The domain name.</param>
-		/// <returns>A collection of Mx Records.</returns>
+        /// <summary>
+        /// Get the MX records for the specified domain name using the system configuration.
+        /// </summary>
+        /// <param name="address">The domain name.</param>
+        /// <returns>A collection of Mx Records.</returns>
         public static MxRecordCollection GetMxRecords(string address)
         {
             return GetMxRecords(address, 5000);
@@ -87,34 +87,34 @@ namespace ActiveUp.Net.Mail {
         /// <param name="timeout">The timeout in miliseconds.</param>
         /// <returns>A collection of Mx Records.</returns>
         public static MxRecordCollection GetMxRecords(string address, int timeout)
-		{
-			ArrayList nameServers = GetListNameServers();
+        {
+            ArrayList nameServers = GetListNameServers();
 
-			if (nameServers.Count > 0)
-			{
+            if (nameServers.Count > 0)
+            {
                 Logger.AddEntry(typeof(Validator), "Name servers found : " + nameServers.Count.ToString(), 0);
 
-				foreach(string server in nameServers)
-				{
-					if (server.Length > 3)
-					{
-						try
-						{
+                foreach(string server in nameServers)
+                {
+                    if (server.Length > 3)
+                    {
+                        try
+                        {
                             Logger.AddEntry(typeof(Validator), "Ask " + server + ":53 for MX records.", 0); 
-							return GetMxRecords(address, server, 53, timeout);
-						}
-						catch
-						{
+                            return GetMxRecords(address, server, 53, timeout);
+                        }
+                        catch
+                        {
                             Logger.AddEntry(typeof(Validator), "Can't connect to " + server + ":53", 0);
-						}
-					}
-				}
-			}
+                        }
+                    }
+                }
+            }
 
             Logger.AddEntry(typeof(Validator), "Can't connect to any of the specified DNS servers.", 0);
 
-			return null;
-		}
+            return null;
+        }
 
         /// <summary>
         /// Get the MX records for the specified domain name using the system configuration.
@@ -166,14 +166,14 @@ namespace ActiveUp.Net.Mail {
             return GetMxRecords(address, dnsServers, 5000);
         }
             
-		/// <summary>
-		/// Get the MX records for the specified domain name using the system configuration.
-		/// </summary>
-		/// <param name="address">The domain name.</param>
-		/// <param name="dnsServers">Servers to be used for MX records search.</param>
-		/// <returns>A collection of Mx Records.</returns>
-		public static MxRecordCollection GetMxRecords(string address, ServerCollection dnsServers, int timeout)
-		{
+        /// <summary>
+        /// Get the MX records for the specified domain name using the system configuration.
+        /// </summary>
+        /// <param name="address">The domain name.</param>
+        /// <param name="dnsServers">Servers to be used for MX records search.</param>
+        /// <returns>A collection of Mx Records.</returns>
+        public static MxRecordCollection GetMxRecords(string address, ServerCollection dnsServers, int timeout)
+        {
             if (dnsServers == null)
                 dnsServers = new ServerCollection();
 
@@ -193,65 +193,62 @@ namespace ActiveUp.Net.Mail {
 #endif
             }
 
-			foreach(Server server in dnsServers)
-			{
-				try
-				{
-					return GetMxRecords(address, server.Host, server.Port, timeout);
-				}
-				catch
-				{
+            foreach(Server server in dnsServers)
+            {
+                try
+                {
+                    return GetMxRecords(address, server.Host, server.Port, timeout);
+                }
+                catch
+                {
                     Logger.AddEntry(typeof(Validator), "Can't connect to " + server.Host + ":" + server.Port, 0);
-				}
-			}
+                }
+            }
 
-		return GetMxRecords(address);
+        return GetMxRecords(address);
 
-		//ActiveUp.Net.Mail.Logger.AddEntry("Can't connect to any of the specified DNS servers.", 0);
-	}
-
-    /// <summary>
-    /// Get the MX records for the specified domain name using the specified DNS server.
-    /// </summary>
-    /// <param name="address">The domain name.</param>
-    /// <param name="host">The host name of the DNS server to use.</param>
-    /// <param name="port">The port number of the DNS server to use.</param>
-    /// <returns>A collection of Mx Records.</returns>
-    public static MxRecordCollection GetMxRecords(string address, string host, int port)
-    {
-        return GetMxRecords(address, host, port, 5000);
+        //ActiveUp.Net.Mail.Logger.AddEntry("Can't connect to any of the specified DNS servers.", 0);
     }
 
-    /// <summary>
-	/// Get the MX records for the specified domain name using the specified DNS server.
-	/// </summary>
-	/// <param name="address">The domain name.</param>
-	/// <param name="host">The host name of the DNS server to use.</param>
-	/// <param name="port">The port number of the DNS server to use.</param>
-    /// <param name="timeout">The timeout in miliseconds.</param>
-    /// <returns>A collection of Mx Records.</returns>
-	public static MxRecordCollection GetMxRecords(string address, string host, int port, int timeout)
-	{
-        var mxRecords = new MxRecordCollection();
-
-        var query = new DnsQuery(IPAddress.Parse(host))
-                        {
-                            RecursiveQuery = true,
-                            DnsServer = {Port = port},
-                            Domain = address
-                        };
-
-        DnsAnswer answer = query.QueryServer(RecordType.MX, timeout);
-
-        foreach (Answer entry in answer.Answers)
+        /// <summary>
+        /// Get the MX records for the specified domain name using the specified DNS server.
+        /// </summary>
+        /// <param name="address">The domain name.</param>
+        /// <param name="host">The host name of the DNS server to use.</param>
+        /// <param name="port">The port number of the DNS server to use.</param>
+        /// <returns>A collection of Mx Records.</returns>
+        public static MxRecordCollection GetMxRecords(string address, string host, int port)
         {
-            var mxRecord = (MXRecord)entry.Data;
-
-            mxRecords.Add(mxRecord.Domain, mxRecord.Preference);
+            return GetMxRecords(address, host, port, 5000);
         }
-        		
-		return mxRecords;
-	}
+
+        /// <summary>
+        /// Get the MX records for the specified domain name using the specified DNS server.
+        /// </summary>
+        /// <param name="address">The domain name.</param>
+        /// <param name="host">The host name of the DNS server to use.</param>
+        /// <param name="port">The port number of the DNS server to use.</param>
+        /// <param name="timeout">The timeout in miliseconds.</param>
+        /// <returns>A collection of Mx Records.</returns>
+        public static MxRecordCollection GetMxRecords(string address, string host, int port, int timeout)
+        {
+            var mxRecords = new MxRecordCollection();
+            var query = new DnsQuery(IPAddress.Parse(host))
+            {
+                RecursiveQuery = true,
+                DnsServer = { Port = port },
+                Domain = address
+            };
+            DnsAnswer answer = query.QueryServer(RecordType.MX, timeout);
+
+            foreach (Answer entry in answer.Answers)
+            {
+                var mxRecord = (MXRecord)entry.Data;
+                mxRecords.Add(mxRecord.Domain, mxRecord.Preference);
+            }
+
+            return mxRecords;
+        }
 
         public static byte[] GetTxtRecords(string address, string host, int port)
         {
@@ -313,76 +310,75 @@ namespace ActiveUp.Net.Mail {
             
             return data;
         }
-		/// <summary>
-		/// Get the label at the specified position in the DNS data.
-		/// </summary>
-		/// <param name="streamData">The DNS data.</param>
-		/// <param name="pos">The start position.</param>
-		/// <returns>The label.</returns>
-		private static string GetLabelsByPos(byte[] streamData, ref int pos)
-		{
-			int currentPos = pos;
-			byte[] buffer = streamData;
-		    bool pointerFound = false;
-			string temp = string.Empty, stringData = System.Text.Encoding.ASCII.GetString(streamData,0,streamData.Length);
+        /// <summary>
+        /// Get the label at the specified position in the DNS data.
+        /// </summary>
+        /// <param name="streamData">The DNS data.</param>
+        /// <param name="pos">The start position.</param>
+        /// <returns>The label.</returns>
+        private static string GetLabelsByPos(byte[] streamData, ref int pos)
+        {
+            int currentPos = pos;
+            byte[] buffer = streamData;
+            bool pointerFound = false;
+            string temp = string.Empty, stringData = System.Text.Encoding.ASCII.GetString(streamData,0,streamData.Length);
 
-			byte labelLength = buffer[currentPos];
+            byte labelLength = buffer[currentPos];
 
-			while (labelLength != 0 && !pointerFound)
-			{
-				// Pointer found
-				if ((labelLength & 192) == 192)
-				{
-					int newPointer;
+            while (labelLength != 0 && !pointerFound)
+            {
+                // Pointer found
+                if ((labelLength & 192) == 192)
+                {
+                    int newPointer;
 
-					if (buffer[currentPos] == 192)
-						newPointer = (buffer[currentPos]-192)*256 + buffer[currentPos+1]; 
-					else
-						newPointer = buffer[currentPos+1];
+                    if (buffer[currentPos] == 192)
+                        newPointer = (buffer[currentPos]-192)*256 + buffer[currentPos+1]; 
+                    else
+                        newPointer = buffer[currentPos+1];
 
-					temp += GetLabelsByPos(streamData, ref newPointer);
-					temp += ".";
+                    temp += GetLabelsByPos(streamData, ref newPointer);
+                    temp += ".";
 
-					currentPos += 2;
-					
-					pointerFound = true;
-				}
-				else
-				{
-					temp += stringData.Substring(currentPos+1, labelLength) + ".";
-					currentPos = currentPos + labelLength + 1;
-					labelLength = buffer[currentPos];
-				}
-			}
+                    currentPos += 2;
+                    
+                    pointerFound = true;
+                }
+                else
+                {
+                    temp += stringData.Substring(currentPos+1, labelLength) + ".";
+                    currentPos = currentPos + labelLength + 1;
+                    labelLength = buffer[currentPos];
+                }
+            }
 
-			if (pointerFound)
-				pos = currentPos;
-			else
-				pos = currentPos+1;
+            if (pointerFound)
+                pos = currentPos;
+            else
+                pos = currentPos+1;
 
-			if (temp.Length > 0)
-			{
-				return temp.TrimEnd('.');
-			}
+            if (temp.Length > 0)
+            {
+                return temp.TrimEnd('.');
+            }
 
-			return temp;
-		}
+            return temp;
+        }
 
-		public static ArrayList GetListNameServers()
-		{
-			ArrayList nameServers = new ArrayList();
-			
+        public static ArrayList GetListNameServers()
+        {
+            ArrayList nameServers = new ArrayList();
+            
             IList<IPAddress> machineDnsServers = DnsQuery.GetMachineDnsServers();
             foreach (IPAddress ipAddress in machineDnsServers)
                 nameServers.Add(ipAddress.ToString());
 
-			return nameServers;
-		}
+            return nameServers;
+        }
 
-		private static bool IsPresent(ArrayList list, string valueToTest)
-		{
-		    return list.Cast<string>().Any(valueList => valueToTest == valueList);
-		}
-	}
+        private static bool IsPresent(ArrayList list, string valueToTest)
+        {
+            return list.Cast<string>().Any(valueList => valueToTest == valueList);
+        }
+    }
 }
-

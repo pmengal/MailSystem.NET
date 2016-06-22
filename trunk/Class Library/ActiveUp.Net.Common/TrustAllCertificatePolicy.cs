@@ -15,23 +15,14 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
-namespace ActiveUp.Net.Security
-{
-    public class TrustAllCertificatePolicy : System.Net.ICertificatePolicy
-    {
-        public bool CheckValidationResult(ServicePoint sp,
-            X509Certificate cert,
-            WebRequest req,
-            int problem)
+namespace ActiveUp.Net.Security {
+    public class TrustAllCertificatePolicy : ICertificatePolicy {
+        public bool CheckValidationResult(ServicePoint sp, X509Certificate cert, WebRequest req, int problem)
         {
             return true;
         }
     }
-
 }

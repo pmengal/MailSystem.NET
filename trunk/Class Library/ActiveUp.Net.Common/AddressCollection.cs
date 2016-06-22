@@ -21,109 +21,94 @@ using System.Linq;
 namespace ActiveUp.Net.Mail
 {
 #region AddressCollection Object
-	/// <summary>
-	/// A collection of Internet Email addresses.
-	/// </summary>
+    /// <summary>
+    /// A collection of Internet Email addresses.
+    /// </summary>
 #if !PocketPC
     [System.Serializable]
 #endif
     public class AddressCollection : List<Address>
-	{
-	    /// <summary>
-		/// Allows the developer to add a collection of Address objects in another one.
-		/// </summary>
-		/// <param name="first">The first collection.</param>
-		/// <param name="second">The second collection.</param>
-		/// <returns>The concatened collection.</returns>
-		public static AddressCollection operator +(AddressCollection first, AddressCollection second) 
-		{
-			AddressCollection newAddresses = first;
-			foreach(Address address in second)
-				newAddresses.Add(address);
+    {
+        /// <summary>
+        /// Allows the developer to add a collection of Address objects in another one.
+        /// </summary>
+        /// <param name="first">The first collection.</param>
+        /// <param name="second">The second collection.</param>
+        /// <returns>The concatened collection.</returns>
+        public static AddressCollection operator +(AddressCollection first, AddressCollection second) 
+        {
+            AddressCollection newAddresses = first;
+            foreach(Address address in second)
+                newAddresses.Add(address);
 
-			return newAddresses;
-		}
+            return newAddresses;
+        }
 
-		/// <summary>
-		/// Add an Address object.
-		/// </summary>
-		/// <param name="address">The Address object</param>
-		public void Add(Address address)
-		{
-			base.Add(address);
-		}
+        /// <summary>
+        /// Add an Address object.
+        /// </summary>
+        /// <param name="address">The Address object</param>
+        public void Add(Address address)
+        {
+            base.Add(address);
+        }
 
-		/// <summary>
-		/// Add an Address object using the specified Internet email (RFC 2822 addr-spec).
-		/// </summary>
-		/// <param name="email">The email</param>
-		public void Add(string email)
-		{
-			base.Add(new ActiveUp.Net.Mail.Address(email));
-		}
+        /// <summary>
+        /// Add an Address object using the specified Internet email (RFC 2822 addr-spec).
+        /// </summary>
+        /// <param name="email">The email</param>
+        public void Add(string email)
+        {
+            base.Add(new Address(email));
+        }
 
-		/// <summary>
-		/// Add an Address using the specified Internet email (RFC 2822 addr-spec) and fullname.
-		/// </summary>
-		/// <param name="email">The email</param>
-		/// <param name="name">The name</param>
-		public void Add(string email, string name)
-		{
-			base.Add(new ActiveUp.Net.Mail.Address(email, name));
-		}
+        /// <summary>
+        /// Add an Address using the specified Internet email (RFC 2822 addr-spec) and fullname.
+        /// </summary>
+        /// <param name="email">The email</param>
+        /// <param name="name">The name</param>
+        public void Add(string email, string name)
+        {
+            base.Add(new Address(email, name));
+        }
 
-		/// <summary>
-		/// Remove the Address at the specified index position.
-		/// </summary>
-		/// <param name="index">The index position.</param>
-		public void Remove(int index)
-		{
-			// Check to see if there is a Address at the supplied index.
-			if (index < Count || index >= 0)
-			{
-				base.RemoveAt(index); 
-			}
-		}
+        /// <summary>
+        /// Remove the Address at the specified index position.
+        /// </summary>
+        /// <param name="index">The index position.</param>
+        public void Remove(int index)
+        {
+            // Check to see if there is a Address at the supplied index.
+            if (index < Count || index >= 0)
+            {
+                RemoveAt(index); 
+            }
+        }
 
-		/// <summary>
-		/// Returns a string reprensentation of the Addresses.
-		/// </summary>
-		/// <returns>The addresses separated with commas, in format compliant with RFC2822's address specification.</returns>
-		public string Merged
-		{
-			get
-			{
-				string _addresses= this.Aggregate("", (current, address) => current + (address.Merged + ","));
-
-			    return _addresses.TrimEnd(',');
-			}
-		}
-		/// <summary>
-		/// Returns a string reprensentation of the Addresses as HTML formatted links, separated by semicolons.
-		/// </summary>
-		/// <returns>The addresses as HTML formatted links, separated by semicolons.</returns>
-		public string Links
-		{
-			get
-			{
-
-                //
-                // Commented-out code is here just for clarification, since
-                // some argued Aggregate function is not as clear at first as
-                // foreach.
-                // 
-                
-                //string _addresses = "";
-
-                //foreach (Address address in this)
-                //{
-                //    _addresses += address.Link + ";";
-                //}
-				string _addresses= this.Aggregate("", (current, address) => current + (address.Link + ";"));
-
-			    return _addresses.TrimEnd(';');
-			}
-		}
-	}
-	#endregion
+        /// <summary>
+        /// Returns a string reprensentation of the Addresses.
+        /// </summary>
+        /// <returns>The addresses separated with commas, in format compliant with RFC2822's address specification.</returns>
+        public string Merged
+        {
+            get
+            {
+                string addresses = this.Aggregate("", (current, address) => current + (address.Merged + ","));
+                return addresses.TrimEnd(',');
+            }
+        }
+        /// <summary>
+        /// Returns a string reprensentation of the Addresses as HTML formatted links, separated by semicolons.
+        /// </summary>
+        /// <returns>The addresses as HTML formatted links, separated by semicolons.</returns>
+        public string Links
+        {
+            get
+            {
+                string addresses = this.Aggregate("", (current, address) => current + (address.Link + ";"));
+                return addresses.TrimEnd(';');
+            }
+        }
+    }
+    #endregion
 }

@@ -15,48 +15,26 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+using System.Collections.Specialized;
+
 namespace ActiveUp.Net.Mail
 {
-#region UsenetXrefList Object
-	/// <summary>
-	/// Represents a parsed Xref Header field.
-	/// </summary>
+    /// <summary>
+    /// Represents a parsed Xref Header field.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class UsenetXrefList
-	{
-		string _host;
-		System.Collections.Specialized.NameValueCollection _groups = new System.Collections.Specialized.NameValueCollection();
-
-		/// <summary>
-		/// The host where the message resides.
-		/// </summary>
-		public string Host
-		{
-			get
-			{
-				return this._host;
-			}
-			set
-			{
-				this._host = value;
-			}
-		}
-		/// <summary>
-		/// Name/Value collection with newsgroups as Keys and message indexes as Value.
-		/// </summary>
-		public System.Collections.Specialized.NameValueCollection Groups
-		{
-			get
-			{
-				return this._groups;
-			}
-			set
-			{
-				this._groups = value;
-			}
-		}
-	}
-	#endregion
+    {
+        /// <summary>
+        /// The host where the message resides.
+        /// </summary>
+        public string Host { get; set; }
+        /// <summary>
+        /// Name/Value collection with newsgroups as Keys and message indexes as Value.
+        /// </summary>
+        public NameValueCollection Groups { get; set; } = new NameValueCollection();
+    }
 }

@@ -15,29 +15,29 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-#region QueuingService Enumeration
-	/// <summary>
-	/// The message priorities.
-	/// </summary>
+    /// <summary>
+    /// The message priorities.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public enum QueuingService
-	{
-		/// <summary>
-		/// Active Up Queuing Service. Not yet supported !
-		/// </summary>
-		ActiveQ,
-		/// <summary>
-		/// Microsoft SMTP Service.
-		/// </summary>
-		MicrosoftSmtp,
-		/// <summary>
-		/// IP Switch IMail 7.x Server.
-		/// </summary>
-		IpSwitchIMail
-	}
-	#endregion
+    {
+        /// <summary>
+        /// Active Up Queuing Service. Not yet supported !
+        /// </summary>
+        ActiveQ,
+        /// <summary>
+        /// Microsoft SMTP Service.
+        /// </summary>
+        MicrosoftSmtp,
+        /// <summary>
+        /// IP Switch IMail 7.x Server.
+        /// </summary>
+        IpSwitchIMail
+    }
 }

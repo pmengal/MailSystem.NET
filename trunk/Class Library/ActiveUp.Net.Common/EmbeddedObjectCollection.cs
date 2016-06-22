@@ -15,13 +15,15 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
     /// <summary>
     /// Represents a collection of EmbeddedObject objects.
     /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class EmbeddedObjectCollection : MimePartCollection
     {
@@ -32,7 +34,7 @@ namespace ActiveUp.Net.Mail
         public new void Add(MimePart part)
         {
             part.ContentDisposition.Disposition = "inline";
-            this.List.Add(part);
+            List.Add(part);
         }
         /// <summary>
         /// Generate and add a MimePart to the embedded objects collection, using the specified file.
@@ -43,7 +45,7 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart(path, generateContentId);
             part.ContentDisposition.Disposition = "inline";
-            this.List.Add(part);
+            List.Add(part);
             return part.EmbeddedObjectContentId;
         }
         /// <summary>
@@ -55,7 +57,7 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart(path, contentId);
             part.ContentDisposition.Disposition = "inline";
-            this.List.Add(part);
+            List.Add(part);
             return part.EmbeddedObjectContentId;
         }
         /// <summary>
@@ -68,7 +70,7 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart(path, contentId, charset);
             part.ContentDisposition.Disposition = "inline";
-            this.List.Add(part);
+            List.Add(part);
             return part.EmbeddedObjectContentId;
         }
         /// <summary>
@@ -82,7 +84,7 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart(path, generateContentId, charset);
             part.ContentDisposition.Disposition = "inline";
-            this.List.Add(part);
+            List.Add(part);
             return part.ContentId;
         }
     }

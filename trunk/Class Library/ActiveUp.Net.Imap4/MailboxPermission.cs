@@ -17,24 +17,22 @@
 
 namespace ActiveUp.Net.Mail
 {
-#region MailboxPermission
-	/// <summary>
-	/// Represents a mailbox's permission.
-	/// </summary>
-	public enum MailboxPermission
-	{
-		/// <summary>
-		/// Mailbox is opened in [READ-ONLY] mode.
-		/// </summary>
-		ReadOnly,
-		/// <summary>
-		/// Mailbox is opened in [READ-WRITE] mode.
-		/// </summary>
-		ReadWrite,
-		/// <summary>
-		/// Mailbox's permission is unknown.
-		/// </summary>
-		Unknown
-	}
-	#endregion
+    /// <summary>
+    /// Represents a mailbox's permission.
+    /// </summary>
+    public enum MailboxPermission
+    {
+        /// <summary>
+        /// Mailbox is opened in [READ-ONLY] mode.
+        /// </summary>
+        ReadOnly,
+        /// <summary>
+        /// Mailbox is opened in [READ-WRITE] mode.
+        /// </summary>
+        ReadWrite,
+        /// <summary>
+        /// Mailbox's permission is unknown.
+        /// </summary>
+        Unknown
+    }
 }

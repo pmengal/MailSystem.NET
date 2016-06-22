@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class IsdnRecord : IRecordData
@@ -38,18 +34,22 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("ISDN Address:{0} Sub Address:{1}", isdnAddress, subAddress);
+            return string.Format("ISDN Address:{0} Sub Address:{1}", isdnAddress, subAddress);
         }
 
-        private string isdnAddress;        
+        private string isdnAddress;
         /// <summary>
         /// Isdn Address of record
         /// </summary>
-        public string IsdnAddress       {            get { return isdnAddress; }       }
+        public string IsdnAddress {
+            get { return isdnAddress; }
+        }
         private string subAddress;
         /// <summary>
         /// Sub Address of record
         /// </summary>
-        public string SubAddress        {            get { return subAddress; }        }
+        public string SubAddress {
+            get { return subAddress; }
+        }
     }
 }

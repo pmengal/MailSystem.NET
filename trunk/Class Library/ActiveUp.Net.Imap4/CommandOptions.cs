@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ActiveUp.Net.Mail
+﻿namespace ActiveUp.Net.Mail
 {
     public class CommandOptions
     {
@@ -10,7 +6,7 @@ namespace ActiveUp.Net.Mail
 
         public CommandOptions()
         {
-            this.IsPlusCmdAllowed = true;
+            IsPlusCmdAllowed = true;
         }
     }
 }

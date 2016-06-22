@@ -15,49 +15,51 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Represents a collection of Attachment objects.
-	/// </summary>
+    /// <summary>
+    /// Represents a collection of Attachment objects.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public class AttachmentCollection : MimePartCollection
-	{
-	    /// <summary>
-		/// Add a MimePart to the attachment collection.
-		/// </summary>
-		/// <param name="part"></param>
-		public new void Add(MimePart part)
-		{
-			part.ContentDisposition.Disposition = "attachment";
-			this.List.Add(part);
-		}
-		/// <summary>
-		/// Generate and add a MimePart to the attachment collection, using the specified file.
-		/// </summary>
-		/// <param name="path">The file containing the MimePart's content.</param>
-		/// <param name="generateContentId">If true, a Content-ID Header field will be generated for the part.</param>
-		public new void Add(string path, bool generateContentId)
-		{
-			MimePart part = new MimePart(path,generateContentId);
-			part.ContentDisposition.Disposition = "attachment";
-			this.List.Add(part);
-		}
-		/// <summary>
-		/// Generate and add a MimePart to the attachment collection, using the specified file.
-		/// </summary>
-		/// <param name="path">The file containing the MimePart's content.</param>
-		/// <param name="generateContentId">If true, a Content-ID Header field will be generated for the part.</param>
-		/// <param name="charset">The charset of the text contained in the file.</param>
-		/// <remarks>This method is to be used with text files to ensure data integrity using the correct charset.</remarks>
-		public new void Add(string path, bool generateContentId, string charset)
-		{
-			MimePart part = new MimePart(path,generateContentId,charset);
-			part.ContentDisposition.Disposition = "attachment";
-			this.List.Add(part);
-		}
+    {
+        /// <summary>
+        /// Add a MimePart to the attachment collection.
+        /// </summary>
+        /// <param name="part"></param>
+        public new void Add(MimePart part)
+        {
+            part.ContentDisposition.Disposition = "attachment";
+            List.Add(part);
+        }
+        /// <summary>
+        /// Generate and add a MimePart to the attachment collection, using the specified file.
+        /// </summary>
+        /// <param name="path">The file containing the MimePart's content.</param>
+        /// <param name="generateContentId">If true, a Content-ID Header field will be generated for the part.</param>
+        public new void Add(string path, bool generateContentId)
+        {
+            MimePart part = new MimePart(path,generateContentId);
+            part.ContentDisposition.Disposition = "attachment";
+            List.Add(part);
+        }
+        /// <summary>
+        /// Generate and add a MimePart to the attachment collection, using the specified file.
+        /// </summary>
+        /// <param name="path">The file containing the MimePart's content.</param>
+        /// <param name="generateContentId">If true, a Content-ID Header field will be generated for the part.</param>
+        /// <param name="charset">The charset of the text contained in the file.</param>
+        /// <remarks>This method is to be used with text files to ensure data integrity using the correct charset.</remarks>
+        public new void Add(string path, bool generateContentId, string charset)
+        {
+            MimePart part = new MimePart(path,generateContentId,charset);
+            part.ContentDisposition.Disposition = "attachment";
+            List.Add(part);
+        }
 
         /// <summary>
         /// Adds the specified attachment.
@@ -67,7 +69,7 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart(attachment, filename);
             part.ContentDisposition.Disposition = "attachment";
-            this.List.Add(part);
+            List.Add(part);
         }
 
         /// <summary>
@@ -82,5 +84,5 @@ namespace ActiveUp.Net.Mail
                 mimePart.StoreToFile(path.TrimEnd('\\') + "\\" + mimePart.Filename);
             }
         }
-	}
+    }
 }

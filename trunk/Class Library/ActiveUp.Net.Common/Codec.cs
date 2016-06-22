@@ -16,59 +16,56 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-
-using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using ActiveUp.Net.Common.Rfc2047;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Contains several static methods providing encoding/decoding in various formats.
-	/// </summary>
-	public abstract class Codec
-	{
-	    public const string CrLf = "\r\n";
+    /// <summary>
+    /// Contains several static methods providing encoding/decoding in various formats.
+    /// </summary>
+    public abstract class Codec
+    {
+        public const string CrLf = "\r\n";
 
-		/// <summary>
-		/// Detect whitespace between encoded words as stated by RFC2047
-		/// </summary>
+        /// <summary>
+        /// Detect whitespace between encoded words as stated by RFC2047
+        /// </summary>
         private static readonly Regex WhiteSpace = new Regex(@"(\?=)(\s*)(=\?)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
         
         /// <summary>
-		/// Generates a unique string from the running process and datetime stamp
-		/// </summary>
-		/// <returns></returns>
-		public static string GetUniqueString()
-		{
-			return System.Diagnostics.Process.GetCurrentProcess().Id+DateTime.Now.ToString("yyMMddhhmmss")+DateTime.Now.Millisecond+(new Random().GetHashCode());
-		}
-		/// <summary>
-		/// Encodes the text in quoted-printable format conforming to the RFC 2045 and RFC 2046.
-		/// </summary>
-		/// <param name="fromCharset">The charset of input.</param>
-		/// <param name="input">Data to be encoded.</param>
-		/// <remarks>The lines are wrapped to a length of max 78 characters to ensure data integrity across some gateways.</remarks>
-		/// <returns>The input encoded as 7bit quoted-printable data, in the form of max 78 characters lines.</returns>
-		/// <example>
-		/// The example below illustrates the encoding of a string in quoted-printable.
-		/// <code>
-		/// C#
-		///
-		/// string input = "ActiveMail rocks ! Here are some non-ASCII characters =ç.";
-		/// string output = Codec.ToQuotedPrintable(input,"iso-8859-1");
-		/// </code>
-		/// output returns A= ctiveMail rocks ! Here are some weird characters =3D=E7.
-		///
-		/// Non ASCII characters have been encoded (=3D represents = and =E7 represents ç).
-		/// </example>
-		public static string ToQuotedPrintable(string input, string fromCharset)
-
-		{
-
-            var sb = new System.Text.StringBuilder();
+        /// Generates a unique string from the running process and datetime stamp
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUniqueString()
+        {
+            return System.Diagnostics.Process.GetCurrentProcess().Id + DateTime.Now.ToString("yyMMddhhmmss") + DateTime.Now.Millisecond + (new Random().GetHashCode());
+        }
+        /// <summary>
+        /// Encodes the text in quoted-printable format conforming to the RFC 2045 and RFC 2046.
+        /// </summary>
+        /// <param name="fromCharset">The charset of input.</param>
+        /// <param name="input">Data to be encoded.</param>
+        /// <remarks>The lines are wrapped to a length of max 78 characters to ensure data integrity across some gateways.</remarks>
+        /// <returns>The input encoded as 7bit quoted-printable data, in the form of max 78 characters lines.</returns>
+        /// <example>
+        /// The example below illustrates the encoding of a string in quoted-printable.
+        /// <code>
+        /// C#
+        ///
+        /// string input = "ActiveMail rocks ! Here are some non-ASCII characters =ç.";
+        /// string output = Codec.ToQuotedPrintable(input,"iso-8859-1");
+        /// </code>
+        /// output returns A= ctiveMail rocks ! Here are some weird characters =3D=E7.
+        ///
+        /// Non ASCII characters have been encoded (=3D represents = and =E7 represents ç).
+        /// </example>
+        public static string ToQuotedPrintable(string input, string fromCharset)
+        {
+            var sb = new StringBuilder();
 
             // Added this verification, there was an error here.
             if (input != null)
@@ -109,34 +106,34 @@ namespace ActiveUp.Net.Mail
 
             }
         }
-			//sb.Append("=\r\n");
-			return sb.ToString();
-		}
-		/// <summary>
-		/// Encodes the given string in a format (specified in RFC 2047) that can be used in RFC 2822 headers to represent non-ASCII textual data.
-		/// </summary>
-		/// <param name="input">The string to be encoded (the Header field's value).</param>
-		/// <param name="charset">The charset of the Header field's value.</param>
-		/// <returns>The encoded string with only 7bit characters.</returns>
-		/// <remarks>ActiveMail only encodes in this format using Base64, but the RFC2047Decode method also decodes string encoded in this format with quoted-printable.</remarks>
-		/// <example>
-		/// The example below illustrates the encoding of a string.
-		/// <code>
-		/// C#
-		///
-		/// string input = "ActiveMail rocks ! Here are some non-ASCII characters =ç.";
-		/// string output = Codec.RFC2047Encode(input,"iso-8859-1");
-		/// </code>
-		///
-		/// output returns =?iso-8859-1?B?QWN0aXZlTWFpbCByb2NrcyAhIEhlcmUgYXJlIHNvbWUgd2VpcmQgY2hhcmFjdGVycyA95y4=?=
-		///
-		/// This value can be used as for example the subject of a message.
-		/// If you suspect the text to contain non ASCII characters, do message.Subject = Codec.RFC2047Encode(yourRawValue);.
-		/// </example>
-		public static string RFC2047Encode(string input, string charset)
-		{
-		    return Rfc2047Codec.Encode(input, charset);
-		}
+            //sb.Append("=\r\n");
+            return sb.ToString();
+        }
+        /// <summary>
+        /// Encodes the given string in a format (specified in RFC 2047) that can be used in RFC 2822 headers to represent non-ASCII textual data.
+        /// </summary>
+        /// <param name="input">The string to be encoded (the Header field's value).</param>
+        /// <param name="charset">The charset of the Header field's value.</param>
+        /// <returns>The encoded string with only 7bit characters.</returns>
+        /// <remarks>ActiveMail only encodes in this format using Base64, but the RFC2047Decode method also decodes string encoded in this format with quoted-printable.</remarks>
+        /// <example>
+        /// The example below illustrates the encoding of a string.
+        /// <code>
+        /// C#
+        ///
+        /// string input = "ActiveMail rocks ! Here are some non-ASCII characters =ç.";
+        /// string output = Codec.RFC2047Encode(input,"iso-8859-1");
+        /// </code>
+        ///
+        /// output returns =?iso-8859-1?B?QWN0aXZlTWFpbCByb2NrcyAhIEhlcmUgYXJlIHNvbWUgd2VpcmQgY2hhcmFjdGVycyA95y4=?=
+        ///
+        /// This value can be used as for example the subject of a message.
+        /// If you suspect the text to contain non ASCII characters, do message.Subject = Codec.RFC2047Encode(yourRawValue);.
+        /// </example>
+        public static string RFC2047Encode(string input, string charset)
+        {
+            return Rfc2047Codec.Encode(input, charset);
+        }
 
         /// <summary>
         /// Return encoding based on encoding name
@@ -144,12 +141,12 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         /// <param name="encodingName"></param>
         /// <returns></returns>
-        public static System.Text.Encoding GetEncoding(string encodingName)
+        public static Encoding GetEncoding(string encodingName)
         {
-            System.Text.Encoding encoding = null;
+            Encoding encoding = null;
             try
             {
-                encoding = System.Text.Encoding.GetEncoding(encodingName);
+                encoding = Encoding.GetEncoding(encodingName);
             }
             catch {
                 try
@@ -159,57 +156,57 @@ namespace ActiveUp.Net.Mail
                     else if (encodingName.StartsWith("ISO") && char.IsDigit(encodingName, 3))
                         encodingName = encodingName.Insert(3, "-");
                     encodingName = encodingName.Replace("_", "-").ToUpper();
-                    encoding = System.Text.Encoding.GetEncoding(encodingName);
+                    encoding = Encoding.GetEncoding(encodingName);
                 }
                 catch
                 {
-                    encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+                    encoding = Encoding.GetEncoding("iso-8859-1");
                 }
             }
 
             return encoding;
         }
 
-		/// <summary>
-		/// Decodes the given string from the format specified in RFC 2047 (=?charset?value?=).
-		/// </summary>
-		/// <param name="input">The string to be decoded.</param>
-		/// <returns>The decoded string.</returns>
-		/// <example>
-		/// The example below illustrates the decoding of a string.
-		/// <code>
-		/// C#
-		///
-		/// string input = "I once wrote that =?iso-8859-1?B?QWN0aXZlTWFpbCByb2NrcyAhIEhlcmUgYXJlIHNvbWUgd2VpcmQgY2hhcmFjdGVycyA95y4=?=";
-		/// string output = Codec.RFC2047Decode(input);
-		/// </code>
-		///
-		/// output returns I once wrote that ActiveMail rocks ! Here are some weird characters =ç.
-		/// </example>
+        /// <summary>
+        /// Decodes the given string from the format specified in RFC 2047 (=?charset?value?=).
+        /// </summary>
+        /// <param name="input">The string to be decoded.</param>
+        /// <returns>The decoded string.</returns>
+        /// <example>
+        /// The example below illustrates the decoding of a string.
+        /// <code>
+        /// C#
+        ///
+        /// string input = "I once wrote that =?iso-8859-1?B?QWN0aXZlTWFpbCByb2NrcyAhIEhlcmUgYXJlIHNvbWUgd2VpcmQgY2hhcmFjdGVycyA95y4=?=";
+        /// string output = Codec.RFC2047Decode(input);
+        /// </code>
+        ///
+        /// output returns I once wrote that ActiveMail rocks ! Here are some weird characters =ç.
+        /// </example>
         public static string RFC2047Decode(string input)
-		{
-		    return Rfc2047Codec.Decode(input);
-		}
-		
-		/// <summary>
-		/// Decodes text from quoted-printable format defined in RFC 2045 and RFC 2046.
-		/// </summary>
-		/// <param name="toCharset">The original charset of input.</param>
-		/// <param name="input">Data to be decoded.</param>
-		/// <returns>The decoded data.</returns>
-		/// <example>
-		/// The example below illustrates the decoding of a string from quoted-printable.
-		/// <code>
-		/// C#
-		///
-		/// string input = "A=\r\nctiveMail rocks ! Here are some weird characters =3D=E7.";
-		/// string output = Codec.FromQuotedPrintable(input,"iso-8859-1");
-		/// </code>
-		///
-		/// output returns ActiveMail rocks ! Here are some weird characters =ç.
-		/// </example>
-		public static string FromQuotedPrintable(string input, string toCharset)
-		{
+        {
+            return Rfc2047Codec.Decode(input);
+        }
+        
+        /// <summary>
+        /// Decodes text from quoted-printable format defined in RFC 2045 and RFC 2046.
+        /// </summary>
+        /// <param name="toCharset">The original charset of input.</param>
+        /// <param name="input">Data to be decoded.</param>
+        /// <returns>The decoded data.</returns>
+        /// <example>
+        /// The example below illustrates the decoding of a string from quoted-printable.
+        /// <code>
+        /// C#
+        ///
+        /// string input = "A=\r\nctiveMail rocks ! Here are some weird characters =3D=E7.";
+        /// string output = Codec.FromQuotedPrintable(input,"iso-8859-1");
+        /// </code>
+        ///
+        /// output returns ActiveMail rocks ! Here are some weird characters =ç.
+        /// </example>
+        public static string FromQuotedPrintable(string input, string toCharset)
+        {
             System.Collections.ArrayList arr = new System.Collections.ArrayList();
             byte[] decoded = new byte[0];
 
@@ -226,7 +223,7 @@ namespace ActiveUp.Net.Mail
                         {
                             try
                             {
-                                arr.Add(System.Convert.ToByte(System.Int32.Parse(String.Concat((char)input[i + 1], (char)input[i + 2]), System.Globalization.NumberStyles.HexNumber)));
+                                arr.Add(Convert.ToByte(int.Parse(string.Concat((char)input[i + 1], (char)input[i + 2]), System.Globalization.NumberStyles.HexNumber)));
                                 i += 3;
                             }
                             catch (Exception ex)
@@ -256,7 +253,7 @@ namespace ActiveUp.Net.Mail
 
             }
             return GetEncoding(toCharset).GetString(decoded,0,decoded.Length).TrimEnd('=');
-		}
+        }
         public static string GetFieldName(string input)
         {
             switch (input)
@@ -265,7 +262,7 @@ namespace ActiveUp.Net.Mail
                 case "message-id": return "Message-ID";
                 case "content-md5": return "Content-HexMD5Digest";
                 case "mime-version": return "MIME-Version";
-                default: return Codec.Capitalize(input);
+                default: return Capitalize(input);
             }
         }
         internal static string Capitalize(string input)
@@ -275,23 +272,23 @@ namespace ActiveUp.Net.Mail
             output = parts.Aggregate(output, (current, str) => current + (str[0].ToString().ToUpper() + str.Substring(1) + "-"));
             return output.TrimEnd('-');
         }
-		/// <summary>
-		/// Wraps the given string to a set of lines of a maximum given length.
-		/// </summary>
-		/// <param name="input">Data to be wrapped.</param>
-		/// <param name="totalchars">The maximum length for each line.</param>
-		/// <returns>The data as a set of lines of a maximum length.</returns>
-		/// <remarks>This can be used to wrap lines to a maximum length of 78 characters to ensure data integrity across some gateways.</remarks>
-		public static string Wrap(string input, int totalchars)
-		{
-			totalchars -= 3;
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			int i = 0;
+        /// <summary>
+        /// Wraps the given string to a set of lines of a maximum given length.
+        /// </summary>
+        /// <param name="input">Data to be wrapped.</param>
+        /// <param name="totalchars">The maximum length for each line.</param>
+        /// <returns>The data as a set of lines of a maximum length.</returns>
+        /// <remarks>This can be used to wrap lines to a maximum length of 78 characters to ensure data integrity across some gateways.</remarks>
+        public static string Wrap(string input, int totalchars)
+        {
+            totalchars -= 3;
+            StringBuilder sb = new StringBuilder();
+            int i = 0;
             for (i = 0; (i + totalchars) < input.Length; i += totalchars)
             {
                 sb.Append(string.Concat("\r\n", input.Substring(i, totalchars)));
             }
-			return (string.Concat(sb.ToString(),"\r\n",input.Substring(i,input.Length-i))).TrimStart(new char[] {'\r','\n'});
+            return (string.Concat(sb.ToString(),"\r\n",input.Substring(i,input.Length-i))).TrimStart(new char[] {'\r','\n'});
 
             //totalchars -= 3; // NOT HERE: this value can be 78 or 77, so 78-3=75 or 77-3=74
             //System.Text.StringBuilder sb = new System.Text.StringBuilder(); // NOT HERE
@@ -351,7 +348,7 @@ namespace ActiveUp.Net.Mail
             {
                 inbytes[j] = (byte)radix64Alphabet.IndexOf(input[j]);
             }
-            var outbytes = new List<Byte>();
+            var outbytes = new List<byte>();
             for (int i = 0; i < length / 4; i++)
             {
                 outbytes.Add(((byte)((inbytes[i * 4] << 2) + (inbytes[i * 4 + 1] >> 4))));

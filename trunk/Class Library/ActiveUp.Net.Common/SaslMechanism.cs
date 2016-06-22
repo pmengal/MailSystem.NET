@@ -17,30 +17,30 @@
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Mechanisms available for authentication.
-	/// </summary>
-	public enum SaslMechanism
-	{
-		/// <summary>
-		/// The LOGIN mechanism (BASE64 encoded exchanges).
-		/// </summary>
-		Login,
-		/// <summary>
-		/// The PLAIN mechanism (identity<NUL>username<NUL>password).
-		/// </summary>
-		Plain,
-		/*/// <summary>
-		/// The DIGEST-MD5 mechanism. [RFC2831]
-		/// </summary>
-		DigestMd5,*/
-		/// <summary>
-		/// The CRAM-MD5 mechanism. [RFC2195]
-		/// </summary>
-		CramMd5
-		/*/// <summary>
-		/// The KERBEROS_V4 mechanism. [RFC2222]
-		/// </summary>
-		KerberosV4*/
-	}
+    /// <summary>
+    /// Mechanisms available for authentication.
+    /// </summary>
+    public enum SaslMechanism
+    {
+        /// <summary>
+        /// The LOGIN mechanism (BASE64 encoded exchanges).
+        /// </summary>
+        Login,
+        /// <summary>
+        /// The PLAIN mechanism (identity<NUL>username<NUL>password).
+        /// </summary>
+        Plain,
+        /*/// <summary>
+        /// The DIGEST-MD5 mechanism. [RFC2831]
+        /// </summary>
+        DigestMd5,*/
+        /// <summary>
+        /// The CRAM-MD5 mechanism. [RFC2195]
+        /// </summary>
+        CramMd5
+        /*/// <summary>
+        /// The KERBEROS_V4 mechanism. [RFC2222]
+        /// </summary>
+        KerberosV4*/
+    }
 }

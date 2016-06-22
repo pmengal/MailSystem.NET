@@ -15,33 +15,33 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-#region MessagePriority Enumeration
-	/// <summary>
-	/// The message priorities.
-	/// </summary>
+    /// <summary>
+    /// The message priorities.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public enum MessagePriority
-	{
-		/// <summary>
-		/// The message has high priority.
-		/// </summary>
-		High,
-		/// <summary>
-		/// The message has low priority.
-		/// </summary>
-		Low,
-		/// <summary>
-		/// The message has normal priority.
-		/// </summary>
-		Normal,
-		/// <summary>
-		/// The message priority couldn't be parsed.
-		/// </summary>
-		Unknown
-	}
-	#endregion
+    {
+        /// <summary>
+        /// The message has high priority.
+        /// </summary>
+        High,
+        /// <summary>
+        /// The message has low priority.
+        /// </summary>
+        Low,
+        /// <summary>
+        /// The message has normal priority.
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// The message priority couldn't be parsed.
+        /// </summary>
+        Unknown
+    }
 }

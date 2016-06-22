@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class DSRecord : IRecordData
@@ -27,7 +23,7 @@ namespace ActiveUp.Net.Dns
         /// Implementation Reference RFC 3658
         /// </summary>
         /// <param name="buffer"></param>
-         public DSRecord(DataBuffer buffer, int length)
+        public DSRecord(DataBuffer buffer, int length)
         {
              key = buffer.ReadShortInt();
              algorithm = buffer.ReadByte();
@@ -40,7 +36,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Key:{0} Algorithm:{1} DigestType:{2} Digest:{3}", key, algorithm, digestType, digest);
+            return string.Format("Key:{0} Algorithm:{1} DigestType:{2} Digest:{3}", key, algorithm, digestType, digest);
         }
 
         short key;

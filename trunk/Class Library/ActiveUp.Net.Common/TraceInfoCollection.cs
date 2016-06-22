@@ -15,29 +15,25 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
+using System;
+using System.Collections;
 
 namespace ActiveUp.Net.Mail
 {
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-    public class TraceInfoCollection : System.Collections.CollectionBase
-	{
-	    public void Add(TraceInfo traceInfo)
-		{
-			this.InnerList.Add(traceInfo);
-		}
-		public TraceInfo this[int index]
-		{
-			get
-			{
-				return (TraceInfo)this.InnerList[index];
-			}
-			set
-			{
-				this.InnerList[index] = value;
-			}
-		}
-	}
+    public class TraceInfoCollection : CollectionBase
+    {
+        public void Add(TraceInfo traceInfo)
+        {
+            InnerList.Add(traceInfo);
+        }
+
+        public TraceInfo this[int index]
+        {
+            get { return (TraceInfo)InnerList[index]; }
+            set { InnerList[index] = value; }
+        }
+    }
 }

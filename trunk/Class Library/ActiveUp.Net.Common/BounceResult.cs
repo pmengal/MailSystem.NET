@@ -19,68 +19,68 @@ using System;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// Represent a mail bounce status. Contains all the information needed to determine if the email is a mail server error bounce.
-	/// </summary>
+    /// <summary>
+    /// Represent a mail bounce status. Contains all the information needed to determine if the email is a mail server error bounce.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
-	public class BounceResult
-	{
-		private int _level;
-		private string _email = string.Empty;
+    public class BounceResult
+    {
+        private int _level = 0;
+        private string _email = string.Empty;
 
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public BounceResult()
-		{
-			_level = 0;
-			_email = string.Empty;
-		}
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public BounceResult()
+        {
+            _level = 0;
+            _email = string.Empty;
+        }
 
-		/// <summary>
-		/// Create the object with specified default value.
-		/// </summary>
-		/// <param name="level">The level</param>
-		/// <param name="email">The email</param>
-		public BounceResult(int level, string email)
-		{
-			_level = level;
-			_email = email;
-		}
+        /// <summary>
+        /// Create the object with specified default value.
+        /// </summary>
+        /// <param name="level">The level</param>
+        /// <param name="email">The email</param>
+        public BounceResult(int level, string email)
+        {
+            _level = level;
+            _email = email;
+        }
 
-		/// <summary>
-		/// The level of revelance. <b>0</b> mean probably not a bounce. <b>1</b> mean this email is suspicious. 
-		/// <b>2</b> mean this is a potential bounce email. <b>3</b> mean we are quite sure that is a bounce email.
-		/// </summary>
-		/// <remarks>If the Level is <b>3</b>, the erroneous email (if available) is contained in the <see cref="Email"/> property.</remarks>
-		public int Level
-		{
-			get
-			{
-				return _level;
-			}
-			set
-			{
-				_level = value;
-			}
-		}	
+        /// <summary>
+        /// The level of revelance. <b>0</b> mean probably not a bounce. <b>1</b> mean this email is suspicious. 
+        /// <b>2</b> mean this is a potential bounce email. <b>3</b> mean we are quite sure that is a bounce email.
+        /// </summary>
+        /// <remarks>If the Level is <b>3</b>, the erroneous email (if available) is contained in the <see cref="Email"/> property.</remarks>
+        public int Level
+        {
+            get
+            {
+                return _level;
+            }
+            set
+            {
+                _level = value;
+            }
+        }    
 
-		/// <summary>
-		/// Contains the erroneous email if the revelance level is 3.
-		/// </summary>
-		public string Email
-		{
-			get
-			{
-				return _email;
-			}
-			set
-			{
-				_email = value;
-			}	
-		}
-	}
+        /// <summary>
+        /// Contains the erroneous email if the revelance level is 3.
+        /// </summary>
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                _email = value;
+            }    
+        }
+    }
 }

@@ -16,7 +16,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
 #if !PocketPC
 using System.Security.Cryptography.Pkcs;
 #endif
@@ -24,26 +23,26 @@ using System.Security.Cryptography.Pkcs;
 namespace ActiveUp.Net.Security
 {
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class Signatures
     {
-        [System.NonSerialized]
+        [NonSerialized]
         private Signature _dk;
 #if !PocketPC
-        [System.NonSerialized]
+        [NonSerialized]
         private SignedCms _smime;
 #endif
         public Signature DomainKeys
         {
-            get { return this._dk; }
-            set { this._dk = value; }
+            get { return _dk; }
+            set { _dk = value; }
         }
 #if !PocketPC
         public SignedCms Smime
         {
-            get { return this._smime; }
-            set { this._smime = value; }
+            get { return _smime; }
+            set { _smime = value; }
         }
 #endif
 

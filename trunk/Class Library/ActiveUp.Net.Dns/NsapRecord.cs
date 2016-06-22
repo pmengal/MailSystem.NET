@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ActiveUp.Net.Dns
 {
@@ -11,7 +9,7 @@ namespace ActiveUp.Net.Dns
         /// RFC is unclear and self-contradictory record type not implemented
         /// </summary>
         /// <param name="buffer"></param>
-         public NsapRecord(DataBuffer buffer, int length)
+        public NsapRecord(DataBuffer buffer, int length)
         {
             buffer.Position += length;
             throw new NotImplementedException("Experimental Record Type Unable to Implement");

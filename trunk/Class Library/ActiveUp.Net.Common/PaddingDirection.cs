@@ -19,21 +19,21 @@ using System;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// The field format padding directions.
-	/// </summary>
+    /// <summary>
+    /// The field format padding directions.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
     public enum PaddingDirection
-	{
-		/// <summary>
-		/// Right-Align the string.
-		/// </summary>
-		Left,
-		/// <summary>
-		/// Left-Align the string.
-		/// </summary>
-		Right
-	}
+    {
+        /// <summary>
+        /// Right-Align the string.
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Left-Align the string.
+        /// </summary>
+        Right
+    }
 }

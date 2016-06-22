@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ActiveUp.Net.Dns
 {
@@ -118,7 +117,7 @@ namespace ActiveUp.Net.Dns
         /// <param name="b"></param>
         /// <param name="pos"></param>
         /// <returns></returns>
-        private bool TestBit(Byte b, byte pos)
+        private bool TestBit(byte b, byte pos)
         {
             byte mask = (byte)(0x01 << pos);
             return ((b & mask) != 0);

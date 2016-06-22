@@ -15,26 +15,24 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
+using System.Text;
 
 namespace ActiveUp.Net.Dns
-{
+    {
     public class DataBuffer
     {
         /// <summary>
         /// Create Data Buffer from byte array and set the ptr to the first byte
         /// </summary>
         /// <param name="data"></param>
-        public DataBuffer(Byte[] data) : this(data, 0) { }
+        public DataBuffer(byte[] data) : this(data, 0) { }
         /// <summary>
         /// Create a Data Buffer froma byte array and set the pos pointer to pos
         /// </summary>
         /// <param name="data"></param>
         /// <param name="pos"></param>
-        public DataBuffer(Byte[] data, int pos)
+        public DataBuffer(byte[] data, int pos)
         {
             this.data = data;
             this.pos = pos;
@@ -43,49 +41,75 @@ namespace ActiveUp.Net.Dns
         /// <summary>
         /// Peek at next byte
         /// </summary>
-        public byte Next                        { get { return data[pos]; } }
+        public byte Next {
+            get { return data[pos]; }
+        }
         /// <summary>
         /// Read the next byte and advance the pointer
         /// </summary>
         /// <returns></returns>
-        public byte ReadByte()	                { return data[pos++]; }
+        public byte ReadByte()
+        {
+            return data[pos++];
+        }
         /// <summary>
         /// Read a short int from the buffer
         /// </summary>
         /// <returns></returns>
-        public short ReadShortInt()             { return (short)(ReadByte() | ReadByte() << 8); }        
+        public short ReadShortInt()
+        {
+            return (short)(ReadByte() | ReadByte() << 8);
+        }
         /// <summary>
         /// Read a short int from the buffer
         ///Big Endian version of ReadShortInt 
         /// </summary>
         /// <returns></returns>
-        public short ReadBEShortInt()           { return (short)(ReadByte() << 8 | ReadByte() ); }
+        public short ReadBEShortInt()
+        {
+            return (short)(ReadByte() << 8 | ReadByte() );
+        }
         /// <summary>
         /// Read Unsigned Short Int
         /// </summary>
         /// <returns></returns>
-        public ushort ReadShortUInt()           { return (ushort)(ReadByte() | ReadByte() << 8); }
+        public ushort ReadShortUInt()
+        {
+            return (ushort)(ReadByte() | ReadByte() << 8);
+        }
         /// <summary>
         /// Read Unsigned Short Int
         /// BigEndian version of ReadShortUInt 
         /// </summary>
         /// <returns></returns>   
-        public ushort ReadBEShortUInt()         { return (ushort)(ReadByte() << 8 | ReadByte()); }
+        public ushort ReadBEShortUInt()
+        {
+            return (ushort)(ReadByte() << 8 | ReadByte());
+        }
         /// <summary>
         /// Read 32 bit Integer from buffer
         /// </summary>
         /// <returns></returns>
-        public int ReadInt()                    { return (int)(ReadBEShortUInt() << 16 | ReadBEShortUInt() ); }
+        public int ReadInt()
+        {
+            return (int)(ReadBEShortUInt() << 16 | ReadBEShortUInt() );
+        }
         /// <summary>
         /// Read unsigned 32 bit int from buffer
         /// </summary>
         /// <returns></returns>
-        public uint ReadUInt()                  { return (uint)(ReadBEShortUInt() << 16| ReadBEShortUInt() ); }
+        public uint ReadUInt() 
+        {
+            return (uint)(ReadBEShortUInt() << 16| ReadBEShortUInt() );
+        }
         /// <summary>
         /// Read long int 64 bit from buffer
         /// </summary>
         /// <returns></returns>
-        public long ReadLongInt()               { return ReadInt() | ReadInt() << 32; }
+        public long ReadLongInt() 
+        {
+            return ReadInt() | ReadInt() << 32;
+        }
        
         /// <summary>
         /// Reads a domain name from the byte array. Reference to RFC1035 - 4.1.4. 
@@ -96,7 +120,11 @@ namespace ActiveUp.Net.Dns
         ///         
         /// </summary>
         /// <returns>string containing Domain Name</returns>
-        public string ReadDomainName() { return ReadDomainName(1); }
+        public string ReadDomainName() 
+        {
+            return ReadDomainName(1);
+        }
+
         public string ReadDomainName(int depth)
         {
             //if (depth > 3) return String.Empty;
@@ -137,7 +165,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public IPAddress ReadIPAddress()
         {
-            Byte[] address = new Byte[4];
+            byte[] address = new byte[4];
             for (int i = 0; i < 4; i++)
                 address[i] = ReadByte();
             return new IPAddress(address);
@@ -148,7 +176,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public IPAddress ReadIPv6Address()
         {
-            Byte[] address = new Byte[16];
+            byte[] address = new byte[16];
             for (int i = 0; i < 16; i++)
                 address[i] = ReadByte();
             return new IPAddress(address);
@@ -158,9 +186,9 @@ namespace ActiveUp.Net.Dns
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        public Byte[] ReadBytes(int length)
+        public byte[] ReadBytes(int length)
         {
-            Byte[] res = new Byte[length];
+            byte[] res = new byte[length];
             for (int i = 0; i < length; i++)
                 res[i] = ReadByte();
             return res;
@@ -181,7 +209,7 @@ namespace ActiveUp.Net.Dns
             return txt.ToString();
         }
 
-        Byte[] data;
+        byte[] data;
         int pos = 0;
         /// <summary>
         /// Get current position being read in the buffer

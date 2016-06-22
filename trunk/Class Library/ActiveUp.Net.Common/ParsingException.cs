@@ -15,39 +15,36 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+
 namespace ActiveUp.Net.Mail
 {
-
-    #region ParsingException Object
-
-	/// <summary>
-	/// Represents a parsing specific error.
-	/// </summary>
+    /// <summary>
+    /// Represents a parsing specific error.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-    public class ParsingException : System.Exception
-	{
-		string _message;
-		/// <summary>
-		/// Constructor, sets message to the specified value.
-		/// </summary>
-		/// <param name="message"></param>
+    public class ParsingException : Exception
+    {
+        string _message;
+        /// <summary>
+        /// Constructor, sets message to the specified value.
+        /// </summary>
+        /// <param name="message"></param>
         public ParsingException(string message)
-		{
-			this._message = message;
-		}
-		/// <summary>
-		/// The exception's message.
-		/// </summary>
-		public override string Message
-		{
-			get
-			{
-				return this._message;
-			}
-		}
-	}
-
-	#endregion
+        {
+            _message = message;
+        }
+        /// <summary>
+        /// The exception's message.
+        /// </summary>
+        public override string Message
+        {
+            get
+            {
+                return _message;
+            }
+        }
+    }
 }

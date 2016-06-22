@@ -15,35 +15,33 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using System;
+using System.Collections;
+
 namespace ActiveUp.Net.Mail
 {
-#region NewsGroupCollection Object
-	/// <summary>
-	/// Represents a collection of newsgroups.
-	/// </summary>
+    /// <summary>
+    /// Represents a collection of newsgroups.
+    /// </summary>
 #if !PocketPC
-	[System.Serializable]
+    [Serializable]
 #endif
-    public class NewsGroupCollection : System.Collections.CollectionBase
-	{
-		/// <summary>
-		/// Adds the provided newsgroup to the collection.
-		/// </summary>
-		/// <param name="group"></param>
-		public void Add(ActiveUp.Net.Mail.NewsGroup group)
-		{
-			this.List.Add(group);
-		}
-		/// <summary>
-		/// Retrieves the newsgroup at the specified index in the collection.
-		/// </summary>
-        public ActiveUp.Net.Mail.NewsGroup this[int index]
-		{
-			get
-			{
-                return (ActiveUp.Net.Mail.NewsGroup)this.List[index];
-			}
-		}
-	}
-	#endregion
+    public class NewsGroupCollection : CollectionBase
+    {
+        /// <summary>
+        /// Adds the provided newsgroup to the collection.
+        /// </summary>
+        /// <param name="group"></param>
+        public void Add(NewsGroup group)
+        {
+            List.Add(group);
+        }
+        /// <summary>
+        /// Retrieves the newsgroup at the specified index in the collection.
+        /// </summary>
+        public NewsGroup this[int index]
+        {
+            get { return (NewsGroup)List[index]; }
+        }
+    }
 }

@@ -15,11 +15,8 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ActiveUp.Net.Dns;
 using System.Net;
+using ActiveUp.Net.Dns;
 
 namespace ActiveUp.Net.Mail
 {
@@ -52,10 +49,13 @@ namespace ActiveUp.Net.Mail
 
             switch (result.ToString())
             {
-                case "127.0.0.5": return RblStatus.OpenRelay;
+                case "127.0.0.5":
+                    return RblStatus.OpenRelay;
                 case "127.0.0.1":
-                case "127.0.0.2": return RblStatus.BlackListed;
-                case "127.0.0.3": return RblStatus.OpenSocks;
+                case "127.0.0.2":
+                    return RblStatus.BlackListed;
+                case "127.0.0.3":
+                    return RblStatus.OpenSocks;
             }
 
             return RblStatus.NotListed;

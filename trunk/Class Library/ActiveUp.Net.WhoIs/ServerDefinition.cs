@@ -15,83 +15,44 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
 using System.Collections;
 using System.Xml.Serialization;
 
 namespace ActiveUp.Net.WhoIs
 {
-	#region class ServerDefinition
+    /// <summary>
+    /// Represents a collection of servers used for serialize and deserialize xml file contains the list of whois servers.
+    /// </summary>
+    [XmlRoot("serverdefinition", IsNullable=false)]
+    public class ServerDefinition
+    {
+        #region Properties
 
-	/// <summary>
-	/// Represents a collection of servers used for serialize and deserialize xml file contains the list of whois servers.
-	/// </summary>
-	[XmlRootAttribute("serverdefinition", IsNullable=false)]
-	public class ServerDefinition
-	{
-		#region Variables
+        /// <summary>
+        /// Gets / sets the list of whois servers.
+        /// </summary>
+        [XmlArray("servers")]
+        [XmlArrayItem("server", typeof(Server))]
+        public ArrayList Servers { get; set; } = new ArrayList();
 
-		/// <summary>
-		/// List of whois servers.
-		/// </summary>
-		private ArrayList _servers = new ArrayList();
+        #endregion
 
-		#endregion
+        #region Operators
 
-		#region Constructor
+        /// <summary>
+        /// Override the operator =. Affects a ServerDefinition object to a ServerCollection object.
+        /// </summary>
+        /// <param name="serverDefinition">ServerDefinition object contains all the whois servers</param>
+        /// <returns>ServerCollection object contains all the whois servers</returns>
+        public static implicit operator ServerCollection(ServerDefinition serverDefinition)
+        {
+            ServerCollection serverCollection = new ServerCollection();
+            
+            foreach(Server server in serverDefinition.Servers)
+                serverCollection.Add(server);
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public ServerDefinition()
-		{
-		}
-
-		#endregion
-
-		#region Properties
-
-		/// <summary>
-		/// Gets / sets the list of whois servers.
-		/// </summary>
-		[XmlArray("servers")]
-		[XmlArrayItem("server",typeof(Server))]
-		public ArrayList Servers
-		{
-			get
-			{
-				return _servers;
-			}
-
-			set
-			{
-				_servers = value;
-			}
-		}
-
-		#endregion
-
-		#region Operators
-
-		/// <summary>
-		/// Override the operator =. Affects a ServerDefinition object to a ServerCollection object.
-		/// </summary>
-		/// <param name="serverDefinition">ServerDefinition object contains all the whois servers</param>
-		/// <returns>ServerCollection object contains all the whois servers</returns>
-		public static implicit operator ServerCollection(ServerDefinition serverDefinition)
-		{
-			ServerCollection serverCollection = new ServerCollection();
-			
-			foreach(Server server in serverDefinition.Servers)
-			{
-				serverCollection.Add(server);
-			}
-
-			return serverCollection;
-		}
-
-		#endregion
-	}
-
-	#endregion
+            return serverCollection;
+        }
+        #endregion
+    }
 }

@@ -16,57 +16,57 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
+using System.Collections;
 
 namespace ActiveUp.Net.Mail
 {
-	/// <summary>
-	/// A collection of templated bodies.
-	/// </summary>
+    /// <summary>
+    /// A collection of templated bodies.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
-    public class ListTemplateCollection : System.Collections.CollectionBase
-	{
-	    /// <summary>
-		/// Add a templated list in the collection.
-		/// </summary>
-		public void Add(ListTemplate listTemplate)
-		{
-			List.Add(listTemplate);
-		}
+    public class ListTemplateCollection : CollectionBase
+    {
 
-		/// <summary>
-		/// Add a templated list in the collection based on the specified content.
-		/// </summary>
-		/// <param name="name">The name to use.</param>
-		/// <param name="content">The content to use.</param>
-		public void Add(string name, string content)
-		{
-			List.Add(new ListTemplate(name, content));
-		}
+        /// <summary>
+        /// Add a templated list in the collection.
+        /// </summary>
+        public void Add(ListTemplate listTemplate)
+        {
+            List.Add(listTemplate);
+        }
 
-		/// <summary>
-		/// Remove the body template at the specified index position.
-		/// </summary>
-		/// <param name="index"></param>
-		public void Remove(int index)
-		{
-			// Check to see if there is list at the supplied index.
-			if (index < Count || index >= 0)
-			{
-				List.RemoveAt(index); 
-			}
-		}
+        /// <summary>
+        /// Add a templated list in the collection based on the specified content.
+        /// </summary>
+        /// <param name="name">The name to use.</param>
+        /// <param name="content">The content to use.</param>
+        public void Add(string name, string content)
+        {
+            List.Add(new ListTemplate(name, content));
+        }
 
-		/// <summary>
-		/// Returns the body template at the specified index position.
-		/// </summary>
-		public ListTemplate this[int index]
-		{
-			get
-			{
-				return (ListTemplate) List[index];
-			}
-		}
-	}
+        /// <summary>
+        /// Remove the body template at the specified index position.
+        /// </summary>
+        /// <param name="index"></param>
+        public void Remove(int index)
+        {
+            // Check to see if there is list at the supplied index.
+            if (index < Count || index >= 0)
+                List.RemoveAt(index); 
+        }
+
+        /// <summary>
+        /// Returns the body template at the specified index position.
+        /// </summary>
+        public ListTemplate this[int index]
+        {
+            get
+            {
+                return (ListTemplate) List[index];
+            }
+        }
+    }
 }

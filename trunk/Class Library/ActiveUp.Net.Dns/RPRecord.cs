@@ -15,10 +15,6 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ActiveUp.Net.Dns
 {
     class RPRecord : IRecordData
@@ -38,18 +34,22 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Responsible Mailbox:{0} Text Domain:{1}", responsibleMailbox, textDomain);
+            return string.Format("Responsible Mailbox:{0} Text Domain:{1}", responsibleMailbox, textDomain);
         }
 
         private string responsibleMailbox;
         /// <summary>
         /// return Responsible Person Mailbox
         /// </summary>
-        public string ResponsibleMailbox        {            get { return responsibleMailbox; }         }
+        public string ResponsibleMailbox {
+            get { return responsibleMailbox; }
+        }
         private string textDomain;
         /// <summary>
         /// return Domain for Test responses from Responsible Person
         /// </summary>
-        public string TextDomain                {            get { return textDomain; }                 }
+        public string TextDomain {
+            get { return textDomain; }
+        }
     }
 }

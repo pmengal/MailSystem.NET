@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.Net.Sockets;
@@ -209,7 +208,7 @@ namespace ActiveUp.Net.Dns
         /// <returns></returns>
         public DnsAnswer QueryServer(RecordType recType)
         {
-            return this.QueryServer(recType, 5000);
+            return QueryServer(recType, 5000);
         }
 
         /// <summary>
@@ -218,7 +217,7 @@ namespace ActiveUp.Net.Dns
         /// <param name="recType"></param>
         private void CreateDnsQuery(RecordType recType)
         {
-            List<Byte> queryBytes = new List<byte>();            
+            List<byte> queryBytes = new List<byte>();            
             queryBytes.Add((byte)(reqId >> 8));
             queryBytes.Add((byte)(reqId));
             
@@ -248,7 +247,7 @@ namespace ActiveUp.Net.Dns
         /// </summary>
         /// <param name="data"></param>
         /// <param name="domain"></param>
-        private void InsertDomainName(List<Byte> data, string domain)
+        private void InsertDomainName(List<byte> data, string domain)
         {
             //Write each segment of the domain name to the array
             //Each segment is seperated by a '.' token and each segment is 

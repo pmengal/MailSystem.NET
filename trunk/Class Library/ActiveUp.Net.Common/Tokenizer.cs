@@ -55,7 +55,7 @@ namespace ActiveUp.Net.Mail
             string res = Reader.ReadToEnd();
 
             //tokenize the entry
-            string[] tokens = Tokenizer.Parse(res);
+            string[] tokens = Parse(res);
 
             Reader.Close();
          

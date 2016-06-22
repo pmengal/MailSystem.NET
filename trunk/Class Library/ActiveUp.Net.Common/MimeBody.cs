@@ -15,29 +15,26 @@
 // along with SharpMap; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
-using ActiveUp.Net.Mail;
-using System.Text;
 using System;
 
-namespace ActiveUp.Net.Mail 
+namespace ActiveUp.Net.Mail
 {
-#region MimeBody Class
-	/// <summary>
-	/// Represents a message's body.
-	/// </summary>
+    /// <summary>
+    /// Represents a message's body.
+    /// </summary>
 #if !PocketPC
-    [System.Serializable]
+    [Serializable]
 #endif
     public class MimeBody
-	{
+    {
         string _charset = "iso-8859-1";
-		string _text = string.Empty;
-		ContentTransferEncoding _encoding = ContentTransferEncoding.QuotedPrintable;
+        string _text = string.Empty;
+        ContentTransferEncoding _encoding = ContentTransferEncoding.QuotedPrintable;
         BodyFormat _format;
 
         public MimeBody(BodyFormat format)
         {
-            this._format = format;
+            _format = format;
         }
         
         /// <summary>
@@ -47,36 +44,36 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                return this._format;
+                return _format;
             }
             set
             {
-                this._format = value;
+                _format = value;
             }
         }
 
-		/// <summary>
-		/// The character set (encoding) of the body.
-		/// </summary>
-		public string Charset
-		{
-			get
-			{
-				return this._charset;
-			}
-			set
-			{
-				this._charset = value;
-			}
-		}
+        /// <summary>
+        /// The character set (encoding) of the body.
+        /// </summary>
+        public string Charset
+        {
+            get
+            {
+                return _charset;
+            }
+            set
+            {
+                _charset = value;
+            }
+        }
 
-		/// <summary>
-		/// The body's text (content).
-		/// </summary>
-		public string Text
-		{
-			get
-			{ 
+        /// <summary>
+        /// The body's text (content).
+        /// </summary>
+        public string Text
+        {
+            get
+            { 
 #if TRIAL
                 if (string.IsNullOrEmpty(this._text))
                     return this._text;
@@ -87,17 +84,17 @@ namespace ActiveUp.Net.Mail
                 else
                     return ProductHelper.GetTrialString(this._text, TrialStringType.LongText);
 #else
-                string ret = this._text;
+                string ret = _text;
                 ret = ret.Replace("FLAGS (Seen)", string.Empty);
                 return ret;
 #endif
 
-			}
-			set
-			{
-				this._text = value;
-			}
-		}
+            }
+            set
+            {
+                _text = value;
+            }
+        }
 
         /// <summary>
         /// The body's text (content) stripped (without HTML tags).
@@ -113,17 +110,17 @@ namespace ActiveUp.Net.Mail
             }
         }
 
-		public ContentTransferEncoding ContentTransferEncoding
-		{
-			get
-			{
-				return this._encoding;
-			}
-			set
-			{
-				this._encoding = value;
-			}
-		}
+        public ContentTransferEncoding ContentTransferEncoding
+        {
+            get
+            {
+                return _encoding;
+            }
+            set
+            {
+                _encoding = value;
+            }
+        }
 
         #region Methods
 
@@ -131,12 +128,12 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart();
 
-            if (this.Format.Equals(BodyFormat.Text)) part.ContentType.MimeType = "text/plain";
-            else if (this.Format.Equals(BodyFormat.Html)) part.ContentType.MimeType = "text/html";
+            if (Format.Equals(BodyFormat.Text)) part.ContentType.MimeType = "text/plain";
+            else if (Format.Equals(BodyFormat.Html)) part.ContentType.MimeType = "text/html";
 
-            part.ContentType.Parameters.Add("charset", this.Charset);
+            part.ContentType.Parameters.Add("charset", Charset);
 
-            part.ContentTransferEncoding = this.ContentTransferEncoding;
+            part.ContentTransferEncoding = ContentTransferEncoding;
 
             /*string content = string.Empty;
 
@@ -151,12 +148,11 @@ namespace ActiveUp.Net.Mail
             }
             else content = this.Text;*/
 
-            part.TextContent = this.Text;
+            part.TextContent = Text;
 
             return part;
         }
 
         #endregion
     }
-	#endregion
 }

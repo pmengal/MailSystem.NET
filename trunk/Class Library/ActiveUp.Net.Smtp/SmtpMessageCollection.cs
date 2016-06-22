@@ -17,7 +17,6 @@
 
 namespace ActiveUp.Net.Mail
 {
-    #region SmtpMessageCollection object
     /// <summary>
     /// Represents a collection of Message objects
     /// </summary>
@@ -102,7 +101,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void Send()
         {
-            ActiveUp.Net.Mail.SmtpClient.DirectSendCollection(this);
+            SmtpClient.DirectSendCollection(this);
         }
 
         /// <summary>
@@ -180,7 +179,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void Send(string host)
         {
-            ActiveUp.Net.Mail.SmtpClient.SendCollection(this, host);
+            SmtpClient.SendCollection(this, host);
         }
 
         /// <summary>
@@ -268,9 +267,9 @@ namespace ActiveUp.Net.Mail
         ///messages.Send(servers);
         /// </code>
         /// </example>
-        public void Send(ActiveUp.Net.Mail.ServerCollection servers)
+        public void Send(ServerCollection servers)
         {
-            ActiveUp.Net.Mail.SmtpClient.SendCollection(this, servers);
+            SmtpClient.SendCollection(this, servers);
         }
 
         /// <summary>
@@ -349,7 +348,7 @@ namespace ActiveUp.Net.Mail
         /// </example>
         public void Send(string host, int port)
         {
-            ActiveUp.Net.Mail.SmtpClient.SendCollection(this, host, port);
+            SmtpClient.SendCollection(this, host, port);
         }
 
         /// <summary>
@@ -428,9 +427,9 @@ namespace ActiveUp.Net.Mail
         ///messages.Send("mail.myhost.com","jdoe1234","tanstaaf",SaslMechanism.CramMd5);
         /// </code>
         /// </example>
-        public void Send(string host, string username, string password, ActiveUp.Net.Mail.SaslMechanism mechanism)
+        public void Send(string host, string username, string password, SaslMechanism mechanism)
         {
-            ActiveUp.Net.Mail.SmtpClient.SendCollection(this, host, username, password, mechanism);
+            SmtpClient.SendCollection(this, host, username, password, mechanism);
         }
 
         /// <summary>
@@ -511,9 +510,9 @@ namespace ActiveUp.Net.Mail
         ///messages.Send("mail.myhost.com","jdoe1234","tanstaaf",SaslMechanism.CramMd5,myerrorCollection);
         /// </code>
         /// </example>
-        public void Send(string host, string username, string password, ActiveUp.Net.Mail.SaslMechanism mechanism, ref ActiveUp.Net.Mail.SmtpExceptionCollection errors)
+        public void Send(string host, string username, string password, SaslMechanism mechanism, ref SmtpExceptionCollection errors)
         {
-            ActiveUp.Net.Mail.SmtpClient.SendCollection(this, host, username, password, mechanism, ref errors);
+            SmtpClient.SendCollection(this, host, username, password, mechanism, ref errors);
         }
 
         /// <summary>
@@ -593,11 +592,9 @@ namespace ActiveUp.Net.Mail
         ///messages.Send("mail.myhost.com","jdoe1234","tanstaaf",SaslMechanism.CramMd5,8504);
         /// </code>
         /// </example>
-        public void Send(string host, string username, string password, ActiveUp.Net.Mail.SaslMechanism mechanism, int port)
+        public void Send(string host, string username, string password, SaslMechanism mechanism, int port)
         {
-            ActiveUp.Net.Mail.SmtpClient.SendCollection(this, host, port, username, password, mechanism);
+            SmtpClient.SendCollection(this, host, port, username, password, mechanism);
         }
-
     }
-    #endregion
 }

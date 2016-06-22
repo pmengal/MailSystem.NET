@@ -16,7 +16,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ActiveUp.Net.Security
@@ -56,33 +55,33 @@ namespace ActiveUp.Net.Security
 
         public string Granularity
         {
-            get { return this._g; }
-            set {this._g = value; }
+            get { return _g; }
+            set { _g = value; }
         }
         public KeyType KeyType
         {
-            get { return this._k; }
-            set { this._k = value; }
+            get { return _k; }
+            set { _k = value; }
         }
         public string Notes
         {
-            get { return this._n; }
-            set {this._n = value; }
+            get { return _n; }
+            set { _n = value; }
         }
         public string KeyDataBase64
         {
-            get { return this._p64; }
-            set {this._p64 = value; }
+            get { return _p64; }
+            set { _p64 = value; }
         }
         public byte[] KeyData
         {
-            get { return this._p; }
-            set {this._p = value; }
+            get { return _p; }
+            set { _p = value; }
         }
         public bool InTestMode
         {
-            get { return this._t; }
-            set {this._t = value; }
+            get { return _t; }
+            set { _t = value; }
         }
     }
 }

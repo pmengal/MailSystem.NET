@@ -20,86 +20,68 @@ using System.Collections;
 
 namespace ActiveUp.Net.WhoIs
 {
-	#region class ResultIsAvailableCollection
+    /// <summary>
+    /// Collection of ResultIsAvailble object.
+    /// </summary>
+    public class ResultIsAvailableCollection : CollectionBase
+    {
+        #region Properties
 
-	/// <summary>
-	/// Collection of ResultIsAvailble object.
-	/// </summary>
-	public class ResultIsAvailableCollection : CollectionBase
-	{
-		#region Constructors
+        /// <summary>
+        /// Gets the ResultIsAvailable object at the specified index position.
+        /// </summary>
+        public ResultIsAvailable this[int index]
+        {
+            get { return (ResultIsAvailable)List[index]; }
+        }
 
-		/// <summary>
-		/// The default constructor.
-		/// </summary>
-		public ResultIsAvailableCollection()
-		{
-		}
+        #endregion
 
-		#endregion
+        #region Functions
 
-		#region Properties
+        /// <summary>
+        /// Add a ResultIsAvailable object in the collection specifying the ResultIsAvailable object.
+        /// </summary>
+        /// <param name="resultIsAvailable">ResultIsAvailable object to add.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(ResultIsAvailable resultIsAvailable)
+        {
+            return List.Add(resultIsAvailable);
+        }
 
-		/// <summary>
-		/// Gets the ResultIsAvailable object at the specified index position.
-		/// </summary>
-		public ResultIsAvailable this[int index]
-		{
-			get
-			{
-				return (ResultIsAvailable) this.List[index];
-			}
-		}
+        /// <summary>
+        /// Add a ResultIsAvailable object in the collection specifying isAvailable flag.
+        /// </summary>
+        /// <param name="isAvailable">Indicates if a domain is available for registration or not.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(bool isAvailable)
+        {
+            return List.Add(new ResultIsAvailable(isAvailable));
+        }
 
-		#endregion
+        /// <summary>
+        /// Add a ResultIsAvailable object in the collection specifying isAvailable flag and the whois server used.
+        /// </summary>
+        /// <param name="isAvailable">Indicates if a domain is available for registration or not.</param>
+        /// <param name="serverUsed">Whois server used.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(bool isAvailable, Server serverUsed)
+        {
+            return List.Add(new ResultIsAvailable(isAvailable,serverUsed));
+        }
 
-		#region Functions
+        /// <summary>
+        /// Add a ResultIsAvailable object in the collection specifying isAvailable flag, the whois server used and the exception.
+        /// </summary>
+        /// <param name="isAvailable">Indicates if a domain is available for registration or not.</param>
+        /// <param name="serverUsed">Whois server used.</param>
+        /// <param name="exception">Exception if an error occurs.</param>
+        /// <returns>Index of the list where the object has been added.</returns>
+        public int Add(bool isAvailable, Server serverUsed, Exception exception)
+        {
+            return List.Add(new ResultIsAvailable(isAvailable,serverUsed,exception));
+        }
 
-		/// <summary>
-		/// Add a ResultIsAvailable object in the collection specifying the ResultIsAvailable object.
-		/// </summary>
-		/// <param name="resultIsAvailable">ResultIsAvailable object to add.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(ResultIsAvailable resultIsAvailable)
-		{
-			return this.List.Add(resultIsAvailable);
-		}
-
-		/// <summary>
-		/// Add a ResultIsAvailable object in the collection specifying isAvailable flag.
-		/// </summary>
-		/// <param name="isAvailable">Indicates if a domain is available for registration or not.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(bool isAvailable)
-		{
-			return this.List.Add(new ResultIsAvailable(isAvailable));
-		}
-
-		/// <summary>
-		/// Add a ResultIsAvailable object in the collection specifying isAvailable flag and the whois server used.
-		/// </summary>
-		/// <param name="isAvailable">Indicates if a domain is available for registration or not.</param>
-		/// <param name="serverUsed">Whois server used.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(bool isAvailable, Server serverUsed)
-		{
-			return this.List.Add(new ResultIsAvailable(isAvailable,serverUsed));
-		}
-
-		/// <summary>
-		/// Add a ResultIsAvailable object in the collection specifying isAvailable flag, the whois server used and the exception.
-		/// </summary>
-		/// <param name="isAvailable">Indicates if a domain is available for registration or not.</param>
-		/// <param name="serverUsed">Whois server used.</param>
-		/// <param name="exception">Exception if an error occurs.</param>
-		/// <returns>Index of the list where the object has been added.</returns>
-		public int Add(bool isAvailable, Server serverUsed, Exception exception)
-		{
-			return this.List.Add(new ResultIsAvailable(isAvailable,serverUsed,exception));
-		}
-
-		#endregion
-	}
-
-	#endregion
+        #endregion
+    }
 }
