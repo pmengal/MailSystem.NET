@@ -1,0 +1,76 @@
+<!--StartFragment-->
+<style type="text/css">
+.cf { font-family: Courier New; font-size: 10pt; color: black; background: white; padding-top: 0pt; padding-left: 0pt; padding-right: 0pt; padding-bottom: 0pt; }
+.cl { margin: 0px; }
+.cb1 { color: green; }
+.cb2 { color: blue; }
+</style>
+<div class="cf">
+	<p class="cl"><span class="cb1">// We create Imap client</span></p>
+	<p class="cl">Imap4Client imap =
+		<span class="cb2">new</span>
+		Imap4Client();</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl"><span class="cb2">try</span></p>
+	<p class="cl">{</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb1">// We connect to the imap4 server</span></p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; imap.Connect(_tbImap4Server.Text);</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Connection to {0} successfully"</span>, 
+		_tbImap4Server.Text));</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb1">// Login to mail box</span></p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; imap.Login(_tbUserName.Text, _tbPassword.Text);</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Login to {0} successfully"</span>, 
+		_tbImap4Server.Text));</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; MessageCollection mc =
+		<span class="cb2">new</span>
+		MessageCollection();</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb2">for</span>
+		(<span class="cb2">int</span>
+		n = 1; n &lt; inbox.MessageCount + 1; n++)</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ActiveUp.Net.Mail.Message 
+		newMessage = inbox.Fetch.MessageObject(n);</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; mc.Add(newMessage);</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+		<span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Message ({0}) : {1}"</span>, 
+		n.ToString(), newMessage.Subject));</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl">}</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl"><span class="cb2">catch</span>
+		(Imap4Exception iex)</p>
+	<p class="cl">{</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Imap4 Error: {0}"</span>, 
+		iex.Message));</p>
+	<p class="cl">}</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl"><span class="cb2">catch</span>
+		(Exception ex)</p>
+	<p class="cl">{</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb2">this</span>.AddLogEntry(<span class="cb2">string</span>.Format(<span class="cb2">"Failed: {0}"</span>, 
+		ex.Message));</p>
+	<p class="cl">}</p>
+	<p class="cl">&nbsp;</p>
+	<p class="cl"><span class="cb2">finally</span></p>
+	<p class="cl">{</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp;
+		<span class="cb2">if</span>
+		(imap.IsConnected)</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; {</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; imap.Disconnect();</p>
+	<p class="cl">&nbsp;&nbsp;&nbsp; }</p>
+	<p class="cl">}</p>
+</div> <!--EndFragment-->

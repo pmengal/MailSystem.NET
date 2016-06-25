@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<MESSAGE>
+<FROM NAME="Support" EMAIL="gags_bd@bluebottle.com" />
+  <TO   NAME="Me" EMAIL="v5groupofindividuals@yahoo.com"></TO>
+<SUBJECT>XML template mail.</SUBJECT>
+<SMTPSERVER>mail.bluebottle.com</SMTPSERVER>
+<BODYTEXT>Test of xml template.</BODYTEXT>
+
+</MESSAGE>
+

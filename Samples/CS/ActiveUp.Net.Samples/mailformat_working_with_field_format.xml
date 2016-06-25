@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<message >
+  <from name="Space Directory" email="spacedir@domain.com" />
+  <to name="$FIRSTNAME$ $LASTNAME$" email="$EMAIL$" />
+  <subject>Space Directory [$DATETODAY$]</subject>
+  <smtpserver>smtp.domain.com</smtpserver>
+  <smtpserver>127.0.0.1</smtpserver>
+  <fieldformat name="NAME" paddingdir="Right" totalwidth="50" paddingchar="*" />
+  <fieldformat name="DATE" FORMAT="{0:d}" paddingdir="Left" totalwidth="20" paddingchar= "-" />
+  
+  <bodytext>
+    First name legth is made of 50 characters length by padding * to right $FIRSTNAME$.
+
+    This date is is made of 20 characters length by padding * to left $DATE$.
+
+  </bodytext>
+  </message>

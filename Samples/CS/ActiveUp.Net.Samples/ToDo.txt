@@ -1,0 +1,6 @@
+Templating & merging : 
+	- working with condition
+	- working with string paddin
+	- fichier xml
+POP3 : 
+	- retrieve signed message

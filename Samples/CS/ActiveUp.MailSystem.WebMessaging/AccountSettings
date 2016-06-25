@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfAccountInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AccountInfo>
+    <PortIncomingChecked>false</PortIncomingChecked>
+    <PortOutgoingChecked>false</PortOutgoingChecked>
+    <EmailAddress>webmessagingsystem@gmail.com</EmailAddress>
+    <Password>m2swebmail</Password>
+    <DisplayName>Humberto test</DisplayName>
+    <IncomingMailServer>POP3</IncomingMailServer>
+    <OutgoingServer>ew</OutgoingServer>
+    <LoginId />
+    <PortIncomingServer>80</PortIncomingServer>
+    <PortOutgoingServer>80</PortOutgoingServer>
+    <IsIncomeSecureConnection>false</IsIncomeSecureConnection>
+    <IsOutgoingSecureConnection>false</IsOutgoingSecureConnection>
+    <IsOutgoingWithAuthentication>false</IsOutgoingWithAuthentication>
+    <ID>00000000-0000-0000-0000-000000000000</ID>
+  </AccountInfo>
+</ArrayOfAccountInfo>

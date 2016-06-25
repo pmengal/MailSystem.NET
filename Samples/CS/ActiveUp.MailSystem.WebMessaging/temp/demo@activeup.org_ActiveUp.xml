@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfEnvelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="ActiveUp" id="3" userid="0" size="4536" date="2003-06-15T12:22:44.0000000+02:00" subject="Re:Test avec image">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="ActiveUp" id="2" userid="0" size="718" date="2003-06-05T14:42:41.0000000+02:00" subject="Test...">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+  <Envelope marked="false" forwarded="false" answered="false" read="true" mailbox="ActiveUp" id="1" userid="0" size="5956" date="2003-05-29T13:18:54.0000000+02:00" subject="Test avec attach">
+    <From>
+      <Email>demo@activeup.org</Email>
+      <Name>Edouard Goossens</Name>
+    </From>
+  </Envelope>
+</ArrayOfEnvelope>

@@ -1,0 +1,56 @@
+Received: from MAIL.SERVER.NET ([127.0.0.1]) by
+ MAIL.SERVER.NET ([127.0.0.1]) with mapi id 14.02.0318.004;
+ Mon, 7 Jan 2013 07:07:07 +0100
+Received: from MAIL.SERVER.NET ([127.0.0.1]) by
+ MAIL.SERVER.NET ([127.0.0.1]) with mapi id 14.02.0318.004;
+ Sun, 6 Jan 2013 06:06:06 +0100
+Received: from MAIL.SERVER.NET ([127.0.0.1]) by
+ MAIL.SERVER.NET ([127.0.0.1]) with mapi id 14.02.0318.004;
+ Sat, 5 Jan 2013 05:05:05 +0100
+From: anonymous@the.net
+To: anonymous@inter.net
+Subject: betreff
+Thread-Topic: betreff
+Thread-Index: Ac3qMpl/+cj4AlTxTheZ0lsdxrLN2Q==
+Date: Fri, 4 Jan 2013 04:04:04 +0100
+Message-ID: <F92FF725718746429FB2067B724A2C9E33B5F5C2@SERVER.NET>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_23624_261296957.1378886366459"
+X-UBS-SourceApplication: RadarResearchMailer
+Date: Wed, 11 Sep 2013 03:59:26 -0400 (EDT)
+To: undisclosed-recipients:;
+X-Virus-Scanned: clamav-milter 0.97.3 at sstm8338pmh.stm.swissbank.com
+X-Virus-Status: Clean
+X-UBS-Disclaimer: Version $Revision: 1.32 (postfix edition)$
+
+------=_Part_23624_261296957.1378886366459
+Content-Type: multipart/related; 
+	boundary="----=_Part_23625_13898184.1378886366459"
+
+------=_Part_23625_13898184.1378886366459
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Good morning,
+This is the body of the message.
+
+------=_Part_23625_13898184.1378886366459--
+
+------=_Part_23624_261296957.1378886366459
+Content-Type: application/octet-stream; name=ues31654.PDF
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=ues31654.PDF
+
+SGVsbG8sIFdvcmxkIQ==
+------=_Part_23624_261296957.1378886366459
+Content-Type: text/plain; charset=us-ascii; name="disclaim.txt"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Description: Legal Disclaimer
+
+
+This is the attached disclamer
+
+------=_Part_23624_261296957.1378886366459--

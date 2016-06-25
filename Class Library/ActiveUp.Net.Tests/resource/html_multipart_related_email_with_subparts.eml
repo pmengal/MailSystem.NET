@@ -1,0 +1,188 @@
+Return-Path: <sender@sender.com>
+Received: from  a2-sumeria1-2 (a2-sumeria1.host.intranet [10.129.134.104])
+	 by cyruslmtpafil37-a with LMTPA;
+	 Thu, 24 Mar 2016 10:58:22 -0300
+Received: from mx30.unodata.com.br (mx30.unodata.com.br [70.38.66.232])
+	by a2-simpson1.uhserver.com (Postfix) with ESMTP id 3qW7JD5SxxzfhhTm
+	for <suporte@enkilabs.com.br>; Thu, 24 Mar 2016 10:56:10 -0300 (BRT)
+Received: from exchange.sender.com (exchange.sender.com [186.215.166.162])
+	by mx30.unodata.com.br (8.14.3/8.14.3/Debian-9.4) with ESMTP id u2ODsdn1028569
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NOT)
+	for <suporte@enkilabs.com.br>; Thu, 24 Mar 2016 10:56:06 -0300
+Received: from SERVER.sender.com ([2002:fbf:115::fbf:115]) by
+ SRV23.sender.com ([2002:fbf:23::fbf:23]) with mapi id 14.01.0218.012; Thu,
+ 24 Mar 2016 10:54:30 -0300
+From: Sender - Provider <sender@sender.com>
+To: Destinatary - Client <destinatary@sender.com>,
+Subject: RES: Email multipart related multilevel
+Thread-Topic: Email multipart related multilevel
+Thread-Index: AdGFTGyNrFubo/XhReu8TReFxCvyygAiDtHw
+Date: Thu, 24 Mar 2016 13:55:15 +0000
+Message-ID: <2231DD1927210147A080D447D937C1FD01279DE0@SERVER.sender.com>
+References: <51DCDBEA8950E2459CF3E13F0FB60B490ECA7DF8@SERVER.sender.com>
+In-Reply-To: <51DCDBEA8950E2459CF3E13F0FB60B490ECA7DF8@SERVER.sender.com>
+Accept-Language: pt-BR, en-US
+Content-Language: pt-BR
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+x-originating-ip: [15.191.0.108]
+Content-Type: multipart/related;
+	boundary="_007_2231DD1927210147A080D447D937C1FD01279DE0SERVERsendercom_";
+	type="multipart/alternative"
+MIME-Version: 1.0
+
+--_007_2231DD1927210147A080D447D937C1FD01279DE0SERVERsendercom_
+Content-Type: multipart/alternative;
+	boundary="_000_2231DD1927210147A080D447D937C1FD01279DE0SERVERsendercom_"
+
+--_000_2231DD1927210147A080D447D937C1FD01279DE0SERVERsendercom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+I´m the first step of message to test.
+
+Sender
+Helper
+[Descri=E7=E3o: Descri=E7=E3o: Descri=E7=E3o: Descri=E7=E3o: Imagem4]
+E-mail: sender@sender.com
+Web: www.sender.com<http://www.sender.com/>
+
+Curta nossa p=E1gina no Facebook<https://www.sender.com>
+
+
+
+
+De: Destinatary - Client
+Enviada em: quarta-feira, 23 de mar=E7o de 2016 18:39
+Para: Odare; suport@enterprise.com; suporte
+Cc: contasapagar; Customer2 - Client; Customer3 - C=
+lient; Customer4 - Client
+Assunto: Email multipart related multilevel
+
+Hi there,
+
+This is the multipart original message.
+
+[cid:image003.jpg@01D185BB.A9907410]
+
+
+Follow the image of problem:
+
+[cid:image004.jpg@01D185BB.A9907410]
+
+Att,
+
+
+
+
+
+
+--_000_2231DD1927210147A080D447D937C1FD01279DE0SERVERsendercom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+..sape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Century Gothic";
+	panose-1:2 11 5 2 2 2 2 2 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-priority:99;
+	mso-style-link:"Texto de bal=E3o Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-language:EN-US;}
+span.TextodebaloChar
+	{mso-style-name:"Texto de bal=E3o Char";
+	mso-style-priority:99;
+	mso-style-link:"Texto de bal=E3o";
+	font-family:"Tahoma","sans-serif";}
+span.EstiloDeEmail19
+	{mso-style-type:personal;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+span.EstiloDeEmail20
+	{mso-style-type:personal-reply;
+	font-family:"Calibri","sans-serif";
+	color:#365F91;}
+..MoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 3.0cm 70.85pt 3.0cm;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"PT-BR" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"color:#365F91">Hi,<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"color:#365F91"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#365F91">This is the multipart =
+original message.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-family:&quot;Century Gothic&q=
+uot;,&quot;sans-serif&quot;;color:#002060;mso-fareast-language:PT-BR"><o:p>=
+&nbsp;</o:p></span></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-family:&quot;Century Gothic&q=
+uot;,&quot;sans-serif&quot;;color:#002060;mso-fareast-language:PT-BR">Sende=
+r<o:p></o:p></span></b></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding:.75pt .75pt .75pt .75pt">
+<p class=3D"MsoNormal"><i><span style=3D"font-size:10.0pt;font-family:&quot=
+;Century Gothic&quot;,&quot;sans-serif&quot;;color:#002060;mso-fareast-lang=
+uage:PT-BR">Helper                 </span></i><i><span style=3D"font-size:1=
+0.0pt;font-family:&quot;Century Gothic&quot;,&quot;sans-serif&quot;;color:#=
+002060;mso-fareast-language:PT-BR"><o:p></o:p></span></i></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D;mso-fareast-language:PT=
+-BR"><img width=3D"175" height=3D"104" id=3D"Imagem_x0020_1" src=3D"cid:ima=
+ge001.jpg@01D185BB.A9907410" alt=3D"Descri=E7=E3o: Descri=E7=E3o: Descri=E7=
+=E3o: Descri=E7=E3o: Imagem4"></span><span style=3D"font-size:12.0pt;color:=
+#1F497D;mso-fareast-language:PT-BR"><o:p></o:p></span></p>
+</td>=

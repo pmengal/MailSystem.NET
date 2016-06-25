@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<language name="English">
+	<word>Compose</word>
+	<word>Delete</word>
+	<word>Read/Unread</word>
+	<word>Mark</word>
+	<word>Zip</word>
+	<word>Flags</word>
+	<word>From</word>
+	<word>Subject</word>
+	<word>Date</word>
+	<word>Size</word>
+	<word>Modify</word>
+	<word>Create sub-folder</word>
+	<word>Create</word>
+	<word>Name</word>
+	<word>E-mail</word>
+	<word>Country</word>
+	<word>Save</word>
+	<word>Folder</word>
+	<word>Action</word>
+	<word>Folders</word>
+	<word>Create</word>
+	<word>Deleting this mailbox will also delete child mailboxes and all messages it contains.\nProceed anyway ?</word>
+	<word>To</word>
+	<word>Cc</word>
+	<word>Bcc</word>
+	<word>Reply to</word>
+	<word>Send</word>
+	<word>Attach file</word>
+	<word>Rem.</word>
+	<word>Attachment</word>
+	<word>In reply to "$$SUBJECT$$", from $$FROM$$, dating $$DATE$$</word>
+	<word>Original message "$$SUBJECT$$", from $$FROM$$, dating $$DATE$$</word>
+	<word>Message successfully sent to</word>
+	<word>Compose a new message</word>
+	<word>Parent folder</word>
+	<word>Next</word>
+	<word>Previous</word>
+	<word>Reply</word>
+	<word>Forward</word>
+	<word>Language</word>
+	<word>Copy to</word>
+	<word>Your name</word>
+	<word>Your email</word>
+	<word>languages/welcomes/en-us.txt</word>
+	<word>Folders</word>
+	<word>Search</word>
+	<word>Look in</word>
+	<word>Sent</word>
+	<word>Subject contains</word>
+	<word>Body contains</word>
+	<word>Before</word>
+	<word>On</word>
+	<word>After</word>
+	<word>January</word>
+	<word>February</word>
+	<word>March</word>
+	<word>April</word>
+	<word>May</word>
+	<word>June</word>
+	<word>July</word>
+	<word>August</word>
+	<word>September</word>
+	<word>October</word>
+	<word>November</word>
+	<word>December</word>
+	<word>All folders</word>
+	<word>Insert image</word>
+	<word>All fields can be ignored</word>
+	<word>Separate addresses using , or ;</word>
+	<word>Quick search</word>
+	<word>Save message in</word>
+	<word>unspecified</word>
+	<word>The folder tree couldn\'t be loaded</word>
+	<word>The folder list could\'t be loaded</word>
+	<word>The folder couldn\'t be deleted</word>
+	<word>The folder couldn\'t be added</word>
+	<word>The folder couldn\'t be modified</word>
+	<word>The child folder couldn\'t be created</word>
+	<word>The page couldn\'t be loaded properly</word>
+	<word>The file couldn\'t be attached</word>
+	<word>The image couldn\'t be inserted</word>
+	<word>The attachment couldn\'t be removed</word>
+	<word>The message couldn\'t be sent</word>
+	<word>An error occured after the message was sent</word>
+	<word>The message couldn\'t be loaded properly</word>
+	<word>One or more messages couldn\'t be deleted properly</word>
+	<word>One or more messages couldn\'t be marked properly</word>
+	<word>One or more messages couldn\'t be moved properly</word>
+	<word>The language list couldn\'t be loaded</word>
+	<word>The language couldn\'t be changed</word>
+	<word>The welcome page couldn\'t be loaded</word>
+	<word>You haven\'t been properly logged out</word>
+	<word>The folder couldn\'t be opened</word>
+	<word>The folder data couldn\'t be cached</word>
+	<word>One or more messages couldn\'t be marked as read/unread properly</word>
+	<word>The search couldn\'t be ended</word>
+	<word>The provided login information is incorrect</word>
+	<word>Login</word>
+	<word>Password</word>
+	<word>Login</word>
+	<word>Logout</word>
+	<word>Advanced Search</word>
+	<word>Search for messages</word>
+	<word>Compose a message</word>
+	<word>Manage folders</word>
+	<word>Read message</word>
+	<word>Identify yourself</word>
+	<word>Search result</word>
+</language>

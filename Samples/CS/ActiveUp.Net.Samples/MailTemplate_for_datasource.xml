@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+  <MESSAGE>
+    <FROM NAME="Ordering System" EMAIL="gags_bd@bluebottle.com" />
+    <TO NAME="$FIRSTNAME$ $LASTNAME$" EMAIL="$EMAIL$" />
+    <SUBJECT>Your order details [$ORDER_ID$]</SUBJECT>
+    <SMTPSERVER>mail.bluebottle.com</SMTPSERVER>
+    <FIELDFORMAT NAME="NAME" PADDINGDIR="Right" TOTALWIDTH="50" PADDINGCHAR=" " />
+    <FIELDFORMAT NAME="QUANTITY" PADDINGDIR="Left" TOTALWIDTH="6" PADDINGCHAR=" " />
+    <BODYTEXT>
+      Dear $FIRSTNAME$,
+
+      Thanks you for your order ! Please find the details below :
+
+      Order Number : $ORDER_ID$
+      Customer Id : $CUSTOMER_ID$
+
+      Product Name                                  Quantity
+      -----------------------------------------------------
+      $PRODUCTS_TEXT$
+      -----------------------------------------------------
+
+      Please print and/or backup this message for future reference.
+
+      Thanks again for your order.
+
+      The Shop team.
+     
+    </BODYTEXT>
+
+
+  </MESSAGE>
