@@ -1092,7 +1092,7 @@ namespace ActiveUp.Net.Mail
                     second = Convert.ToInt32(dateParts[2]);
                 int offset_hours = Convert.ToInt32(parts[4].Substring(0, 3));
                 int offset_minutes = Convert.ToInt32(parts[4].Substring(3, 2));
-                DateTime date = new DateTime(year, month, day, hour, minute, second);
+                DateTime date = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
                 date = date.AddHours(-offset_hours);
                 date = date.AddMinutes(-offset_minutes);
                 return date;
