@@ -563,8 +563,14 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (HeaderFields["return-receipt-to"] != null) return Parser.ParseAddresses(HeaderFields.GetValues("return-receipt-to")[0])[0];
-                else return null;
+                if (HeaderFields["return-receipt-to"] != null)
+                {
+                    var address = Parser.ParseAddresses(HeaderFields.GetValues("return-receipt-to")[0]);
+                    if (address.Count == 0) return null;
+                        return address[0];
+                    }
+                    else
+                        return null;
             }
             set
             {
@@ -617,7 +623,12 @@ namespace ActiveUp.Net.Mail
         {
             get
             {
-                if (HeaderFields["disposition-notification-to"] != null) return Parser.ParseAddresses(HeaderFields.GetValues("disposition-notification-to")[0])[0];
+                if (HeaderFields["disposition-notification-to"] != null)
+                {
+                    var address = Parser.ParseAddresses(HeaderFields.GetValues("disposition-notification-to")[0]);
+                    if (address.Count == 0) return null;
+                    return address[0];
+                }
                 else return null;
             }
             set

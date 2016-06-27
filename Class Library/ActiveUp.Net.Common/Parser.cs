@@ -147,7 +147,7 @@ namespace ActiveUp.Net.Mail
                 if (string.IsNullOrWhiteSpace(strpart))
                     continue;
 
-                int bounaryByteLen = GetASCIIByteCountOfPart(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));                
+                int bounaryByteLen = GetASCIIByteCountOfPart(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));
                 int binaryPartLen = bounaryByteLen + GetASCIIByteCountOfPart(strpart);
                 parentPartAsciiBody = null;
 
@@ -178,7 +178,7 @@ namespace ActiveUp.Net.Mail
                     newpart.Container = part;
                     part.SubParts.Add(newpart);
                 }
-                
+
                 binaryBody = null;
                 GC.Collect(GC.MaxGeneration);
                 GC.WaitForPendingFinalizers();
@@ -474,7 +474,7 @@ namespace ActiveUp.Net.Mail
                     part.ContentType = GetContentType(m.Value);
                 else if (m.Value.ToLower().StartsWith("content-disposition:"))
                     part.ContentDisposition = GetContentDisposition(m.Value);
-                
+
                 part.HeaderFields.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(m.Value.IndexOf(':') + 1).Trim(' ', '\r', '\n')));
                 part.HeaderFieldNames.Add(FormatFieldName(m.Value.Substring(0, m.Value.IndexOf(':'))), Codec.RFC2047Decode(m.Value.Substring(0, m.Value.IndexOf(':')).Trim(' ', '\r', '\n')));
                 m = m.NextMatch();
@@ -497,7 +497,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public static MimePart ParseMimePart(byte[] binaryData, Message message)
         {
-            MimePart part = new MimePart();            
+            MimePart part = new MimePart();
             part.ParentMessage = message;
             part.OriginalContent = ToASCII(binaryData); //ASCII content for header parsing            
 

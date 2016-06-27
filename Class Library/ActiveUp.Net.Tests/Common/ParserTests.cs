@@ -31,7 +31,7 @@ namespace ActiveUp.Net.Tests.Common
 
             utcDate.Kind.ShouldEqual(DateTimeKind.Utc);
         }
-        
+
         [Test]
         public void should_parse_date_with_no_day_of_week()
         {
@@ -39,7 +39,7 @@ namespace ActiveUp.Net.Tests.Common
 
             utcDate.ShouldEqual(new DateTime(2013, 06, 24, 09, 37, 36));
         }
-        
+
         [Test]
         public void should_parse_date_with_two_digits_year()
         {
@@ -47,7 +47,7 @@ namespace ActiveUp.Net.Tests.Common
 
             utcDate.ShouldEqual(new DateTime(2013, 06, 24, 09, 37, 36));
         }
-        
+
         [Test]
         public void should_parse_date_with_no_seconds()
         {
@@ -104,9 +104,9 @@ namespace ActiveUp.Net.Tests.Common
             address.Name.ShouldEqual("Display Name only one quote");
         }
 
-		/// <summary>
-		/// [discussion:641270] - Created discussion to validate if this test is rigth.
-		/// </summary>
+        /// <summary>
+        /// [discussion:641270] - Created discussion to validate if this test is rigth.
+        /// </summary>
         [Test]
         public void should_append_text_parts_with_inline_disposition()
         {
@@ -115,9 +115,9 @@ namespace ActiveUp.Net.Tests.Common
             message.BodyText.Text.ShouldEqual("Good morning,\r\nThis is the body of the message.\r\n\r\nThis is the attached disclamer\r\n");
         }
 
-		/// <summary>
-		/// [discussion:641270] - Created discussion to validate if this test is rigth.
-		/// </summary>
+        /// <summary>
+        /// [discussion:641270] - Created discussion to validate if this test is rigth.
+        /// </summary>
         [Test]
         public void should_append_html_parts_with_inline_disposition()
         {
@@ -155,6 +155,19 @@ namespace ActiveUp.Net.Tests.Common
             message.Attachments.Count.ShouldEqual(2);
             for (int i = 0; i < message.Attachments.Count; i++)
                 Assert.IsNotNull(message.Attachments[i].Filename);
+        }
+        /// <summary>
+        /// Fields: Confirm-Reading-To, Return-Receipt-To, Disposition-Notification-To was indicated without e-mail address.
+        /// RFC3798 has more information about details of parse https://tools.ietf.org/html/rfc3798
+        /// NOTE: Without address the system will work with a null return on parse.
+        /// </summary>
+        [Test(Description = "ConfirmRead, DispositionNotificationTo and ReturnReceiptTo having exception.")]
+        public void MustParseInvalidConfirmReadReturnReceipt()
+        {
+            Message message = Parser.ParseMessageFromFile("resource\\confirm_read_parse_problem.eml");
+            Assert.IsNull(message.ConfirmRead);
+            Assert.IsNull(message.ReturnReceipt);
+            Assert.AreEqual(0, message.Recipients.Count);
         }
     }
 }
