@@ -76,6 +76,18 @@ namespace ActiveUp.Net.Tests.Common.RFC2047
             sampleText.ShouldEqual(Rfc2047Codec.Decode(encodedText));
         }
 
+        public void should_decode_RFC2047_encoded_subject()
+        {
+            var sampleText = "Pacote para atualização do enContact";
+            var expectedText = "=?UTF-8?Q?Pacote_para_atualiza=C3=A7=C3=A3o_enContact?=";
+            var encodedText = Rfc2047Codec.Encode(sampleText, "iso-8859-1");
+            sampleText.ShouldEqual(expectedText);
+
+
+            //var formattedSubject = Codec.RFC2047Encode(Codec.ToQuotedPrintable(texto, "utf-8"), "utf-8");
+            //Subject: =?UTF-8?Q?Pacote_para_atualiza=C3=A7=C3=A3o_enContact?=
+        }
+
         /// <summary>
         /// This case is forbidden by RFC2047, but some senders don't respect it
         /// </summary>

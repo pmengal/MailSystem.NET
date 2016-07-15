@@ -862,7 +862,7 @@ namespace ActiveUp.Net.Mail
         #region Authentication
 
         /// <summary>
-        /// Logs in to the specified account.
+        /// Logs in to the specified account and load all account MailBox.
         /// </summary>
         /// <param name="username">Username of the account.</param>
         /// <param name="password">Password of the account.</param>

@@ -16,8 +16,6 @@ namespace ActiveUp.Net.Tests
         private const string _imapPassword = "[password]";
         private const int _imapPort = 993;
         private const string _imapServerAddress = "imap.gmail.com";
-
-
        
 
         [Test, Ignore("Manual tests")]
@@ -32,7 +30,87 @@ namespace ActiveUp.Net.Tests
             }   
         }
 
-        public IEnumerable<string> DumpHeadersFromImap()
+        [Test, Ignore("Manual tests")]
+        public void download_imap_test()
+        {
+            try
+            {
+                var _selectedMailBox = "INBOX";
+                using (var _clientImap4 = new Imap4Client())
+                {
+
+                    _clientImap4.ConnectSsl(_imapServerAddress, _imapPort);
+                    //_clientImap4.Connect(_mailServer.address, _mailServer.port);
+
+                    _clientImap4.Login(_imapLogin, _imapPassword); // Efetua login e carrega as MailBox da conta.
+                    //_clientImap4.LoginFast(_imapLogin, _imapPassword); // Efetua login e não carrega as MailBox da conta.
+
+                    var _mailBox = _clientImap4.SelectMailbox(_selectedMailBox);
+
+                    foreach (var messageId in _mailBox.Search("ALL").AsEnumerable())
+                    {
+                        var message = _mailBox.Fetch.Message(messageId);
+                        var _imapMessage = Parser.ParseMessage(message);
+                    }
+
+                    _clientImap4.Disconnect();
+                }
+
+                Assert.IsTrue(true);
+            }
+            catch(Exception e)
+            {
+                Assert.Fail("Don't work.", e);
+            }
+        }
+
+        [Test, Ignore("Manual tests")]
+        public void download_imap_async_test()
+        {
+            try
+            {
+                var callBack = new AsyncCallback(ImapAsyncCallBack);
+
+                using (var _clientImap4 = new Imap4Client())
+                {
+
+                    var result = _clientImap4.BeginConnectSsl(_imapServerAddress, _imapPort, callBack);
+                    
+                    while(!result.CompletedSynchronously)
+                    {
+                        Console.WriteLine("Waiting execution....");
+                    }
+                }
+                
+                Assert.IsTrue(true);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Dont work.", e);
+            }
+        }
+        
+        private void ImapAsyncCallBack(IAsyncResult result)
+        {
+            var resultStatus = result.AsyncState;
+            using (var _clientImap4 = (Imap4Client)((System.Delegate)result.AsyncState).Target)
+            {
+                _clientImap4.Login(_imapLogin, _imapPassword); // Efetua login e carrega as MailBox da conta.
+                //_clientImap4.LoginFast(_imapLogin, _imapPassword); // Efetua login e não carrega as MailBox da conta.
+                var _selectedMailBox = "INBOX";
+                var _mailBox = _clientImap4.SelectMailbox(_selectedMailBox);
+
+                foreach (var messageId in _mailBox.Search("ALL").AsEnumerable())
+                {
+                    var message = _mailBox.Fetch.Message(messageId);
+                    var _imapMessage = Parser.ParseMessage(message);
+                }
+
+                _clientImap4.Disconnect();
+            }
+        }
+
+        private IEnumerable<string> DumpHeadersFromImap()
         {
             var client = new Imap4Client();
             client.ConnectSsl(_imapServerAddress, _imapPort);
