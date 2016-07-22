@@ -16,7 +16,7 @@ namespace ActiveUp.Net.Tests
         private const string _imapPassword = "[password]";
         private const int _imapPort = 993;
         private const string _imapServerAddress = "imap.gmail.com";
-       
+
 
         [Test, Ignore("Manual tests")]
         public void dump_emails_for_tests()
@@ -27,7 +27,7 @@ namespace ActiveUp.Net.Tests
             {
                 foreach (var header in headers)
                     writer.WriteLine(header);
-            }   
+            }
         }
 
         [Test, Ignore("Manual tests")]
@@ -58,7 +58,7 @@ namespace ActiveUp.Net.Tests
 
                 Assert.IsTrue(true);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Assert.Fail("Don't work.", e);
             }
@@ -75,13 +75,13 @@ namespace ActiveUp.Net.Tests
                 {
 
                     var result = _clientImap4.BeginConnectSsl(_imapServerAddress, _imapPort, callBack);
-                    
-                    while(!result.CompletedSynchronously)
+
+                    while (!result.CompletedSynchronously)
                     {
                         Console.WriteLine("Waiting execution....");
                     }
                 }
-                
+
                 Assert.IsTrue(true);
             }
             catch (Exception e)
@@ -89,7 +89,58 @@ namespace ActiveUp.Net.Tests
                 Assert.Fail("Dont work.", e);
             }
         }
-        
+
+        [Test, Ignore("Manual tests")]
+        public void delete_inbox_undeleted_messages_not_gmail()
+        {
+            var _selectedMailBox = "INBOX";
+            using (var _clientImap4 = new Imap4Client())
+            {
+                _clientImap4.ConnectSsl(_imapServerAddress, _imapPort);
+                _clientImap4.LoginFast(_imapLogin, _imapPassword);
+
+                var mails = _clientImap4.SelectMailbox(_selectedMailBox);
+                var ids = mails.Search("UNDELETED");
+                foreach (var id in ids)
+                {
+                    mails.DeleteMessage(id, expunge: true);
+                }
+
+                var mailsUndeleted = _clientImap4.SelectMailbox(_selectedMailBox);
+                Assert.AreEqual(0, mailsUndeleted.Search("UNDELETED"));
+
+                _clientImap4.Disconnect();
+            }
+        }
+
+        [Test, Ignore("Manual tests")]
+        public void delete_inbox_undeleted_messages_gmail()
+        {
+            var _selectedMailBox = "INBOX";
+            using (var _clientImap4 = new Imap4Client())
+            {
+                _clientImap4.ConnectSsl(_imapServerAddress, _imapPort);
+                _clientImap4.LoginFast(_imapLogin, _imapPassword);
+
+                // To see the names os all MailBox and found  Trash
+                _clientImap4.LoadMailboxes();
+                var allMailBox = _clientImap4.AllMailboxes;
+
+                var mails = _clientImap4.SelectMailbox(_selectedMailBox);
+                var ids = mails.Search("UNDELETED");
+                foreach (var id in ids)
+                {
+                    mails.DeleteMessage(id, expunge: false);
+                    mails.MoveMessage(id, "[Gmail]/Lixeira");
+                }
+
+                var mailsUndeleted = _clientImap4.SelectMailbox(_selectedMailBox);
+                Assert.AreEqual(0, mailsUndeleted.Search("UNDELETED"));
+
+                _clientImap4.Disconnect();
+            }
+        }
+
         private void ImapAsyncCallBack(IAsyncResult result)
         {
             var resultStatus = result.AsyncState;
