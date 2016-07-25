@@ -19,7 +19,8 @@ build:
   verbosity: minimal
 artifacts:
   # pushing all *.nupkg files in directory
-  - path: *.nupkg
+  - path: '**\*.nupkg'
+  - path: bin\$(configuration)\*.dll
 deploy:
 - provider: NuGet
   api_key:
