@@ -1,14 +1,12 @@
 version: 2.1.{build}
-configuration: Release
+init:
+- cmd: git config --global core.autocrlf true
 assembly_info:
   patch: true
   file: AssemblyInfo.*
   assembly_version: "2.1.{build}"
   assembly_file_version: "{version}"
   assembly_informational_version: "{version}"
-nuget:
-  account_feed: true
-  project_feed: true
 before_build:
 - ps: nuget restore
 build:
@@ -18,23 +16,19 @@ build:
   include_nuget_references: true
   verbosity: minimal
 artifacts:
-  # pushing all *.nupkg files in directory
-  - path: '**\*.nupkg'
-    name: NuGet
-  - path: '**\*.dll'
-    name: ActiveUp
+- path: '**\*.nupkg'
+- path: '**\*.dll'
 deploy:
 - provider: NuGet
   api_key:
     secure: ubOtyPLGDRR2As2YTkLUUN8cjmV66GWheJaDWf52o133MIi4Qe3nw0pUDjBkQCA2
-  skip_symbols: false
   artifact: /.*\.nupkg/
 notifications:
 - provider: Email
   to:
   - reinaldo.coelho@gmail.com
   subject: FAIL - Build MailSystem.NET - Oficial
-  message: Fail process build to lib MailSystem.net (https://github.com/reinaldocoelho/MailSystem.NET).
+  message: Fail process build to lib MailSystem.net(https://github.com/reinaldocoelho/MailSystem.NET).
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: false
