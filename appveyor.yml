@@ -20,7 +20,9 @@ build:
 artifacts:
   # pushing all *.nupkg files in directory
   - path: '**\*.nupkg'
-  - path: bin\$(configuration)\*.dll
+    name: NuGet
+  - path: '**\*.dll'
+    name: ActiveUp
 deploy:
 - provider: NuGet
   api_key:
