@@ -279,9 +279,6 @@ namespace ActiveUp.Net.Mail
                     string toDigest = part.Container.TextContent;
                     toDigest = Regex.Split(toDigest, "\r\n--" + part.Container.ContentType.Parameters["boundary"])[1];
                     toDigest = toDigest.TrimStart('\r', '\n');
-                    //Match endDelimiter = Regex.Match(toDigest, "(?<=[^\r\n]\r\n)\r\n", RegexOptions.RightToLeft);
-                    //int lastNonNewLine = Regex.Match(toDigest, "[^\r\n]", RegexOptions.RightToLeft).Index;
-                    //if (endDelimiter.Index != -1 && endDelimiter.Index > lastNonNewLine) toDigest = toDigest.Remove(endDelimiter.Index);
 
                     //TODO: What should be done in PPC ?
 #if !PocketPC
@@ -302,7 +299,8 @@ namespace ActiveUp.Net.Mail
         private static void DecodePartBody(ref MimePart part)
         {
             // Let's see if a charset is specified. Otherwise we default to "iso-8859-1".
-            string charset = (!string.IsNullOrEmpty(part.Charset) ? part.Charset : "iso-8859-1");
+            var charset = (!string.IsNullOrEmpty(part.Charset) ? part.Charset : "iso-8859-1");
+
 #if PocketPC
             if (charset.ToLower() == "iso-8859-1")
                 charset = "windows-1252";
@@ -522,17 +520,26 @@ namespace ActiveUp.Net.Mail
                     // Build the part tree.
                     // This is a container part.
                     if (part.ContentType.Type.ToLower().Equals("multipart"))
+                    {
                         ParseSubParts(ref part, message);
+                    }
                     // This is a nested message.
                     else if (part.ContentType.Type.ToLower().Equals("message"))
                     {
                         // TODO: Create an interpreter to this.
                     }
+                    // This is a image block.
+                    else if (part.ContentType.Type.ToLower().Equals("image"))
+                    {
+                        DispatchPart(part, ref message);
+                    }
                     else
+                    {
                         DecodePartBody(ref part);
+                    }
 
-                    if (BodyParsed != null)
-                        BodyParsed(null, message);
+                    // Call event id BodyParsed is not null.
+                    BodyParsed?.Invoke(null, message);
                 }
             }
             catch (Exception ex)
