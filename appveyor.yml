@@ -1,8 +1,9 @@
-version: 1.0.{build}
+version: 2.1.{build}
+configuration: Release
 assembly_info:
   patch: true
   file: AssemblyInfo.*
-  assembly_version: "1.0.{build}"
+  assembly_version: "2.1.{build}"
   assembly_file_version: "{version}"
   assembly_informational_version: "{version}"
 nuget:
@@ -30,7 +31,7 @@ notifications:
   to:
   - reinaldo.coelho@gmail.com
   subject: FAIL - Build MailSystem.NET - Oficial
-  message: Fail to process build to CodePlex lib MailSystem.net(https://mailsystem.codeplex.com).
+  message: Fail process build to lib MailSystem.net (https://github.com/reinaldocoelho/MailSystem.NET).
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: false
