@@ -305,15 +305,27 @@ namespace ActiveUp.Net.Mail
             if (charset.ToLower() == "iso-8859-1")
                 charset = "windows-1252";
 #endif
-            if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.Base64))
-                DecodeBase64Part(part, charset);
-            else if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.QuotedPrintable))
+
+            try
             {
-                part.TextContent = Codec.FromQuotedPrintable(ToASCII(part.BinaryContent), charset);
-                part.BinaryContent = Codec.GetEncoding(charset).GetBytes(part.TextContent);
+                if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.Base64))
+                {
+                    DecodeBase64Part(part, charset);
+                }
+                else if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.QuotedPrintable))
+                {
+                    part.TextContent = Codec.FromQuotedPrintable(ToASCII(part.BinaryContent), charset);
+                    part.BinaryContent = Codec.GetEncoding(charset).GetBytes(part.TextContent);
+                }
+                else
+                {
+                    part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent);
+                }
             }
-            else
+            catch (Exception)
+            {
                 part.TextContent = Codec.GetEncoding(charset).GetString(part.BinaryContent);
+            }
         }
 
         private static void DecodeBase64Part(MimePart part, string charset)
@@ -528,11 +540,7 @@ namespace ActiveUp.Net.Mail
                     {
                         // TODO: Create an interpreter to this.
                     }
-                    // This is a image block.
-                    else if (part.ContentType.Type.ToLower().Equals("image"))
-                    {
-                        DispatchPart(part, ref message);
-                    }
+                    // Other types.
                     else
                     {
                         DecodePartBody(ref part);
