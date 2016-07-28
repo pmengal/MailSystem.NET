@@ -101,4 +101,4 @@ MailSystem is in production use at: [Jitbit Helpdesk](https://www.jitbit.com/hel
 
 **Last trunk build status**
 
-![Last trunk build status](https://ci.appveyor.com/api/projects/status/dvrhwn6ykhvmwubv?svg=true)
+![Last trunk build status](https://ci.appveyor.com/api/projects/status/k31h22sukrym6ys4?svg=true)
