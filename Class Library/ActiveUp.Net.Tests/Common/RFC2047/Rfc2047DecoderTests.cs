@@ -143,7 +143,7 @@ namespace ActiveUp.Net.Tests.Common.RFC2047
         }
 
         // This test is an example of how to do A/B testing for a header parser modification
-        [Test, Ignore]
+        [Test, Ignore("Manual test")]
         public void parser_evolution_example()
         {
             var allHeaders = File.ReadAllText("resource\\sample_headers.txt").Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);

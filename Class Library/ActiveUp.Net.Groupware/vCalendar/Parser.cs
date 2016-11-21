@@ -150,7 +150,7 @@ namespace ActiveUp.Net.Groupware.vCalendar
                     input = input.Insert(4, "-");
                     input = input.Insert(7, "-");
                 }
-                else if (input.Length == 16)
+                else if (input.Length >= 15)
                 {
                     input = input.Insert(4, "-");
                     input = input.Insert(7, "-");
