@@ -59,9 +59,9 @@
     <AssemblyOriginatorKeyFile>ActiveUp.Net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.4.1.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.5.0\lib\net40\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -83,6 +83,7 @@
     <Compile Include="Common\RFC2047\Rfc2047DecoderTests.cs" />
     <Compile Include="Common\RFC2047\Rfc2047DecoderTests.Splitter.cs" />
     <Compile Include="FluentTests.cs" />
+    <Compile Include="Groupware\ParserTests.cs" />
     <Compile Include="ImapTests.cs" />
     <Compile Include="SmtpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -156,6 +157,10 @@
     <ProjectReference Include="..\ActiveUp.Net.Common\ActiveUp.Net.Common.csproj">
       <Project>{3A83AE95-C23F-48B4-9F1A-AD4B32C37B93}</Project>
       <Name>ActiveUp.Net.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ActiveUp.Net.Groupware\ActiveUp.Net.Groupware.csproj">
+      <Project>{C646ED2B-50B7-4178-BEFA-657F1259251F}</Project>
+      <Name>ActiveUp.Net.Groupware</Name>
     </ProjectReference>
     <ProjectReference Include="..\ActiveUp.Net.Imap4\ActiveUp.Net.Imap4.csproj">
       <Project>{6BEE77DF-2DD2-41C3-BA16-60E20B1EDDCC}</Project>
