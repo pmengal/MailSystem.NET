@@ -31,28 +31,28 @@ namespace ActiveUp.Net.Groupware.vCalendar
             data = vCard.Parser.Unfold(data);
             cal.Events = GetEvents(data);
             cal.Todos = GetTodos(data);
-            if ((cal.Events.Count+cal.Todos.Count) > 0)
-                data = data.Substring(data.IndexOf("\r\n"),data.IndexOf("BEGIN:",data.IndexOf("\r\n"))-data.IndexOf("\r\n"));
-            foreach(string line in System.Text.RegularExpressions.Regex.Split(data,"\r\n"))
+            if ((cal.Events.Count + cal.Todos.Count) > 0)
+                data = data.Substring(data.IndexOf("\r\n"), data.IndexOf("BEGIN:", data.IndexOf("\r\n")) - data.IndexOf("\r\n"));
+            foreach (string line in System.Text.RegularExpressions.Regex.Split(data, "\r\n"))
             {
                 string fulltype = line.Split(':')[0];
                 string type = fulltype.Split(';')[0].ToUpper();
-                switch(type)
+                switch (type)
                 {
                     case "VERSION":
-                        SetVersion(cal,line);
+                        SetVersion(cal, line);
                         break;
                     case "DAYLIGHT":
-                        SetDayLight(cal,line);
+                        SetDayLight(cal, line);
                         break;
                     case "GEO":
-                        SetGeo(cal,line);
+                        SetGeo(cal, line);
                         break;
                     case "TZ":
-                        SetTimeZone(cal,line);
+                        SetTimeZone(cal, line);
                         break;
                     case "PRODID":
-                        SetGeneratorId(cal,line);
+                        SetGeneratorId(cal, line);
                         break;
                 }
             }
@@ -66,7 +66,7 @@ namespace ActiveUp.Net.Groupware.vCalendar
         {
             DayLightSavings savings = new DayLightSavings();
             string[] compounds = line.Split(':')[1].Split(';');
-            if(compounds[0].ToUpper()=="TRUE")
+            if (compounds[0].ToUpper() == "TRUE")
             {
                 savings.IsObserved = true;
                 savings.Offset = int.Parse(compounds[1]);
@@ -89,22 +89,31 @@ namespace ActiveUp.Net.Groupware.vCalendar
         }
         private static void SetTimeZone(vCalendar cal, string line)
         {
-            cal.TimeZone = line.Replace(line.Split(':')[0]+":","");
+            cal.TimeZone = line.Replace(line.Split(':')[0] + ":", "");
         }
         private static void SetGeneratorId(vCalendar cal, string line)
         {
-            cal.GeneratorId = line.Replace(line.Split(':')[0]+":","");
+            cal.GeneratorId = line.Replace(line.Split(':')[0] + ":", "");
         }
         private static vEventCollection GetEvents(string data)
         {
             int lastPosition = 0;
             vEventCollection events = new vEventCollection();
+
+            if (data.ToUpper().IndexOf("BEGIN:VEVENT") == -1) return events;
+            if (data.ToUpper().IndexOf("END:VEVENT") == -1) return events;
+
             LookForFurtherEvents:
-                string eventData = data.Substring(data.ToUpper().IndexOf("BEGIN:VEVENT",lastPosition),data.ToUpper().IndexOf("END:VEVENT",lastPosition)+10-data.ToUpper().IndexOf("BEGIN:VEVENT",lastPosition));
-            lastPosition = data.ToUpper().IndexOf("END:VEVENT",lastPosition)+10;
+
+            var eventData = data.Substring(data.ToUpper().IndexOf("BEGIN:VEVENT", lastPosition), data.ToUpper().IndexOf("END:VEVENT", lastPosition) + 10 - data.ToUpper().IndexOf("BEGIN:VEVENT", lastPosition));
+            lastPosition = data.ToUpper().IndexOf("END:VEVENT", lastPosition) + 10;
             events.Add(ParseEvent(eventData));
-            if(data.ToUpper().IndexOf("BEGIN:VEVENT",lastPosition)!=-1)
+
+            if (data.ToUpper().IndexOf("BEGIN:VEVENT", lastPosition) != -1)
+            {
                 goto LookForFurtherEvents;
+            }
+
             return events;
         }
         private static vTodoCollection GetTodos(string data)
@@ -112,21 +121,26 @@ namespace ActiveUp.Net.Groupware.vCalendar
             int lastPosition = 0;
             vTodoCollection todos = new vTodoCollection();
 
+            if (data.IndexOf("BEGIN:VTODO") == -1) return todos;
+            if (data.IndexOf("END:VTODO") == -1) return todos;
+
             LookForFurtherTodos:
-            if (data.IndexOf("BEGIN:VTODO") > -1)
+
+            var todoData = data.Substring(data.ToUpper().IndexOf("BEGIN:VTODO", lastPosition), data.ToUpper().IndexOf("END:VTODO", lastPosition) + 10 - data.ToUpper().IndexOf("BEGIN:VTODO", lastPosition));
+            lastPosition = data.ToUpper().IndexOf("END:VTODO", lastPosition) + 10;
+            todos.Add(ParseTodo(todoData));
+
+            if (data.ToUpper().IndexOf("BEGIN:VTODO", lastPosition) != -1)
             {
-                string todoData = data.Substring(data.ToUpper().IndexOf("BEGIN:VTODO", lastPosition), data.ToUpper().IndexOf("END:VTODO", lastPosition) + 10 - data.ToUpper().IndexOf("BEGIN:VTODO", lastPosition));
-                lastPosition = data.ToUpper().IndexOf("END:VTODO", lastPosition) + 10;
-                todos.Add(ParseTodo(todoData));
-                if (data.ToUpper().IndexOf("BEGIN:VTODO", lastPosition) != -1)
-                    goto LookForFurtherTodos;
+                goto LookForFurtherTodos;
             }
-        
+
             return todos;
         }
         public static DateTime ParseDate(string input)
         {
-            try {
+            try
+            {
                 return DateTime.Parse(input);
             }
             catch
@@ -149,18 +163,18 @@ namespace ActiveUp.Net.Groupware.vCalendar
         public static vEvent ParseEvent(string data)
         {
             vEvent even = new vEvent();
-       
-            foreach(string line in System.Text.RegularExpressions.Regex.Split(data,"\r\n"))
+
+            foreach (string line in System.Text.RegularExpressions.Regex.Split(data, "\r\n"))
             {
                 string fulltype = line.Split(':')[0];
                 string type = fulltype.Split(';')[0].ToUpper();
-                switch(type)
+                switch (type)
                 {
                     case "ATTACH":
-                        AddAttachment(even,line);
+                        AddAttachment(even, line);
                         break;
                     case "ATTENDEE":
-                        AddAttendee(even,line);
+                        AddAttendee(even, line);
                         break;
                     //case "LOCATION": 
                     case "DTSTART":
@@ -182,12 +196,12 @@ namespace ActiveUp.Net.Groupware.vCalendar
                     case "PRIORITY":
                         even.Priority = Convert.ToInt32(line.Split(':')[1]);
                         break;
-                    //case "GEO": ActiveUp.Net.Groupware.vCalendar.Parser.SetGeo(even,line);
-                    //    break;
-                    //case "TZ": ActiveUp.Net.Groupware.vCalendar.Parser.SetTimeZone(even,line);
-                    //    break;
-                    //case "PRODID": ActiveUp.Net.Groupware.vCalendar.Parser.SetGeneratorId(even,line);
-                    //    break;
+                        //case "GEO": ActiveUp.Net.Groupware.vCalendar.Parser.SetGeo(even,line);
+                        //    break;
+                        //case "TZ": ActiveUp.Net.Groupware.vCalendar.Parser.SetTimeZone(even,line);
+                        //    break;
+                        //case "PRODID": ActiveUp.Net.Groupware.vCalendar.Parser.SetGeneratorId(even,line);
+                        //    break;
                 }
             }
             return even;
@@ -195,61 +209,61 @@ namespace ActiveUp.Net.Groupware.vCalendar
         private static void SetValueAndType(Property property, string line)
         {
             string uppercase = line.Split(':')[0].ToUpper();
-            if(uppercase.IndexOf("CID")!=-1 || uppercase.IndexOf("CONTENT-ID")!=-1)
+            if (uppercase.IndexOf("CID") != -1 || uppercase.IndexOf("CONTENT-ID") != -1)
                 property.ValueType = ValueType.ContentId;
-            else if(uppercase.IndexOf("URL")!=-1)
+            else if (uppercase.IndexOf("URL") != -1)
                 property.ValueType = ValueType.Url;
             string charset = "utf-8";
-            if(uppercase.IndexOf("CHARSET")!=-1)
-                charset = uppercase.Substring(uppercase.IndexOf("CHARSET="),uppercase.IndexOf(";",uppercase.IndexOf("CHARSET="))-uppercase.IndexOf("CHARSET="));
-            if(uppercase.IndexOf("ENCODING=QUOTED-PRINTABLE")!=-1)
-                property.Value = FromQuotedPrintable(line.Replace(line.Split(':')[0]+":",""),charset);
+            if (uppercase.IndexOf("CHARSET") != -1)
+                charset = uppercase.Substring(uppercase.IndexOf("CHARSET="), uppercase.IndexOf(";", uppercase.IndexOf("CHARSET=")) - uppercase.IndexOf("CHARSET="));
+            if (uppercase.IndexOf("ENCODING=QUOTED-PRINTABLE") != -1)
+                property.Value = FromQuotedPrintable(line.Replace(line.Split(':')[0] + ":", ""), charset);
             else if (uppercase.IndexOf("ENCODING=BASE64") != -1)
             {
                 byte[] data = Convert.FromBase64String(line.Replace(line.Split(':')[0] + ":", ""));
-                property.Value = System.Text.Encoding.GetEncoding(charset).GetString(data,0,data.Length);
+                property.Value = System.Text.Encoding.GetEncoding(charset).GetString(data, 0, data.Length);
             }
             else property.Value = line.Replace(line.Split(':')[0] + ":", "");
         }
         private static void AddAttachment(AbstractEntity entity, string line)
         {
             Attachment attach = new Attachment();
-            SetValueAndType(attach,line);
+            SetValueAndType(attach, line);
             entity.Attachments.Add(attach);
         }
         private static void AddAttendee(AbstractEntity entity, string line)
         {
             Attendee attendee = new Attendee();
-            SetValueAndType(attendee,line);
+            SetValueAndType(attendee, line);
             attendee.Contact = new Address(attendee.Value);
             string uppercase = line.Split(':')[0].ToUpper();
-            if(uppercase.IndexOf("EXPECT=REQUIRE")!=-1)
+            if (uppercase.IndexOf("EXPECT=REQUIRE") != -1)
                 attendee.Expectation = Expectation.Required;
-            else if(uppercase.IndexOf("EXPECT=REQUEST")!=-1)
+            else if (uppercase.IndexOf("EXPECT=REQUEST") != -1)
                 attendee.Expectation = Expectation.Requested;
-            else if(uppercase.IndexOf("EXPECT=IMMEDIATE")!=-1)
+            else if (uppercase.IndexOf("EXPECT=IMMEDIATE") != -1)
                 attendee.Expectation = Expectation.ImmediateResponse;
-            if(uppercase.IndexOf("ROLE=OWNER")!=-1)
+            if (uppercase.IndexOf("ROLE=OWNER") != -1)
                 attendee.Role = Role.Owner;
-            else if(uppercase.IndexOf("ROLE=ORGANIZER")!=-1)
+            else if (uppercase.IndexOf("ROLE=ORGANIZER") != -1)
                 attendee.Role = Role.Organizer;
-            else if(uppercase.IndexOf("ROLE=DELEGATE")!=-1)
+            else if (uppercase.IndexOf("ROLE=DELEGATE") != -1)
                 attendee.Role = Role.Delegate;
-            if(uppercase.IndexOf("STATUS=ACCEPTED")!=-1)
+            if (uppercase.IndexOf("STATUS=ACCEPTED") != -1)
                 attendee.Status = Status.Accepted;
-            else if(uppercase.IndexOf("STATUS=SENT")!=-1)
+            else if (uppercase.IndexOf("STATUS=SENT") != -1)
                 attendee.Status = Status.Sent;
-            else if(uppercase.IndexOf("STATUS=TENTATIVE")!=-1)
+            else if (uppercase.IndexOf("STATUS=TENTATIVE") != -1)
                 attendee.Status = Status.Tentative;
-            else if(uppercase.IndexOf("STATUS=CONFIRMED")!=-1)
+            else if (uppercase.IndexOf("STATUS=CONFIRMED") != -1)
                 attendee.Status = Status.Confirmed;
-            else if(uppercase.IndexOf("STATUS=DECLINED")!=-1)
+            else if (uppercase.IndexOf("STATUS=DECLINED") != -1)
                 attendee.Status = Status.Declined;
-            else if(uppercase.IndexOf("STATUS=COMPLETED")!=-1)
+            else if (uppercase.IndexOf("STATUS=COMPLETED") != -1)
                 attendee.Status = Status.Completed;
-            else if(uppercase.IndexOf("STATUS=DELEGATED")!=-1)
+            else if (uppercase.IndexOf("STATUS=DELEGATED") != -1)
                 attendee.Status = Status.Delegated;
-            if(uppercase.IndexOf("RVSP=YES")!=-1)
+            if (uppercase.IndexOf("RVSP=YES") != -1)
                 attendee.ReplyRequested = true;
             entity.Attendees.Add(attendee);
         }
@@ -287,7 +301,7 @@ namespace ActiveUp.Net.Groupware.vCalendar
                 decoded = new byte[arr.Count];
                 for (int j = 0; j < arr.Count; j++)
                     decoded[j] = (byte)arr[j];
-                return System.Text.Encoding.GetEncoding(toCharset).GetString(decoded,0,decoded.Length).TrimEnd('=');
+                return System.Text.Encoding.GetEncoding(toCharset).GetString(decoded, 0, decoded.Length).TrimEnd('=');
             }
             catch { return input; }
         }
