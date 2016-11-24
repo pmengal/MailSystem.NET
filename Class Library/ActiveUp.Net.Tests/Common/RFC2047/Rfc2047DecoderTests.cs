@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using ActiveUp.Net.Common.Rfc2047;
 using ActiveUp.Net.Mail;
 using NUnit.Framework;
-using System.Linq;
+using System.Reflection;
 
 namespace ActiveUp.Net.Tests.Common.RFC2047
 {
     public partial class Rfc2047DecoderTests
     {
+        private static string _baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public class DecodingSample
         {
             public string SampleEncodedHeader { get; private set; }
@@ -63,7 +63,7 @@ namespace ActiveUp.Net.Tests.Common.RFC2047
         public void should_handle_examples_from_the_rfc_2047(DecodingSample decodingSample)
         {
             var decodedHeader = Rfc2047Codec.Decode(decodingSample.SampleEncodedHeader);
-                
+
             decodedHeader.ShouldEqual(decodingSample.ExpectedDecodedHeader);
         }
 
@@ -130,13 +130,13 @@ namespace ActiveUp.Net.Tests.Common.RFC2047
 
             decodedString.ShouldEqual("(2) *BOMBARDIER CEO SAYS LOOKING FORWARD TO HIGH-SPEED TRAINS IN U.S");
         }
-        
+
         // This test only makes sure the new header parser is able to deserialize all the samples
         // To test for regressions, use the following test
         [Test]
         public void should_handle_sample_headers()
         {
-            var allHeaders = File.ReadAllText("resource\\sample_headers.txt").Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var allHeaders = File.ReadAllText(_baseDir + "\\resource\\sample_headers.txt").Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var header in allHeaders)
                 Assert.DoesNotThrow(() => Parser.ParseHeaderString(header));
