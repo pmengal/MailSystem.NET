@@ -250,7 +250,7 @@ namespace ActiveUp.Net.Mail
                         else
                         {
                             message.BodyText.Charset = part.Charset;
-                            message.BodyText.Text = part.TextContent;
+                            message.BodyText.Text += part.TextContent;
                         }
                     }
                     else if (part.ContentType.SubType.ToLower().Equals("html"))
