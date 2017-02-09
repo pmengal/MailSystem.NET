@@ -1,0 +1,49 @@
+Received: from production.server.com (10.175.202.138) by
+ other.production2.server.com (10.171.23.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.888.16 via Mailbox Transport; Thu, 9 Feb 2017 10:29:20 +0000
+Received: from other.production3.server.com (10.164.191.149) by
+ production.server.com (10.175.202.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.888.16; Thu, 9 Feb 2017 10:29:19 +0000
+Received: from other.production4.server.com (10.141.39.151) by
+ other.production3.server.com (10.164.191.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.888.16; Thu, 9 Feb 2017 10:29:17 +0000
+Received: from sender.production.server.com (2a01:111:f400:7c0c::103) by
+ production.server.com (2a01:111:e400:340b::23) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.888.16 via
+ Frontend Transport; Thu, 9 Feb 2017 10:29:15 +0000
+Authentication-Results: spf=pass (sender IP is 191.99.28.152)
+ smtp.mailfrom=sender-host.com; customer-host.com; dkim=fail (signature did not
+ verify) header.d=sender-host.com;customer-host.com; dmarc=bestguesspass action=none
+ header.from=sender-host.com;customer-host.com; dkim=fail (signature did not verify)
+ header.d=sender-host.com;
+Received-SPF: Pass (protection.production.com: domain of sender-host.com
+ designates 192.99.38.152 as permitted sender)
+ receiver=protection.production.com; client-ip=193.99.38.152;
+ helo=server.production.com;
+Received: from server.production.com (182.99.38.182) by
+ BY2FFO11FD024.mail.protection.production.com (10.1.15.213) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.888.7 via Frontend Transport; Thu, 9 Feb 2017 10:29:14 +0000
+Received: from [199.185.193.214] (port=63738 helo=Server)
+	by server.production.com with esmtpa (Exim 4.88)
+	(envelope-from <host@sender-host.com>)
+	id 1cblyR-0003Xr-A1; Thu, 09 Feb 2017 08:29:11 -0199
+From: "CUSTOMER NAME S.A." <host@sender-host.com>
+Subject: CUSTOMER NAME S.A. - Subject of test email
+To: client@customer-host.com
+Cc: host@sender-host.com
+Content-Type: text
+Date: Thu, 9 Feb 2017 08:34:27 -0199
+Message-ID: <hash@sender.production.server.com>
+Return-Path: host@sender-host.com
+MIME-Version: 1.0
+
+----------------------------------------------------------------------------
+E-mail content test to validate.
+
+tks, 
+FOZZY

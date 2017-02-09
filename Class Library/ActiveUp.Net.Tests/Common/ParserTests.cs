@@ -196,5 +196,17 @@ namespace ActiveUp.Net.Tests.Common
             //    File.WriteAllBytes(fileNameDecoded, Convert.FromBase64String(item.TextContentTransferEncoded));
             //}
         }
+
+        [Test(Description = "")]
+        public void MustParseEmlWithoutContentTypeSubtypeWithLostTextBody()
+        {
+            var message = Parser.ParseMessageFromFile(_baseDir + "\\resource\\text_without_contenttype_subtype.eml");
+            Assert.AreEqual("hash@sender.production.server.com", message.MessageId);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(message.BodyText.Text));
+            Assert.IsTrue(string.IsNullOrWhiteSpace(message.BodyHtml.Text));
+            Assert.AreEqual("plain", message.ContentType.SubType);
+            Assert.AreEqual("text", message.ContentType.Type);
+            Assert.AreEqual("text", message.ContentType.MimeType);
+        }
     }
 }

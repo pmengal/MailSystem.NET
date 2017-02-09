@@ -19,6 +19,9 @@ using System;
 
 namespace ActiveUp.Net.Mail
 {
+    /// <summary>
+    /// ContentType Header Class.
+    /// </summary>
 #if !PocketPC
     [Serializable]
 #endif
@@ -26,28 +29,9 @@ namespace ActiveUp.Net.Mail
     {
         string _mimeType = "text/plain";
 
-        public string Type
-        {
-            get
-            {
-                return _mimeType.Split('/')[0];
-            }
-            set
-            {
-                _mimeType = value + "/" + SubType;
-            }
-        }
-        public string SubType
-        {
-            get
-            {
-                return _mimeType.Split('/')[1];
-            }
-            set
-            {
-                _mimeType = Type + "/" + value;
-            }
-        }
+        /// <summary>
+        /// Mimetype original or Type + Subtype.
+        /// </summary>
         public string MimeType
         {
             get
@@ -59,22 +43,62 @@ namespace ActiveUp.Net.Mail
                 _mimeType = value;
             }
         }
+
+        /// <summary>
+        /// The type of content-type
+        /// </summary>
+        public string Type
+        {
+            get
+            {
+                var type = _mimeType.Split('/')[0];
+                return type ?? "";
+            }
+            set
+            {
+                _mimeType = value + "/" + SubType;
+            }
+        }
+
+        /// <summary>
+        /// Subtype of content-type received, if invalid, return "plain"
+        /// </summary>
+        public string SubType
+        {
+            get
+            {
+                var mimeParts = _mimeType.Split('/');
+                if (mimeParts.Length < 2) return "plain";
+                var subtype = _mimeType.Split('/')[1];
+                subtype = string.IsNullOrWhiteSpace(subtype) ? "plain" : subtype;
+                return subtype;
+            }
+            set
+            {
+                _mimeType = Type + "/" + value;
+            }
+        }
+
+        /// <summary>
+        /// Override of method to explain content type string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            string str = string.Empty;
-            str += "Content-Type: " + MimeType;
+            var builder = new System.Text.StringBuilder();
+            builder.Append("Content-Type: " + MimeType);
             foreach (string key in Parameters.AllKeys)
             {
-                string value = string.Empty;
-                
+                var value = string.Empty;
+
                 if (key.Equals("boundary"))
                     value = "\"" + Parameters[key] + "\"";
                 else
                     value = Parameters[key];
 
-                str += ";\r\n\t" + key + "=" + value;
+                builder.Append(";\r\n\t" + key + "=" + value);
             }
-            return str;
+            return builder.ToString();
         }
     }
 }
