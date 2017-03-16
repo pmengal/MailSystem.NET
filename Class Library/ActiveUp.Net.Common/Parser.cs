@@ -138,7 +138,7 @@ namespace ActiveUp.Net.Mail
         private static void ParseSubParts(ref MimePart part, Message message)
         {
             string boundary = part.ContentType.Parameters["boundary"];
-            string parentPartAsciiBody = ToASCII(part.BinaryContent);
+            string parentPartAsciiBody = ToUtf8(part.BinaryContent);
             byte[] parentPartBinary = part.BinaryContent;
 
             Logger.AddEntry(typeof(Parser), "boundary : " + boundary);
@@ -171,7 +171,7 @@ namespace ActiveUp.Net.Mail
                 GC.WaitForPendingFinalizers();
 
                 parentPartBinary = tmp;
-                parentPartAsciiBody = ToASCII(parentPartBinary);
+                parentPartAsciiBody = ToUtf8(parentPartBinary);
                 tmp = null;
 
                 if (!strpart.StartsWith("--") && !string.IsNullOrEmpty(strpart))
@@ -316,7 +316,7 @@ namespace ActiveUp.Net.Mail
                 }
                 else if (part.ContentTransferEncoding.Equals(ContentTransferEncoding.QuotedPrintable))
                 {
-                    part.TextContent = Codec.FromQuotedPrintable(ToASCII(part.BinaryContent), charset);
+                    part.TextContent = Codec.FromQuotedPrintable(ToUtf8(part.BinaryContent), charset);
                     part.BinaryContent = Codec.GetEncoding(charset).GetBytes(part.TextContent);
                 }
                 else
@@ -332,7 +332,7 @@ namespace ActiveUp.Net.Mail
 
         private static void DecodeBase64Part(MimePart part, string charset)
         {
-            string text = ToASCII(part.BinaryContent);
+            string text = ToUtf8(part.BinaryContent);
             byte[] binary = null;
 #if !PocketPC
             try
@@ -347,7 +347,7 @@ namespace ActiveUp.Net.Mail
                 binary = Convert.FromBase64String(text);
             }
 #endif
-            text = ToASCII(binary);
+            text = ToUtf8(binary);
             if (part.ContentDisposition != ContentDisposition.Attachment)
                 text = Codec.GetEncoding(charset).GetString(binary, 0, binary.Length);
 
@@ -461,10 +461,10 @@ namespace ActiveUp.Net.Mail
         /// </summary>
         public static event OnBodyParsedEvent BodyParsed;
 
-        private static string ToASCII(byte[] data)
+        private static string ToUtf8(byte[] data)
         {
             const int BUFFER_SIZE = 2048;
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             for (int i = 0; i < data.Length; i += BUFFER_SIZE)
                 sb.Append(ConvertByteBlock(data, i, Math.Min(BUFFER_SIZE, data.Length - i)));
 
@@ -473,7 +473,7 @@ namespace ActiveUp.Net.Mail
 
         private static string ConvertByteBlock(byte[] data, int start, int length)
         {
-            return Encoding.ASCII.GetString(data, start, length);
+            return Encoding.UTF8.GetString(data, start, length);
         }
 
         private static void ParseHeaderFields(MimePart part, int headerEnd)
@@ -511,7 +511,7 @@ namespace ActiveUp.Net.Mail
         {
             MimePart part = new MimePart();
             part.ParentMessage = message;
-            part.OriginalContent = ToASCII(binaryData); //ASCII content for header parsing            
+            part.OriginalContent = ToUtf8(binaryData); //ASCII content for header parsing            
 
             try
             {
