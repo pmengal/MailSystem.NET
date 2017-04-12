@@ -117,18 +117,26 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         private static ContentDisposition GetContentDisposition(string input)
         {
-            ContentDisposition field = new ContentDisposition();
-            //TODO: include TAB detection in Regex
-            field.Disposition = Regex.Match(input.Replace("\t", ""), @"(?<=: ?)\S+?(?=([;\s]|\Z))").Value;
+            var field = new ContentDisposition
+            {
+                //TODO: include TAB detection in Regex
+                Disposition = Regex.Match(input.Replace("\t", ""), @"(?<=: ?)\S+?(?=([;\s]|\Z))").Value
+            };
             //TODO: include TAB detection in Regex
             Match parammatch = Regex.Match(input.Replace("\t", ""), @"(?<=;[ \t]?)[^;]*=[^;]*(?=(;|\Z))");
             for (; parammatch.Success; parammatch = parammatch.NextMatch()) field.Parameters.Add(FormatFieldName(parammatch.Value.Substring(0, parammatch.Value.IndexOf('='))), parammatch.Value.Substring(parammatch.Value.IndexOf('=') + 1).Replace("\"", "").Trim('\r', '\n'));
             return field;
         }
 
+        [Obsolete("We are migrating ASCII default char structure to UTF8, please, use GetUtf8ByteCountOfPart() as a default.")]
         private static int GetASCIIByteCountOfPart(string part)
         {
             return Encoding.ASCII.GetByteCount(part);
+        }
+
+        private static int GetUtf8ByteCountOfPart(string part)
+        {
+            return Encoding.UTF8.GetByteCount(part);
         }
 
         /// <summary>
@@ -138,27 +146,27 @@ namespace ActiveUp.Net.Mail
         private static void ParseSubParts(ref MimePart part, Message message)
         {
             string boundary = part.ContentType.Parameters["boundary"];
-            string parentPartAsciiBody = ToUtf8(part.BinaryContent);
+            string parentPartUtf8Body = ToUtf8(part.BinaryContent);
             byte[] parentPartBinary = part.BinaryContent;
 
             Logger.AddEntry(typeof(Parser), "boundary : " + boundary);
-            string[] arrpart = Regex.Split(parentPartAsciiBody, @"\r?\n?" + Regex.Escape("--" + boundary));
+            string[] arrpart = Regex.Split(parentPartUtf8Body, @"\r?\n?" + Regex.Escape("--" + boundary));
 
             foreach (var strpart in arrpart)
             {
                 if (string.IsNullOrWhiteSpace(strpart))
                     continue;
 
-                int bounaryByteLen = GetASCIIByteCountOfPart(parentPartAsciiBody.Substring(0, parentPartAsciiBody.IndexOf(strpart)));
-                int binaryPartLen = bounaryByteLen + GetASCIIByteCountOfPart(strpart);
-                parentPartAsciiBody = null;
+                int bounaryByteLen = GetUtf8ByteCountOfPart(parentPartUtf8Body.Substring(0, parentPartUtf8Body.IndexOf(strpart)));
+                int binaryPartLen = bounaryByteLen + GetUtf8ByteCountOfPart(strpart);
+                parentPartUtf8Body = null;
 
                 //complete Part (incl. boundary)
                 byte[] binaryPart = new byte[binaryPartLen];
                 Array.Copy(parentPartBinary, binaryPart, binaryPart.Length);
 
                 //Body only (without Boundary)
-                byte[] binaryBody = new byte[GetASCIIByteCountOfPart(strpart)];
+                byte[] binaryBody = new byte[GetUtf8ByteCountOfPart(strpart)];
                 Array.Copy(binaryPart, bounaryByteLen, binaryBody, 0, binaryBody.Length);
 
                 //Remove Subpart from ParentPart
@@ -171,7 +179,7 @@ namespace ActiveUp.Net.Mail
                 GC.WaitForPendingFinalizers();
 
                 parentPartBinary = tmp;
-                parentPartAsciiBody = ToUtf8(parentPartBinary);
+                parentPartUtf8Body = ToUtf8(parentPartBinary);
                 tmp = null;
 
                 if (!strpart.StartsWith("--") && !string.IsNullOrEmpty(strpart))
@@ -497,7 +505,7 @@ namespace ActiveUp.Net.Mail
         {
             if (bodyStart < part.OriginalContent.Length)
             {
-                string body = part.OriginalContent.Substring(bodyStart);
+                var body = part.OriginalContent.Substring(bodyStart);
                 part.BinaryContent = GetBinaryPart(binaryData, body);
             }
         }
@@ -506,23 +514,26 @@ namespace ActiveUp.Net.Mail
         /// Parses the MIME part.
         /// </summary>
         /// <param name="binaryData">The data.</param>
+        /// <param name="message">Message object to update</param>
         /// <returns></returns>
         public static MimePart ParseMimePart(byte[] binaryData, Message message)
         {
-            MimePart part = new MimePart();
-            part.ParentMessage = message;
-            part.OriginalContent = ToUtf8(binaryData); //ASCII content for header parsing            
+            var part = new MimePart
+            {
+                ParentMessage = message,
+                OriginalContent = ToUtf8(binaryData) //UTF8 content for header parsing            
+            };
 
             try
             {
                 // Separate header and body.
-                int headerEnd = Regex.Match(part.OriginalContent, @".(?=\r?\n\r?\n)").Index + 1;
-                int bodyStart = Regex.Match(part.OriginalContent, @"(?<=\r?\n\r?\n).").Index;
+                var headerEnd = Regex.Match(part.OriginalContent, @".(?=\r?\n\r?\n)").Index + 1;
+                var bodyStart = Regex.Match(part.OriginalContent, @"(?<=\r?\n\r?\n).").Index;
 
                 //TODO: remove this workaround
                 if (bodyStart == 0)
                 {
-                    int indexBody = part.OriginalContent.IndexOf("\r\n\r\n");
+                    var indexBody = part.OriginalContent.IndexOf("\r\n\r\n");
                     if (indexBody > 0)
                         bodyStart = indexBody;
                 }
@@ -533,12 +544,12 @@ namespace ActiveUp.Net.Mail
 
                     // Build the part tree.
                     // This is a container part.
-                    if (part.ContentType.Type.ToLower().Equals("multipart"))
+                    if (part.ContentType.Type.ToLower().Trim().Equals("multipart"))
                     {
                         ParseSubParts(ref part, message);
                     }
                     // This is a nested message.
-                    else if (part.ContentType.Type.ToLower().Equals("message"))
+                    else if (part.ContentType.Type.ToLower().Trim().Equals("message"))
                     {
                         // TODO: Create an interpreter to this.
                     }
@@ -560,9 +571,9 @@ namespace ActiveUp.Net.Mail
         }
 
 
-        private static byte[] GetBinaryPart(byte[] srcData, string asciiPart)
+        private static byte[] GetBinaryPart(byte[] srcData, string utf8Part)
         {
-            byte[] result = new byte[GetASCIIByteCountOfPart(asciiPart)];
+            var result = new byte[GetUtf8ByteCountOfPart(utf8Part)];
             Array.Copy(srcData, (srcData.Length - result.Length), result, 0, result.Length);
 
             return result;
