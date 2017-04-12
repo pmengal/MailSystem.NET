@@ -232,5 +232,16 @@ namespace ActiveUp.Net.Tests.Common
             Assert.AreEqual("Special char test  çãõáéíóú", message.BodyText.Text);
             Assert.IsTrue(string.IsNullOrWhiteSpace(message.BodyHtml.Text));
         }
+
+        [Test(Description = "")]
+        public void MustParseEmlWithContentTransferEncode8BitTest2()
+        {
+            var message = Parser.ParseMessageFromFile(_baseDir + "\\resource\\content-transfer-encode-8bit-utf8-flowed.eml");
+            Assert.AreEqual("bd502b4d-c631-9ff4-791f-fc01c9efc0e5@EmpresaX.com.br", message.MessageId);
+            Assert.AreEqual("Re: BLA BLÁ BLA XYZ/ XYZ / TROCA DE PACOTES origem ABC Destino XYZ x XYZ", message.Subject);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(message.BodyText.Text));
+            Assert.AreEqual("", message.BodyText.Text);
+            Assert.IsTrue(string.IsNullOrWhiteSpace(message.BodyHtml.Text));
+        }
     }
 }
