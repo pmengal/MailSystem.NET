@@ -530,13 +530,14 @@ namespace ActiveUp.Net.Mail
                 var headerEnd = Regex.Match(part.OriginalContent, @".(?=\r?\n\r?\n)").Index + 1;
                 var bodyStart = Regex.Match(part.OriginalContent, @"(?<=\r?\n\r?\n).").Index;
 
-                //TODO: remove this workaround
-                if (bodyStart == 0)
+                // Solve header only situations.
+                if (bodyStart == 0 && headerEnd == 1)
                 {
-                    var indexBody = part.OriginalContent.IndexOf("\r\n\r\n");
-                    if (indexBody > 0)
-                        bodyStart = indexBody;
+                    ParseHeaderFields(part, part.OriginalContent.Length);
+                    return part;
                 }
+
+                // Process Header and Body
                 if (part.OriginalContent.Length >= headerEnd)
                 {
                     ParseHeaderFields(part, headerEnd);

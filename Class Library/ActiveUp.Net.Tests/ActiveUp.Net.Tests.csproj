@@ -133,6 +133,9 @@
     <None Include="resource\multipart_body_text_and_html.eml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="resource\only_header.eml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="resource\quoted-printable-notepad-linebreak.eml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

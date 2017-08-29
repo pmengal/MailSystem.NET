@@ -84,7 +84,7 @@ namespace ActiveUp.Net.Mail
                 else
                     return ProductHelper.GetTrialString(this._text, TrialStringType.LongText);
 #else
-                string ret = _text;
+                string ret = _text ?? "";
                 ret = ret.Replace("FLAGS (Seen)", string.Empty);
                 return ret;
 #endif

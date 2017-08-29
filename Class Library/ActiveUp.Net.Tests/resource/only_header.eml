@@ -1,0 +1,39 @@
+Received: (qmail 54705 invoked by uid 89); 28 Aug 2017 14:51:48 -0300
+Delivered-To: postseller@destinatary.com.br
+Received: (qmail 54686 invoked from network); 28 Aug 2017 14:51:47 -0300
+Received: by simscan 1.4.0 ppid: 54607, pid: 54648, t: 2.9204s
+         scanners: clamav: 0.99.2/m:/d:23727 spam: 3.4.1
+X-Spam-Checker-Version: SpamAssassin: -last, FreeBSD Brasil LTDA rulesets: Yes
+X-Spam-Status: No, hits=-1.6 required=5.0
+Received: from unknown ([200.147.97.220])
+          (envelope-sender <sender@host.com.br>)
+          by color.serveru.us (qmail-ldap-1.03) with SMTP
+          for <postseller@destinatary.com.br>; 28 Aug 2017 14:51:44 -0300
+Received: from localhost (localhost.localdomain [127.0.0.1])
+  by a4-salsa1.host.com.br (Postfix) with ESMTP id C56FB380009F
+  for <postseller@destinatary.com.br>; Mon, 28 Aug 2017 14:55:45 -0300 (BRT)
+Received: from a4-salsa1.host.intranet (localhost.localdomain [127.0.0.1])
+  by a4-salsa1.host.com.br (Postfix) with ESMTP id AD4CF380009B
+  for <postseller@destinatary.com.br>; Mon, 28 Aug 2017 14:55:45 -0300 (BRT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=host.com.br; s=afl;
+  t=1503942945; bh=frcCV1k9oG9oKj3dpUqdJg1PxRT2RSN/XKdLCPjaYaY=;
+  h=Date:From:To:In-Reply-To:References:Subject;
+  b=ikMN+aVF4eIDnS6T6mrnzUNHPBtTqrZJgTuZh3dPK/WqrE5JQzp6izefol5kMNHyi
+   1CLGtQ3UutOWtdD1g2JsugJD0SrwuVGxQ9bkcTZX6zRkkETnPKJj/Y6XBxHrSZhWEd
+   2Zq0nQLoGZOwDDzwWoHHUpnKasVy7TXHp8/NrBO4=
+Received: from localhost (a4-winter6.host.intranet [10.131.133.132])
+  by a4-salsa1.host.intranet (Postfix) with ESMTP id A51303800081
+  for <postseller@destinatary.com.br>; Mon, 28 Aug 2017 14:55:45 -0300 (BRT)
+Date: Mon, 28 Aug 2017 14:55:45 -0300
+From: "sender@host.com.br" <sender@host.com.br>
+To: "postseller@destinatary.com.br" <postseller@destinatary.com.br>
+Message-ID: <59a459219e757_52803fc2847231301918b@a4-winter6.mail>
+In-Reply-To: 
+References: 
+Subject: I'm put all my text message on subject, then no has body in this e-mail.
+ second line exists too.
+Mime-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: 7bit
+X-SenderIP: 200.164.35.146
+X-SIG5: d41d8cd98f00b204e9800998ecf8427e
