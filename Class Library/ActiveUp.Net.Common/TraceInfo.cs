@@ -95,22 +95,22 @@ namespace ActiveUp.Net.Mail
         public override string ToString()
         {
             string source = string.Empty;
-            if (!From.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(From))
                 source += " from " + From + "\r\n ";
-            if (!By.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(By))
                 source += " by " + By + "\r\n ";
-            if (!With.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(With))
                 source += " with " + With + "\r\n ";
-            if (!For.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(For))
                 source += " for " + For + "\r\n ";
-            if (!Via.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(Via))
                 source += " via " + Via + "\r\n ";
-            if (!Id.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(Id))
                 source += " id " + Id + "\r\n ";
 
             if (string.IsNullOrEmpty(source))
                 return "";
-            return source.Remove(0,source.Length - 3) + ";" + Date.ToString("r");
+            return source.Remove(0, source.Length - 3) + ";" + Date.ToString("r");
         }
     }
 }

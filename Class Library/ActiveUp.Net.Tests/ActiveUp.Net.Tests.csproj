@@ -82,6 +82,7 @@
     <Compile Include="Common\MimePartTests.cs" />
     <Compile Include="Common\RFC2047\Rfc2047DecoderTests.cs" />
     <Compile Include="Common\RFC2047\Rfc2047DecoderTests.Splitter.cs" />
+    <Compile Include="Common\TraceInfoTests.cs" />
     <Compile Include="FluentTests.cs" />
     <Compile Include="Groupware\ParserTests.cs" />
     <Compile Include="ImapTests.cs" />

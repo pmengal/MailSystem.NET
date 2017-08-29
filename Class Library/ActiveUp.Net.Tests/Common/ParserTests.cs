@@ -3,7 +3,6 @@ using System.IO;
 using ActiveUp.Net.Mail;
 using NUnit.Framework;
 using System.Reflection;
-using System.Text;
 
 namespace ActiveUp.Net.Tests.Common
 {
