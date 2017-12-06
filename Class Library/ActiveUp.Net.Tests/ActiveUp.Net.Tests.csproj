@@ -112,6 +112,9 @@
     <None Include="resource\content-transfer-encode-8bit.eml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="resource\only_header_2.eml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="resource\image-as-body-part.eml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -250,10 +250,25 @@ namespace ActiveUp.Net.Tests.Common
         public void MustParseEmlContainingOnlyHeaders()
         {
             var message = Parser.ParseMessageFromFile(_baseDir + "\\resource\\only_header.eml");
+            Assert.AreEqual("sender@host.com.br", message.From.Email);
             Assert.AreEqual("59a459219e757_52803fc2847231301918b@a4-winter6.mail", message.MessageId);
             Assert.AreEqual("I'm put all my text message on subject, then no has body in this e-mail. second line exists too.", message.Subject);
             Assert.IsTrue(string.IsNullOrWhiteSpace(message.BodyText.Text));
             Assert.IsTrue(string.IsNullOrWhiteSpace(message.BodyHtml.Text));
+            Assert.AreEqual(0, message.Attachments.Count);
+        }
+
+        [Test(Description = "")]
+        public void MustParseEmlContainingOnlyHeaders2()
+        {
+            var message = Parser.ParseMessageFromFile(_baseDir + "\\resource\\only_header_2.eml");
+            Assert.AreEqual("parceiro@abidos.com.br", message.From.Email);
+            Assert.AreEqual("d38c1c1f-abdc-483e-b8b5-cb95c65c2eeb@CY1NAM02FT029.eop-nam02.prod.protection.outlook.com", message.MessageId);
+            Assert.AreEqual("Conclua sua pos em 6 meses!!!", message.Subject);
+            Assert.IsTrue(string.IsNullOrWhiteSpace(message.BodyText.Text));
+            Assert.IsTrue(string.IsNullOrWhiteSpace(message.BodyHtml.Text));
+            Assert.AreEqual(0, message.Attachments.Count);
+            Assert.AreEqual(0, message.LeafMimeParts.Count);
         }
     }
 }

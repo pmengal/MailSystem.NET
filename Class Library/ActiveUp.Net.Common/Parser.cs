@@ -297,6 +297,8 @@ namespace ActiveUp.Net.Mail
 #endif
                 }
 
+                // If is an empty content, return without add part.
+                if (part.BinaryContent.Length == 0 && part?.ContentName == null && string.IsNullOrWhiteSpace(part?.Filename)) return;
                 // Anyway, this is a leaf part of the message.
                 message.LeafMimeParts.Add(part);
             }

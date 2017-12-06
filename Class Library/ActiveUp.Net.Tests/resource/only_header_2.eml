@@ -1,0 +1,70 @@
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hostway.travel;
+ s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+ b=JIAhrdolQUVfO4Q3xKUZ2UqFmDgMuG7QPLpz6Jch9jBiwpcdzzwFuGSC0ys1xQm3dfOyM54NieAyJ9Mv64LGU4VxN1ewKMDIgdz1zleYnRwMnfO6p4yokx25ubyb02BCI1MAUXflRLBsU0LJ5kKyX/fZgRAtAU3UmyFL23tu0+Q=
+Resent-From: <vipdesk@hostway.travel>
+Received: from CP2PR80CA0150.lamprd80.prod.outlook.com (10.165.252.16) by
+ RO1PR80MB0106.lamprd80.prod.outlook.com (10.164.233.15) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.218.12; Tue, 14 Nov 2017 12:53:11 +0000
+Received: from CY1NAM02FT029.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e45::200) by CP2PR80CA0150.outlook.office365.com
+ (2603:10d6:102:2d::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.218.12 via Frontend
+ Transport; Tue, 14 Nov 2017 12:53:10 +0000
+Authentication-Results: spf=none (sender IP is 154.16.167.2)
+ smtp.mailfrom=abidos.com.br; hostwayviagens.com.br; dkim=none (message not
+ signed) header.d=none;hostwayviagens.com.br; dmarc=none action=none
+ header.from=abidos.com.br;
+Received-SPF: None (protection.outlook.com: abidos.com.br does not designate
+ permitted sender hosts)
+Received: from mail.supermercadodeofertas.com.br (154.16.167.2) by
+ CY1NAM02FT029.mail.protection.outlook.com (10.152.75.143) with Microsoft SMTP
+ Server id 15.20.197.9 via Frontend Transport; Tue, 14 Nov 2017 12:53:09 +0000
+From: Faculdade Faveni <parceiro@abidos.com.br>
+To: "vipdesk@hostwayviagens.com.br" <vipdesk@hostwayviagens.com.br>
+Subject: =?UTF-8?B?Q29uY2x1YSBzdWEgcG9zIGVtIDYgbWVzZXMhISE=?=
+Date: Tue, 14 Nov 2017 12:53:08 +0000
+X-Ref-1: Cvl5H O6K
+Reply-To: <bounce-921984B0E00016578783700001343708@abidos.com.br>
+Return-Path: parceiro@abidos.com.br
+List-Unsubscribe: <mailto:bounce-921984B0E00016578783700001343708@abidos.com.br>
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: base64
+Message-ID: <d38c1c1f-abdc-483e-b8b5-cb95c65c2eeb@CY1NAM02FT029.eop-nam02.prod.protection.outlook.com>
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: c709a8cf-ebee-4c19-a146-0139aa7878ea:0
+X-Forefront-Antispam-Report:
+	CIP:154.16.167.2;IPV:NLI;CTRY:US;EFV:NLI;SFV:SPM;SFS:(6009001)(5340300001)(2980300002)(1130300004)(428002)(596005)(359002)(189002)(199003)(349900001)(349012);DIR:INB;SFP:;SCL:9;SRVR:RO1PR80MB0106;H:mail.supermercadodeofertas.com.br;FPR:;SPF:None;PTR:mail.supermercadodeofertas.com.br;MX:1;A:1;CAT:BULK;LANG:pt;
+X-Microsoft-Exchange-Diagnostics: 1;CY1NAM02FT029;1:5iB2mHzYdLSfWpys5C1W2zYscpk7aAsHRSBTdlDvUaPaquE3BTfEQ6v29UtYzPw28TC9xq5OWwgs80FBDoL69UzudG+bYPmtah5+svLY6iWkQXUcaYj6GRIsOyQRBPeK
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dd2959b8-1db5-444a-02ac-08d52b5ea8ad
+X-Microsoft-Antispam:
+	UriScan:;BCL:9;PCL:0;RULEID:(22001)(23075)(4534020)(71702078);SRVR:RO1PR80MB0106;
+X-Microsoft-Exchange-Diagnostics:
+	1;RO1PR80MB0106;3:xoefwlKJjTJXRhA6nBdPYy8mcZlnCisNRM26nnqvxtLr34Rr8N9LYA6wVBlJ3j7Pxn54VC4oXoWFU83rJ/cuy0tS1zUDMwGn400tJ3c+YoiRw8vyP1hdbrkie7Jh2PX3rTjkDcdPr7oFjfiue9RzfZdQ2otBpdbPlShWwTWCGSbURgtmproncI/YXM38wMoXaSI3Xi/n1rO8cxrUGNNGYUR63Opq8U1jss1ZWb4W3zqNb09+jbsx+UjP9c2sHTnKO5hIo2o2dPY5UxXHwagcCuJCrI2uoYDRyn119ZpCiF1FRtlMlIgBznOY1q7aHVcwd+2wOwHOQlOPuC88xmGngHVBXlr4u9FMcK96YT1uHko=;25:V5iGET4bRVrZX9tNaiw8Dil2OmzW5LHAI2fL/e0epIXUTFVk+8gGu4AhEVB4Oinj+3wbsXVvN0H1i8wrIQSnsx7dPDXUvTyfKgxI+QWMUgqqXYqMqR23f2QeqM1wIH2H3RzZTbXadSg148FMgIaKwlCVnKR1PULqz4HvDD5+u2aCc11/2JoIHwjUmRv+ZIux2jrzcuZiGbIrffa5BDn7R3+xDhgpVAinurpxxHUMFVo=;31:qnRgXldjWhbO3o3iYsqxA7Qxt8j1WwT8tw4JDPz2UWV+uZwGDBlWlOZpe7x25MX2emyjhCFInwcNhtC+eLTA8S0x5q+DkzfweLZ3s+gTUGl9vGgXuDE3OgQfxb1cl4L+
+X-MS-TrafficTypeDiagnostic: RO1PR80MB0106:|RO1PR80MB0106:
+X-Microsoft-Exchange-Diagnostics:
+	1;RO1PR80MB0106;20:1821yRltUnu9mEUaLRVdk8YldWGUdO0olj4O9ow92ogkH7WxhTlFaqRCpbv4JmP1oPjvqiGEfj+/OhYbn8UyMCX0B5s8gQMmPeWLQj6K563C0Bzxkvrt1t/zjTwloeVQJGeyeOO2DrwLqmX0TcyoQ3MoPCcLN9pd5/6hJr/zye3zGnd6LQCKjfBOM5wOMCaOUk71+cZeaQ2I6ulaNGpa5CrVX2UIOvr0KDVr22z0OqzPE+znDXtudCfbcm388MD1K5YBfG8KPZFemt6DKO2OF4xXWfRdAD6ztyJ3AtISEkxwNSKRtSFKOZC3xlix3o4nVHC/6YqLGr1zDeY3HT2PTPpjIvBQS3FN4h0oNBfi8eQVZwhNeP/ey1awPoS/C0EoTmILKRQIuTA9RkBsgAYTW5qiiQy9Lg8eZZqoJC+ksWx5+aRtsMb/acMaGKmcEToYrtma/PCu7czFJZspQzrTKfTI39x+y7jXNXo7nF3RvrieIFqunZdi72jl+Ofw+bMR;4:BfXDwh8IhSfcvwFsp7ed7EX3Ct2P2oQqK3vxSzM//qVuy4gHNizRVxNNj9mNsUAjqkgrRc5COX9iddUW/fw5QuRjlyyYvU+mPZRcFjqH58ri6BG7JK4xx6rU4MSKGMcoyi/z74wdLvHzXG8F/TxnupHIZ6OQ7ZN5NvjaR1AmXww=
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test:
+	BCL:9;PCL:0;RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(2401047)(701105)(8121501046)(9101536074)(12181506113)(93006095)(93001095)(10201501046)(3231022)(8191506053)(100000703101)(100105400095)(3002001)(201708071742011)(100000704101)(100105200095)(100000705101)(100105500095);SRVR:RO1PR80MB0106;BCL:9;PCL:0;RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);SRVR:RO1PR80MB0106;
+X-CustomSpam: Bulk Mail | Bulk Mail
+X-Microsoft-Exchange-Diagnostics:
+	1;RO1PR80MB0106;23:lPYVAgxML0JewdwN1imsBYvdYCEprqVIrjZrViLZnK1gR1suUVuvtm1jlD3oDOv2BbWUhLSwHM2lr4H0ftlfLcOLoYyAwn8XTYN9uHbySVsIywV2Kir+ioKNhu3T0PD7ZNmjawEePz3fyEc0kB6eQDHAFryBB+ekP8dN/aevjca6cuh/if43KpGMANH0F7B55qBR95ggt0qfMsfnoAj4oUOSlA+6Bq3qMGEMX2AuTY01lm9khHu57ezmW7X4Z2FnCx9Ivj68ccchaWeohvwjHoASwfIuEUPWHnC4WTyL/fm64qRzfLBch7r1JXb++XhOfk92JhMviTddq9wg5WFRqHId4dw+57BblBoGRg9dcUdfDJgtz+z6fQvJ0zdrdVNcfeueZNLTYBhsTR0LLr0jMA==;6:U6EZX0bE0jJHONnMpqF7HruQeVypc4CL4gybGeolMK8hec5qfyxnTzJZ5z6Mhyf7SErbgAxQyESCgcqw7p217c4f3O9+H4Eh0Wed74e+AP22e2XryrQpwE4Q102d8P1o3WIX8TMDLHNjs/nqlkIUxiaoj5BVXhnIFYBK8AjDMXEtK3Y8c+vDnT9bLe3Oeoj2oDVw5XrgjZ77lKf9m32EUkSBcDENzWi6Uqm+pwqxL2Sy0Al47CDLdi2HGnQs/z4/DAppEbXjLIX/M+SSAgGdfw/nqYh7SnKNmhyTNVTi0ew=;5:7WUK3/XjFKYxdorOjxj8RUaBmDCGLumtzVpcjwCY1gketxbXdQ2PtU5XRuedoNPnwhwihCoZ97oj9HWEx+QCSPqAby2DmsuQWWvGOL3EICPAQN5BCFrHzHUS56cqZtfA67gqhFVlzf98HGwuYhOFYoyj3te7QeGM5AlcLSjy1Ag=
+X-Microsoft-Exchange-Diagnostics:
+	1;RO1PR80MB0106;24:u/EmACmqz+2QxMUGTdOwuVj/kebIeTRYjlsSzmgXrN/zdXpeT7HeDNlpESy9JG5yp7yqHO3BQWC5zYuKvydE1g==;7:e0VmuoQ8hcaCk7ECv4JYTgsRzwFrjZEU3PBRlgRl0WtisNGUfxvRi+UCe2LGKJPZTEOGyy1wMk9cwW93HCr3hUUB7C+hFvmWUDHxzynP7zFAbqCvYjOiHTbAHDdy4oEbNFzMvpin2EOD1Bb56xBxu+lBotlu6Tqlp0uwfdL5uY5cpJrIwlbZ4B0qQj53RqAf9n1+BowuIPWxTnSD7YQbgesGH2cP5j0jnn4svHls26y4l4LHHmuCGZRDDxyGYM38eKeUzkiqilf4UgI3ImGJd3bXd6lkSB3mM0KYvxBigug=;20:CfwChLYxhEEfDmbUl99hmH6utIe/wdkeD1VKyp/dR/qFwDDusTG6R7GE/8QZXrqgd3/gVy0Nqx63w3XAXrIghGtcl17gK1XEK/DDEQDXNM8CKbJrg0uU9qeleI6NKcRJmuLy823/MriFk+reWV2F0UHUQDPKAJoKeNp84mALI2bHK3ltssEZ0a4niJ4xaXntZXNjiJMNVbgHT2fwMbwRCWFZ8r+38DjA5DmuLjMALIXBAn/i242uC9XjoD9yeyTDINLxjcG/SM9KuEMI2Vwe0kMZx2lixyidoCu7vF4NSrgfZKNA+u7v/lXQ5eEqNaqjY6etBh72vRMgyLcTzl16k7WxaeNm5uZ9hdyaLtVfFVoWbFj+q4wGGScA+8sOJbO51M9kTtuJP2Ut1wjiuvr9FyLkzlmdq+McDWSUmO+jMxyhYUj1SFp+dfu8idXHFUkm4Z4cFTCr08tKQ9K7dLBXL4oJ5hntOLNVEduZRFuQhLvio+9P+lZd+QJiyhmLoH57
+SpamDiagnosticOutput: 1:6
+SpamDiagnosticMetadata: Default:9
+X-MS-Exchange-Inbox-Rules-Loop: vipdesk@hostway.travel
+X-Microsoft-Exchange-Diagnostics:
+	1;RO1PR80MB0106;23:l70+jaaaGISH7JuWwWaWUQ1DYuHN8m9lK7iB0FD18yTRmoLhc3MygvoQH7u6jZeqlHNRXGeziSrP5NWKKOamHGumn6R87ZRK9lxrShcbKa2LVEAHeCgoyzo7yn3KmZLCBtQSS5TLfqSOfqwby52Uvw==
+X-ExternalRecipientOutboundConnectors: c709a8cf-ebee-4c19-a146-0139aa7878ea
+X-OriginatorOrg: hostway.travel
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2017 12:53:09.0561
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd2959b8-1db5-444a-02ac-08d52b5ea8ad
+X-MS-Exchange-CrossTenant-Id: c709a8cf-ebee-4c19-a146-0139aa7878ea
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: RO1PR80MB0106
