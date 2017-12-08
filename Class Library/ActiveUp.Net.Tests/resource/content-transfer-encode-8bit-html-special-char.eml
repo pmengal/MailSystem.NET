@@ -1,0 +1,169 @@
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=optionalserver.onmicrosoft.com; s=selector1-hostway-travel;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=fromemail@domain.com; 
+Received: from deskserver.ms (50.80.200.123) by
+ GRUPR80MB1276.lamprd80.prod.com (10.164.107.99) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.77.7; Wed, 27 Sep 2017 12:34:46 +0000
+Date: Wed, 27 Sep 2017 09:34:39 -0300
+Return-Path: fromemail@domain.com
+To: destinatary@domain.com
+From: Client support <fromemail@domain.com>
+Reply-to: Client support <fromemail@domain.com>
+Subject: CLIENT - BRASIL Status: OPEN / RESOLVED #0917-000622
+Message-ID: <3a8c760555b716f3834fef3a2b05f160@deskserver.ms>
+X-Priority: 3
+X-Mailer: PHPMailer 5.1 (phpmailer.sourceforge.net)
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+  boundary="b1_3a8c760555b716f3834fef3a2b05f160"
+
+
+--b1_3a8c760555b716f3834fef3a2b05f160
+Content-Type: text/plain; charset = "iso-8859-1"
+Content-Transfer-Encoding: 8bit
+
+Para visualizar a mensagem, por favor, use um cliente de e-mail compatÃ­vel/configurado para ver mensagens HTML!
+
+
+--b1_3a8c760555b716f3834fef3a2b05f160
+Content-Type: text/html; charset = "iso-8859-1"
+Content-Transfer-Encoding: 8bit
+
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt" lang="pt"> 
+   <head> 
+    <title></title>
+    <meta name="author" content="suporte" />
+    <meta http-equiv="Content-Type" content="text/html; charset =iso-8859-1" /> 
+    <style>
+    .txt_padrao  {font-family:Arial;font-size:12px}
+    #bold    {font-weight:bold;}
+    </style>
+  </head> 
+  <body leftmargin="5" topmargin="5"  marginheight="0" smarginwidth="0">
+<br />
+ Qualquer dúvida estou a disposição.<br />
+<br />
+ Atenciosamente,<br />
+<br />
+<br />
+ <br />
+     <br />
+         <br />
+             <br />
+                <br />
+  <br />
+ <br />
+<br />
+             <br />
+  <br />
+                  Ronald Santander<br />
+ _________________________<br />
+<br />
+                 CLIENT<br />
+ Consultor de Viagens <br />
+ Tel.: +   (55 11) 2222-4444 <br />
+ Tel.: +   (55 11) 3333-6666<br />
+                <br />
+                 <br />
+<br />
+ Outros telefones <br />
+<br />
+             <br />
+         <br />
+     <br />
+ <br />
+<br />
+  ATENÇÃO! <br />
+<br />
+<br />
+<br />
+ Prezado cliente, Seguindo a nova resolução do Regulador XXXXX, homologada em Abril/2016, e que impõe a emissão de certificado de seguro viagem individuais, tanto para viagem doméstica quanto internacional, as bandeiras American Express, Mastercard e Visa estão migrando o processo de emissão do certificado do seguro viagem, benefício incluso em suas soluções corporativas de pagamentos se utilizado pela sua empresa.<br />
+<br />
+<br />
+ Todos os novos procedimentos de emissão do certificado do seguro viagem foram comunicados e disponibilizados aos gestores de viagens da sua empresa. Caso não tenha conhecimento do novo procedimento, se faz necessário verificar com o gestor responsável de sua empresa, pois a emissão do certificado é de total responsabilidade do viajante e requer acesso a ferramenta de emissão a cada viagem, por meio de login, senha e dados pessoais.<br />
+<br />
+<br />
+<br />
+  INFORMAÇÕES IMPORTANTES <br />
+<br />
+<br />
+ <br />
+     A garantia da reserva, do assento e da tarifa são a emissão do bilhete; <br />
+     Tarifas sujeitas a alteração sem prévio aviso. <br />
+     Atenção ao prazo de emissão das reservas; <br />
+     Para alterações, cancelamentos ou reembolsos há incidência de multas e/ou diferenças tarifárias conforme regra do bilhete; <br />
+      Multa por Churning:  Segundo a política de reservas, poderá haver cobrança de multa em caso de solicitação/realização de sucessivas operações para o mesmo passageiro/ cia aérea/trecho. Esta cobrança,  multa por  Churning - Excessive or constant book/cancel activity  , ocorre quando a cia aérea detecta o mesmo trecho aéreo ou parte dele solicitado a partir da segunda vez em datas idênticas ou próximas (até 5 dias antes ou depois para ida e/ou volta). As multas recebidas serão repassadas à empresa. <br />
+ <br />
+<br />
+  VIAGENS INTERNACIONAIS PARA BRASILEIROS <br />
+<br />
+<br />
+ <br />
+     Chegar no aeroporto com 3 horas de antecedência para o embarque; <br />
+     Apresentar passaporte com validade mínima de 6 meses; <br />
+     Para países que necessitam de visto, o mesmo deve estar válido no momento do embarque; <br />
+     Para países que exigem vacina contra febre amarela, apresentar comprovante internacional com período de incubação de 10 dias; <br />
+     Para maiores informações sobre vacinas necessárias ou indicadas para seu destino visite o site:  http://www.anvisa.gov.br/viajante/ ; <br />
+     Para viagens internacionais é necessário informar o  Nome completo do passageiro (idêntico ao Passaporte), Data de nascimento, Número do passaporte, País de emissão do passaporte, Validade, Nacionalidade, País de residência, País de destino, Endereço no destino, Cidade, Estado, Cep. Endereço residencial, Cidade, Estado e Cep.  Para inclusão das informações de segurança na reserva antes da emissão do bilhete; <br />
+ <br />
+<br />
+  VIAGENS NACIONAIS <br />
+<br />
+<br />
+ <br />
+     Chegar no aeroporto com 2 horas de antecedência para o embarque; <br />
+     Apresentação obrigatória de um documento de identificação original com foto e atual para embarque; <br />
+     Favor sempre informar o número de identidade, cartão de milhas e preferência de assento do passageiro no momento da reserva;</td>
+      </tr>
+    <tr><td colspan="2" ><hr></td></tr><tr><td height="35" align="left"  colspan="2" ><table><tr><td><img src="./ico_visto.gif" width="25" height="25" border="0" alt=""></td><td class="txt_padrao" id="bold" >Dados da Ação</td></tr></table></td></tr>
+      <tr>
+        <td class="txt_padrao" align="right" width="150" >Forma de atendimento:</td>
+        <td class="txt_padrao" width="590" >&nbsp;DESK MANAGER</td>
+      </tr>
+    
+      <tr>
+        <td class="txt_padrao" align="right">Causa:</td>
+        <td class="txt_padrao">&nbsp;ATUALIZAÇÃO</td>
+      </tr>
+      <tr><td colspan="2" ><hr></td></tr>
+      <tr>
+        <td width="35" height="35" align="right"><img src="./ico_visto.gif" width="25" height="25" border="0" alt=""></td>
+        <td width="740" class="txt_padrao" id="bold"> Descrição da Ação:</td>
+      </tr>
+      </tr>
+        <td>&nbsp;</td>
+        <td class="txt_padrao">Bom dia 
+<br>
+<br>cadastrado atualizado cliente control xpto certifications<p>Atenciosamente,<br />DONALD L. THRUMP<br />donald.thrump@domain.com<br />Telefone: (11)5555-2222 <br /><img src="./159282496_logo_novo2.gif" border="0"></td>
+      </tr>
+    
+    <tr><td colspan="2"><hr></td></tr>
+    
+      </tr>
+        <td>&nbsp;</td>
+        <td class="txt_padrao">
+        Para visualizar o conteúdo da Ação, por favor acessar:<br>
+        <a href="https://domain.deskserver.ms/?LoginPortal">https://domain.deskserver.ms/?LoginPortal</a>
+        </td>
+      </tr>
+    
+    <tr>
+      <td height="35" align="right"><img src="./ico_alert.gif" width="25" height="25" border="0" alt=""></td>
+      <td class="txt_padrao" id="bold"> Este e-mail é gerado automaticamente.</td>
+    </tr>
+
+    <tr><td colspan="2" ><hr></td></tr>
+    </table>
+
+  </body> 
+  </html>
+  
+
+
+
+--b1_3a8c760555b716f3834fef3a2b05f160--

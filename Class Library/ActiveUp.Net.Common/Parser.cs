@@ -34,7 +34,7 @@ namespace ActiveUp.Net.Mail
 #endif
     public static class Parser
     {
-        private static Encoding defaultEncoding = Encoding.GetEncoding("iso-8859-1");
+        private static Encoding defaultEncoding = Encoding.UTF8;
 
         #region Methods
 
@@ -179,7 +179,7 @@ namespace ActiveUp.Net.Mail
                 GC.WaitForPendingFinalizers();
 
                 parentPartBinary = tmp;
-                parentPartUtf8Body = ToUtf8(parentPartBinary);
+                parentPartUtf8Body = defaultEncoding.GetString(parentPartBinary);
                 tmp = null;
 
                 if (!strpart.StartsWith("--") && !string.IsNullOrEmpty(strpart))
