@@ -542,7 +542,7 @@ namespace ActiveUp.Net.Mail
         /// <returns></returns>
         public string ToMimeString()
         {
-            return ToMimeString(false);
+            return ToMimeString(true);
         }
 
         /// <summary>
