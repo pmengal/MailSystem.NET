@@ -93,7 +93,7 @@ In addition to the library, the suite provides the developer with a full feature
  - Triggers include Daily, Weekly, Monthly or a specific day, week and month of year
  - Multiple XML task list configuration file support
 
-![Powered by ndepend](http://download-codeplex.sec.s-msft.com/Download?ProjectName=mailsystem&DownloadId=738843)
+[![Powered by ndepend](PoweredByNDepend.png)](https://www.ndepend.com/)
 
 **Who's using this**
 
