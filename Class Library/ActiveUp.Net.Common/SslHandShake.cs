@@ -48,7 +48,7 @@ namespace ActiveUp.Net.Security
         {
 
         }
-        public SslHandShake(string hostName) : this(hostName, System.Security.Authentication.SslProtocols.Default, null, null, null, false)
+        public SslHandShake(string hostName) : this(hostName, System.Security.Authentication.SslProtocols.None, null, null, null, false)
         {
 
         }

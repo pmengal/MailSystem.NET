@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // MailSystem.NET is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,7 +13,7 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with SharpMap; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
 using System.IO;
@@ -29,8 +29,6 @@ namespace ActiveUp.Net.Mail
 #endif
     public class Fetch
     {
-        private string _response;
-        private byte[] _binaryResponse;
 
         #region Methods
 
@@ -56,7 +54,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -64,9 +62,9 @@ namespace ActiveUp.Net.Mail
         /// string body = inbox.Fetch.Body(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -74,9 +72,9 @@ namespace ActiveUp.Net.Mail
         /// Dim body As String = inbox.Fetch.Body(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -106,7 +104,7 @@ namespace ActiveUp.Net.Mail
         {
             return _delegateBody.EndInvoke(result);
         }
-        
+
         public string UidBody(int uid)
         {
             ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
@@ -137,7 +135,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -145,9 +143,9 @@ namespace ActiveUp.Net.Mail
         /// string body = inbox.Fetch.BodySection(1,3);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -155,9 +153,9 @@ namespace ActiveUp.Net.Mail
         /// Dim body As String = inbox.Fetch.Body(1,3);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -217,7 +215,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -225,9 +223,9 @@ namespace ActiveUp.Net.Mail
         /// string body = inbox.Fetch.BodyStructure(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -235,9 +233,9 @@ namespace ActiveUp.Net.Mail
         /// Dim body As String = inbox.Fetch.BodyStructure(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -297,7 +295,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -305,9 +303,9 @@ namespace ActiveUp.Net.Mail
         /// string internalDate = inbox.Fetch.InternalDate(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -315,9 +313,9 @@ namespace ActiveUp.Net.Mail
         /// Dim internalDate As String = inbox.Fetch.InternalDate(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -377,7 +375,7 @@ namespace ActiveUp.Net.Mail
             /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -385,9 +383,9 @@ namespace ActiveUp.Net.Mail
         /// FlagCollection flags = inbox.Fetch.Flags(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -395,9 +393,9 @@ namespace ActiveUp.Net.Mail
         /// Dim flags As FlagCollection = inbox.Fetch.Flags(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -510,7 +508,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -518,9 +516,9 @@ namespace ActiveUp.Net.Mail
         /// Header Header = inbox.Fetch.Header(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -528,9 +526,9 @@ namespace ActiveUp.Net.Mail
         /// Dim Header As Header = inbox.Fetch.Header(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -696,7 +694,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -707,9 +705,9 @@ namespace ActiveUp.Net.Mail
         /// string messageSubject = lines["subject"];
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -720,9 +718,9 @@ namespace ActiveUp.Net.Mail
         /// Dim messageSubject As String = lines("subject")
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -891,7 +889,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -902,9 +900,9 @@ namespace ActiveUp.Net.Mail
         /// string messageSubject = lines["subject"];
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -915,9 +913,9 @@ namespace ActiveUp.Net.Mail
         /// Dim messageSubject As String = lines("subject")
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1087,9 +1085,9 @@ namespace ActiveUp.Net.Mail
             ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
             ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(messageOrdinal));
             byte[] response = ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " rfc822", getFetchOptions());
-            _binaryResponse = response;
-            _response = Encoding.UTF8.GetString(response);
-            Logger.AddEntry(GetType(), _response);
+            BinaryResponse = response;
+            Response = Encoding.UTF8.GetString(response);
+            Logger.AddEntry(GetType(), Response);
 
             byte[] message = ExtractMessageFromReponse(response);
 
@@ -1139,7 +1137,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1147,9 +1145,9 @@ namespace ActiveUp.Net.Mail
         /// Message message = inbox.Fetch.Message(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -1157,9 +1155,9 @@ namespace ActiveUp.Net.Mail
         /// Dim message As Message = inbox.Fetch.Message(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1259,12 +1257,12 @@ namespace ActiveUp.Net.Mail
         /// <param name="messageOrdinal">The ordinal position of the message to be fetched.</param>
         /// <returns>The message's data as a string.</returns>
         /// <example><see cref="MessageObject"/></example>
-        public string MessageString(int messageOrdinal) 
+        public string MessageString(int messageOrdinal)
         {
             return Encoding.UTF8.GetString(Message(messageOrdinal));
         }
 
-        private static byte[] ExtractMessageFromReponse(byte[] response) 
+        private static byte[] ExtractMessageFromReponse(byte[] response)
         {
             byte[] message = null;
             string responseString = Encoding.ASCII.GetString(response);
@@ -1286,7 +1284,7 @@ namespace ActiveUp.Net.Mail
                     continue;
                 }
             }
-            
+
             try {
                 if (message == null || firstline == null)
                     throw new Exception("failed to determine messagesize");
@@ -1300,14 +1298,14 @@ namespace ActiveUp.Net.Mail
                     int suffixLength = Encoding.ASCII.GetByteCount(responseString.Substring(responseString.LastIndexOf(")")));
                     message = new byte[response.Length - prefixLength - suffixLength];
                     Array.Copy(response, prefixLength, message, 0, message.Length);
-                }                               
+                }
 
                 return message;
             } catch (Exception e) {
                 throw new Exception("failed to extract message from response", e);
             }
         }
-       
+
 
         private delegate string DelegateMessageString(int messageOrdinal);
         private DelegateMessageString _delegateMessageString;
@@ -1359,12 +1357,12 @@ namespace ActiveUp.Net.Mail
             ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(messageOrdinal));
             byte[] response;
             if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1)
-                response = ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " body[mime]", getFetchOptions());                
+                response = ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " body[mime]", getFetchOptions());
             else
                 response = ParentMailbox.SourceClient.CommandBinary("fetch " + messageOrdinal.ToString() + " rfc822.peek", getFetchOptions());
-            _binaryResponse = response;
-            _response = Encoding.UTF8.GetString(response);
-            
+            BinaryResponse = response;
+            Response = Encoding.UTF8.GetString(response);
+
             byte[] message = ExtractMessageFromReponse(response);
             ParentMailbox.SourceClient.OnMessageRetrieved(new MessageRetrievedEventArgs(message, messageOrdinal));
             return message;
@@ -1387,7 +1385,19 @@ namespace ActiveUp.Net.Mail
 
         public byte[] UidMessagePeek(int uid)
         {
-            return Encoding.UTF8.GetBytes(UidMessageStringPeek(uid));
+            ParentMailbox.SourceClient.SelectMailbox(ParentMailbox.Name);
+            ParentMailbox.SourceClient.OnMessageRetrieving(new MessageRetrievingEventArgs(uid));
+            byte[] response;
+            if (ParentMailbox.SourceClient.ServerCapabilities.IndexOf("IMAP4rev1") != -1)
+                response = ParentMailbox.SourceClient.CommandBinary("uid fetch " + uid.ToString() + " BODY.PEEK[]", getFetchOptions());
+            else
+                response = ParentMailbox.SourceClient.CommandBinary("uid fetch " + uid.ToString() + " rfc822.peek", getFetchOptions());
+            BinaryResponse = response;
+            Response = Encoding.UTF8.GetString(response);
+
+            byte[] message = ExtractMessageFromReponse(response);
+            ParentMailbox.SourceClient.OnMessageRetrieved(new MessageRetrievedEventArgs(message, uid));
+            return message;
         }
 
         private delegate byte[] DelegateUidMessagePeek(int uid);
@@ -1554,7 +1564,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1562,9 +1572,9 @@ namespace ActiveUp.Net.Mail
         /// int size = inbox.Fetch.Size(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -1572,9 +1582,9 @@ namespace ActiveUp.Net.Mail
         /// Dim size As Integer = inbox.Fetch.Size(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1634,7 +1644,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1642,9 +1652,9 @@ namespace ActiveUp.Net.Mail
         /// string messageBody = inbox.Fetch.Text(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -1652,9 +1662,9 @@ namespace ActiveUp.Net.Mail
         /// Dim messageBody As Header = inbox.Fetch.Text(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1766,7 +1776,7 @@ namespace ActiveUp.Net.Mail
         /// <example>
         /// <code>
         /// C#
-        /// 
+        ///
         /// Imap4Client imap = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -1774,9 +1784,9 @@ namespace ActiveUp.Net.Mail
         /// int uid = inbox.Fetch.Uid(1);
         /// inbox.Close();
         /// imap.Disconnect();
-        /// 
+        ///
         /// VB.NET
-        /// 
+        ///
         /// Dim imap As New Imap4Client
         /// imap.Connect("mail.myhost.com")
         /// imap.Login("jdoe1234","tanstaaf")
@@ -1784,9 +1794,9 @@ namespace ActiveUp.Net.Mail
         /// Dim uid As Integer = inbox.Fetch.Uid(1);
         /// inbox.Close()
         /// imap.Disconnect()
-        /// 
+        ///
         /// JScript.NET
-        /// 
+        ///
         /// var imap:Imap4Client = new Imap4Client();
         /// imap.Connect("mail.myhost.com");
         /// imap.Login("jdoe1234","tanstaaf");
@@ -2159,22 +2169,18 @@ namespace ActiveUp.Net.Mail
         /// <summary>
         /// The complete mail server response
         /// </summary>
-        public string Response {
-            get { return _response; }
-        }
+        public string Response { get; private set; }
 
         /// <summary>
         /// The complete mail server response (binary)
         /// </summary>
-        public byte[] BinaryResponse {
-            get { return _binaryResponse; }
-        }
+        public byte[] BinaryResponse { get; private set; }
 
         /// <summary>
         /// The Fetch's parent mailbox.
         /// </summary>
         public Mailbox ParentMailbox { get; set; }
-    
+
         #endregion
     }
 }
